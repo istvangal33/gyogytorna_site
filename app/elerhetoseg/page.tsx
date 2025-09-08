@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import ContactSection from '@/components/ContactSection';
+
 
 export const metadata: Metadata = {
   title: 'Elérhetőség | Gyógytorna - Professzionális Fizioterápia',
@@ -53,39 +55,20 @@ export default function Elerhetoseg() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* Modern Interactive Map */}
+            {/* Google Maps embed */}
             <div className="relative">
               <div className="bg-gradient-to-br from-slate-50 to-gray-100 rounded-2xl overflow-hidden shadow-xl border border-gray-200/50">
-                <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50 flex items-center justify-center relative">
-                  {/* Modern grid overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)] bg-[length:20px_20px]"></div>
-                  
-                  <div className="text-center z-10">
-                    {/* Modern map icon */}
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-6 shadow-lg">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                      </svg>
-                    </div>
-                    
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">Interaktív térkép</h3>
-                    <p className="text-gray-600 mb-6 max-w-xs mx-auto">
-                      1051 Budapest, Példa utca 12.
-                    </p>
-                    
-                    <a 
-                      href="https://www.google.com/maps/search/1051+Budapest+Példa+utca+12"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                      </svg>
-                      Megnyitás Maps-ben
-                    </a>
-                  </div>
+                <div className="aspect-[4/3] relative">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2686.0415575891157!2d17.64534077681663!3d47.68361288265575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476bbf9334116233%3A0x2a346395a9a3441b!2zR3nFkXIsIE3DqXN6w6Fyb3MgTMWRcmluYyB1LiAxMCwgOTAyMw!5e0!3m2!1shu!2shu!4v1756901925024!5m2!1shu!2shu"
+                    width="100%"
+                    height="100%"
+                    className="absolute inset-0 w-full h-full rounded-2xl"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
                 </div>
               </div>
             </div>
@@ -111,9 +94,8 @@ export default function Elerhetoseg() {
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-3">Cím</h3>
                     <div className="text-gray-900 leading-relaxed space-y-1">
-                      <p>9021 Győr</p>
-                      <p>Példa utca 12., 2. emelet</p>
-                      <p className="text-sm text-gray-900">Kapukód: 1234</p>
+                      <p>9023 Győr</p>
+                      <p>Mészáros Lőrinc utca 10.</p>
                     </div>
                   </div>
                 </div>
@@ -165,213 +147,11 @@ export default function Elerhetoseg() {
         </div>
       </section>
 
+
       {/* Transportation and Parking */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Megközelítés
-            </h2>
-            <p className="text-xl text-gray-600">
-              Könnyen megközelíthető mind autóval, mind tömegközlekedéssel
-            </p>
-          </div>
+      <ContactSection />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Public Transport */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-green-100 rounded-lg p-3 mr-4">
-                  <div className="text-2xl">🚇</div>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">Tömegközlekedés</h3>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <h4 className="font-medium text-gray-900">Metro:</h4>
-                  <p className="text-gray-600">M1, M2, M3 - Deák Ferenc tér (5 perc gyalog)</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">Busz:</h4>
-                  <p className="text-gray-600">7, 70, 78 - Példa utca megálló</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">Villamos:</h4>
-                  <p className="text-gray-600">2, 2A - Kossuth Lajos tér (3 perc gyalog)</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Parking */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 rounded-lg p-3 mr-4">
-                  <div className="text-2xl">🚗</div>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">Parkolás</h3>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <h4 className="font-medium text-gray-900">Utcai parkolás:</h4>
-                  <p className="text-gray-600">Fizetős övezetben (9:00-18:00)</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">Parkolóház:</h4>
-                  <p className="text-gray-600">Példa Parkolóház (100m-re)</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">P+R:</h4>
-                  <p className="text-gray-600">Külvárosi P+R parkolók</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Accessibility */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="flex items-center mb-4">
-                <div className="bg-purple-100 rounded-lg p-3 mr-4">
-                  <div className="text-2xl">♿</div>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">Akadálymentesítés</h3>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-700">Lift a 2. emeletre</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-700">Akadálymentes bejárat</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-700">Akadálymentes WC</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-700">Kerekesszékkel megközelíthető</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Office Tour */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Rendelő Bemutatása
-            </h2>
-            <p className="text-xl text-gray-600">
-              Modern, komfortos környezet a gyógyulás szolgálatában
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-gradient-to-br from-blue-100 to-green-100 rounded-lg p-8 mb-4 aspect-square flex items-center justify-center">
-                <div className="text-6xl">🏥</div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Váróterem</h3>
-              <p className="text-gray-600">Kényelmes váróterem természetes megvilágítással</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-gradient-to-br from-green-100 to-blue-100 rounded-lg p-8 mb-4 aspect-square flex items-center justify-center">
-                <div className="text-6xl">🛏️</div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Kezelőszobák</h3>
-              <p className="text-gray-600">Privát kezelőszobák modern berendezésekkel</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg p-8 mb-4 aspect-square flex items-center justify-center">
-                <div className="text-6xl">🏋️</div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Tornatér</h3>
-              <p className="text-gray-600">Tágas tér gyógytornás gyakorlatokhoz</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Emergency and Important Info */}
-      <section className="py-20 bg-yellow-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-              Fontos Információk
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <div className="bg-red-100 rounded-lg p-2 mr-3">
-                    <div className="text-lg">🚨</div>
-                  </div>
-                  Sürgős Esetek
-                </h3>
-                <p className="text-gray-700 mb-3">
-                  Akut fájdalom vagy sürgős konzultáció szükségessége esetén hívjon 
-                  a következő számon:
-                </p>
-                <a 
-                  href="tel:+36301234567"
-                  className="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-semibold"
-                >
-                  📞 +36 30 123 4567
-                </a>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <div className="bg-blue-100 rounded-lg p-2 mr-3">
-                    <div className="text-lg">📅</div>
-                  </div>
-                  Időpont Lemondás
-                </h3>
-                <p className="text-gray-700 mb-3">
-                  Kérjük, időpontját minimum 24 órával korábban mondja le, 
-                  hogy más páciensek is időpontot kaphassanak.
-                </p>
-                <p className="text-sm text-gray-600">
-                  Lemondás telefonon vagy e-mailben lehetséges.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-600 to-green-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Látogasson el hozzánk!
-          </h2>
-          <p className="text-xl mb-8 text-green-100 max-w-3xl mx-auto">
-            Várjuk szeretettel modern rendelőnkben Budapest szívében.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/kapcsolat" 
-              className="bg-white text-green-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
-            >
-              Időpont Foglalás
-            </a>
-            <a 
-              href="https://www.google.com/maps/search/1051+Budapest+Példa+utca+12"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-2 border-white text-white hover:bg-white hover:text-green-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
-            >
-              📍 Útvonalterv
-            </a>
-          </div>
-        </div>
-      </section>
+      
     </>
   );
 }
