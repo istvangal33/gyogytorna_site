@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+
 
 export const metadata: Metadata = {
   title: 'Galéria | Gyógytorna - Professzionális Fizioterápia',
@@ -133,7 +133,7 @@ export default function Galeria() {
 
           {/* Gallery Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {galleryImages.map((image, index) => (
+            {galleryImages.map((image) => (
               <div
                 key={image.id}
                 className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"

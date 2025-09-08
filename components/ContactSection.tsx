@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // Modern reCAPTCHA komponens
 interface ModernCaptchaProps {
@@ -48,13 +48,13 @@ const ModernCaptcha: React.FC<ModernCaptchaProps> = ({ onVerify, isVerified }) =
         </div>
         
         <span className="text-sm text-gray-700 font-medium">
-          I'm not a robot
+          Nem vagyok robot
         </span>
       </div>
       
       <div className="flex flex-col items-end">
         <div className="flex items-center mb-1">
-          <div className="w-8 h-8 bg-blue-500 rounded-full mr-2 flex items-center justify-center">
+          <div className="">
             <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
             </svg>

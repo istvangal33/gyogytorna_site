@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Bemutatkozó | Gyógytorna - Professzionális Fizioterápia',
@@ -47,12 +48,16 @@ export default function Bemutatkozo() {
             {/* Photo and Basic Info */}
             <div className="relative group">
               <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-500">
-                <div className="aspect-square overflow-hidden rounded-xl shadow-md">
-                  <img
-                    src="/girl.jpg"
-                    alt="Gyógytornász"
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                  />
+                <div className="aspect-square overflow-hidden ">
+                  <Image 
+                    src="/girl.jpg"   // vagy külső URL: "https://domain.com/example.jpg"
+                    alt="Leírás a képről"
+                    width={550}                 // pixelben, kötelező!
+                    height={300}                // pixelben, kötelező!
+                    priority                    // (opcionális, ha fontos a gyors betöltés)
+                    quality={80}                // (opcionális, képek minősége 1-100)
+                    style={{ borderRadius: '50%', objectFit: 'cover' }} // (opcionális, stílus)
+                    />
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mt-6">Dr. Példa Gyógytornász</h2>
                 <p className="text-lg text-gray-900 mt-2 mb-4">Diplomás Gyógytornász, Manuálterapeuta</p>
