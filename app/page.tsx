@@ -12,13 +12,13 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             {/* Bal oldali szöveg */}
-            <div>
+            <div className="text-center lg:text-left">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 lg:mb-6">
                 Professzionális
                 gyógytorna
                 szolgáltatások
               </h1>
-              <p className="text-base sm:text-lg text-gray-600 mb-6 lg:mb-8 max-w-xl">
+              <p className="text-base sm:text-lg text-gray-600 mb-6 lg:mb-8 max-w-xl mx-auto lg:mx-0">
                 Egyéni terápiás tervek a mozgásfunkciók helyreállítására
                 és a fájdalom csökkentésére. Modern módszerekkel, tapasztalt
                 szakemberekkel.

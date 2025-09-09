@@ -133,3 +133,22 @@ button:focus {
   object-fit: cover;
 }
 
+/* Scrollbar teljes eltüntetése */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE és régi Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.masonry-column {
+  background-clip: padding-box;
+}
+.masonry-column > div {
+  margin-bottom: 24px;
+}
+
+
+

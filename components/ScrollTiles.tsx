@@ -1,453 +1,308 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import { HeartPulse, Activity, User, Baby, HandHeart, Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import { HeartPulse, Activity, User, Baby, HandHeart, Users } from "lucide-react";
 
 const services = [
   { 
-    title: "Gerinc Rehabilitáció", 
-    desc: "Professzionális kezelések gerincfájdalmak, porckorongsérvek és tartási hibák esetén. Modern módszerekkel és egyéni terápiás tervekkel segítjük a gyógyulási folyamatot.", 
-    icon: <HeartPulse className="h-8 w-8" />, 
-    color: "#2563EB",
-    image: "/physio1.jpg",
-    author: "GYÓGYTORNA",
-    topic: "GERINC"
+    title: "Állapotfelmérés", 
+    desc: "Részletes egészségügyi és mozgásállapot-felmérés, amely megalapozza a személyre szabott kezelési terv kidolgozását, és alapvető kiindulópontja a hatékony terápiának.", 
+    icon: <HeartPulse className="h-7 w-7" />, 
+    color: "#163e72",
+    image: "/checkup.png"
   },
   { 
-    title: "Sportrehabilitáció", 
-    desc: "Sportolók számára tervezett rehabilitációs programok sérülések után. Gyors visszatérés a sporthoz biztonságos körülmények között.",
-    icon: <Activity className="h-8 w-8" />, 
-    color: "#059669",
-    image: "/physio2.jpg",
-    author: "SPORT",
-    topic: "REHABILITÁCIÓ"
+    title: "SMR tréning", 
+    desc: "Ez a gyakorlat az SMR hengerrel, vagyis az önmasszázs egyik hatékony formájával segít ellazítani az izmokat. A kivitelezés során érdemes rövid időre megállni az érzékenyebb pontokon, hogy még hatékonyabban érjük el a lazító hatást.", 
+    icon: <HeartPulse className="h-7 w-7" />, 
+    color: "#163e72",
+    image: "/smr.png"
   },
   { 
-    title: "Szülés Utáni Terápia", 
-    desc: "Kismamák és friss anyukák speciális igényeire szabott kezelések. Biztonságos visszatérés az aktív életmódhoz szülés után.",
-    icon: <HandHeart className="h-8 w-8" />, 
-    color: "#DB2777",
-    image: "/physio3.jpg",
-    author: "ANYASÁG",
-    topic: "HELYREÁLLÍTÁS"
+    title: "Kinesio Tape felhelyezés", 
+    desc: "A kinesio tape egy rugalmas tapasz, amely hatékonyan támogatja az izmokat és ízületeket anélkül, hogy korlátozná a mozgást. Alkalmazása segíthet a fájdalom csökkentésében, a mozgásszervi problémák kezelésében és a regeneráció elősegítésében. Bár otthoni videók alapján egyszerűnek tűnhet a felhelyezése, a pontos anatómiai ismeretek hiányában ritkán érhető el a kívánt hatás. Ezért érdemes szakemberhez fordulni, aki a panaszok megismerése és a problémás testrész vizsgálata után helyezi fel a tapaszt, és szükség esetén további terápiás javaslatokkal is ellát, például kiegészítő köpölyözést ajánlhat a mielőbbi gyógyulás érdekében. A különféle ragasztási technikák révén a kinesio tape erősítő és regeneráló hatással is támogathatja a szervezetet.",
+    icon: <Activity className="h-7 w-7" />, 
+    color: "#125341",
+    image: "/kinesio.png"
+  },
+  { 
+    title: "Sportsérülések rehabilitációja", 
+    desc: "A sportsérülések sajnos a legfelkészültebb sportolókat is érinthetik, legyen szó hobbi szinten űzött mozgásról vagy versenysportól. A gyors és szakszerű rehabilitáció kulcsfontosságú, hiszen nemcsak a mielőbbi visszatérést segíti, hanem a későbbi sérülések megelőzésében is szerepet játszik. Személyre szabott rehabilitációs programjaink célja, hogy fokozatosan helyreállítsuk a sérült izmok, ízületek és szalagok működését, valamint visszaépítsük az erőt, a mozgékonyságot és az állóképességet. A folyamat része lehet a gyógytorna, funkcionális erősítő gyakorlatok, nyújtás, manuális terápia, valamint különböző regenerációt segítő kezelések. ",
+    icon: <HandHeart className="h-7 w-7" />, 
+    color: "#7e2c40",
+    image: "/bosu.png"
   },
   { 
     title: "Manuálterápia", 
     desc: "Kézzel végzett kezelések az ízületek mobilitásának javítására és a fájdalom csökkentésére. Precíz technikák tapasztalt szakemberektől.",
-    icon: <User className="h-8 w-8" />, 
-    color: "#7C3AED",
-    image: "/physio4.jpg",
-    author: "MANUÁLIS",
-    topic: "TERÁPIA"
+    icon: <User className="h-7 w-7" />, 
+    color: "#362a5b",
+    image: "/manual.png"
   },
   { 
-    title: "Gyermek Terápia", 
-    desc: "Gyermekek számára tervezett fejlesztő és rehabilitációs programok. Játékos környezetben, a gyermek tempójának megfelelően.",
-    icon: <Baby className="h-8 w-8" />, 
-    color: "#EA580C",
-    image: "/physio5.jpg",
-    author: "GYERMEK",
-    topic: "FEJLESZTÉS"
+    title: "Flossing terápia", 
+    desc: "A flossing terápia egy modern rehabilitációs és regenerációs módszer, amely során speciális, rugalmas gumiszalagot tekerünk az adott izom- vagy ízületi terület köré. A szalag rövid ideig tartó kompressziót hoz létre, amely a mozgás és a nyomás feloldása után fokozza a vérkeringést, segíti a regenerációt, csökkenti a fájdalmat és javítja az ízületi mozgástartományt. Gyakran alkalmazzák sportsérülések, izomfeszülések vagy mozgásbeszűkülés kezelésére, valamint edzés utáni gyorsabb felépülés támogatására.",
+    icon: <Baby className="h-7 w-7" />, 
+    color: "#633b1c",
+    image: "/flossing.png"
   },
   { 
-    title: "Csoportos Terápia", 
+    title: "Köredzés", 
     desc: "Kis csoportos foglalkozások hasonló problémákkal küzdő páciensek számára. Motiváló közösségi környezet.",
-    icon: <Users className="h-8 w-8" />, 
-    color: "#4F46E5",
-    image: "/physio6.jpg",
-    author: "KÖZÖSSÉGI",
-    topic: "TERÁPIA"
+    icon: <Users className="h-7 w-7" />, 
+    color: "#232b5b",
+    image: "/koredzes.png"
   }
 ];
 
-export default function ScrollTiles() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isClient, setIsClient] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [direction, setDirection] = useState('next');
+export default function ServiceSlider() {
+  const [current, setCurrent] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
+  // detect mobile
   useEffect(() => {
-    setIsClient(true);
-    
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // keyboard navigation
   useEffect(() => {
-    if (!isClient) return;
-    
-    const autoSlide = setInterval(() => {
-      if (!isAnimating) {
-        handleNext();
-      }
-    }, 7000);
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") setCurrent((prev) => Math.max(prev - 1, 0));
+      if (e.key === "ArrowRight") setCurrent((prev) => Math.min(prev + 1, services.length - 1));
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
 
-    return () => clearInterval(autoSlide);
-  }, [currentIndex, isAnimating, isClient]);
+  // Reset image loaded state when current changes
+  useEffect(() => {
+    setImageLoaded(false);
+  }, [current]);
 
-  const handleNext = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setDirection('next');
-    setCurrentIndex((prev) => (prev + 1) % services.length);
-    
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
-  };
-
-  const handlePrev = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setDirection('prev');
-    setCurrentIndex((prev) => (prev - 1 + services.length) % services.length);
-    
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
-  };
-
-  const handleThumbnailClick = (index: number) => {
-    if (isAnimating || index === currentIndex) return;
-    setIsAnimating(true);
-    setDirection(index > currentIndex ? 'next' : 'prev');
-    setCurrentIndex(index);
-    
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
-  };
-
-  const handleDragEnd = (_: any, info: any) => {
-    const offset = info.offset.x;
-    const velocity = info.velocity.x;
-    
-    if (Math.abs(velocity) >= 500) {
-      if (velocity > 0) {
-        handlePrev();
-      } else {
-        handleNext();
-      }
-    } else if (Math.abs(offset) > 50) {
-      if (offset > 0) {
-        handlePrev();
-      } else {
-        handleNext();
+  // Scroll to active card on mobile
+  useEffect(() => {
+    if (isMobile && sliderRef.current) {
+      const active = sliderRef.current.querySelector(".card-active") as HTMLElement;
+      if (active) {
+        const slider = sliderRef.current;
+        const scrollLeft = active.offsetLeft - slider.offsetWidth / 2 + active.offsetWidth / 2;
+        slider.scrollTo({ left: scrollLeft, behavior: "smooth" });
       }
     }
-  };
+  }, [current, isMobile]);
 
-  if (!isClient) {
-    return (
-      <div className="h-screen bg-black flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
-      </div>
-    );
-  }
+  return (
+    <section className="w-full flex justify-center px-2 md:px-0 py-6 md:py-14">
+      <div className="rounded-3xl bg-gradient-to-br from-black blue-950 p-4 md:p-14 xl:p-24 relative flex flex-col w-full
+        max-w-[95vw] sm:max-w-[600px] md:max-w-[900px] lg:max-w-[1200px] xl:max-w-[1400px] min-h-[390px] md:min-h-[500px] overflow-hidden">
 
-  const currentService = services[currentIndex];
+        {/* Background Image with Smooth Transition */}
+        <div className="absolute inset-0 transition-opacity duration-700 ease-in-out">
+          <Image
+            src={services[current].image}
+            alt={services[current].title}
+            fill
+            className={`object-cover transition-all duration-700 ${imageLoaded ? 'opacity-25' : 'opacity-0'}`}
+            onLoad={() => setImageLoaded(true)}
+            priority={current === 0}
+            sizes="(max-width: 768px) 95vw, (max-width: 1200px) 900px, 1400px"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-gray-900/85 to-green-950/80" />
+        </div>
 
-  // Mobile Layout
-  if (isMobile) {
-    return (
-      <div className="relative h-[80vh] md:h-screen bg-black overflow-hidden 
-                rounded-2xl shadow-xl border border-white/10 md:rounded-none md:shadow-none md:border-0">
-        
-        {/* Progress Bar 
-        <motion.div 
-          className="absolute top-0 left-0 h-1 bg-orange-500 z-40"
-          key={currentIndex}
-          initial={{ width: '0%' }}
-          animate={{ width: '100%' }}
-          transition={{ duration: 7, ease: 'linear' }}
-        />
-        */}
+        {/* Desktop: Split Layout */}
+        <div className="hidden md:grid md:grid-cols-5 gap-8 items-center flex-1 relative z-10">
+          
+          {/* Left Side: Service Image */}
+          <div className="col-span-2 relative h-80 lg:h-96 rounded-2xl overflow-hidden group">
+            <Image
+              src={services[current].image}
+              alt={services[current].title}
+              fill
+              className="object-cover transition-all duration-500 group-hover:scale-105"
+              sizes="(max-width: 1200px) 400px, 500px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            
+            {/* Image Overlay Icon */}
+            <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30">
+              <div className="text-white text-xl">
+                {services[current].icon}
+              </div>
+            </div>
+          </div>
 
-        {/* Mobile Slider */}
-        <div className="relative h-full w-full">
-          <motion.div
-            className="flex h-full"
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={handleDragEnd}
-            animate={{
-              x: `${-currentIndex * 100}%`
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 30
-            }}
-          >
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                className="w-full h-full flex-shrink-0 relative flex flex-col justify-center items-center p-6"
-                style={{
-                  background: `linear-gradient(135deg, ${service.color}60, ${service.color}30, #000000)`
-                }}
+          {/* Right Side: Content */}
+          <div className="col-span-3 flex flex-col justify-center text-left pl-4">
+            <span className="uppercase tracking-widest text-sm text-gray-300 mb-2 font-semibold">
+              {services[current].title.split(" ")[0]}
+            </span>
+            <h1 className="text-4xl xl:text-5xl font-extrabold text-white mb-2 leading-tight">
+              {services[current].title}
+            </h1>
+            <h2 className="text-3xl xl:text-4xl font-extrabold mb-4"
+              style={{ color: services[current].color }}>
+              
+            </h2>
+            <p className="text-lg text-gray-200 mb-8 max-w-xl leading-relaxed">
+              {services[current].desc}
+            </p>
+            
+            {/* CTA Button */}
+            <div className="flex gap-4">
+              <button 
+                className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
               >
-                {/* Mobile Content */}
-                <motion.div 
-                  className="text-center text-white z-10"
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  <motion.div 
-                    className="text-xs font-bold tracking-[8px] mb-4 text-gray-300"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    {service.author}
-                  </motion.div>
-                  
-                  <motion.h1 
-                    className="text-4xl font-bold leading-tight mb-2"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    {service.title.split(' ')[0]}
-                  </motion.h1>
-                  
-                  <motion.h2 
-                    className="text-4xl font-bold leading-tight mb-6"
-                    style={{ color: service.color }}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    {service.topic}
-                  </motion.h2>
+                Foglalj időpontot
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
 
-                  {/* Icon */}
-                  <motion.div 
-                    className="w-20 h-20 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-white/30"
-                    style={{ backgroundColor: `${service.color}30` }}
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 0.6 }}
-                  >
-                    <div className="text-white text-3xl">
+        {/* Mobile: Original Layout with Enhanced Background */}
+        <div className="md:hidden flex flex-col items-center justify-center text-center w-full relative z-10 flex-1">
+          <span className="uppercase tracking-widest text-xs text-gray-300 mb-2 font-semibold">
+            {services[current].title.split(" ")[0]}
+          </span>
+          <h1 className="text-3xl font-extrabold text-white mb-2 leading-tight text-center">
+            {services[current].title}
+          </h1>
+          <h2 className="text-2xl font-extrabold mb-4 text-center"
+            style={{ color: services[current].color }}>
+            
+          </h2>
+          <p className="text-base text-gray-200 mb-8 max-w-xl mx-auto leading-relaxed text-center px-4">
+            {services[current].desc}
+          </p>
+
+          {/* Mobile CTA */}
+          <button 
+            className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300"
+          >
+            Foglalj időpontot
+          </button>
+        </div>
+
+        {/* Subtle corner icons */}
+        <div className="absolute top-4 md:top-8 left-4 md:left-8 opacity-20 pointer-events-none select-none">
+          <div className="text-white text-2xl md:text-3xl">{services[current].icon}</div>
+        </div>
+        <div className="absolute top-4 md:top-8 right-4 md:right-8 opacity-20 pointer-events-none select-none">
+          <div className="text-white text-2xl md:text-3xl">{services[current].icon}</div>
+        </div>
+
+        {/* Navigation with Image Thumbnails */}
+        <div className="w-full mt-8 relative z-10">
+          {isMobile ? (
+            // MOBILE: Enhanced horizontal slider
+            <div
+              ref={sliderRef}
+              className="flex gap-3 overflow-x-auto no-scrollbar px-1 py-2"
+              style={{
+                WebkitOverflowScrolling: "touch",
+                scrollSnapType: "x mandatory"
+              }}
+            >
+              {services.map((service, idx) => (
+                <button
+                  key={idx}
+                  aria-label={service.title}
+                  tabIndex={0}
+                  className={`relative flex flex-col items-center justify-end min-w-[120px] max-w-[120px] h-32 rounded-2xl overflow-hidden
+                    transition-all duration-400 group
+                    ${idx === current ? "card-active border-2 border-white shadow-lg scale-105 z-10" : "border border-transparent opacity-60 scale-95"}
+                  `}
+                  onClick={() => setCurrent(idx)}
+                  style={{ scrollSnapAlign: "center" }}
+                >
+                  {/* Thumbnail Background */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                      sizes="120px"
+                    />
+                    <div 
+                      className="absolute inset-0"
+                      style={{
+                        background: idx === current
+                          ? `linear-gradient(135deg, ${service.color}70, #00000090)`
+                          : `linear-gradient(135deg, ${service.color}50, #00000070)`,
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="relative z-10 flex flex-col items-center justify-end h-full pb-3">
+                    <div className="flex items-center justify-center mb-2 mt-4 text-white">
                       {service.icon}
                     </div>
-                  </motion.div>
-                  
-                  <motion.p 
-                    className="text-sm text-gray-200 leading-relaxed mb-8 max-w-xs mx-auto"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.7 }}
-                  >
-                    {service.desc}
-                  </motion.p>
-                  
-                  <motion.div 
-                    className="flex flex-col gap-3 w-full max-w-xs mx-auto"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                  >
-                  </motion.div>
-                </motion.div>
-
-                {/* Background Pattern */}
-                <div className="hidden md:absolute md:inset-0 md:opacity-5 md:flex md:items-center md:justify-center">
-                  <div className="text-[200px]">
-                    {service.icon}
+                    <div className="text-xs font-semibold text-white mb-1">{service.title.split(" ")[0]}</div>
+                    
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+                </button>
+              ))}
+            </div>
+          ) : (
+            // DESKTOP: Enhanced cards with thumbnails
+            <div className="flex flex-row items-end gap-3 md:gap-6 mt-auto justify-center w-full">
+              {services.map((service, idx) => (
+                <button
+                  key={idx}
+                  aria-label={service.title}
+                  tabIndex={0}
+                  className={`group transition-all duration-400 rounded-2xl flex flex-col items-center justify-end min-w-[112px] h-40 relative overflow-hidden
+                    ${idx === current
+                      ? "border-2 border-white shadow-lg scale-105 z-10"
+                      : "border border-transparent opacity-40 scale-95 hover:opacity-70 hover:scale-100"
+                    }
+                  `}
+                  onClick={() => setCurrent(idx)}
+                >
+                  {/* Thumbnail Background */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      sizes="112px"
+                    />
+                    <div 
+                      className="absolute inset-0"
+                      style={{
+                        background: idx === current
+                          ? `linear-gradient(135deg, ${service.color}80, #00000090)`
+                          : `linear-gradient(135deg, ${service.color}60, #00000080)`,
+                      }}
+                    />
+                  </div>
 
-        {/* Mobile Navigation Dots */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-40">
-          {services.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handleThumbnailClick(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex 
-                  ? 'bg-white w-8' 
-                  : 'bg-white/40 w-2'
-              }`}
-            />
-          ))}
+                  {/* Content */}
+                  <div className="relative z-10 flex flex-col items-center justify-end h-full pb-3">
+                    <div className="flex items-center justify-center mb-2 mt-4 text-white group-hover:scale-110 transition-transform duration-300">
+                      {service.icon}
+                    </div>
+                    <div className="text-sm font-semibold text-white mb-1">{service.title.split(" ")[0]}</div>
+                    
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-    );
-  }
-
-  // Desktop Layout (eredeti)
-  return (
-    <div className="relative h-[80vh] bg-black overflow-hidden">
-      
-      {/* Progress Bar 
-      <motion.div 
-        className="absolute top-0 left-0 h-1 bg-orange-500 z-40"
-        key={currentIndex}
-        initial={{ width: '0%' }}
-        animate={{ width: '100%' }}
-        transition={{ duration: 7, ease: 'linear' }}
-      />
-      */}
-
-      {/* Main Slide */}
-      <div className="relative h-full w-full">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            className="absolute inset-0 w-full h-full"
-            initial={{ 
-              scale: direction === 'next' ? 0.8 : 1.2,
-              opacity: 0 
-            }}
-            animate={{ 
-              scale: 1,
-              opacity: 1 
-            }}
-            exit={{ 
-              scale: direction === 'next' ? 1.2 : 0.8,
-              opacity: 0 
-            }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          >
-            {/* Background Gradient */}
-            <div 
-              className="absolute inset-0 bg-gradient-to-br opacity-90"
-              style={{
-                background: `linear-gradient(135deg, ${currentService.color}40, ${currentService.color}20, #000000)`
-              }}
-            />
-            
-            {/* Pattern Overlay */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="w-full h-full flex items-center justify-center text-9xl">
-                {currentService.icon}
-              </div>
-            </div>
-
-            {/* Content */}
-            <motion.div 
-              className="absolute top-20 left-1/2 transform -translate-x-1/2 w-full max-w-6xl px-8 text-white"
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <motion.div 
-                className="text-sm font-bold tracking-[10px] mb-4 text-gray-300"
-                initial={{ y: 50, opacity: 0, filter: "blur(20px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              >
-                {currentService.author}
-              </motion.div>
-              
-              <motion.h1 
-                className="text-6xl md:text-8xl font-bold leading-tight mb-4"
-                initial={{ y: 50, opacity: 0, filter: "blur(20px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-              >
-                {currentService.title.split(' ')[0]}
-              </motion.h1>
-              
-              <motion.h2 
-                className="text-6xl md:text-8xl font-bold leading-tight mb-8"
-                style={{ color: currentService.color }}
-                initial={{ y: 50, opacity: 0, filter: "blur(20px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.5, delay: 0.9 }}
-              >
-                {currentService.topic}
-              </motion.h2>
-              
-              <motion.p 
-                className="text-lg max-w-2xl mb-8 text-gray-200 leading-relaxed"
-                initial={{ y: 50, opacity: 0, filter: "blur(20px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.5, delay: 1.1 }}
-              >
-                {currentService.desc}
-              </motion.p>
-              
-              <motion.div 
-                className="flex gap-4"
-                initial={{ y: 50, opacity: 0, filter: "blur(20px)" }}
-                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.5, delay: 1.3 }}
-              >
-              </motion.div>
-            </motion.div>
-
-            {/* Large Icon */}
-            <motion.div 
-              className="absolute left-20 top-1/2 transform -translate-y-1/2 text-white opacity-20"
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              <div className="text-[300px]">
-                {currentService.icon}
-              </div>
-            </motion.div>
-            <motion.div 
-              className="absolute right-20 top-1/2 transform -translate-y-1/2 text-white opacity-20"
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              <div className="text-[300px]">
-                {currentService.icon}
-              </div>
-            </motion.div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Thumbnails - csak desktop */}
-      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex gap-5 z-40">
-        {services.map((service, index) => (
-          <motion.div
-            key={index}
-            className={`w-32 h-44 rounded-3xl overflow-hidden cursor-pointer relative group ${
-              index === currentIndex ? 'ring-4 ring-white' : ''
-            }`}
-            onClick={() => handleThumbnailClick(index)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              background: `linear-gradient(135deg, ${service.color}60, ${service.color}40)`
-            }}
-          >
-            <div className="absolute inset-0 flex items-center justify-center text-white">
-              <div className="text-6xl opacity-60">
-                {service.icon}
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
-              <div className="text-white text-xs font-semibold">
-                {service.title.split(' ')[0]}
-              </div>
-              <div className="text-gray-300 text-xs">
-                {service.topic}
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>      
-    </div>
+    </section>
   );
 }
