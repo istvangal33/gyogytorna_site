@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -23,6 +23,84 @@ type CalendarEvent = {
   end: string;
   extendedProps?: { note?: string };
 };
+
+type BookingFromDb = {
+  id: number;
+  name: string;
+  date: string;
+  end: string;
+  note: string | null;
+  createdAt: string;
+};
+
+// Convert database booking to calendar event
+function bookingToCalendarEvent(booking: BookingFromDb): CalendarEvent {
+  return {
+    id: booking.id.toString(),
+    title: booking.name,
+    start: booking.date,
+    end: booking.end,
+    extendedProps: { note: booking.note || '' },
+  };
+}
+
+// API functions
+async function fetchBookings(): Promise<CalendarEvent[]> {
+  try {
+    const response = await fetch('/api/bookings');
+    if (!response.ok) throw new Error('Failed to fetch bookings');
+    const bookings: BookingFromDb[] = await response.json();
+    return bookings.map(bookingToCalendarEvent);
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    return [];
+  }
+}
+
+async function saveBooking(data: { name: string; date: string; end: string; note: string }): Promise<CalendarEvent | null> {
+  try {
+    const response = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to save booking');
+    const booking: BookingFromDb = await response.json();
+    return bookingToCalendarEvent(booking);
+  } catch (error) {
+    console.error('Error saving booking:', error);
+    return null;
+  }
+}
+
+async function updateBooking(id: string, data: { name: string; date: string; end: string; note: string }): Promise<CalendarEvent | null> {
+  try {
+    const response = await fetch('/api/bookings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, ...data }),
+    });
+    if (!response.ok) throw new Error('Failed to update booking');
+    const booking: BookingFromDb = await response.json();
+    return bookingToCalendarEvent(booking);
+  } catch (error) {
+    console.error('Error updating booking:', error);
+    return null;
+  }
+}
+
+async function deleteBooking(id: string): Promise<boolean> {
+  try {
+    const response = await fetch(`/api/bookings?id=${id}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) throw new Error('Failed to delete booking');
+    return true;
+  } catch (error) {
+    console.error('Error deleting booking:', error);
+    return false;
+  }
+}
 
 // Simulált user, cseréld le ha van auth!
 const user = { login: 'istvangal333', role: 'admin' }; // pl. superadmin: { login: 'superadmin', role: 'superadmin' }
@@ -56,22 +134,8 @@ function renderDayCellContent(args: any) {
 }
 
 export default function AdminFoglalas() {
-  const [events, setEvents] = useState<CalendarEvent[]>([
-    {
-      id: '1',
-      title: 'Páciens 1',
-      start: '2025-09-10T12:00',
-      end: '2025-09-10T13:00',
-      extendedProps: { note: 'Térdfájdalom kezelése' },
-    },
-    {
-      id: '2',
-      title: 'Szabadság',
-      start: '2025-09-15T09:00',
-      end: '2025-09-15T17:00',
-      extendedProps: { note: 'Nincs rendelés' },
-    },
-  ]);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState<EventForm>({
     title: '',
@@ -81,6 +145,17 @@ export default function AdminFoglalas() {
     note: '',
   });
   const [editId, setEditId] = useState<string | null>(null);
+
+  // Load bookings from API on component mount
+  useEffect(() => {
+    async function loadBookings() {
+      setLoading(true);
+      const bookings = await fetchBookings();
+      setEvents(bookings);
+      setLoading(false);
+    }
+    loadBookings();
+  }, []);
 
   // Új esemény
   const handleDateClick = (info: any) => {
@@ -111,7 +186,7 @@ export default function AdminFoglalas() {
   };
 
   // Mentés
-  const handleFormSubmit = (e: any) => {
+  const handleFormSubmit = async (e: any) => {
     e.preventDefault();
 
     const isSuperAdmin = user.role === 'superadmin' || user.login === 'superadmin';
@@ -143,45 +218,75 @@ export default function AdminFoglalas() {
       return;
     }
 
-    // Mentés vagy módosítás
-    if (editId) {
-      setEvents(events.map(ev => 
-        ev.id === editId
-          ? {
-              ...ev,
-              title: form.title,
-              start: `${form.date}T${form.startTime}`,
-              end: `${form.date}T${form.endTime}`,
-              extendedProps: { note: form.note },
-            }
-          : ev
-      ));
-    } else {
-      setEvents([
-        ...events,
-        {
-          id: Math.random().toString(36).substr(2,9),
-          title: form.title,
-          start: `${form.date}T${form.startTime}`,
-          end: `${form.date}T${form.endTime}`,
-          extendedProps: { note: form.note },
-        },
-      ]);
+    // Prepare data for API
+    const bookingData = {
+      name: form.title,
+      date: `${form.date}T${form.startTime}:00Z`,
+      end: `${form.date}T${form.endTime}:00Z`,
+      note: form.note,
+    };
+
+    setLoading(true);
+    
+    try {
+      let updatedEvent: CalendarEvent | null = null;
+      
+      if (editId) {
+        // Update existing booking
+        updatedEvent = await updateBooking(editId, bookingData);
+        if (updatedEvent) {
+          setEvents(events.map(ev => 
+            ev.id === editId ? updatedEvent! : ev
+          ));
+        } else {
+          alert("Hiba történt a módosítás során!");
+        }
+      } else {
+        // Create new booking
+        updatedEvent = await saveBooking(bookingData);
+        if (updatedEvent) {
+          setEvents([...events, updatedEvent]);
+        } else {
+          alert("Hiba történt a mentés során!");
+        }
+      }
+      
+      if (updatedEvent) {
+        setShowModal(false);
+      }
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      alert("Hiba történt a mentés során!");
+    } finally {
+      setLoading(false);
     }
-    setShowModal(false);
   };
 
   // Törlés
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (editId) {
-      setEvents(events.filter(ev => ev.id !== editId));
-      setShowModal(false);
+      setLoading(true);
+      const success = await deleteBooking(editId);
+      if (success) {
+        setEvents(events.filter(ev => ev.id !== editId));
+        setShowModal(false);
+      } else {
+        alert("Hiba történt a törlés során!");
+      }
+      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-6xl mx-auto py-12 px-2 sm:px-6">
       <h1 className="text-3xl font-bold mb-6">Időpontfoglalás admin</h1>
+      
+      {loading && (
+        <div className="flex items-center justify-center mb-4">
+          <div className="text-blue-600">Betöltés...</div>
+        </div>
+      )}
+      
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="dayGridMonth"
