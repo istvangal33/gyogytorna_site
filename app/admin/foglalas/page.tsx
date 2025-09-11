@@ -278,8 +278,8 @@ export default function AdminFoglalas() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-2 sm:px-6">
-      <h1 className="text-3xl font-bold mb-6">Időpontfoglalás admin</h1>
+    <div className="h-screen w-full overflow-hidden">
+      <h1 className="text-3xl font-bold mb-6 p-4">Időpontfoglalás admin</h1>
       
       {loading && (
         <div className="flex items-center justify-center mb-4">
@@ -287,34 +287,36 @@ export default function AdminFoglalas() {
         </div>
       )}
       
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-        initialView="dayGridMonth"
-        events={events}
-        dateClick={handleDateClick}
-        eventClick={handleEventClick}
-        height="80vh"
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-        }}
-        slotMinTime="08:00:00"
-        slotMaxTime="21:00:00"
-        firstDay={1}
-        dayCellContent={renderDayCellContent}
-        views={{
-          dayGridMonth: {
-            eventDisplay: 'list-item',
-          },
-          timeGridWeek: {
-            slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
-          },
-          timeGridDay: {
-            slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
-          },
-        }}
-      />
+      <div className="px-4 h-full">
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+          initialView="dayGridMonth"
+          events={events}
+          dateClick={handleDateClick}
+          eventClick={handleEventClick}
+          height="100%"
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+          }}
+          slotMinTime="08:00:00"
+          slotMaxTime="21:00:00"
+          firstDay={1}
+          dayCellContent={renderDayCellContent}
+          views={{
+            dayGridMonth: {
+              eventDisplay: 'list-item',
+            },
+            timeGridWeek: {
+              slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+            },
+            timeGridDay: {
+              slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+            },
+          }}
+        />
+      </div>
 
       {/* Modal */}
       {showModal && (
