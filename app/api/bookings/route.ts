@@ -109,8 +109,12 @@ export async function DELETE(request: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
+    // Prisma "Record to delete does not exist" = P2025
+    if (error.code === "P2025") {
+      return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
+    }
     console.error('Error deleting booking:', error);
-    return NextResponse.json({ error: 'Failed to delete booking' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete booking', details: error.message }, { status: 500 });
   }
 }
