@@ -1,0 +1,116 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+let prisma: any = null;
+
+// Initialize Prisma client safely
+try {
+  const { PrismaClient } = require('@prisma/client');
+  const globalForPrisma = globalThis as unknown as {
+    prisma: any | undefined;
+  };
+  prisma = globalForPrisma.prisma ?? new PrismaClient();
+  if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+} catch (error) {
+  console.warn('Prisma client not available:', error);
+}
+
+export async function GET() {
+  if (!prisma) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+  }
+  
+  try {
+    const bookings = await prisma.booking.findMany({
+      orderBy: {
+        date: 'asc'
+      }
+    });
+    return NextResponse.json(bookings);
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    return NextResponse.json({ error: 'Failed to fetch bookings' }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  if (!prisma) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+  }
+  
+  try {
+    const body = await request.json();
+    const { name, date, end, note } = body;
+
+    if (!name || !date || !end) {
+      return NextResponse.json({ error: 'Name, date, and end are required' }, { status: 400 });
+    }
+
+    const booking = await prisma.booking.create({
+      data: {
+        name,
+        date: new Date(date),
+        end: new Date(end),
+        note: note || null,
+      },
+    });
+
+    return NextResponse.json(booking, { status: 201 });
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  if (!prisma) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+  }
+  
+  try {
+    const body = await request.json();
+    const { id, name, date, end, note } = body;
+
+    if (!id || !name || !date || !end) {
+      return NextResponse.json({ error: 'ID, name, date, and end are required' }, { status: 400 });
+    }
+
+    const booking = await prisma.booking.update({
+      where: { id: parseInt(id) },
+      data: {
+        name,
+        date: new Date(date),
+        end: new Date(end),
+        note: note || null,
+      },
+    });
+
+    return NextResponse.json(booking);
+  } catch (error) {
+    console.error('Error updating booking:', error);
+    return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  if (!prisma) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 500 });
+  }
+  
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
+    await prisma.booking.delete({
+      where: { id: parseInt(id) },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting booking:', error);
+    return NextResponse.json({ error: 'Failed to delete booking' }, { status: 500 });
+  }
+}
