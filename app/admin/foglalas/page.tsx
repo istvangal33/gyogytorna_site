@@ -1,26 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import huLocale from '@fullcalendar/core/locales/hu';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import BookingModal from './BookingModal';
+import '../../admin/styles/fullcalendar-overrides.css';
 
 type EventForm = {
   title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
+  date: string;       // YYYY-MM-DD
+  startTime: string;  // HH:mm
+  endTime: string;    // HH:mm
   note: string;
 };
 
 type CalendarEvent = {
   id: string;
   title: string;
-  start: string;
-  end: string;
+  start: string; // ISO
+  end: string;   // ISO
   extendedProps?: { note?: string };
 };
 
@@ -33,7 +35,6 @@ type BookingFromDb = {
   createdAt: string;
 };
 
-// Convert database booking to calendar event
 function bookingToCalendarEvent(booking: BookingFromDb): CalendarEvent {
   return {
     id: booking.id.toString(),
@@ -44,7 +45,7 @@ function bookingToCalendarEvent(booking: BookingFromDb): CalendarEvent {
   };
 }
 
-// API functions
+// API
 async function fetchBookings(): Promise<CalendarEvent[]> {
   try {
     const response = await fetch('/api/bookings');
@@ -102,35 +103,96 @@ async function deleteBooking(id: string): Promise<boolean> {
   }
 }
 
-// Simulált user, cseréld le ha van auth!
-const user = { login: 'istvangal333', role: 'admin' }; // pl. superadmin: { login: 'superadmin', role: 'superadmin' }
+// Simulált user
+const user = { login: 'istvangal333', role: 'admin' };
 
-function getDateAndTimes(start: string, end: string) {
-  const date = start.split('T')[0];
-  const startTime = start.split('T')[1]?.slice(0,5) || '12:00';
-  const endTime = end.split('T')[1]?.slice(0,5) || '13:00';
-  return { date, startTime, endTime };
+// ====== Local idő-formázó segédek ======
+const pad2 = (n: number) => n.toString().padStart(2, '0');
+function toLocalDateStr(d: Date) {
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+function toLocalTimeStr(d: Date) {
+  return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+function plusMinutes(d: Date, minutes: number) {
+  const x = new Date(d);
+  x.setMinutes(x.getMinutes() + minutes);
+  return x;
 }
 
-// --- FullCalendar nap cella dátum színezés ---
+// Napi szám megjelenítés
 function renderDayCellContent(args: any) {
-  // args: { date, dayNumberText, ... }
-  const todayStr = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+  const todayStr = new Date().toISOString().slice(0, 10);
   const cellDateStr = args.date.toISOString().slice(0, 10);
-
-  // Ha a nap már elmúlt (tegnap vagy régebbi), szürke
   const isPast = cellDateStr < todayStr;
 
   return (
     <span
       style={{
-        color: isPast ? '#000000ff' : '',
-        fontWeight: isPast ? 'normal' : 'inherit'
+        color: isPast ? '#64748b' : '#f1f5f9',
+        fontWeight: isPast ? 500 : 600,
+        fontSize: '0.75rem'
       }}
     >
       {args.dayNumberText}
     </span>
   );
+}
+
+function dayCellClassNames(arg: any) {
+  const todayStr = new Date().toISOString().slice(0,10);
+  const cellStr = arg.date.toISOString().slice(0,10);
+  if (cellStr < todayStr) return ['fc-day-past'];
+  return [];
+}
+
+// Esemény tartalom: csak óra + név (a képen látható stílus)
+function eventContent(arg: any) {
+  const name = arg.event.title || '';
+  // FullCalendar adja a timeText-et (pl. "09:00")
+  const timeText = arg.timeText || (() => {
+    const d = arg.event.start;
+    if (!d) return '';
+    return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  })();
+
+  const outer = document.createElement('div');
+  outer.className = 'fc-card';
+
+  const timeEl = document.createElement('div');
+  timeEl.className = 'fc-card-time';
+  timeEl.textContent = timeText;
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'fc-card-name';
+  nameEl.textContent = name;
+
+  outer.appendChild(timeEl);
+  outer.appendChild(nameEl);
+
+  return { domNodes: [outer] };
+}
+
+// Dátum címke formázó – a képen látható stílushoz (en-GB)
+function formatDateLabel(start: Date, end: Date, viewType: string, locale = 'en-GB') {
+  const s = new Date(start);
+  const e = new Date(end);
+  // FullCalendar end exclusive -> egy nappal vissza
+  e.setDate(e.getDate() - 1);
+
+  const fmtDay = new Intl.DateTimeFormat(locale, { day: 'numeric' });
+  const fmtMonth = new Intl.DateTimeFormat(locale, { month: 'long' });
+  const fmtFull = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long' });
+
+  if (viewType === 'timeGridDay' || s.toDateString() === e.toDateString()) {
+    return fmtFull.format(s);
+  }
+
+  const sameMonth = s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear();
+  if (sameMonth) {
+    return `${fmtDay.format(s)} — ${fmtDay.format(e)} ${fmtMonth.format(e)}`;
+  }
+  return `${fmtFull.format(s)} — ${fmtFull.format(e)}`;
 }
 
 export default function AdminFoglalas() {
@@ -146,7 +208,13 @@ export default function AdminFoglalas() {
   });
   const [editId, setEditId] = useState<string | null>(null);
 
-  // Load bookings from API on component mount
+  // Egyedi toolbar állapot
+  const calendarRef = useRef<FullCalendar | null>(null);
+  const [viewType, setViewType] = useState<'dayGridMonth' | 'timeGridDay' | 'timeGridWeek'>('timeGridWeek');
+  const [dateLabel, setDateLabel] = useState<string>('');      // aktuális nézet tartomány címkéje
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null); // ha rákattintasz egy napra/időre
+
+  // Load bookings
   useEffect(() => {
     async function loadBookings() {
       setLoading(true);
@@ -157,54 +225,65 @@ export default function AdminFoglalas() {
     loadBookings();
   }, []);
 
-  // Új esemény
+  // ——— Kattintás napi cellára vagy időslotra ———
   const handleDateClick = (info: any) => {
+    const clicked = info.date as Date;
+    const isTimeGrid = info.view?.type?.startsWith('timeGrid');
+
+    const startLocal = isTimeGrid ? clicked : new Date(clicked.setHours(12, 0, 0, 0));
+    const endLocal = plusMinutes(startLocal, 60);
+
+    // Dátum kapszulába a kattintott nap
+    setSelectedDate(startLocal);
+
+    // Month nézetben napra kattintva ugorjunk arra a napra
+    if (info.view?.type === 'dayGridMonth') {
+      calendarRef.current?.getApi().gotoDate(startLocal);
+    }
+
+    // Modal form előtöltés
     setForm({
       title: '',
-      date: info.dateStr,
-      startTime: '12:00',
-      endTime: '13:00',
+      date: toLocalDateStr(startLocal),
+      startTime: toLocalTimeStr(startLocal),
+      endTime: toLocalTimeStr(endLocal),
       note: '',
     });
     setEditId(null);
     setShowModal(true);
   };
 
-  // Szerkesztés
   const handleEventClick = (info: any) => {
     const evt = info.event;
-    const { date, startTime, endTime } = getDateAndTimes(evt.startStr, evt.endStr);
+    const s = new Date(evt.start!);
+    const e = new Date(evt.end!);
+    setSelectedDate(s);
     setForm({
       title: evt.title,
-      date,
-      startTime,
-      endTime,
-      note: evt.extendedProps.note || '',
+      date: toLocalDateStr(s),
+      startTime: toLocalTimeStr(s),
+      endTime: toLocalTimeStr(e),
+      note: evt.extendedProps?.note || '',
     });
     setEditId(evt.id);
     setShowModal(true);
   };
 
-  // Mentés
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
-
     const isSuperAdmin = user.role === 'superadmin' || user.login === 'superadmin';
 
-    // Csak superadmin állíthat tegnapi vagy régebbi időpontot
-    const todayStr = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const todayStr = new Date().toISOString().slice(0, 10);
     if (!isSuperAdmin && form.date < todayStr) {
       alert("Csak superadmin állíthat múltbeli (tegnapi vagy régebbi) időpontot!");
       return;
     }
 
-    // Kezdés < befejezés
     if (form.startTime >= form.endTime) {
       alert("Kezdésnek korábbinak kell lennie, mint a befejezésnek!");
       return;
     }
 
-    // Időpont ütközés vizsgálat
     const isOverlap = events.some(ev => {
       if (editId && ev.id === editId) return false;
       const evDate = ev.start.split('T')[0];
@@ -218,7 +297,7 @@ export default function AdminFoglalas() {
       return;
     }
 
-    // Prepare data for API
+    // Z-s (UTC) tárolás – ha lokális kell, szólj
     const bookingData = {
       name: form.title,
       date: `${form.date}T${form.startTime}:00Z`,
@@ -227,22 +306,16 @@ export default function AdminFoglalas() {
     };
 
     setLoading(true);
-    
     try {
       let updatedEvent: CalendarEvent | null = null;
-      
       if (editId) {
-        // Update existing booking
         updatedEvent = await updateBooking(editId, bookingData);
         if (updatedEvent) {
-          setEvents(events.map(ev => 
-            ev.id === editId ? updatedEvent! : ev
-          ));
+          setEvents(events.map(ev => ev.id === editId ? updatedEvent! : ev));
         } else {
           alert("Hiba történt a módosítás során!");
         }
       } else {
-        // Create new booking
         updatedEvent = await saveBooking(bookingData);
         if (updatedEvent) {
           setEvents([...events, updatedEvent]);
@@ -250,10 +323,7 @@ export default function AdminFoglalas() {
           alert("Hiba történt a mentés során!");
         }
       }
-      
-      if (updatedEvent) {
-        setShowModal(false);
-      }
+      if (updatedEvent) setShowModal(false);
     } catch (error) {
       console.error('Error saving booking:', error);
       alert("Hiba történt a mentés során!");
@@ -262,7 +332,6 @@ export default function AdminFoglalas() {
     }
   };
 
-  // Törlés
   const handleDelete = async () => {
     if (editId) {
       setLoading(true);
@@ -277,48 +346,147 @@ export default function AdminFoglalas() {
     }
   };
 
+  // Egyedi toolbar akciók
+  const changeView = (vt: 'dayGridMonth' | 'timeGridDay' | 'timeGridWeek') => {
+    const api = calendarRef.current?.getApi();
+    if (api) {
+      setSelectedDate(null); // nézetváltáskor vissza a tartomány címkéhez
+      api.changeView(vt);
+      setViewType(vt);
+    }
+  };
+  const goPrev = () => {
+    setSelectedDate(null);
+    calendarRef.current?.getApi().prev();
+  };
+  const goNext = () => {
+    setSelectedDate(null);
+    calendarRef.current?.getApi().next();
+  };
+
+  const displayDateLabel = selectedDate
+    ? formatDateLabel(selectedDate, new Date(selectedDate.getTime() + 24 * 3600 * 1000), 'timeGridDay')
+    : dateLabel;
+
   return (
-    <div className="h-screen w-full overflow-hidden">
-      <h1 className="text-3xl font-bold mb-6 p-4">Időpontfoglalás admin</h1>
-      
-      {loading && (
-        <div className="flex items-center justify-center mb-4">
-          <div className="text-blue-600">Betöltés...</div>
-        </div>
-      )}
-      
-      <div className="px-4 h-full">
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-          dateClick={handleDateClick}
-          eventClick={handleEventClick}
-          height="100%"
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-          }}
-          slotMinTime="08:00:00"
-          slotMaxTime="21:00:00"
-          firstDay={1}
-          dayCellContent={renderDayCellContent}
-          views={{
-            dayGridMonth: {
-              eventDisplay: 'list-item',
-            },
-            timeGridWeek: {
-              slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
-            },
-            timeGridDay: {
-              slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
-            },
-          }}
-        />
+    <div className="h-screen w-full overflow-hidden bg-[rgb(27,27,27)] text-gray-100 flex flex-col">
+      <div className="p-4 pb-2 flex items-center justify-between">
+        <h1 className="text-lg font-semibold tracking-wide text-slate-100">
+          Időpontfoglalás admin
+        </h1>
+        {loading && (
+          <div className="text-xs text-blue-400 animate-pulse">
+            Betöltés...
+          </div>
+        )}
       </div>
 
-      {/* Modal */}
+      {/* Egyedi felső sáv: bal Monthly/Daily/Weekly, jobb prev | [ date ] | next */}
+      <div className="fc-custom-toolbar">
+        <div className="fc-ct-left">
+          <div className="ct-btn-group" role="tablist" aria-label="View switcher">
+            <button
+              type="button"
+              className={`ct-btn ${viewType === 'dayGridMonth' ? 'ct-btn-active' : ''}`}
+              onClick={() => changeView('dayGridMonth')}
+              aria-pressed={viewType === 'dayGridMonth'}
+              title="Monthly view"
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              className={`ct-btn ${viewType === 'timeGridDay' ? 'ct-btn-active' : ''}`}
+              onClick={() => changeView('timeGridDay')}
+              aria-pressed={viewType === 'timeGridDay'}
+              title="Daily view"
+            >
+              Daily
+            </button>
+            <button
+              type="button"
+              className={`ct-btn ${viewType === 'timeGridWeek' ? 'ct-btn-active' : ''}`}
+              onClick={() => changeView('timeGridWeek')}
+              aria-pressed={viewType === 'timeGridWeek'}
+              title="Weekly view"
+            >
+              Weekly
+            </button>
+          </div>
+        </div>
+
+        <div className="fc-ct-right">
+          <button type="button" className="ct-nav-btn" onClick={goPrev} aria-label="Previous period" title="Previous">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          <div className="ct-date-pill" aria-live="polite" aria-atomic="true">
+            <svg className="ct-date-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" strokeWidth="2"/>
+              <path d="M16 3v4M8 3v4M3 11h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            <span className="ct-date-text">{displayDateLabel}</span>
+          </div>
+
+          <button type="button" className="ct-nav-btn" onClick={goNext} aria-label="Next period" title="Next">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="px-4 pb-4 flex-1 flex flex-col">
+        <div className="flex-1">
+          <FullCalendar
+            ref={calendarRef}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+            initialView="timeGridWeek"
+            events={events}
+            dateClick={handleDateClick}      // slot-kattintás: idő és dátum beemelése
+            eventClick={handleEventClick}
+            height="100%"
+            dayCellContent={renderDayCellContent}
+            dayCellClassNames={dayCellClassNames}
+            eventContent={eventContent}      // csak óra + név
+            expandRows={false}
+            firstDay={1}
+            headerToolbar={false} // Saját toolbar
+            slotMinTime="08:00:00"
+            slotMaxTime="21:00:00"
+            slotDuration="01:00:00"
+            nowIndicator
+            allDaySlot={false}
+            stickyHeaderDates={false}
+            displayEventEnd={true}
+            eventTimeFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}
+            locales={[huLocale]}
+            locale="hu"
+            datesSet={(arg) => {
+              setViewType(arg.view.type as 'dayGridMonth' | 'timeGridDay' | 'timeGridWeek');
+              if (!selectedDate) {
+                setDateLabel(formatDateLabel(arg.start, arg.end, arg.view.type));
+              }
+            }}
+            views={{
+              dayGridMonth: {
+                eventDisplay: 'block',
+                eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
+              },
+              timeGridWeek: {
+                slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
+              },
+              timeGridDay: {
+                slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
+              },
+              listWeek: {}
+            }}
+          />
+        </div>
+      </div>
+
       {showModal && (
         <BookingModal
           form={form}
