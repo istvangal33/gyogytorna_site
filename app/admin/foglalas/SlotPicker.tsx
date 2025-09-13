@@ -1,0 +1,454 @@
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+
+type CalendarEvent = {
+  id: string;
+  title: string;
+  start: string; // YYYY-MM-DDTHH:mm (lokál)
+  end: string;   // YYYY-MM-DDTHH:mm (lokál)
+  extendedProps?: { note?: string };
+};
+
+type BasePayload = {
+  name: string;
+  phone: string;
+  email: string;
+  note?: string;
+  dateStr: string;
+  startTime: string;
+  endTime: string;
+};
+
+type Props = {
+  mode: 'create' | 'edit';
+  date: Date | null;                     // create módban kötelező (a nap)
+  eventToEdit?: CalendarEvent | null;    // edit módban kötelező
+  events: CalendarEvent[];
+  onClose: () => void;
+  onCreate: (payload: BasePayload) => void | Promise<void>;
+  onUpdate?: (id: string, payload: BasePayload) => void | Promise<void>;
+  onDelete?: (id: string) => void | Promise<void>;
+};
+
+function pad2(n: number) {
+  return n.toString().padStart(2, '0');
+}
+function toLocalDateStr(d: Date) {
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+function overlaps(aStart: string, aEnd: string, bStart: string, bEnd: string) {
+  return !(aEnd <= bStart || aStart >= bEnd);
+}
+function formatHumanDate(d: Date) {
+  return new Intl.DateTimeFormat('hu-HU', {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    weekday: 'long',
+  }).format(d);
+}
+
+// Note visszaparzolása (Tel / Email / Megj.)
+function parseCombinedNote(note?: string): { phone?: string; email?: string; restNote?: string } {
+  if (!note) return {};
+  const phoneMatch = note.match(/Tel:\s*([^|]+)/i);
+  const emailMatch = note.match(/Email:\s*([^|]+)/i);
+  const megjMatch = note.match(/Megj\.:?\s*(.+)$/i);
+
+  const phone = phoneMatch?.[1]?.trim();
+  const email = emailMatch?.[1]?.trim();
+  const restNote = megjMatch?.[1]?.trim();
+
+  if (!phone && !email && !restNote) {
+    return { restNote: note };
+  }
+  return { phone, email, restNote };
+}
+
+export default function SlotPicker({
+  mode,
+  date,
+  eventToEdit,
+  events,
+  onClose,
+  onCreate,
+  onUpdate,
+  onDelete,
+}: Props) {
+  // Űrlap mezők
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [note, setNote] = useState('');
+  const [selected, setSelected] = useState<string | null>(null); // YYYY-MM-DDTHH:mm
+
+  // Edit mód kezdeti kitöltés
+  useEffect(() => {
+    if (mode === 'edit' && eventToEdit) {
+      setName(eventToEdit.title || '');
+      const parsed = parseCombinedNote(eventToEdit.extendedProps?.note);
+      setPhone(parsed.phone || '');
+      setEmail(parsed.email || '');
+      setNote(parsed.restNote || eventToEdit.extendedProps?.note || '');
+      setSelected(null); // ne legyen kijelölve, csak a "saját sáv" legyen sötétszürke
+    } else if (mode === 'create') {
+      setName('');
+      setPhone('');
+      setEmail('');
+      setNote('');
+      setSelected(null);
+    }
+  }, [mode, eventToEdit]);
+
+  // Validációk
+  const emailValid = useMemo(() => {
+    if (!email) return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }, [email]);
+
+  const phoneValid = useMemo(() => {
+    const digits = phone.replace(/\D/g, '');
+    return digits.length >= 7;
+  }, [phone]);
+
+  // A megjelenített nap: create módban a kapott date, edit módban az event napja
+  const activeDay = useMemo(() => {
+    if (mode === 'edit' && eventToEdit) {
+      const ds = new Date(eventToEdit.start.replace(' ', 'T'));
+      return new Date(ds.getFullYear(), ds.getMonth(), ds.getDate(), 0, 0, 0, 0);
+    }
+    if (date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+    }
+    return null;
+  }, [mode, eventToEdit, date]);
+
+  const model = useMemo(() => {
+    if (!activeDay) {
+      return {
+        humanDate: '',
+        dateStr: '',
+        slots: [] as { start: string; end: string; label: string; disabled: boolean; isCurrent: boolean }[],
+      };
+    }
+
+    const wd = activeDay.getDay(); // 0=V,6=Szo
+    const dateStr = toLocalDateStr(activeDay);
+    const humanDate = formatHumanDate(activeDay);
+
+    if (wd === 0 || wd === 6) {
+      return { humanDate, dateStr, slots: [] as { start: string; end: string; label: string; disabled: boolean; isCurrent: boolean }[] };
+    }
+
+    const filtered = events.filter(ev => {
+      const ds = new Date(ev.start.replace(' ', 'T'));
+      return toLocalDateStr(ds) === dateStr;
+    });
+
+    // Edit módban a saját esemény ne tiltson
+    const compareEvents = filtered.filter(ev => (mode === 'edit' && eventToEdit) ? ev.id !== eventToEdit.id : true);
+
+    // Saját sáv lokális start-end (edit mód)
+    let currentStartStr: string | null = null;
+    let currentEndStr: string | null = null;
+    if (mode === 'edit' && eventToEdit) {
+      const s = new Date(eventToEdit.start.replace(' ', 'T'));
+      const e = new Date(eventToEdit.end.replace(' ', 'T'));
+      currentStartStr = `${dateStr}T${pad2(s.getHours())}:${pad2(s.getMinutes())}`;
+      currentEndStr   = `${dateStr}T${pad2(e.getHours())}:${pad2(e.getMinutes())}`;
+    }
+
+    const dayEventsLocal = compareEvents.map(ev => {
+      const ds = new Date(ev.start.replace(' ', 'T'));
+      const de = new Date(ev.end.replace(' ', 'T'));
+      const evStartLocal = `${toLocalDateStr(ds)}T${pad2(ds.getHours())}:${pad2(ds.getMinutes())}`;
+      const evEndLocal   = `${toLocalDateStr(de)}T${pad2(de.getHours())}:${pad2(de.getMinutes())}`;
+      return { start: evStartLocal, end: evEndLocal };
+    });
+
+    const slots: { start: string; end: string; label: string; disabled: boolean; isCurrent: boolean }[] = [];
+    for (let h = 8; h < 18; h++) {
+      const start = `${dateStr}T${pad2(h)}:00`;
+      const end   = `${dateStr}T${pad2(h + 1)}:00`;
+      const disabled = dayEventsLocal.some(ev => overlaps(start, end, ev.start, ev.end));
+      const isCurrent = !!currentStartStr && !!currentEndStr && overlaps(start, end, currentStartStr, currentEndStr);
+      slots.push({
+        start,
+        end,
+        label: `${pad2(h)}:00–${pad2(h + 1)}:00`,
+        disabled,
+        isCurrent,
+      });
+    }
+
+    return { humanDate, dateStr, slots };
+  }, [activeDay, events, mode, eventToEdit]);
+
+  if (!activeDay) return null;
+
+  const canSubmit =
+    name.trim().length > 0 &&
+    emailValid &&
+    phoneValid &&
+    (mode === 'edit' || !!selected);
+
+  // Kijelzett idő
+  const selectedLabel = (() => {
+    if (selected) {
+      const startTime = selected.slice(11, 16);
+      const endHour = (Number(startTime.slice(0,2)) + 1).toString().padStart(2,'0');
+      return `${startTime}–${endHour}:00`;
+    }
+    if (mode === 'edit' && eventToEdit) {
+      const s = new Date(eventToEdit.start.replace(' ', 'T'));
+      const startTime = `${pad2(s.getHours())}:${pad2(s.getMinutes())}`;
+      const endHour = (Number(startTime.slice(0,2)) + 1).toString().padStart(2,'0');
+      return `${startTime}–${endHour}:00`;
+    }
+    return '';
+  })();
+
+  // Submit payload előállítása
+  const buildPayload = (): BasePayload | null => {
+    const dateStr = model.dateStr;
+    let startTime = selected
+      ? selected.slice(11,16)
+      : (mode === 'edit' && eventToEdit
+          ? (() => {
+              const s = new Date(eventToEdit.start.replace(' ', 'T'));
+              return `${pad2(s.getHours())}:${pad2(s.getMinutes())}`;
+            })()
+          : '');
+    if (!startTime) return null;
+    const endHour = (Number(startTime.slice(0,2)) + 1).toString().padStart(2,'0');
+    const endTime = `${endHour}:${startTime.slice(3,5)}`;
+    return {
+      name: name.trim(),
+      phone: phone.trim(),
+      email: email.trim(),
+      note: note.trim() || undefined,
+      dateStr,
+      startTime,
+      endTime,
+    };
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 sm:p-6" aria-modal="true" role="dialog">
+      <div className="w-full max-w-4xl bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 flex flex-col max-h-[80vh]">
+        {/* Header */}
+        <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+          <div className="flex flex-col">
+            <h2 className="text-lg font-semibold leading-none">Időpont foglalás</h2>
+            <div className="text-sm text-slate-500 mt-1">
+              {model.humanDate && <span>{model.humanDate} • Hétköznap, 08:00–18:00</span>}
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="rounded-lg px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 transition"
+            title="Bezár"
+            aria-label="Bezár"
+            type="button"
+          >
+            Bezár
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5">
+            {/* Bal oszlop – űrlap */}
+            <div className="space-y-4">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <div className="text-xs text-slate-500">Kiválasztott nap</div>
+                <div className="text-sm font-medium text-slate-800">{model.dateStr}</div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Név / megnevezés</label>
+                <input
+                  type="text"
+                  placeholder="Add meg a neved"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Telefonszám</label>
+                <input
+                  type="tel"
+                  inputMode="tel"
+                  placeholder="+36 30 123 4567"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
+                  className={[
+                    "w-full border rounded-lg px-3 py-2.5 focus:outline-none transition",
+                    phone && !phoneValid
+                      ? "border-red-300 focus:ring-2 focus:ring-red-500"
+                      : "border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                  ].join(' ')}
+                />
+                {phone && !phoneValid && (
+                  <p className="mt-1 text-xs text-red-600">Adj meg érvényes telefonszámot.</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+                <input
+                  type="email"
+                  inputMode="email"
+                  placeholder="nev@pelda.hu"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className={[
+                    "w-full border rounded-lg px-3 py-2.5 focus:outline-none transition",
+                    email && !emailValid
+                      ? "border-red-300 focus:ring-2 focus:ring-red-500"
+                      : "border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                  ].join(' ')}
+                />
+                {email && !emailValid && (
+                  <p className="mt-1 text-xs text-red-600">Adj meg érvényes email-címet.</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Megjegyzés (opcionális)</label>
+                <textarea
+                  placeholder="Pl. sérülés típusa, terápia, egyéb információ"
+                  value={note}
+                  onChange={e => setNote(e.target.value)}
+                  rows={3}
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                />
+              </div>
+            </div>
+
+            {/* Jobb oszlop – idősávok */}
+            <div>
+              <div className="text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wide">Elérhető időpontok</div>
+              <div className="grid grid-cols-2 xl:grid-cols-3 gap-2">
+                {model.slots.length === 0 && (
+                  <div className="col-span-full text-center py-6 text-slate-500 bg-white rounded-lg border border-dashed border-slate-200">
+                    Erre a napra nincs szabad időpont.
+                  </div>
+                )}
+                {model.slots.map(s => {
+                  const isSelected = selected === s.start;
+                  const base = "w-full py-2.5 px-2 rounded-lg text-sm font-medium transition border";
+
+                  // Állapotok:
+                  // - s.disabled: más foglalás miatt tiltott (világosszürke)
+                  // - s.isCurrent: szerkesztett foglalás saját sávja (sötétszürke)
+                  // - isSelected: felhasználó által kiválasztott új sáv (kék)
+                  const state = s.disabled
+                    ? "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
+                    : s.isCurrent && mode === 'edit' && !isSelected
+                    ? "bg-slate-700 text-white border-slate-700"
+                    : isSelected
+                    ? "bg-sky-600 text-white border-sky-600 shadow-[0_6px_16px_rgba(2,132,199,0.25)]"
+                    : "bg-white text-slate-700 border-slate-300 hover:border-sky-400 hover:shadow-sm";
+
+                  return (
+                    <button
+                      key={s.start}
+                      type="button"
+                      disabled={s.disabled}
+                      onClick={() => setSelected(s.start)}
+                      className={`${base} ${state}`}
+                    >
+                      {s.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-3 text-[11px] text-slate-500">
+                A foglalt időpontok szürkén jelennek meg. Szerkesztésnél a jelenlegi foglalás sötétszürke.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="px-5 py-4 border-t border-slate-200 bg-white rounded-b-2xl">
+          {mode === 'create' ? (
+            <div className="flex items-center justify-between gap-3">
+              <div className="text-sm text-slate-600 min-h-[1.25rem]">
+                {selected ? (
+                  <>Kiválasztva: <span className="font-semibold text-slate-900">{selectedLabel}</span></>
+                ) : (
+                  <>Válassz egy idősávot</>
+                )}
+              </div>
+              <button
+                type="button"
+                disabled={!canSubmit}
+                onClick={async () => {
+                  const payload = buildPayload();
+                  if (!payload) return;
+                  await onCreate(payload);
+                }}
+                className={[
+                  "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition",
+                  canSubmit
+                    ? "bg-sky-600 text-white hover:bg-sky-700 shadow-[0_6px_16px_rgba(2,132,199,0.35)]"
+                    : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                ].join(' ')}
+              >
+                Foglalás
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <div className="text-sm text-slate-600 min-h-[1.25rem]">
+                {selectedLabel ? (
+                  <>Kiválasztva: <span className="font-semibold text-slate-900">{selectedLabel}</span></>
+                ) : (
+                  <>Válassz egy idősávot vagy módosítsd az adatokat</>
+                )}
+              </div>
+
+              <div className="flex items-center gap-3">
+                {eventToEdit && onDelete && (
+                  <button
+                    type="button"
+                    onClick={() => onDelete(eventToEdit.id)}
+                    className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition bg-red-600 text-white hover:bg-red-900"
+                  >
+                    Törlés
+                  </button>
+                )}
+
+                {eventToEdit && onUpdate && (
+                  <button
+                    type="button"
+                    disabled={!(name.trim() && emailValid && phoneValid)}
+                    onClick={async () => {
+                      const payload = buildPayload();
+                      if (!payload) return;
+                      await onUpdate(eventToEdit.id, payload);
+                    }}
+                    className={[
+                      "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition",
+                      (name.trim() && emailValid && phoneValid)
+                        ? "bg-sky-600 text-white hover:bg-sky-700 shadow-[0_6px_16px_rgba(2,132,199,0.35)]"
+                        : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                    ].join(' ')}
+                  >
+                    Módosítás
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

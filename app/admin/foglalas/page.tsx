@@ -7,21 +7,13 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
-import BookingModal from './BookingModal';
+import SlotPicker from './SlotPicker';
 import '../../admin/styles/fullcalendar-overrides.css';
-
-type EventForm = {
-  title: string;
-  date: string;       // YYYY-MM-DD
-  startTime: string;  // HH:mm
-  endTime: string;    // HH:mm
-  note: string;
-};
 
 type CalendarEvent = {
   id: string;
   title: string;
-  start: string; // ISO
+  start: string; // ISO (lokál, sec nélkül is ok)
   end: string;   // ISO
   extendedProps?: { note?: string };
 };
@@ -45,7 +37,28 @@ function bookingToCalendarEvent(booking: BookingFromDb): CalendarEvent {
   };
 }
 
-// API
+// ====== Segédek ======
+const pad2 = (n: number) => n.toString().padStart(2, '0');
+function toLocalDateStr(d: Date) {
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+function toLocalTimeStr(d: Date) {
+  return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+function overlapsStr(aStart: string, aEnd: string, bStart: string, bEnd: string) {
+  return !(aEnd <= bStart || aStart >= bEnd);
+}
+
+// Note összefűzés (amíg nincs külön phone/email mező a backendben)
+function buildCombinedNote(phone?: string, email?: string, restNote?: string) {
+  const parts: string[] = [];
+  if (phone && phone.trim()) parts.push(`Tel: ${phone.trim()}`);
+  if (email && email.trim()) parts.push(`Email: ${email.trim()}`);
+  if (restNote && restNote.trim()) parts.push(`Megj.: ${restNote.trim()}`);
+  return parts.join(' | ');
+}
+
+// ===== API =====
 async function fetchBookings(): Promise<CalendarEvent[]> {
   try {
     const response = await fetch('/api/bookings');
@@ -103,116 +116,21 @@ async function deleteBooking(id: string): Promise<boolean> {
   }
 }
 
-// Simulált user
-const user = { login: 'istvangal333', role: 'admin' };
-
-// ====== Local idő-formázó segédek ======
-const pad2 = (n: number) => n.toString().padStart(2, '0');
-function toLocalDateStr(d: Date) {
-  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
-}
-function toLocalTimeStr(d: Date) {
-  return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-}
-function plusMinutes(d: Date, minutes: number) {
-  const x = new Date(d);
-  x.setMinutes(x.getMinutes() + minutes);
-  return x;
-}
-
-// Napi szám megjelenítés
-function renderDayCellContent(args: any) {
-  const todayStr = new Date().toISOString().slice(0, 10);
-  const cellDateStr = args.date.toISOString().slice(0, 10);
-  const isPast = cellDateStr < todayStr;
-
-  return (
-    <span
-      style={{
-        color: isPast ? '#64748b' : '#f1f5f9',
-        fontWeight: isPast ? 500 : 600,
-        fontSize: '0.75rem'
-      }}
-    >
-      {args.dayNumberText}
-    </span>
-  );
-}
-
-function dayCellClassNames(arg: any) {
-  const todayStr = new Date().toISOString().slice(0,10);
-  const cellStr = arg.date.toISOString().slice(0,10);
-  if (cellStr < todayStr) return ['fc-day-past'];
-  return [];
-}
-
-// Esemény tartalom: csak óra + név (a képen látható stílus)
-function eventContent(arg: any) {
-  const name = arg.event.title || '';
-  // FullCalendar adja a timeText-et (pl. "09:00")
-  const timeText = arg.timeText || (() => {
-    const d = arg.event.start;
-    if (!d) return '';
-    return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-  })();
-
-  const outer = document.createElement('div');
-  outer.className = 'fc-card';
-
-  const timeEl = document.createElement('div');
-  timeEl.className = 'fc-card-time';
-  timeEl.textContent = timeText;
-
-  const nameEl = document.createElement('div');
-  nameEl.className = 'fc-card-name';
-  nameEl.textContent = name;
-
-  outer.appendChild(timeEl);
-  outer.appendChild(nameEl);
-
-  return { domNodes: [outer] };
-}
-
-// Dátum címke formázó – a képen látható stílushoz (en-GB)
-function formatDateLabel(start: Date, end: Date, viewType: string, locale = 'en-GB') {
-  const s = new Date(start);
-  const e = new Date(end);
-  // FullCalendar end exclusive -> egy nappal vissza
-  e.setDate(e.getDate() - 1);
-
-  const fmtDay = new Intl.DateTimeFormat(locale, { day: 'numeric' });
-  const fmtMonth = new Intl.DateTimeFormat(locale, { month: 'long' });
-  const fmtFull = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long' });
-
-  if (viewType === 'timeGridDay' || s.toDateString() === e.toDateString()) {
-    return fmtFull.format(s);
-  }
-
-  const sameMonth = s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear();
-  if (sameMonth) {
-    return `${fmtDay.format(s)} — ${fmtDay.format(e)} ${fmtMonth.format(e)}`;
-  }
-  return `${fmtFull.format(s)} — ${fmtFull.format(e)}`;
-}
-
+// ===== Komponens =====
 export default function AdminFoglalas() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState<EventForm>({
-    title: '',
-    date: '',
-    startTime: '12:00',
-    endTime: '13:00',
-    note: '',
-  });
-  const [editId, setEditId] = useState<string | null>(null);
 
-  // Egyedi toolbar állapot
+  // SlotPicker modal
+  const [slotMode, setSlotMode] = useState<'create' | 'edit'>('create');
+  const [slotOpen, setSlotOpen] = useState(false);
+  const [slotDate, setSlotDate] = useState<Date | null>(null);
+  const [eventToEdit, setEventToEdit] = useState<CalendarEvent | null>(null);
+
+  // Toolbar
   const calendarRef = useRef<FullCalendar | null>(null);
   const [viewType, setViewType] = useState<'dayGridMonth' | 'timeGridDay' | 'timeGridWeek'>('timeGridWeek');
-  const [dateLabel, setDateLabel] = useState<string>('');      // aktuális nézet tartomány címkéje
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null); // ha rákattintasz egy napra/időre
+  const [dateLabel, setDateLabel] = useState<string>('');
 
   // Load bookings
   useEffect(() => {
@@ -225,148 +143,166 @@ export default function AdminFoglalas() {
     loadBookings();
   }, []);
 
-  // ——— Kattintás napi cellára vagy időslotra ———
+  // Napra kattintás -> új foglalás SlotPickerrel
   const handleDateClick = (info: any) => {
     const clicked = info.date as Date;
-    const isTimeGrid = info.view?.type?.startsWith('timeGrid');
+    const day = new Date(clicked.getFullYear(), clicked.getMonth(), clicked.getDate(), 0, 0, 0, 0);
 
-    const startLocal = isTimeGrid ? clicked : new Date(clicked.setHours(12, 0, 0, 0));
-    const endLocal = plusMinutes(startLocal, 60);
+    const wd = day.getDay(); // 0=V,6=Szo
+    if (wd === 0 || wd === 6) return;
 
-    // Dátum kapszulába a kattintott nap
-    setSelectedDate(startLocal);
-
-    // Month nézetben napra kattintva ugorjunk arra a napra
-    if (info.view?.type === 'dayGridMonth') {
-      calendarRef.current?.getApi().gotoDate(startLocal);
-    }
-
-    // Modal form előtöltés
-    setForm({
-      title: '',
-      date: toLocalDateStr(startLocal),
-      startTime: toLocalTimeStr(startLocal),
-      endTime: toLocalTimeStr(endLocal),
-      note: '',
-    });
-    setEditId(null);
-    setShowModal(true);
+    setEventToEdit(null);
+    setSlotDate(day);
+    setSlotMode('create');
+    setSlotOpen(true);
   };
 
+  // Eseményre kattintás -> SlotPicker szerkesztés módban
   const handleEventClick = (info: any) => {
     const evt = info.event;
     const s = new Date(evt.start!);
     const e = new Date(evt.end!);
-    setSelectedDate(s);
-    setForm({
+
+    // FONTOS: lokális, nem UTC! (ne használj toISOString())
+    const startLocal = `${toLocalDateStr(s)}T${toLocalTimeStr(s)}`;
+    const endLocal = `${toLocalDateStr(e)}T${toLocalTimeStr(e)}`;
+
+    setEventToEdit({
+      id: evt.id,
       title: evt.title,
-      date: toLocalDateStr(s),
-      startTime: toLocalTimeStr(s),
-      endTime: toLocalTimeStr(e),
-      note: evt.extendedProps?.note || '',
+      start: startLocal,
+      end: endLocal,
+      extendedProps: { note: evt.extendedProps?.note || '' },
     });
-    setEditId(evt.id);
-    setShowModal(true);
+    setSlotDate(new Date(toLocalDateStr(s))); // a nap beállításához
+    setSlotMode('edit');
+    setSlotOpen(true);
   };
 
-  const handleFormSubmit = async (e: any) => {
-    e.preventDefault();
-    const isSuperAdmin = user.role === 'superadmin' || user.login === 'superadmin';
+  // Létrehozás a SlotPickerből
+  const handleCreate = async (payload: {
+    name: string;
+    phone: string;
+    email: string;
+    note?: string;
+    dateStr: string;
+    startTime: string;
+    endTime: string;
+  }) => {
+    const combinedNote = buildCombinedNote(payload.phone, payload.email, payload.note);
 
-    const todayStr = new Date().toISOString().slice(0, 10);
-    if (!isSuperAdmin && form.date < todayStr) {
-      alert("Csak superadmin állíthat múltbeli (tegnapi vagy régebbi) időpontot!");
-      return;
-    }
-
-    if (form.startTime >= form.endTime) {
-      alert("Kezdésnek korábbinak kell lennie, mint a befejezésnek!");
-      return;
-    }
-
+    // Ütközésvédelem
+    const newStart = `${payload.dateStr}T${payload.startTime}`;
+    const newEnd = `${payload.dateStr}T${payload.endTime}`;
     const isOverlap = events.some(ev => {
-      if (editId && ev.id === editId) return false;
       const evDate = ev.start.split('T')[0];
-      if (evDate !== form.date) return false;
-      const newStart = `${form.date}T${form.startTime}`;
-      const newEnd = `${form.date}T${form.endTime}`;
-      return !(newEnd <= ev.start || newStart >= ev.end);
+      if (evDate !== payload.dateStr) return false;
+      return overlapsStr(newStart, newEnd, ev.start.slice(0,16), ev.end.slice(0,16));
     });
     if (isOverlap) {
-      alert("Időpont ütközik egy másik foglalással!");
+      alert('Időpont ütközik egy másik foglalással!');
       return;
     }
-
-    // Z-s (UTC) tárolás – ha lokális kell, szólj
-    const bookingData = {
-      name: form.title,
-      date: `${form.date}T${form.startTime}:00Z`,
-      end: `${form.date}T${form.endTime}:00Z`,
-      note: form.note,
-    };
 
     setLoading(true);
     try {
-      let updatedEvent: CalendarEvent | null = null;
-      if (editId) {
-        updatedEvent = await updateBooking(editId, bookingData);
-        if (updatedEvent) {
-          setEvents(events.map(ev => ev.id === editId ? updatedEvent! : ev));
-        } else {
-          alert("Hiba történt a módosítás során!");
-        }
+      const created = await saveBooking({
+        name: payload.name,
+        date: `${payload.dateStr}T${payload.startTime}:00`,
+        end: `${payload.dateStr}T${payload.endTime}:00`,
+        note: combinedNote,
+      });
+      if (created) {
+        setEvents(prev => [...prev, created]);
+        setSlotOpen(false);
+        setSlotDate(null);
       } else {
-        updatedEvent = await saveBooking(bookingData);
-        if (updatedEvent) {
-          setEvents([...events, updatedEvent]);
-        } else {
-          alert("Hiba történt a mentés során!");
-        }
+        alert('Hiba történt a mentés során!');
       }
-      if (updatedEvent) setShowModal(false);
-    } catch (error) {
-      console.error('Error saving booking:', error);
-      alert("Hiba történt a mentés során!");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async () => {
-    if (editId) {
-      setLoading(true);
-      const success = await deleteBooking(editId);
-      if (success) {
-        setEvents(events.filter(ev => ev.id !== editId));
-        setShowModal(false);
+  // Módosítás a SlotPickerből
+  const handleUpdate = async (id: string, payload: {
+    name: string;
+    phone: string;
+    email: string;
+    note?: string;
+    dateStr: string;
+    startTime: string;
+    endTime: string;
+  }) => {
+    const combinedNote = buildCombinedNote(payload.phone, payload.email, payload.note);
+
+    const newStart = `${payload.dateStr}T${payload.startTime}`;
+    const newEnd = `${payload.dateStr}T${payload.endTime}`;
+    const isOverlap = events.some(ev => {
+      if (ev.id === id) return false;
+      const evDate = ev.start.split('T')[0];
+      if (evDate !== payload.dateStr) return false;
+      return overlapsStr(newStart, newEnd, ev.start.slice(0,16), ev.end.slice(0,16));
+    });
+    if (isOverlap) {
+      alert('Időpont ütközik egy másik foglalással!');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const updated = await updateBooking(id, {
+        name: payload.name,
+        date: `${payload.dateStr}T${payload.startTime}:00`,
+        end: `${payload.dateStr}T${payload.endTime}:00`,
+        note: combinedNote,
+      });
+      if (updated) {
+        setEvents(prev => prev.map(e => e.id === id ? updated : e));
+        setSlotOpen(false);
+        setEventToEdit(null);
       } else {
-        alert("Hiba történt a törlés során!");
+        alert('Hiba történt a módosítás során!');
       }
+    } finally {
       setLoading(false);
     }
   };
 
-  // Egyedi toolbar akciók
+  // Törlés a SlotPickerből
+  const handleDelete = async (id: string) => {
+    if (!confirm('Biztosan törlöd ezt a foglalást?')) return;
+    setLoading(true);
+    try {
+      const ok = await deleteBooking(id);
+      if (ok) {
+        setEvents(prev => prev.filter(e => e.id !== id));
+        setSlotOpen(false);
+        setEventToEdit(null);
+      } else {
+        alert('Hiba történt a törlés során!');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Toolbar akciók
   const changeView = (vt: 'dayGridMonth' | 'timeGridDay' | 'timeGridWeek') => {
     const api = calendarRef.current?.getApi();
     if (api) {
-      setSelectedDate(null); // nézetváltáskor vissza a tartomány címkéhez
       api.changeView(vt);
       setViewType(vt);
     }
   };
   const goPrev = () => {
-    setSelectedDate(null);
     calendarRef.current?.getApi().prev();
   };
   const goNext = () => {
-    setSelectedDate(null);
     calendarRef.current?.getApi().next();
   };
 
-  const displayDateLabel = selectedDate
-    ? formatDateLabel(selectedDate, new Date(selectedDate.getTime() + 24 * 3600 * 1000), 'timeGridDay')
-    : dateLabel;
+  const displayDateLabel = dateLabel;
 
   return (
     <div className="h-screen w-full overflow-hidden bg-[rgb(27,27,27)] text-gray-100 flex flex-col">
@@ -381,7 +317,7 @@ export default function AdminFoglalas() {
         )}
       </div>
 
-      {/* Egyedi felső sáv: bal Monthly/Daily/Weekly, jobb prev | [ date ] | next */}
+      {/* Egyedi felső sáv */}
       <div className="fc-custom-toolbar">
         <div className="fc-ct-left">
           <div className="ct-btn-group" role="tablist" aria-label="View switcher">
@@ -445,18 +381,25 @@ export default function AdminFoglalas() {
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
             initialView="timeGridWeek"
             events={events}
-            dateClick={handleDateClick}      // slot-kattintás: idő és dátum beemelése
+            dateClick={handleDateClick}
             eventClick={handleEventClick}
             height="100%"
             dayCellContent={renderDayCellContent}
             dayCellClassNames={dayCellClassNames}
-            eventContent={eventContent}      // csak óra + név
+            eventContent={eventContent}
             expandRows={false}
             firstDay={1}
-            headerToolbar={false} // Saját toolbar
+            headerToolbar={false}
+            // Idősávok és hétköznapok
+            timeZone="local"
             slotMinTime="08:00:00"
-            slotMaxTime="21:00:00"
+            slotMaxTime="18:00:00"
             slotDuration="01:00:00"
+            weekends={false}
+            businessHours={{
+              startTime: '08:00',
+              endTime: '18:00',
+            }}
             nowIndicator
             allDaySlot={false}
             stickyHeaderDates={false}
@@ -466,9 +409,7 @@ export default function AdminFoglalas() {
             locale="hu"
             datesSet={(arg) => {
               setViewType(arg.view.type as 'dayGridMonth' | 'timeGridDay' | 'timeGridWeek');
-              if (!selectedDate) {
-                setDateLabel(formatDateLabel(arg.start, arg.end, arg.view.type));
-              }
+              setDateLabel(formatDateLabel(arg.start, arg.end, arg.view.type));
             }}
             views={{
               dayGridMonth: {
@@ -487,16 +428,96 @@ export default function AdminFoglalas() {
         </div>
       </div>
 
-      {showModal && (
-        <BookingModal
-          form={form}
-          onChange={setForm}
-          onClose={() => setShowModal(false)}
-          onSubmit={handleFormSubmit}
-          editId={editId}
+      {/* Új foglalás / Szerkesztés – SlotPicker panel */}
+      {slotOpen && (
+        <SlotPicker
+          mode={slotMode}
+          date={slotDate}
+          events={events}
+          eventToEdit={eventToEdit}
+          onClose={() => {
+            setSlotOpen(false);
+            setSlotDate(null);
+            setEventToEdit(null);
+          }}
+          onCreate={handleCreate}
+          onUpdate={handleUpdate}
           onDelete={handleDelete}
         />
       )}
     </div>
   );
+}
+
+// Napi szám megjelenítés
+function renderDayCellContent(args: any) {
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const cellDateStr = args.date.toISOString().slice(0, 10);
+  const isPast = cellDateStr < todayStr;
+
+  return (
+    <span
+      style={{
+        color: isPast ? '#64748b' : '#f1f5f9',
+        fontWeight: isPast ? 500 : 600,
+        fontSize: '0.75rem'
+      }}
+    >
+      {args.dayNumberText}
+    </span>
+  );
+}
+
+function dayCellClassNames(arg: any) {
+  const todayStr = new Date().toISOString().slice(0,10);
+  const cellStr = arg.date.toISOString().slice(0,10);
+  if (cellStr < todayStr) return ['fc-day-past'];
+  return [];
+}
+
+// Esemény kártya: csak óra + név
+function eventContent(arg: any) {
+  const name = arg.event.title || '';
+  const timeText = arg.timeText || (() => {
+    const d = arg.event.start;
+    if (!d) return '';
+    return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  })();
+
+  const outer = document.createElement('div');
+  outer.className = 'fc-card';
+
+  const timeEl = document.createElement('div');
+  timeEl.className = 'fc-card-time';
+  timeEl.textContent = timeText;
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'fc-card-name';
+  nameEl.textContent = name;
+
+  outer.appendChild(timeEl);
+  outer.appendChild(nameEl);
+
+  return { domNodes: [outer] };
+}
+
+// Dátum címke formázó
+function formatDateLabel(start: Date, end: Date, viewType: string, locale = 'en-GB') {
+  const s = new Date(start);
+  const e = new Date(end);
+  e.setDate(e.getDate() - 1);
+
+  const fmtDay = new Intl.DateTimeFormat(locale, { day: 'numeric' });
+  const fmtMonth = new Intl.DateTimeFormat(locale, { month: 'long' });
+  const fmtFull = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long' });
+
+  if (viewType === 'timeGridDay' || s.toDateString() === e.toDateString()) {
+    return fmtFull.format(s);
+  }
+
+  const sameMonth = s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear();
+  if (sameMonth) {
+    return `${fmtDay.format(s)} — ${fmtDay.format(e)} ${fmtMonth.format(e)}`;
+  }
+  return `${fmtFull.format(s)} — ${fmtFull.format(e)}`;
 }
