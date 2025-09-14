@@ -18,9 +18,6 @@ type BasePayload = {
   dateStr: string;
   startTime: string;
   endTime: string;
-  // New UTC fields to fix timezone drift
-  startAt?: string; // ISO UTC string
-  endAt?: string;   // ISO UTC string
 };
 
 type Props = {
@@ -348,24 +345,6 @@ export default function SlotPicker({
     if (!startTime || !dateStr) return null;
     const endHour = (Number(startTime.slice(0,2)) + 1).toString().padStart(2,'0');
     const endTime = `${endHour}:${startTime.slice(3,5)}`;
-    
-    // Generate UTC datetime strings to fix timezone drift
-    let startAt: string | undefined;
-    let endAt: string | undefined;
-    
-    try {
-      // Create local datetime from dateStr and times, then convert to UTC
-      const localStart = new Date(`${dateStr}T${startTime}:00`);
-      const localEnd = new Date(`${dateStr}T${endTime}:00`);
-      
-      if (!isNaN(localStart.getTime()) && !isNaN(localEnd.getTime())) {
-        startAt = localStart.toISOString();
-        endAt = localEnd.toISOString();
-      }
-    } catch (error) {
-      console.warn('Failed to generate UTC timestamps:', error);
-    }
-    
     return {
       name: name.trim(),
       phone: phone.trim(),
@@ -374,27 +353,24 @@ export default function SlotPicker({
       dateStr,
       startTime,
       endTime,
-      // Include UTC fields for server preference
-      startAt,
-      endAt,
     };
   };
 
   // ===== Render =====
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-2 sm:p-4 md:p-6" aria-modal="true" role="dialog">
-      <div className="w-full max-w-sm sm:max-w-3xl lg:max-w-4xl bg-white text-slate-900 rounded-xl sm:rounded-2xl shadow-2xl border border-slate-200 flex flex-col max-h-[95vh] sm:max-h-[80vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 sm:p-6" aria-modal="true" role="dialog">
+      <div className="w-full max-w-4xl bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 flex flex-col max-h-[80vh]">
         {/* Header */}
-        <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-200 flex items-center justify-between">
-          <div className="flex flex-col min-w-0 flex-1">
-            <h2 className="text-base sm:text-lg font-semibold leading-none truncate">Időpont foglalás</h2>
-            <div className="text-xs sm:text-sm text-slate-500 mt-1">
-              {activeDay && <span className="truncate">{formatHumanDate(activeDay)} • Hétköznap, 08:00–18:00</span>}
+        <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+          <div className="flex flex-col">
+            <h2 className="text-lg font-semibold leading-none">Időpont foglalás</h2>
+            <div className="text-sm text-slate-500 mt-1">
+              {activeDay && <span>{formatHumanDate(activeDay)} • Hétköznap, 08:00–18:00</span>}
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg px-2 sm:px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 transition text-sm shrink-0"
+            className="rounded-lg px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 transition"
             title="Bezár"
             aria-label="Bezár"
             type="button"
@@ -405,8 +381,8 @@ export default function SlotPicker({
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-5">
-            {/* Form section - full width on mobile, left column on desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5">
+            {/* Bal oszlop – űrlap és napválasztó */}
             <div className="space-y-4">
               {/* Kiválasztott nap + lenyitható mininaptár */}
               <div className="rounded-xl border border-slate-200 bg-slate-50">
@@ -590,18 +566,18 @@ export default function SlotPicker({
               </div>
             </div>
 
-            {/* Time slots section - full width on mobile, right column on desktop */}
-            <div className="min-w-0">
+            {/* Jobb oszlop – idősávok */}
+            <div>
               <div className="text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wide">Elérhető időpontok</div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 xl:grid-cols-3 gap-2">
                 {model.slots.length === 0 && (
-                  <div className="col-span-full text-center py-6 text-slate-500 bg-white rounded-lg border border-dashed border-slate-200 text-sm">
+                  <div className="col-span-full text-center py-6 text-slate-500 bg-white rounded-lg border border-dashed border-slate-200">
                     {activeDay ? "Erre a napra nincs szabad időpont vagy hétvége." : "Válassz egy napot a fenti naptárból."}
                   </div>
                 )}
                 {model.slots.map(s => {
                   const isSelected = selected === s.start;
-                  const base = "w-full py-2.5 px-2 rounded-lg text-sm font-medium transition border min-w-0";
+                  const base = "w-full py-2.5 px-2 rounded-lg text-sm font-medium transition border";
 
                   // Állapotok:
                   // - s.disabled: más foglalás miatt tiltott (világosszürke)
@@ -637,10 +613,10 @@ export default function SlotPicker({
         </div>
 
         {/* Footer */}
-        <div className="px-4 sm:px-5 py-3 sm:py-4 border-t border-slate-200 bg-white rounded-b-xl sm:rounded-b-2xl">
+        <div className="px-5 py-4 border-t border-slate-200 bg-white rounded-b-2xl">
           {mode === 'create' ? (
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-              <div className="text-sm text-slate-600 min-h-[1.25rem] text-center sm:text-left">
+            <div className="flex items-center justify-between gap-3">
+              <div className="text-sm text-slate-600 min-h-[1.25rem]">
                 {selected ? (
                   <>Kiválasztva: <span className="font-semibold text-slate-900">{selectedLabel}</span></>
                 ) : (
@@ -656,7 +632,7 @@ export default function SlotPicker({
                   await onCreate(payload);
                 }}
                 className={[
-                  "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-medium transition w-full sm:w-auto",
+                  "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition",
                   canSubmit
                     ? "bg-sky-600 text-white hover:bg-sky-700 shadow-[0_6px_16px_rgba(2,132,199,0.35)]"
                     : "bg-slate-200 text-slate-400 cursor-not-allowed"
@@ -666,8 +642,8 @@ export default function SlotPicker({
               </button>
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
-              <div className="text-sm text-slate-600 min-h-[1.25rem] text-center sm:text-left">
+            <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <div className="text-sm text-slate-600 min-h-[1.25rem]">
                 {selectedLabel ? (
                   <>Kiválasztva: <span className="font-semibold text-slate-900">{selectedLabel}</span></>
                 ) : (
@@ -675,12 +651,12 @@ export default function SlotPicker({
                 )}
               </div>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3">
+              <div className="flex items-center gap-3">
                 {eventToEdit && onDelete && (
                   <button
                     type="button"
                     onClick={() => onDelete(eventToEdit.id)}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-medium transition bg-red-400 text-white hover:bg-red-900 w-full sm:w-auto"
+                    className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition bg-red-400 text-white hover:bg-red-900"
                   >
                     Törlés
                   </button>
@@ -696,7 +672,7 @@ export default function SlotPicker({
                       await onUpdate(eventToEdit.id, payload);
                     }}
                     className={[
-                      "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-medium transition w-full sm:w-auto",
+                      "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition",
                       (name.trim() && emailValid && phoneValid)
                         ? "bg-sky-400 text-white hover:bg-sky-700 shadow-[0_6px_16px_rgba(2,132,199,0.35)]"
                         : "bg-slate-200 text-slate-400 cursor-not-allowed"

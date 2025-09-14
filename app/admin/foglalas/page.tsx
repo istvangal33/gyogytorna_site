@@ -112,7 +112,7 @@ async function fetchBookings(): Promise<CalendarEvent[]> {
   }
 }
 
-async function saveBooking(data: Record<string, unknown>): Promise<CalendarEvent | null> {
+async function saveBooking(data: { name: string; date: string; end: string; note: string }): Promise<CalendarEvent | null> {
   try {
     const response = await fetch('/api/bookings', {
       method: 'POST',
@@ -128,7 +128,7 @@ async function saveBooking(data: Record<string, unknown>): Promise<CalendarEvent
   }
 }
 
-async function updateBooking(id: string, data: Record<string, unknown>): Promise<CalendarEvent | null> {
+async function updateBooking(id: string, data: { name: string; date: string; end: string; note: string }): Promise<CalendarEvent | null> {
   try {
     const response = await fetch('/api/bookings', {
       method: 'PUT',
@@ -229,8 +229,6 @@ export default function AdminFoglalas() {
     dateStr: string;
     startTime: string;
     endTime: string;
-    startAt?: string; // UTC
-    endAt?: string;   // UTC
   }) => {
     const combinedNote = buildCombinedNote(payload.phone, payload.email, payload.note);
 
@@ -249,25 +247,12 @@ export default function AdminFoglalas() {
 
     setLoading(true);
     try {
-      // Use new API format with preference for UTC fields
-      const requestData: Record<string, unknown> = {
+      const created = await saveBooking({
         name: payload.name,
-        note: combinedNote,
-        // Legacy fields for backward compatibility
-        dateStr: payload.dateStr,
-        startTime: payload.startTime,
-        endTime: payload.endTime,
         date: `${payload.dateStr}T${payload.startTime}:00`,
         end: `${payload.dateStr}T${payload.endTime}:00`,
-      };
-      
-      // Include UTC fields if available (preferred)
-      if (payload.startAt && payload.endAt) {
-        requestData.startAt = payload.startAt;
-        requestData.endAt = payload.endAt;
-      }
-      
-      const created = await saveBooking(requestData);
+        note: combinedNote,
+      });
       if (created) {
         setEvents(prev => [...prev, created]);
         setSlotOpen(false);
@@ -289,8 +274,6 @@ export default function AdminFoglalas() {
     dateStr: string;
     startTime: string;
     endTime: string;
-    startAt?: string; // UTC
-    endAt?: string;   // UTC
   }) => {
     const combinedNote = buildCombinedNote(payload.phone, payload.email, payload.note);
 
@@ -309,25 +292,12 @@ export default function AdminFoglalas() {
 
     setLoading(true);
     try {
-      // Use new API format with preference for UTC fields
-      const requestData: Record<string, unknown> = {
+      const updated = await updateBooking(id, {
         name: payload.name,
-        note: combinedNote,
-        // Legacy fields for backward compatibility
-        dateStr: payload.dateStr,
-        startTime: payload.startTime,
-        endTime: payload.endTime,
         date: `${payload.dateStr}T${payload.startTime}:00`,
         end: `${payload.dateStr}T${payload.endTime}:00`,
-      };
-      
-      // Include UTC fields if available (preferred)
-      if (payload.startAt && payload.endAt) {
-        requestData.startAt = payload.startAt;
-        requestData.endAt = payload.endAt;
-      }
-      
-      const updated = await updateBooking(id, requestData);
+        note: combinedNote,
+      });
       if (updated) {
         setEvents(prev => prev.map(e => e.id === id ? updated : e));
         setSlotOpen(false);
@@ -357,20 +327,6 @@ export default function AdminFoglalas() {
       setLoading(false);
     }
   };
-
-  // Responsive handling
-  const [isMobile, setIsMobile] = useState(false);
-  
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // Toolbar akciók
   const changeView = (vt: 'dayGridMonth' | 'timeGridDay' | 'timeGridWeek') => {
@@ -413,7 +369,7 @@ export default function AdminFoglalas() {
               aria-pressed={viewType === 'dayGridMonth'}
               title="Monthly view"
             >
-              {isMobile ? 'Hónap' : 'Monthly'}
+              Monthly
             </button>
             <button
               type="button"
@@ -422,7 +378,7 @@ export default function AdminFoglalas() {
               aria-pressed={viewType === 'timeGridDay'}
               title="Daily view"
             >
-              {isMobile ? 'Nap' : 'Daily'}
+              Daily
             </button>
             <button
               type="button"
@@ -431,7 +387,7 @@ export default function AdminFoglalas() {
               aria-pressed={viewType === 'timeGridWeek'}
               title="Weekly view"
             >
-              {isMobile ? 'Hét' : 'Weekly'}
+              Weekly
             </button>
           </div>
         </div>
@@ -464,20 +420,19 @@ export default function AdminFoglalas() {
           <FullCalendar
             ref={calendarRef}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-            initialView={isMobile ? "timeGridDay" : "timeGridWeek"}
+            initialView="timeGridWeek"
             events={events}
             dateClick={handleDateClick}
             eventClick={handleEventClick}
             height="100%"
-            contentHeight="auto"
-            expandRows={true}
             dayCellContent={renderDayCellContent}
             dayCellClassNames={dayCellClassNames}
             eventContent={eventContent}
+            expandRows={false}
             firstDay={1}
             headerToolbar={false}
-            // Timezone and time settings
-            timeZone="Europe/Budapest"
+            // Idősávok és hétköznapok
+            timeZone="local"
             slotMinTime="08:00:00"
             slotMaxTime="18:00:00"
             slotDuration="01:00:00"
@@ -507,7 +462,8 @@ export default function AdminFoglalas() {
               },
               timeGridDay: {
                 slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
-              }
+              },
+              listWeek: {}
             }}
           />
         </div>

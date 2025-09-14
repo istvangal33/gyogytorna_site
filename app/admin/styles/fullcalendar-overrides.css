@@ -147,58 +147,13 @@
   letter-spacing: .2px;
 }
 
-/* Mobile tweaks - enhanced for 360px width */
+/* Mobile tweaks */
 @media (max-width: 640px) {
-  .fc-custom-toolbar { 
-    padding: 4px 8px 6px 8px; 
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .ct-btn { 
-    padding: 4px 8px; 
-    font-size: 0.75rem; 
-    min-width: 0;
-  }
-  .ct-nav-btn { 
-    width: 32px; 
-    height: 32px; 
-  }
-  .ct-date-pill { 
-    padding: 4px 8px; 
-    min-height: 32px;
-    font-size: 0.8rem;
-  }
-  .ct-date-text { 
-    font-size: 0.8rem; 
-  }
-  
-  /* Ensure calendar doesn't overflow on mobile */
-  .fc {
-    min-width: 0;
-  }
-  
-  .fc .fc-timegrid-col {
-    min-width: 60px;
-  }
-  
-  .fc .fc-timegrid-axis-cushion {
-    font-size: 0.65rem;
-    padding: 2px 4px;
-  }
-  
-  /* Make events more compact on mobile */
-  .fc .fc-timegrid-event {
-    padding: 4px 6px;
-    min-height: 0;
-  }
-  
-  .fc .fc-card-time {
-    font-size: 0.7rem;
-  }
-  
-  .fc .fc-card-name {
-    font-size: 0.7rem;
-  }
+  .fc-custom-toolbar { padding: 6px 10px 8px 10px; }
+  .ct-btn { padding: 5px 12px; font-size: 0.80rem; }
+  .ct-nav-btn { width: 34px; height: 34px; }
+  .ct-date-pill { padding: 5px 10px; }
+  .ct-date-text { font-size: 0.85rem; }
 }
 
 /* ==========================================================================
