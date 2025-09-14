@@ -25,14 +25,55 @@ type BookingFromDb = {
   end: string;
   note: string | null;
   createdAt: string;
+  // New FullCalendar-compatible fields
+  start?: string;
+  startAt?: string;
+  endAt?: string;
+  allDay?: boolean;
 };
 
 function bookingToCalendarEvent(booking: BookingFromDb): CalendarEvent {
+  // Use FullCalendar-compatible 'start' field if available, fallback to legacy 'date' field
+  const startTime = booking.start || booking.date;
+  let endTime = booking.end;
+  
+  // Add fallback for missing end time (60 minutes default)
+  if (!endTime && startTime) {
+    const startDate = new Date(startTime);
+    if (!isNaN(startDate.getTime())) {
+      const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
+      endTime = endDate.toISOString();
+      
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`Booking ${booking.id} missing end time, using default 60-minute duration`);
+      }
+    }
+  }
+  
+  // Add diagnostics for development
+  if (process.env.NODE_ENV !== 'production') {
+    if (!startTime) {
+      console.warn(`Booking ${booking.id} missing start/date field:`, booking);
+    }
+    if (!endTime) {
+      console.warn(`Booking ${booking.id} missing end field:`, booking);
+    }
+    
+    const startDate = new Date(startTime);
+    const endDate = new Date(endTime);
+    if (isNaN(startDate.getTime())) {
+      console.warn(`Booking ${booking.id} has invalid start time:`, startTime);
+    }
+    if (isNaN(endDate.getTime())) {
+      console.warn(`Booking ${booking.id} has invalid end time:`, endTime);
+    }
+  }
+  
   return {
     id: booking.id.toString(),
     title: booking.name,
-    start: booking.date,
-    end: booking.end,
+    start: startTime,
+    end: endTime,
     extendedProps: { note: booking.note || '' },
   };
 }

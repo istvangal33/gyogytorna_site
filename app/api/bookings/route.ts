@@ -30,7 +30,38 @@ export async function GET() {
         date: 'asc'
       }
     });
-    return NextResponse.json(bookings);
+    
+    // Map bookings to include both legacy fields and FullCalendar-compatible fields
+    const mappedBookings = bookings.map((booking: any) => {
+      const startDate = new Date(booking.date);
+      const endDate = new Date(booking.end);
+      
+      // Add diagnostics for development
+      if (process.env.NODE_ENV !== 'production') {
+        if (!booking.date || !booking.end) {
+          console.warn('Booking missing date/end fields:', booking.id);
+        }
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+          console.warn('Booking has invalid date/end values:', booking.id, booking.date, booking.end);
+        }
+      }
+      
+      return {
+        ...booking,
+        // Legacy fields (keep for backward compatibility)
+        date: booking.date,
+        end: booking.end,
+        // FullCalendar-compatible fields
+        start: booking.date, // FullCalendar expects 'start' field
+        // startAt/endAt as UTC ISO strings for API compatibility
+        startAt: startDate.toISOString(),
+        endAt: endDate.toISOString(),
+        // Ensure events are not treated as all-day
+        allDay: false
+      };
+    });
+    
+    return NextResponse.json(mappedBookings);
   } catch (error) {
     console.error('Error fetching bookings:', error);
     const errorResponse = {
