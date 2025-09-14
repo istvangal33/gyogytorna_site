@@ -144,7 +144,7 @@ export default function AdminFoglalas() {
   }, []);
 
   // Napra kattintás -> új foglalás SlotPickerrel
-  const handleDateClick = (info: any) => {
+  const handleDateClick = (info: { date: Date }) => {
     const clicked = info.date as Date;
     const day = new Date(clicked.getFullYear(), clicked.getMonth(), clicked.getDate(), 0, 0, 0, 0);
 
@@ -158,7 +158,7 @@ export default function AdminFoglalas() {
   };
 
   // Eseményre kattintás -> SlotPicker szerkesztés módban
-  const handleEventClick = (info: any) => {
+  const handleEventClick = (info: { event: { id: string; title: string; start: Date | null; end: Date | null; extendedProps?: { note?: string } } }) => {
     const evt = info.event;
     const s = new Date(evt.start!);
     const e = new Date(evt.end!);
@@ -494,7 +494,7 @@ export default function AdminFoglalas() {
 }
 
 // Napi szám megjelenítés
-function renderDayCellContent(args: any) {
+function renderDayCellContent(args: { date: Date; dayNumberText: string }) {
   const todayStr = new Date().toISOString().slice(0, 10);
   const cellDateStr = args.date.toISOString().slice(0, 10);
   const isPast = cellDateStr < todayStr;
@@ -512,7 +512,7 @@ function renderDayCellContent(args: any) {
   );
 }
 
-function dayCellClassNames(arg: any) {
+function dayCellClassNames(arg: { date: Date }) {
   const todayStr = new Date().toISOString().slice(0,10);
   const cellStr = arg.date.toISOString().slice(0,10);
   if (cellStr < todayStr) return ['fc-day-past'];
@@ -520,7 +520,7 @@ function dayCellClassNames(arg: any) {
 }
 
 // Esemény kártya: csak óra + név
-function eventContent(arg: any) {
+function eventContent(arg: { event: { title: string; start: Date | null }; timeText?: string }) {
   const name = arg.event.title || '';
   const timeText = arg.timeText || (() => {
     const d = arg.event.start;
