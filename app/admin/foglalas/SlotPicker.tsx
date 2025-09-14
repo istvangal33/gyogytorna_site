@@ -334,7 +334,7 @@ export default function SlotPicker({
   // Submit payload előállítása
   const buildPayload = (): BasePayload | null => {
     const dateStr = model.dateStr;
-    let startTime = selected
+    const startTime = selected
       ? selected.slice(11,16)
       : (mode === 'edit' && eventToEdit
           ? (() => {
