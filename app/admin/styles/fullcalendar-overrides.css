@@ -201,6 +201,27 @@
   }
 }
 
+/* Desktop responsive layout support */
+@media (min-width: 768px) {
+  /* Ensure grid containers don't create horizontal overflow */
+  .fc {
+    min-width: 0;
+    width: 100%;
+  }
+  
+  /* Allow calendar to be flexible in grid layout */
+  .fc .fc-view-harness {
+    min-width: 0;
+    width: 100%;
+  }
+  
+  /* Ensure toolbar fits in responsive layout */
+  .fc-custom-toolbar {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+}
+
 /* ==========================================================================
    2) Headers (day names) + grid borders
    ========================================================================== */
