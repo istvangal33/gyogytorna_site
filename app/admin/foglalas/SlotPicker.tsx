@@ -31,6 +31,7 @@ type Props = {
   onDelete?: (id: string) => void | Promise<void>;
 };
 
+// ===== Segédek =====
 function pad2(n: number) {
   return n.toString().padStart(2, '0');
 }
@@ -47,6 +48,26 @@ function formatHumanDate(d: Date) {
     day: '2-digit',
     weekday: 'long',
   }).format(d);
+}
+function isSameDay(a: Date, b: Date) {
+  return a.getFullYear() === b.getFullYear() &&
+         a.getMonth() === b.getMonth() &&
+         a.getDate() === b.getDate();
+}
+function startOfMonth(d: Date) {
+  return new Date(d.getFullYear(), d.getMonth(), 1, 0, 0, 0, 0);
+}
+// Hétfő kezdettel: mennyit kell visszalépni a hónap 1-jétől
+function mondayIndex(jsDay: number) {
+  // JS: 0=V,1=H... -> 1..6,0
+  return (jsDay + 6) % 7;
+}
+function startOfCalendarGrid(d: Date) {
+  const first = startOfMonth(d);
+  const back = mondayIndex(first.getDay());
+  const gridStart = new Date(first);
+  gridStart.setDate(first.getDate() - back);
+  return gridStart;
 }
 
 // Note visszaparzolása (Tel / Email / Megj.)
@@ -66,6 +87,38 @@ function parseCombinedNote(note?: string): { phone?: string; email?: string; res
   return { phone, email, restNote };
 }
 
+// Egy nap szabad-e (van-e legalább egy üres óra 08–18 között)
+function dayHasFreeSlot(
+  day: Date,
+  events: CalendarEvent[],
+  ignoreEventId?: string
+) {
+  const dateStr = toLocalDateStr(day);
+  // csak hétköznap számít
+  const wd = day.getDay(); // 0=V,6=Szo
+  if (wd === 0 || wd === 6) return false;
+
+  const dayEvents = events.filter(ev => {
+    if (ignoreEventId && ev.id === ignoreEventId) return false;
+    const ds = new Date(ev.start.replace(' ', 'T'));
+    return toLocalDateStr(ds) === dateStr;
+  }).map(ev => {
+    const ds = new Date(ev.start.replace(' ', 'T'));
+    const de = new Date(ev.end.replace(' ', 'T'));
+    const s = `${toLocalDateStr(ds)}T${pad2(ds.getHours())}:${pad2(ds.getMinutes())}`;
+    const e = `${toLocalDateStr(de)}T${pad2(de.getHours())}:${pad2(de.getMinutes())}`;
+    return { start: s, end: e };
+  });
+
+  for (let h = 8; h < 18; h++) {
+    const s = `${dateStr}T${pad2(h)}:00`;
+    const e = `${dateStr}T${pad2(h + 1)}:00`;
+    const taken = dayEvents.some(ev => overlaps(s, e, ev.start, ev.end));
+    if (!taken) return true;
+  }
+  return false;
+}
+
 export default function SlotPicker({
   mode,
   date,
@@ -76,14 +129,28 @@ export default function SlotPicker({
   onUpdate,
   onDelete,
 }: Props) {
-  // Űrlap mezők
+  // ===== Belső állapot =====
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
   const [selected, setSelected] = useState<string | null>(null); // YYYY-MM-DDTHH:mm
 
-  // Edit mód kezdeti kitöltés
+  // Naptár popover állapot
+  const [calendarOpen, setCalendarOpen] = useState(false);
+
+  // Aktív nap (választhatóvá téve szerkesztéskor is)
+  const [activeDay, setActiveDay] = useState<Date | null>(null);
+
+  // Mini-naptár hónap kurzor (azon hónap, amit nézünk)
+  const [monthCursor, setMonthCursor] = useState<Date>(() => {
+    const base = mode === 'edit' && eventToEdit
+      ? new Date(eventToEdit.start.replace(' ', 'T'))
+      : (date ?? new Date());
+    return startOfMonth(base);
+  });
+
+  // Kezdeti kitöltés + aktív nap beállítás
   useEffect(() => {
     if (mode === 'edit' && eventToEdit) {
       setName(eventToEdit.title || '');
@@ -91,15 +158,30 @@ export default function SlotPicker({
       setPhone(parsed.phone || '');
       setEmail(parsed.email || '');
       setNote(parsed.restNote || eventToEdit.extendedProps?.note || '');
+
+      const ds = new Date(eventToEdit.start.replace(' ', 'T'));
+      const dayOnly = new Date(ds.getFullYear(), ds.getMonth(), ds.getDate(), 0, 0, 0, 0);
+      setActiveDay(dayOnly);
+      setMonthCursor(startOfMonth(dayOnly));
       setSelected(null); // ne legyen kijelölve, csak a "saját sáv" legyen sötétszürke
     } else if (mode === 'create') {
+      if (date) {
+        const dayOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+        setActiveDay(dayOnly);
+        setMonthCursor(startOfMonth(dayOnly));
+      } else {
+        const today = new Date();
+        const dayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+        setActiveDay(dayOnly);
+        setMonthCursor(startOfMonth(dayOnly));
+      }
       setName('');
       setPhone('');
       setEmail('');
       setNote('');
       setSelected(null);
     }
-  }, [mode, eventToEdit]);
+  }, [mode, eventToEdit, date]);
 
   // Validációk
   const emailValid = useMemo(() => {
@@ -112,18 +194,7 @@ export default function SlotPicker({
     return digits.length >= 7;
   }, [phone]);
 
-  // A megjelenített nap: create módban a kapott date, edit módban az event napja
-  const activeDay = useMemo(() => {
-    if (mode === 'edit' && eventToEdit) {
-      const ds = new Date(eventToEdit.start.replace(' ', 'T'));
-      return new Date(ds.getFullYear(), ds.getMonth(), ds.getDate(), 0, 0, 0, 0);
-    }
-    if (date) {
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-    }
-    return null;
-  }, [mode, eventToEdit, date]);
-
+  // Modell a kiválasztott naphoz (akkor is lefut, ha activeDay null, csak üres slotlistát ad)
   const model = useMemo(() => {
     if (!activeDay) {
       return {
@@ -152,7 +223,7 @@ export default function SlotPicker({
     // Saját sáv lokális start-end (edit mód)
     let currentStartStr: string | null = null;
     let currentEndStr: string | null = null;
-    if (mode === 'edit' && eventToEdit) {
+    if (mode === 'edit' && eventToEdit && isSameDay(new Date(eventToEdit.start.replace(' ', 'T')), activeDay)) {
       const s = new Date(eventToEdit.start.replace(' ', 'T'));
       const e = new Date(eventToEdit.end.replace(' ', 'T'));
       currentStartStr = `${dateStr}T${pad2(s.getHours())}:${pad2(s.getMinutes())}`;
@@ -185,8 +256,59 @@ export default function SlotPicker({
     return { humanDate, dateStr, slots };
   }, [activeDay, events, mode, eventToEdit]);
 
-  if (!activeDay) return null;
+  // ===== Mini naptár adatok =====
+  // FONTOS: lokális nap-string, ne toISOString().slice(0,10), mert UTC-eltolódást okozhat
+  const todayStr = toLocalDateStr(new Date());
 
+  const gridStart = useMemo(() => startOfCalendarGrid(monthCursor), [monthCursor]);
+
+  const days = useMemo(() => {
+    const arr: Date[] = [];
+    for (let i = 0; i < 42; i++) {
+      const d = new Date(gridStart);
+      d.setDate(gridStart.getDate() + i);
+      arr.push(d);
+    }
+    return arr;
+  }, [gridStart]);
+
+  // Egy nap állapota a mininaptárban
+  const dayState = (d: Date) => {
+    const isPast = toLocalDateStr(d) < todayStr;
+    const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+    const inMonth = d.getMonth() === monthCursor.getMonth();
+
+    // Szabad hely? (edit módban saját eseményt figyelmen kívül hagyjuk)
+    const hasFree = !isPast && !isWeekend && dayHasFreeSlot(d, events, mode === 'edit' && eventToEdit ? eventToEdit.id : undefined);
+    const isFull = !isPast && !isWeekend && inMonth && !hasFree;
+
+    const isSelected = activeDay ? isSameDay(d, activeDay) : false;
+
+    return { isPast, isWeekend, inMonth, hasFree, isFull, isSelected };
+  };
+
+  // Nap kiválasztása
+  const pickDay = (d: Date) => {
+    const st = dayState(d);
+    if (st.isPast || st.isWeekend || !st.inMonth) return;
+    setActiveDay(new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0));
+    setSelected(null); // új nap -> töröljük a kiválasztott órát
+    setCalendarOpen(false);
+  };
+
+  // Hónap navigáció
+  const prevMonth = () => {
+    const m = new Date(monthCursor);
+    m.setMonth(m.getMonth() - 1);
+    setMonthCursor(startOfMonth(m));
+  };
+  const nextMonth = () => {
+    const m = new Date(monthCursor);
+    m.setMonth(m.getMonth() + 1);
+    setMonthCursor(startOfMonth(m));
+  };
+
+  // Kiválasztható-e a mentés gomb
   const canSubmit =
     name.trim().length > 0 &&
     emailValid &&
@@ -220,7 +342,7 @@ export default function SlotPicker({
               return `${pad2(s.getHours())}:${pad2(s.getMinutes())}`;
             })()
           : '');
-    if (!startTime) return null;
+    if (!startTime || !dateStr) return null;
     const endHour = (Number(startTime.slice(0,2)) + 1).toString().padStart(2,'0');
     const endTime = `${endHour}:${startTime.slice(3,5)}`;
     return {
@@ -234,6 +356,7 @@ export default function SlotPicker({
     };
   };
 
+  // ===== Render =====
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 sm:p-6" aria-modal="true" role="dialog">
       <div className="w-full max-w-4xl bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 flex flex-col max-h-[80vh]">
@@ -242,7 +365,7 @@ export default function SlotPicker({
           <div className="flex flex-col">
             <h2 className="text-lg font-semibold leading-none">Időpont foglalás</h2>
             <div className="text-sm text-slate-500 mt-1">
-              {model.humanDate && <span>{model.humanDate} • Hétköznap, 08:00–18:00</span>}
+              {activeDay && <span>{formatHumanDate(activeDay)} • Hétköznap, 08:00–18:00</span>}
             </div>
           </div>
           <button
@@ -259,13 +382,124 @@ export default function SlotPicker({
         {/* Body */}
         <div className="flex-1 overflow-y-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5">
-            {/* Bal oszlop – űrlap */}
+            {/* Bal oszlop – űrlap és napválasztó */}
             <div className="space-y-4">
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-                <div className="text-xs text-slate-500">Kiválasztott nap</div>
-                <div className="text-sm font-medium text-slate-800">{model.dateStr}</div>
+              {/* Kiválasztott nap + lenyitható mininaptár */}
+              <div className="rounded-xl border border-slate-200 bg-slate-50">
+                <button
+                  type="button"
+                  onClick={() => setCalendarOpen(v => !v)}
+                  className="w-full px-4 py-3 text-left hover:bg-slate-100 rounded-xl transition flex items-center justify-between"
+                >
+                  <div>
+                    <div className="text-xs text-slate-500">Kiválasztott nap</div>
+                    <div className="text-sm font-medium text-slate-800">{activeDay ? toLocalDateStr(activeDay) : ''}</div>
+                  </div>
+                  <svg
+                    className={`w-5 h-5 text-slate-500 transition-transform ${calendarOpen ? 'rotate-180' : ''}`}
+                    viewBox="0 0 24 24" fill="none"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+
+                {calendarOpen && (
+                  <div className="px-3 pb-3">
+                    {/* Naptár fejléce */}
+                    <div className="flex items-center justify-between px-1 py-2">
+                      <button
+                        type="button"
+                        onClick={prevMonth}
+                        className="p-2 rounded-md hover:bg-slate-100 text-slate-600"
+                        aria-label="Előző hónap"
+                        title="Előző hónap"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                      <div className="text-sm font-medium text-slate-700">
+                        {new Intl.DateTimeFormat('hu-HU', { year: 'numeric', month: 'long' }).format(monthCursor)}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={nextMonth}
+                        className="p-2 rounded-md hover:bg-slate-100 text-slate-600"
+                        aria-label="Következő hónap"
+                        title="Következő hónap"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Hétfej */}
+                    <div className="grid grid-cols-7 text-[11px] text-slate-500 px-1 mb-1">
+                      <div className="text-center">H</div>
+                      <div className="text-center">K</div>
+                      <div className="text-center">Sze</div>
+                      <div className="text-center">Cs</div>
+                      <div className="text-center">P</div>
+                      <div className="text-center">Szo</div>
+                      <div className="text-center">V</div>
+                    </div>
+
+                    {/* Napok rácsa */}
+                    <div className="grid grid-cols-7 gap-1 px-1 pb-2">
+                      {days.map((d) => {
+                        const st = dayState(d);
+                        const dayNum = d.getDate();
+                        const inThisMonth = st.inMonth;
+
+                        // Alap stílus
+                        let cls =
+                          "w-full aspect-square rounded-full text-sm flex items-center justify-center transition border ";
+
+                        // Elválasztjuk a különböző állapotokat
+                        if (!inThisMonth) {
+                          cls += "text-slate-300 border-transparent";
+                        } else if (st.isPast) {
+                          // múltbeli nap: sima, halvány
+                          cls += "text-slate-400 border-transparent";
+                        } else if (st.isSelected) {
+                          cls += "bg-sky-300 text-white border-sky-700 shadow";
+                        } else if (st.hasFree) {
+                          // van szabad hely: világoskék
+                          cls += "bg-sky-200 text-sky-900 border-sky-200 hover:bg-sky-300";
+                        } else if (st.isFull) {
+                          // nincs szabad hely: sötétkék
+                          cls += "bg-sky-900 text-white border-sky-700";
+                        } else if (st.isWeekend) {
+                          // ugyan nem választható, de ha itt vagyunk: jelöljük halványan
+                          cls += "text-slate-400 border-transparent";
+                        } else {
+                          cls += "text-slate-700 border-slate-200 hover:bg-slate-100";
+                        }
+
+                        const disabled = st.isPast || st.isWeekend || !inThisMonth;
+
+                        return (
+                          <button
+                            key={`${toLocalDateStr(d)}`}
+                            type="button"
+                            disabled={disabled}
+                            onClick={() => pickDay(d)}
+                            className={cls + (disabled ? " cursor-not-allowed opacity-60" : "")}
+                            title={toLocalDateStr(d)}
+                            aria-label={toLocalDateStr(d)}
+                          >
+                            {dayNum}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
 
+              {/* Név */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Név / megnevezés</label>
                 <input
@@ -277,6 +511,7 @@ export default function SlotPicker({
                 />
               </div>
 
+              {/* Telefon */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Telefonszám</label>
                 <input
@@ -297,6 +532,7 @@ export default function SlotPicker({
                 )}
               </div>
 
+              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
                 <input
@@ -317,6 +553,7 @@ export default function SlotPicker({
                 )}
               </div>
 
+              {/* Megjegyzés */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Megjegyzés (opcionális)</label>
                 <textarea
@@ -335,7 +572,7 @@ export default function SlotPicker({
               <div className="grid grid-cols-2 xl:grid-cols-3 gap-2">
                 {model.slots.length === 0 && (
                   <div className="col-span-full text-center py-6 text-slate-500 bg-white rounded-lg border border-dashed border-slate-200">
-                    Erre a napra nincs szabad időpont.
+                    {activeDay ? "Erre a napra nincs szabad időpont vagy hétvége." : "Válassz egy napot a fenti naptárból."}
                   </div>
                 )}
                 {model.slots.map(s => {
@@ -369,7 +606,7 @@ export default function SlotPicker({
               </div>
 
               <div className="mt-3 text-[11px] text-slate-500">
-                A foglalt időpontok szürkén jelennek meg. Szerkesztésnél a jelenlegi foglalás sötétszürke.
+                A foglalt időpontok szürkén jelennek meg. Szerkesztésnél a jelenlegi foglalás sötétszürke. Napot a “Kiválasztott nap” sáv lenyitásával válthatsz.
               </div>
             </div>
           </div>
@@ -419,7 +656,7 @@ export default function SlotPicker({
                   <button
                     type="button"
                     onClick={() => onDelete(eventToEdit.id)}
-                    className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition bg-red-600 text-white hover:bg-red-900"
+                    className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition bg-red-400 text-white hover:bg-red-900"
                   >
                     Törlés
                   </button>
@@ -437,7 +674,7 @@ export default function SlotPicker({
                     className={[
                       "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-medium transition",
                       (name.trim() && emailValid && phoneValid)
-                        ? "bg-sky-600 text-white hover:bg-sky-700 shadow-[0_6px_16px_rgba(2,132,199,0.35)]"
+                        ? "bg-sky-400 text-white hover:bg-sky-700 shadow-[0_6px_16px_rgba(2,132,199,0.35)]"
                         : "bg-slate-200 text-slate-400 cursor-not-allowed"
                     ].join(' ')}
                   >
