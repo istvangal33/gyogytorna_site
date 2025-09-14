@@ -391,7 +391,6 @@ export default function AdminFoglalas() {
 
   return (
     <div className="h-screen w-full overflow-hidden bg-[rgb(27,27,27)] text-gray-100 flex flex-col">
-      {/* Header */}
       <div className="p-4 pb-2 flex items-center justify-between">
         <h1 className="text-lg font-semibold tracking-wide text-slate-100">
           Időpontfoglalás admin
@@ -403,156 +402,115 @@ export default function AdminFoglalas() {
         )}
       </div>
 
-      {/* Responsive Grid Container */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-4 min-w-0 overflow-hidden">
-        
-        {/* Form Section - Hidden on mobile, visible on desktop */}
-        <div className="hidden md:flex flex-col space-y-4 min-w-0 overflow-hidden">
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4">
-            <h2 className="text-lg font-medium text-slate-100 mb-4">Új foglalás</h2>
+      {/* Egyedi felső sáv */}
+      <div className="fc-custom-toolbar">
+        <div className="fc-ct-left">
+          <div className="ct-btn-group" role="tablist" aria-label="View switcher">
             <button
-              onClick={() => {
-                setSlotMode('create');
-                setSlotDate(new Date());
-                setSlotOpen(true);
-              }}
-              className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+              type="button"
+              className={`ct-btn ${viewType === 'dayGridMonth' ? 'ct-btn-active' : ''}`}
+              onClick={() => changeView('dayGridMonth')}
+              aria-pressed={viewType === 'dayGridMonth'}
+              title="Monthly view"
             >
-              Időpont foglalása
+              {isMobile ? 'Hónap' : 'Monthly'}
+            </button>
+            <button
+              type="button"
+              className={`ct-btn ${viewType === 'timeGridDay' ? 'ct-btn-active' : ''}`}
+              onClick={() => changeView('timeGridDay')}
+              aria-pressed={viewType === 'timeGridDay'}
+              title="Daily view"
+            >
+              {isMobile ? 'Nap' : 'Daily'}
+            </button>
+            <button
+              type="button"
+              className={`ct-btn ${viewType === 'timeGridWeek' ? 'ct-btn-active' : ''}`}
+              onClick={() => changeView('timeGridWeek')}
+              aria-pressed={viewType === 'timeGridWeek'}
+              title="Weekly view"
+            >
+              {isMobile ? 'Hét' : 'Weekly'}
             </button>
           </div>
         </div>
 
-        {/* Calendar Section */}
-        <div className="flex flex-col min-w-0 overflow-hidden md:col-span-1 col-span-full">
-          {/* Calendar Toolbar */}
-          <div className="fc-custom-toolbar">
-            <div className="fc-ct-left">
-              <div className="ct-btn-group" role="tablist" aria-label="View switcher">
-                <button
-                  type="button"
-                  className={`ct-btn ${viewType === 'dayGridMonth' ? 'ct-btn-active' : ''}`}
-                  onClick={() => changeView('dayGridMonth')}
-                  aria-pressed={viewType === 'dayGridMonth'}
-                  title="Monthly view"
-                >
-                  {isMobile ? 'Hónap' : 'Monthly'}
-                </button>
-                <button
-                  type="button"
-                  className={`ct-btn ${viewType === 'timeGridDay' ? 'ct-btn-active' : ''}`}
-                  onClick={() => changeView('timeGridDay')}
-                  aria-pressed={viewType === 'timeGridDay'}
-                  title="Daily view"
-                >
-                  {isMobile ? 'Nap' : 'Daily'}
-                </button>
-                <button
-                  type="button"
-                  className={`ct-btn ${viewType === 'timeGridWeek' ? 'ct-btn-active' : ''}`}
-                  onClick={() => changeView('timeGridWeek')}
-                  aria-pressed={viewType === 'timeGridWeek'}
-                  title="Weekly view"
-                >
-                  {isMobile ? 'Hét' : 'Weekly'}
-                </button>
-              </div>
-            </div>
+        <div className="fc-ct-right">
+          <button type="button" className="ct-nav-btn" onClick={goPrev} aria-label="Previous period" title="Previous">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
 
-            <div className="fc-ct-right">
-              <button type="button" className="ct-nav-btn" onClick={goPrev} aria-label="Previous period" title="Previous">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-
-              <div className="ct-date-pill" aria-live="polite" aria-atomic="true">
-                <svg className="ct-date-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M16 3v4M8 3v4M3 11h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-                <span className="ct-date-text">{displayDateLabel}</span>
-              </div>
-
-              <button type="button" className="ct-nav-btn" onClick={goNext} aria-label="Next period" title="Next">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-            </div>
+          <div className="ct-date-pill" aria-live="polite" aria-atomic="true">
+            <svg className="ct-date-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" strokeWidth="2"/>
+              <path d="M16 3v4M8 3v4M3 11h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            <span className="ct-date-text">{displayDateLabel}</span>
           </div>
 
-          {/* Calendar Container */}
-          <div className="flex-1 min-w-0 overflow-hidden">
-              <FullCalendar
-              ref={calendarRef}
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-              initialView={isMobile ? "timeGridDay" : "timeGridWeek"}
-              events={events}
-              dateClick={handleDateClick}
-              eventClick={handleEventClick}
-              height="100%"
-              contentHeight="auto"
-              expandRows={true}
-              dayCellContent={renderDayCellContent}
-              dayCellClassNames={dayCellClassNames}
-              eventContent={eventContent}
-              firstDay={1}
-              headerToolbar={false}
-              // Timezone and time settings
-              timeZone="Europe/Budapest"
-              slotMinTime="08:00:00"
-              slotMaxTime="18:00:00"
-              slotDuration="01:00:00"
-              weekends={false}
-              businessHours={{
-                startTime: '08:00',
-                endTime: '18:00',
-              }}
-              nowIndicator
-              allDaySlot={false}
-              stickyHeaderDates={false}
-              displayEventEnd={true}
-              eventTimeFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}
-              locales={[huLocale]}
-              locale="hu"
-              datesSet={(arg) => {
-                setViewType(arg.view.type as 'dayGridMonth' | 'timeGridDay' | 'timeGridWeek');
-                setDateLabel(formatDateLabel(arg.start, arg.end, arg.view.type));
-              }}
-              views={{
-                dayGridMonth: {
-                  eventDisplay: 'block',
-                  eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
-                },
-                timeGridWeek: {
-                  slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
-                },
-                timeGridDay: {
-                  slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
-                }
-              }}
-            />
-          </div>
+          <button type="button" className="ct-nav-btn" onClick={goNext} aria-label="Next period" title="Next">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
       </div>
 
-      {/* Mobile Floating Action Button */}
-      <div className="md:hidden">
-        <button
-          onClick={() => {
-            setSlotMode('create');
-            setSlotDate(new Date());
-            setSlotOpen(true);
-          }}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-colors z-40"
-          aria-label="Új foglalás"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-        </button>
+      <div className="px-4 pb-4 flex-1 flex flex-col">
+        <div className="flex-1">
+          <FullCalendar
+            ref={calendarRef}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+            initialView={isMobile ? "timeGridDay" : "timeGridWeek"}
+            events={events}
+            dateClick={handleDateClick}
+            eventClick={handleEventClick}
+            height="100%"
+            contentHeight="auto"
+            expandRows={true}
+            dayCellContent={renderDayCellContent}
+            dayCellClassNames={dayCellClassNames}
+            eventContent={eventContent}
+            firstDay={1}
+            headerToolbar={false}
+            // Timezone and time settings
+            timeZone="Europe/Budapest"
+            slotMinTime="08:00:00"
+            slotMaxTime="18:00:00"
+            slotDuration="01:00:00"
+            weekends={false}
+            businessHours={{
+              startTime: '08:00',
+              endTime: '18:00',
+            }}
+            nowIndicator
+            allDaySlot={false}
+            stickyHeaderDates={false}
+            displayEventEnd={true}
+            eventTimeFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}
+            locales={[huLocale]}
+            locale="hu"
+            datesSet={(arg) => {
+              setViewType(arg.view.type as 'dayGridMonth' | 'timeGridDay' | 'timeGridWeek');
+              setDateLabel(formatDateLabel(arg.start, arg.end, arg.view.type));
+            }}
+            views={{
+              dayGridMonth: {
+                eventDisplay: 'block',
+                eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
+              },
+              timeGridWeek: {
+                slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
+              },
+              timeGridDay: {
+                slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false }
+              }
+            }}
+          />
+        </div>
       </div>
 
       {/* Új foglalás / Szerkesztés – SlotPicker panel */}
