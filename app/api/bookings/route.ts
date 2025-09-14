@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 let prisma: any = null;
@@ -28,7 +30,11 @@ export async function GET() {
     return NextResponse.json(bookings);
   } catch (error) {
     console.error('Error fetching bookings:', error);
-    return NextResponse.json({ error: 'Failed to fetch bookings' }, { status: 500 });
+    const errorResponse = {
+      error: 'Failed to fetch bookings',
+      ...(process.env.NODE_ENV !== 'production' && { details: error instanceof Error ? error.message : String(error) })
+    };
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }
 
@@ -57,7 +63,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(booking, { status: 201 });
   } catch (error) {
     console.error('Error creating booking:', error);
-    return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });
+    const errorResponse = {
+      error: 'Failed to create booking',
+      ...(process.env.NODE_ENV !== 'production' && { details: error instanceof Error ? error.message : String(error) })
+    };
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }
 
@@ -87,7 +97,11 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(booking);
   } catch (error) {
     console.error('Error updating booking:', error);
-    return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
+    const errorResponse = {
+      error: 'Failed to update booking',
+      ...(process.env.NODE_ENV !== 'production' && { details: error instanceof Error ? error.message : String(error) })
+    };
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }
 
@@ -115,6 +129,10 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
     }
     console.error('Error deleting booking:', error);
-    return NextResponse.json({ error: 'Failed to delete booking', details: error.message }, { status: 500 });
+    const errorResponse = {
+      error: 'Failed to delete booking',
+      ...(process.env.NODE_ENV !== 'production' && { details: error instanceof Error ? error.message : String(error) })
+    };
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }

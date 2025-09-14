@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "prisma migrate deploy && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "prisma:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.19",
