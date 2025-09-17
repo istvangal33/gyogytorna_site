@@ -7,6 +7,8 @@
   --primary-dark: #004499;
   --secondary: #00a86b;
   --accent: #f0f8ff;
+  --admin-bg: rgb(27,27,27);
+  --admin-fg: #ededed;
 }
 
 @theme inline {
@@ -45,6 +47,14 @@ body {
     padding-left: 6rem; /* 96px - nagyobb header szélessége lg+ képernyőkön */
     padding-top: 0;
   }
+}
+
+/* Admin no-chrome layout - overrides all body padding and applies dark theme */
+body.admin-no-chrome {
+  padding-left: 0 !important;
+  padding-top: 0 !important;
+  background: var(--admin-bg) !important;
+  color: var(--admin-fg) !important;
 }
 
 /* Smooth scroll behavior */
