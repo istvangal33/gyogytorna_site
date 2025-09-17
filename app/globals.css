@@ -9,6 +9,7 @@
   --accent: #f0f8ff;
   --admin-bg: rgb(27,27,27);
   --admin-fg: #ededed;
+  --app-vh: 100vh; /* Dynamic viewport height for iOS Safari */
 }
 
 @theme inline {
@@ -55,6 +56,56 @@ body.admin-no-chrome {
   padding-top: 0 !important;
   background: var(--admin-bg) !important;
   color: var(--admin-fg) !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: manipulation !important;
+}
+
+/* Admin root container with reliable viewport height */
+.admin-root-vh {
+  height: 100dvh; /* Modern viewport units */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fallback for browsers without dvh support */
+@supports not (height: 100dvh) {
+  .admin-root-vh {
+    height: calc(var(--app-vh, 100vh));
+  }
+}
+
+/* Admin calendar container - flexible with scroll prevention */
+.admin-calendar-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.admin-calendar-inner {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Admin slot picker modal scrolling */
+.admin-slot-scroll {
+  max-height: calc(100dvh - 4rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fallback for browsers without dvh support */
+@supports not (height: 100dvh) {
+  .admin-slot-scroll {
+    max-height: calc(var(--app-vh, 100vh) - 4rem);
+  }
 }
 
 /* Smooth scroll behavior */
