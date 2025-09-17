@@ -50,6 +50,28 @@ function bookingToCalendarEvent(booking: BookingFromDb): CalendarEvent {
     }
   }
   
+  // TIMEZONE FIX: Add 2 hours to correct the NeonDB timezone offset
+  let adjustedStartTime = startTime;
+  let adjustedEndTime = endTime;
+  
+  if (startTime) {
+    const startDate = new Date(startTime);
+    if (!isNaN(startDate.getTime())) {
+      // Add 2 hours (2 * 60 * 60 * 1000 milliseconds)
+      const correctedStart = new Date(startDate.getTime() + 2 * 60 * 60 * 1000);
+      adjustedStartTime = correctedStart.toISOString().slice(0, 19); // Remove Z suffix for local display
+    }
+  }
+  
+  if (endTime) {
+    const endDate = new Date(endTime);
+    if (!isNaN(endDate.getTime())) {
+      // Add 2 hours (2 * 60 * 60 * 1000 milliseconds)
+      const correctedEnd = new Date(endDate.getTime() + 2 * 60 * 60 * 1000);
+      adjustedEndTime = correctedEnd.toISOString().slice(0, 19); // Remove Z suffix for local display
+    }
+  }
+  
   // Add diagnostics for development
   if (process.env.NODE_ENV !== 'production') {
     if (!startTime) {
@@ -59,21 +81,17 @@ function bookingToCalendarEvent(booking: BookingFromDb): CalendarEvent {
       console.warn(`Booking ${booking.id} missing end field:`, booking);
     }
     
-    const startDate = new Date(startTime);
-    const endDate = new Date(endTime);
-    if (isNaN(startDate.getTime())) {
-      console.warn(`Booking ${booking.id} has invalid start time:`, startTime);
-    }
-    if (isNaN(endDate.getTime())) {
-      console.warn(`Booking ${booking.id} has invalid end time:`, endTime);
-    }
+    console.log(`Booking ${booking.id} timezone correction:`, {
+      original: { start: startTime, end: endTime },
+      adjusted: { start: adjustedStartTime, end: adjustedEndTime }
+    });
   }
   
   return {
     id: booking.id.toString(),
     title: booking.name,
-    start: startTime,
-    end: endTime,
+    start: adjustedStartTime,
+    end: adjustedEndTime,
     extendedProps: { note: booking.note || '' },
   };
 }
@@ -204,9 +222,15 @@ export default function AdminFoglalas() {
     const s = new Date(evt.start!);
     const e = new Date(evt.end!);
 
+    // TIMEZONE FIX: Subtract 2 hours to correct for the display adjustment
+    // Since we added 2 hours in bookingToCalendarEvent for display,
+    // we need to subtract them here to get the original time for SlotPicker
+    const correctedStart = new Date(s.getTime() - 2 * 60 * 60 * 1000);
+    const correctedEnd = new Date(e.getTime() - 2 * 60 * 60 * 1000);
+
     // FONTOS: lokális, nem UTC! (ne használj toISOString())
-    const startLocal = `${toLocalDateStr(s)}T${toLocalTimeStr(s)}`;
-    const endLocal = `${toLocalDateStr(e)}T${toLocalTimeStr(e)}`;
+    const startLocal = `${toLocalDateStr(correctedStart)}T${toLocalTimeStr(correctedStart)}`;
+    const endLocal = `${toLocalDateStr(correctedEnd)}T${toLocalTimeStr(correctedEnd)}`;
 
     setEventToEdit({
       id: evt.id,
@@ -215,7 +239,7 @@ export default function AdminFoglalas() {
       end: endLocal,
       extendedProps: { note: evt.extendedProps?.note || '' },
     });
-    setSlotDate(new Date(toLocalDateStr(s))); // a nap beállításához
+    setSlotDate(new Date(toLocalDateStr(correctedStart))); // a nap beállításához
     setSlotMode('edit');
     setSlotOpen(true);
   };
