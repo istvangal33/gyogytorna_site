@@ -404,7 +404,7 @@ export default function SlotPicker({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto admin-slot-scroll">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-5">
             {/* Form section - full width on mobile, left column on desktop */}
             <div className="space-y-4">
