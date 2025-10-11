@@ -149,7 +149,21 @@ export default function Elerhetoseg() {
 
 
       {/* Transportation and Parking */}
-      <ContactSection />
+      {/* Transportation and Parking / Contact */}
+      <div
+        id="contact"
+        className="
+          scroll-mt-[4rem]      /* alapértelmezett mobil (~80px) */
+          sm:scroll-mt-[0rem]   /* kisebb tabletek */
+          md:scroll-mt-[0rem]   /* nagyobb tabletek (~112px) */
+          lg:scroll-mt-[0rem]   /* laptopok (~128px) */
+          xl:scroll-mt-[0rem]   /* nagyobb kijelzők (~144px) */
+        "
+      >
+        <ContactSection />
+      </div>
+
+
 
       
     </>

@@ -6,53 +6,46 @@ import { HeartPulse, Activity, User, Baby, HandHeart, Users } from "lucide-react
 
 const services = [
   { 
-    title: "Állapotfelmérés", 
-    desc: "Részletes egészségügyi és mozgásállapot-felmérés, amely megalapozza a személyre szabott kezelési terv kidolgozását, és alapvető kiindulópontja a hatékony terápiának.", 
+    title: "Sport rehabilitáció és műtétek utáni rehabilitáció", 
+    desc: "A sportrehabilitáció célja, hogy a sportolók a sérüléseket követően minél gyorsabban és biztonságosan visszatérhessenek a sporttevékenységhez. Személyre szabott programokkal segítjük az izomerő, ízületi mozgékonyság, koordináció és állóképesség fokozatos helyreállítását.", 
     icon: <HeartPulse className="h-7 w-7" />, 
     color: "#163e72",
     image: "/checkup.png"
   },
   { 
-    title: "SMR tréning", 
-    desc: "Ez a gyakorlat az SMR hengerrel, vagyis az önmasszázs egyik hatékony formájával segít ellazítani az izmokat. A kivitelezés során érdemes rövid időre megállni az érzékenyebb pontokon, hogy még hatékonyabban érjük el a lazító hatást.", 
+    title: "Állkapocs ízületi", 
+    desc: "Az állkapocsízületi kezelés célja a fájdalom csökkentése és az ízület természetes mozgásának helyreállítása. Személyre szabott terápiás gyakorlatokkal, manuális technikákkal és szükség esetén kiegészítő kezelésekkel segítjük az állkapocs működésének harmonizálását és a mindennapi komfort visszanyerését.", 
     icon: <HeartPulse className="h-7 w-7" />, 
     color: "#163e72",
     image: "/smr.png"
   },
   { 
-    title: "Kinesio Tape felhelyezés", 
-    desc: "A kinesio tape egy rugalmas tapasz, amely hatékonyan támogatja az izmokat és ízületeket anélkül, hogy korlátozná a mozgást. Alkalmazása segíthet a fájdalom csökkentésében, a mozgásszervi problémák kezelésében és a regeneráció elősegítésében. Bár otthoni videók alapján egyszerűnek tűnhet a felhelyezése, a pontos anatómiai ismeretek hiányában ritkán érhető el a kívánt hatás. Ezért érdemes szakemberhez fordulni, aki a panaszok megismerése és a problémás testrész vizsgálata után helyezi fel a tapaszt, és szükség esetén további terápiás javaslatokkal is ellát, például kiegészítő köpölyözést ajánlhat a mielőbbi gyógyulás érdekében. A különféle ragasztási technikák révén a kinesio tape erősítő és regeneráló hatással is támogathatja a szervezetet.",
+    title: "Manuál fascia kezelések", 
+    desc: "A manuál- és fasciakezelések célja a mozgásszervi fájdalmak enyhítése és a test természetes egyensúlyának helyreállítása. Finom, célzott fogásokkal oldjuk az izmok, ízületek és kötőszövetek feszüléseit, javítjuk a keringést és elősegítjük a regenerációt, hogy a test szabadabban és fájdalommentesebben mozoghasson.",
     icon: <Activity className="h-7 w-7" />, 
     color: "#125341",
     image: "/kinesio.png"
   },
   { 
-    title: "Sportsérülések rehabilitációja", 
-    desc: "A sportsérülések sajnos a legfelkészültebb sportolókat is érinthetik, legyen szó hobbi szinten űzött mozgásról vagy versenysportól. A gyors és szakszerű rehabilitáció kulcsfontosságú, hiszen nemcsak a mielőbbi visszatérést segíti, hanem a későbbi sérülések megelőzésében is szerepet játszik. Személyre szabott rehabilitációs programjaink célja, hogy fokozatosan helyreállítsuk a sérült izmok, ízületek és szalagok működését, valamint visszaépítsük az erőt, a mozgékonyságot és az állóképességet. A folyamat része lehet a gyógytorna, funkcionális erősítő gyakorlatok, nyújtás, manuális terápia, valamint különböző regenerációt segítő kezelések. ",
+    title: "Gerinc- és ízületi panaszok kezelése", 
+    desc: "A kezelések célja a fájdalom csökkentése, a mozgékonyság helyreállítása és a testtartás javítása. Személyre szabott terápiás módszerekkel — például gyógytornával, manuális technikákkal és stabilizáló gyakorlatokkal — segítjük a gerinc és az ízületek egészséges működésének visszaállítását, valamint a panaszok kiújulásának megelőzését.",
     icon: <HandHeart className="h-7 w-7" />, 
     color: "#7e2c40",
     image: "/bosu.png"
   },
   { 
-    title: "Manuálterápia", 
-    desc: "Kézzel végzett kezelések az ízületek mobilitásának javítására és a fájdalom csökkentésére. Precíz technikák tapasztalt szakemberektől.",
+    title: "BEMER - terápia", 
+    desc: "A BEMER-terápia egy innovatív, pulzáló elektromágneses mezőn alapuló kezelés, amely javítja a sejtek vérellátását és anyagcseréjét. Segíti a regenerációt, csökkenti a gyulladást és a fájdalmat, valamint támogatja a szervezet öngyógyító folyamatait. Kiváló kiegészítője lehet a sport- és rehabilitációs kezeléseknek.",
     icon: <User className="h-7 w-7" />, 
     color: "#362a5b",
     image: "/manual.png"
   },
   { 
-    title: "Flossing terápia", 
-    desc: "A flossing terápia egy modern rehabilitációs és regenerációs módszer, amely során speciális, rugalmas gumiszalagot tekerünk az adott izom- vagy ízületi terület köré. A szalag rövid ideig tartó kompressziót hoz létre, amely a mozgás és a nyomás feloldása után fokozza a vérkeringést, segíti a regenerációt, csökkenti a fájdalmat és javítja az ízületi mozgástartományt. Gyakran alkalmazzák sportsérülések, izomfeszülések vagy mozgásbeszűkülés kezelésére, valamint edzés utáni gyorsabb felépülés támogatására.",
+    title: "Egyéni és csoportok foglalkozások", 
+    desc: "Az egyéni foglalkozások során a kezelés teljes mértékben a páciens igényeihez és aktuális állapotához igazodik, így gyorsabb és hatékonyabb eredmény érhető el. A csoportos foglalkozások motiváló légkört teremtenek, segítik a rendszeres mozgást és a közösségi élményt, miközben szakember irányítása mellett zajlanak a gyakorlatok.",
     icon: <Baby className="h-7 w-7" />, 
     color: "#633b1c",
     image: "/flossing.png"
-  },
-  { 
-    title: "Köredzés", 
-    desc: "Kis csoportos foglalkozások hasonló problémákkal küzdő páciensek számára. Motiváló közösségi környezet.",
-    icon: <Users className="h-7 w-7" />, 
-    color: "#232b5b",
-    image: "/koredzes.png"
   }
 ];
 
@@ -129,20 +122,10 @@ export default function ServiceSlider() {
               sizes="(max-width: 1200px) 400px, 500px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            
-            {/* Image Overlay Icon */}
-            <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30">
-              <div className="text-white text-xl">
-                {services[current].icon}
-              </div>
-            </div>
           </div>
 
           {/* Right Side: Content */}
           <div className="col-span-3 flex flex-col justify-center text-left pl-4">
-            <span className="uppercase tracking-widest text-sm text-gray-300 mb-2 font-semibold">
-              {services[current].title.split(" ")[0]}
-            </span>
             <h1 className="text-4xl xl:text-5xl font-extrabold text-white mb-2 leading-tight">
               {services[current].title}
             </h1>
@@ -153,18 +136,6 @@ export default function ServiceSlider() {
             <p className="text-lg text-gray-200 mb-8 max-w-xl leading-relaxed">
               {services[current].desc}
             </p>
-            
-            {/* CTA Button */}
-            <div className="flex gap-4">
-              <button 
-                className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
-              >
-                Foglalj időpontot
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
 
@@ -173,33 +144,21 @@ export default function ServiceSlider() {
           <span className="uppercase tracking-widest text-xs text-gray-300 mb-2 font-semibold">
             {services[current].title.split(" ")[0]}
           </span>
-          <h1 className="text-3xl font-extrabold text-white mb-2 leading-tight text-center">
-            {services[current].title}
-          </h1>
+          <div className="h-[4.5rem] flex items-center justify-center mb-2 px-4">
+            <h1 className="text-3xl font-extrabold text-white leading-tight text-center line-clamp-2">
+              {services[current].title}
+            </h1>
+          </div>
           <h2 className="text-2xl font-extrabold mb-4 text-center"
             style={{ color: services[current].color }}>
             
           </h2>
-          <p className="text-base text-gray-200 mb-8 max-w-xl mx-auto leading-relaxed text-center px-4">
-            {services[current].desc}
-          </p>
-
-          {/* Mobile CTA */}
-          <button 
-            className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl hover:bg-white/20 transition-all duration-300"
-          >
-            Foglalj időpontot
-          </button>
+          <div className="h-[7rem] overflow-y-auto">
+            <p className="text-xs text-gray-200 max-w-sm mx-auto leading-snug text-center px-2">
+              {services[current].desc}
+            </p>
+          </div>
         </div>
-
-        {/* Subtle corner icons */}
-        <div className="absolute top-4 md:top-8 left-4 md:left-8 opacity-20 pointer-events-none select-none">
-          <div className="text-white text-2xl md:text-3xl">{services[current].icon}</div>
-        </div>
-        <div className="absolute top-4 md:top-8 right-4 md:right-8 opacity-20 pointer-events-none select-none">
-          <div className="text-white text-2xl md:text-3xl">{services[current].icon}</div>
-        </div>
-
         {/* Navigation with Image Thumbnails */}
         <div className="w-full mt-8 relative z-10">
           {isMobile ? (

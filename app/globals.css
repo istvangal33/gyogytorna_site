@@ -1,164 +1,224 @@
 @import "tailwindcss";
 
+/* Brand és alapváltozók */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #0066cc;
-  --primary-dark: #004499;
-  --secondary: #00a86b;
+  /* Márka színek */
+  --color-brand-primary: #004A6D;
+  --color-brand-accent: #EC7007;
+  --color-brand-accent-hover: #EC7007; /* ha szeretnéd sötétíteni: #d86205 */
+  --color-brand-secondary: var(--color-brand-accent); /* fókuszhoz használt */
+
+  /* Alap háttér/szöveg */
+  --color-bg: #ffffff;
+  --color-fg: #0F1F28;
+  --color-bg-alt: #F7FBFC;
+
+  /* Egyebek */
+  --radius-pill: 9999px;
+  --transition-fast: 160ms;
+
+  /* Kiegészítő tokenek (általános változatok és admin) */
+  --background: var(--color-bg);
+  --foreground: var(--color-fg);
+  --primary: var(--color-brand-primary);
+  --primary-dark: #00334a;
+  --secondary: #0A9396;
   --accent: #f0f8ff;
-  --admin-bg: rgb(27,27,27);
+
+  --admin-bg: rgb(27, 27, 27);
   --admin-fg: #ededed;
+
+  /* iOS Safari dinamikus viewport fallbackhoz */
+  --app-vh: 100vh;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-dark: var(--primary-dark);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
+/* Opcionális: dark mód alapszínek */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: rgb(27,27,27);
-    --foreground: #ededed;
+    --color-bg: #001219;
+    --color-fg: #E2ECEF;
+    --color-bg-alt: #001B25;
   }
 }
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  padding-left: 5rem; /* 80px - header szélessége */
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  padding-left: 5rem; /* alap, hogy ne ugorjon nagyot 1024 alatt */
 }
 @media (max-width: 1023px) {
-  body {
-    padding-left: 0;
-    padding-top: 4rem; /* 64px - mobile header magassága */
-  }
+  body { padding-left: 0; padding-top: 4rem; }
 }
-
-/* Desktop-on nincs top padding */
 @media (min-width: 1024px) {
-  body {
-    padding-left: 6rem; /* 96px - nagyobb header szélessége lg+ képernyőkön */
-    padding-top: 0;
-  }
+  body { padding-left: 6rem; padding-top: 0; }
 }
 
-/* Admin no-chrome layout - overrides all body padding and applies dark theme */
+/* Admin “no-chrome” – teljes képernyős, görgetés tiltás, stabil viewport kezelés */
 body.admin-no-chrome {
   padding-left: 0 !important;
   padding-top: 0 !important;
   background: var(--admin-bg) !important;
   color: var(--admin-fg) !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: manipulation !important;
 }
 
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
+/* Admin root container with reliable viewport height */
+.admin-root-vh {
+  height: 100dvh; /* Modern viewport units */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Focus styles for accessibility */
-*:focus {
-  outline: 2px solid var(--primary);
+/* Fallback for browsers without dvh support */
+@supports not (height: 100dvh) {
+  .admin-root-vh {
+    height: calc(var(--app-vh, 100vh));
+  }
+}
+
+/* Admin calendar container - flexible with scroll prevention */
+.admin-calendar-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.admin-calendar-inner {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Admin slot picker modal scrolling */
+.admin-slot-scroll {
+  max-height: calc(100dvh - 4rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fallback for browsers without dvh support */
+@supports not (height: 100dvh) {
+  .admin-slot-scroll {
+    max-height: calc(var(--app-vh, 100vh) - 4rem);
+  }
+}
+
+/* Alap fókusz csak focus-visible-re */
+:where(a,button,[role="button"],input,select,textarea):focus-visible {
+  outline: 2px solid var(--color-brand-secondary);
   outline-offset: 2px;
 }
+:where(a,button,[role="button"]):focus {
+  outline: none; /* csak a régi UA outline-t nyomjuk el */
+}
+
+/* Globális “btn” – letisztítva */
 .btn {
+  --btn-bg: #ffffff;
+  --btn-fg: var(--color-brand-primary);
+  --btn-border: var(--color-brand-primary);
+  --btn-bg-hover: var(--btn-bg);
+  --btn-fg-hover: var(--color-brand-accent-hover);
+  --btn-border-hover: var(--color-brand-accent-hover);
+
   position: relative;
-  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: .5rem;
+  font: 500 0.95rem/1.2 inherit;
+  padding: .75rem 1.25rem;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s;
-  border: none;
-  font-family: inherit;
-  font-weight: 500;
-  color: rgb(6, 30, 83);
-  background-color: white;
-  border-style: solid;
-  border-color: grey;
-  border-width: 0.01cm;
-  border-left: #fff;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  will-change: color, background-color, border-color;
 }
 
 .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  color: var(--btn-fg-hover);
+  border-color: var(--btn-border-hover);
 }
 
 .btn:active {
+  transform: translateY(0); /* nincs vizuális rángás */
+}
+
+.btn--primary {
+  --btn-bg: var(--color-brand-accent);
+  --btn-fg: #001219;
+  --btn-border: var(--color-brand-accent);
+  --btn-bg-hover: var(--color-brand-accent-hover);
+  --btn-fg-hover: #ffffff;
+  --btn-border-hover: var(--color-brand-accent-hover);
+
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border-color: var(--btn-border);
+}
+
+.btn--primary:hover {
+  background: var(--btn-bg-hover);
+  color: var(--btn-fg-hover);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-brand-primary);
+  --btn-border: var(--color-brand-primary);
+  /* Mobil / default: ne váltson narancsra */
+  --btn-fg-hover: var(--color-brand-primary);
+  --btn-border-hover: var(--color-brand-primary);
+}
+
+.btn--danger {
+  --btn-bg: #AE2012;
+  --btn-fg: #ffffff;
+  --btn-border: #AE2012;
+  --btn-bg-hover: #9B2226;
+  --btn-fg-hover: #ffffff;
+  --btn-border-hover: #9B2226;
+
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+}
+
+.btn:focus-visible {
+  box-shadow: 0 0 0 3px #ffffff, 0 0 0 5px var(--color-brand-secondary);
+}
+
+/* Opcionális “lift” effekt külön gombokra */
+.btn-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -4px rgba(0,40,60,0.25);
+}
+.btn-lift:active {
   transform: translateY(-1px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 8px -2px rgba(0,40,60,0.3);
 }
 
-.btn::after {
-  content: "";
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  border-radius: 100px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  transition: all 0.4s;
-}
+/* Scrollbar eltüntetés */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-.btn::after {
-  background-color: #fff;
-}
-
-.btn:hover::after {
-  transform: scaleX(1.4) scaleY(1.6);
-  opacity: 0;
-}
-
-a:focus,
-button:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.carousel {
-  height: 100vh;
-  margin-top: -50px;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
-}
-.carousel .list .item {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0 0 0 0;
-}
-.carousel .list .item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Scrollbar teljes eltüntetése */
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE és régi Edge */
-  scrollbar-width: none;     /* Firefox */
-}
-
-.masonry-column {
-  background-clip: padding-box;
-}
-.masonry-column > div {
-  margin-bottom: 24px;
-}
-
-
-
+/* Masonry */
+.masonry-column { background-clip: padding-box; }
+.masonry-column > div { margin-bottom: 24px; }

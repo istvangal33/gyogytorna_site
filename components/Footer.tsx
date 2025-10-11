@@ -1,73 +1,218 @@
-import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+"use client";
 
+import Link from "next/link";
+import Image from "next/image";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaChevronRight,
+  FaChevronUp,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaEnvelope,
+} from "react-icons/fa";
+
+const navLeft = [
+  { label: "Kezdőlap", href: "/" },
+  { label: "Bemutatkozás", href: "/bemutatkozas" },
+  { label: "Szolgáltatások", href: "/szolgaltatasok" },
+];
+
+const navRight = [
+  { label: "Árak", href: "/arak" },
+  { label: "Elérhetőség", href: "/elerhetoseg" },
+  { label: "Galéria", href: "/galeria" },
+];
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
+  const scrollTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
-    <footer className="bg-gradient-to-r from-black to-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
-        
-        {/* Left text */}
-        <div>
-          <h2 className="text-2xl font-bold leading-snug mb-4">
-            Lorem ipsum <br /> dolor <br /> sit<sup>®</sup>
-          </h2>
-        </div>
-
-        {/* London */}
-        <div>
-          <h3 className="text-sm font-semibold uppercase mb-3">Győr</h3>
-          <p>
-            <a
-              href="mailto:teszt@gmail.com"
-              className="hover:underline"
-            >
-              teszt@gmail.com
-            </a>
-          </p>
-          <p className="mt-1">+36 30 123 4567</p>
-          <p className="mt-1 text-sm">
-            Unit 306, Metropolitan Wharf, <br />
-            70 Wapping Wall, London E1W 3SS
-          </p>
-          <Link
-            href="#"
-            className="mt-3 inline-block text-sm font-semibold hover:underline"
-          >
-            SEE ON MAP ↗
-          </Link>
-        </div>
-
-
-        {/* Newsletter + Social */}
-        <div>
-          <h3 className="text-sm font-semibold uppercase mb-3">
-            Want to be the smartest <br /> in your office?
-          </h3>
-          <Link
-            href="#"
-            className="text-sm font-semibold hover:underline"
-          >
-            SIGN UP FOR OUR NEWSLETTER →
-          </Link>
-
-          <h3 className="text-sm font-semibold uppercase mt-6 mb-3">
-            Kövess minket!
-          </h3>
-          <div className="flex space-x-6 text-2xl">
-            <Link href="#" aria-label="Facebook" className="hover:text-gray-400">
-              <FaFacebookF />
+    <footer
+      className="
+        relative overflow-hidden
+        text-white
+        bg-gradient-to-b from-[#0F1F28] to-[#0B1620]
+        border-t border-white/10
+      "
+    >
+      {/* Felső sáv – brand + social (csak 3 ikon) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          {/* Brand */}
+          <div className="flex items-center gap-4">
+            <Link href="/" aria-label="Főoldal – ReStart Physio" className="shrink-0">
+              <Image
+                src="/logo.png"
+                alt="ReStart Physio"
+                width={140}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
             </Link>
-            <Link href="#" aria-label="Instagram" className="hover:text-gray-400">
-              <FaInstagram />
-            </Link>
-            <Link href="#" aria-label="LinkedIn" className="hover:text-gray-400">
-              <FaLinkedinIn />
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link href="/" className="font-extrabold tracking-tight hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors">
+                ReStart Physio
+              </Link>
+              <span className="text-white/30 hidden sm:inline">/</span>
+              <span className="text-white/70 text-sm hidden sm:inline">Ahol a mozgás újraindul!</span>
+            </div>
           </div>
 
+          {/* Social – csak FB, IG, LinkedIn */}
+          <div className="flex items-center gap-3">
+            {[
+              { Icon: FaFacebookF, href: "https://www.facebook.com/profile.php?id=61581303600810", label: "Facebook" },
+              { Icon: FaInstagram, href: "https://www.instagram.com/restartphysiogyor/", label: "Instagram" },
+              { Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/fernanda-forr%C3%A1s-927314187/", label: "LinkedIn" },
+            ].map(({ Icon, href, label }) => (
+              <Link
+                key={label}
+                href={href}
+                aria-label={label}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  inline-flex items-center justify-center
+                  h-9 w-9 rounded-full
+                  border border-white/10 bg-white/5 text-white/80
+                  hover:text-[#001219] hover:bg-[var(--color-brand-accent-hover,#EC7007)]
+                  transition-colors
+                "
+              >
+                <Icon className="h-4 w-4" />
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Tartalom grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+          {/* Menü oszlopok */}
+          <div className="md:col-span-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              {/* Bal menü */}
+              <nav aria-label="Fő navigáció (bal)">
+                <ul className="space-y-3">
+                  {navLeft.map((item) => (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        className="group inline-flex items-center gap-2 text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+                      >
+                        <FaChevronRight className="h-3 w-3 opacity-70 group-hover:opacity-100" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+
+              {/* Jobb menü */}
+              <nav aria-label="Fő navigáció (jobb)">
+                <ul className="space-y-3">
+                  {navRight.map((item) => (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        className="group inline-flex items-center gap-2 text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+                      >
+                        <FaChevronRight className="h-3 w-3 opacity-70 group-hover:opacity-100" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          {/* Kapcsolat oszlop */}
+          <div className="md:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <div className="flex items-start gap-3 text-white/80">
+                <FaMapMarkerAlt className="mt-1 shrink-0" />
+                <address className="not-italic leading-relaxed">
+                  Máté Mária u. 4/B
+                  <br />
+                  Győr, Magyarország
+                </address>
+              </div>
+              <div className="flex items-center gap-3 text-white/80">
+                <FaPhoneAlt />
+                <span>+36 30 819 8449</span>
+              </div>
+              <div className="flex items-center gap-3 text-white/80">
+                <FaEnvelope />
+                <Link
+                  href="mailto:restart.gyor@gmail.com"
+                  className="hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+                >
+                  restart.gyor@gmail.com
+                </Link>
+              </div>
+            </div>
+
+            {/* Térkép / CTA blokk (opcionális, placeholder) */}
+            <div className="sm:justify-self-end">
+              <Link
+                href="https://www.google.com/maps/place/Gy%C5%91r,+M%C3%A1t%C3%A9+M%C3%A1ria+u.+4b,+9028/@47.6594735,17.6574138,17z/data=!3m1!4b1!4m6!3m5!1s0x476bc07d6ea485db:0x4b9c597308aacbc3!8m2!3d47.6594699!4d17.6599887!16s%2Fg%2F11sf1dzdfj?entry=ttu&g_ep=EgoyMDI1MTAwOC4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+              >
+                Térkép megnyitása ↗
+              </Link>
+              <p className="mt-3 text-white/60 text-sm">
+                Időpontfoglaláshoz hívd a számot vagy írj e‑mailt.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Alsó sáv */}
+      <div className="border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex flex-col sm:flex-row gap-2 sm:gap-0 items-center justify-between text-sm">
+          <span className="text-white/60">© {year} ReStart Physio. Minden jog fenntartva.</span>
+          <span className="text-white/60">
+            Készítette:{" "}
+            <Link
+              href="#"
+              className="text-white/80 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors underline-offset-4 hover:underline"
+            >
+              Inspiry Themes
+            </Link>
+          </span>
+        </div>
+      </div>
+
+      {/* Vissza a tetejére */}
+      <button
+        type="button"
+        onClick={scrollTop}
+        aria-label="Ugrás a tetejére"
+        className="
+          group fixed right-4 bottom-4 z-10
+          h-10 w-10 rounded-full
+          bg-white/10 border border-white/15 text-white
+          hover:bg-[var(--color-brand-accent-hover,#EC7007)] hover:text-[#001219]
+          shadow-lg backdrop-blur
+          flex items-center justify-center transition-colors
+        "
+      >
+        <FaChevronUp className="h-4 w-4" />
+      </button>
     </footer>
   );
 }
