@@ -10,7 +10,7 @@ export default function Home() {
       <section className="relative isolate overflow-hidden">
         {/* Háttérkép a szekció mögött */}
         <Image
-          src="/1.jfif"          
+          src="/1.png"          
           alt=""                      
           fill                        
           priority
