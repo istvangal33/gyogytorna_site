@@ -115,14 +115,15 @@ body.admin-no-chrome {
 }
 
 /* Alap fókusz csak focus-visible-re */
-:where(a,button,[role="button"],input,select,textarea):focus-visible {
-  outline: 2px solid var(--color-brand-secondary);
+/* Fókusz stílusok */
+:where(a,button,[role="button"]):focus-visible {
+  outline: 2px solid var(--color-brand-accent, #EC7007);
   outline-offset: 2px;
 }
-:where(a,button,[role="button"]):focus {
-  outline: none; /* csak a régi UA outline-t nyomjuk el */
+/* Az űrlapmezők ne kapjanak globális outline-t (külön kezeljük a komponensben) */
+:where(input,select,textarea):focus-visible {
+  outline: none;
 }
-
 /* Globális “btn” – letisztítva */
 .btn {
   --btn-bg: #ffffff;

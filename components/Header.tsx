@@ -24,23 +24,37 @@ function ServicesIcon() {
       viewBox="0 0 24 24" 
       aria-hidden="true"
     >
-      {/* Emberi test sziluett - izomzat hangsúlyozásával */}
-      <path d="M8 6h8M6 10h12M8 14h8M6 18h12" />
-      {/* Kéz formája - kezelést szimbolizálva */}
-      <path d="M16 4l2 2-2 2M16 20l2-2-2-2" />
-      {/* Orvosi szimbólum */}
-      <circle cx="12" cy="12" r="3" />
+      {/* 3x3 grid - szolgáltatások listája */}
+      <rect x={3} y={3} width={7} height={7} />
+      <rect x={14} y={3} width={7} height={7} />
+      <rect x={3} y={14} width={7} height={7} />
+      <rect x={14} y={14} width={7} height={7} />
     </svg>
   );
 }
+
 function PriceIcon() {
   return (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M7 3h1.5L10 5l1.5-2L13 5l1.5-2L16 5l1.5-2H19a1 1 0 011 1v14l-2 2-2-2-2 2-2-2-2 2-2-2V4a1 1 0 011-1h1z" />
-      <path d="M9 11h4M9 14h4M15 9v8" />
+    <svg 
+      className="w-6 h-6" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth={2} 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      viewBox="0 0 24 24" 
+      aria-hidden="true"
+    >
+      {/* Receipt forma hullámos tetejével és aljával */}
+      <path d="M4 4v16l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V4l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z" />
+      {/* Szöveg sorok az árlistán */}
+      <line x1="8" y1="8" x2="16" y2="8" />
+      <line x1="8" y1="12" x2="16" y2="12" />
+      <line x1="8" y1="16" x2="13" y2="16" />
     </svg>
   );
 }
+
 function MailIcon() {
   return (
     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -112,7 +126,16 @@ export default function Header() {
                   }`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <span className={`pointer-events-none absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-6 rounded-full transition-opacity ${active ? "bg-[#EC7007] opacity-100" : "opacity-0"}`} />
+                  <span className={`pointer-events-none absolute ${
+                    item.label === "Bemutatkozás" || item.label === "Szolgáltatások" 
+                      ? "-left-1" 
+                      : item.label === "Árak" 
+                      ? "-left-6"
+                      : item.label === "Elérhetőség"
+                      ? "-left-3"
+                      : "-left-6"
+                  } top-1/2 -translate-y-1/2 w-1 h-6 rounded-full transition-opacity ${active ? "bg-[#EC7007] opacity-100" : "opacity-0"}`} />
+
                   {item.icon}
                   <span className="text-[10px] text-center font-medium tracking-tight">{item.label}</span>
                 </Link>
