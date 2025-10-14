@@ -1,19 +1,144 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Bemutatkozó | Gyógytorna - Professzionális Fizioterápia',
-  description: 'Ismerje meg szakképzett gyógytornászunkat, képzettségét és több éves tapasztalatát a rehabilitáció területén.',
-  openGraph: {
-    title: 'Bemutatkozó | Gyógytorna - Professzionális Fizioterápia',
-    description: 'Ismerje meg szakképzett gyógytornászunkat, képzettségét és több éves tapasztalatát a rehabilitáció területén.',
-  },
+import { useState } from 'react';
+import ScrollTiles from '../../components/ScrollTiles';
+
+interface PriceItem {
+  name: string;
+  duration?: string;
+  price: number;
+}
+
+const SERVICES: PriceItem[] = [
+  { name: "Egyéni gyógytorna/rehabilitáció", duration: "50 P", price: 15000 },
+  { name: "Egyéni gyógytorna/rehabilitáció", duration: "30 P", price: 8000 },
+  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "50 P", price: 16000 },
+  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "30 P", price: 8500 },
+  { name: "Schroth terápia", duration: "50 P", price: 15000 },
+  { name: "TMI (Állkapocs ízületi) terápia", duration: "50 P", price: 15000 },
+  { name: "Komplex rehabilitáció", duration: "50 P", price: 17000 },
+  { name: "Csoportos gerinc core edzés", duration: "50 P", price: 7000 },
+  { name: "Kinesiológiai tape", price: 5000 },
+  { name: "Dinamikus tape", price: 7500 },
+];
+
+const PASSES: PriceItem[] = [
+  { name: "Egyéni gyógytorna bérlet", duration: "5 ALK", price: 70000 },
+  { name: "Egyéni gyógytorna bérlet", duration: "10 ALK", price: 135000 },
+  { name: "Komplex rehabilitációs bérlet", duration: "5 ALK", price: 80000 },
+  { name: "Komplex rehabilitációs bérlet", duration: "10 ALK", price: 155000 },
+  { name: "Csoportos gerinc core edzés bérlet", duration: "5 ALK", price: 30000 },
+  { name: "Csoportos gerinc core edzés bérlet", duration: "10 ALK", price: 55000 },
+];
+
+// Szolgáltatás leírások
+const SERVICE_DESCRIPTIONS: { [key: string]: string } = {
+  "Egyéni gyógytorna/rehabilitáció": "Személyre szabott gyógytorna kezelés, amely a páciens egyedi szükségleteihez igazodik. A kezelés magában foglalja a mozgásfunkció javítását, fájdalomcsillapítást és az erőnlét helyreállítását.",
+  "Lágy rész manuál terápia (FDM kezelések)": "Fascial Distortion Model alapú kezelés, amely a fascialis rendszer diszfunkcióit kezeli speciális manuális technikákkal. Hatékonyan csökkenti a fájdalmat és javítja a mobilitást.",
+  "Schroth terápia": "Specifikus háromdimenziós gerincegyenesítő gyakorlatrendszer scoliosis és egyéb gerincdeformitások kezelésére. A terápia javítja a testtartást és csökkenti a gerinc görbületét.",
+  "TMI (Állkapocs ízületi) terápia": "Temporomandibularis ízületi diszfunkciók kezelése, amely magában foglalja az állkapocs mozgászavarainak, fájdalmának és egyéb tüneteinek kezelését.",
+  "Komplex rehabilitáció": "Átfogó rehabilitációs program, amely kombinálja a gyógytornát, manuális terápiát és egyéb kezelési módszereket a teljes gyógyulás érdekében.",
+  "Csoportos gerinc core edzés": "Kiscsoportos edzés a gerincstabilizáló izmok erősítésére, amely javítja a testtartást és megelőzi a gerincproblémákat.",
+  "Kinesiológiai tape": "Rugalmas tapasz alkalmazása, amely támogatja az izmokat és ízületeket, csökkenti a fájdalmat és javítja a mozgást.",
+  "Dinamikus tape": "Speciális tapaszolási technika, amely dinamikus támogatást nyújt a mozgás során és segíti a funkcionális mozgásminták helyreállítását."
 };
 
-export default function Bemutatkozo() {
+export default function ServicesSection() {
+  const [expandedServices, setExpandedServices] = useState<Set<string>>(new Set());
+  const [expandedPasses, setExpandedPasses] = useState<Set<string>>(new Set());
+
+  const toggleServiceExpansion = (serviceName: string) => {
+    const newExpanded = new Set(expandedServices);
+    if (newExpanded.has(serviceName)) {
+      newExpanded.delete(serviceName);
+    } else {
+      newExpanded.add(serviceName);
+    }
+    setExpandedServices(newExpanded);
+  };
+
+  const togglePassExpansion = (passName: string) => {
+    const newExpanded = new Set(expandedPasses);
+    if (newExpanded.has(passName)) {
+      newExpanded.delete(passName);
+    } else {
+      newExpanded.add(passName);
+    }
+    setExpandedPasses(newExpanded);
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('hu-HU').format(price);
+  };
+
+  const ChevronIcon = ({ isExpanded }: { isExpanded: boolean }) => (
+    <svg 
+      className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+      fill="none" 
+      stroke="currentColor" 
+      viewBox="0 0 24 24"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+
+  const ServiceCard = ({ 
+    item, 
+    isExpanded, 
+    onToggle, 
+    description 
+  }: { 
+    item: PriceItem; 
+    isExpanded: boolean; 
+    onToggle: () => void;
+    description?: string;
+  }) => (
+    <div className="bg-white rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300">
+      <button
+        onClick={onToggle}
+        className="w-full p-6 text-left focus:outline-none focus:ring-2 focus:ring-[#EC7007] focus:ring-offset-2 rounded-xl"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-semibold text-[#004a6d] mb-2">
+              {item.name}
+            </h3>
+            <div className="flex items-center gap-4 text-sm text-gray-600">
+              {item.duration && (
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3" />
+                  </svg>
+                  {item.duration}
+                </span>
+              )}
+              <span className="text-xl font-bold text-[#EC7007]">
+                {formatPrice(item.price)} Ft
+              </span>
+            </div>
+          </div>
+          <ChevronIcon isExpanded={isExpanded} />
+        </div>
+      </button>
+      
+      {/* Expandálható tartalom */}
+      <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+        isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+      }`}>
+        <div className="px-6 pb-6">
+          <div className="border-t border-gray-100 pt-4">
+            <p className="text-gray-700 leading-relaxed">
+              {description || "A szolgáltatás részletes leírása hamarosan elérhető lesz."}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
-      {/* Hero Section */}
+      {/* HERO SECTION - SZOLGÁLTATÁSOK CÍM - KONZISZTENS STÍLUS */}
       <section className="relative bg-gradient-to-r from-black to-gray-900 text-white py-28 md:py-36">
         {/* Dekoratív hullámos alj */}
         <div className="absolute inset-x-0 bottom-0">
@@ -30,224 +155,108 @@ export default function Bemutatkozo() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg">
-              Bemutatkozás
+              Szolgáltatások
             </h1>
             <p className="text-lg md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              Több mint 10 éves tapasztalattal segítem pácienseimet a gyógyulás útján
+              Komplex fizioterápiás megoldások minden igényre – egyénre szabott kezelésekkel
             </p>
           </div>
         </div>
       </section>
 
-
-      {/* About Content */}
+      {/* SERVICE SLIDER */}
+      <ScrollTiles />
+      
+      {/* PRICING SECTION */}
       <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-            {/* Photo and Basic Info */}
-            <div className="relative group">
-              <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-500">
-                <div className="aspect-square overflow-hidden ">
-                  <Image 
-                    src="/girl.jpg"   // vagy külső URL: "https://domain.com/example.jpg"
-                    alt="Leírás a képről"
-                    width={550}                 // pixelben, kötelező!
-                    height={300}                // pixelben, kötelező!
-                    priority                    // (opcionális, ha fontos a gyors betöltés)
-                    quality={80}                // (opcionális, képek minősége 1-100)
-                    style={{ borderRadius: '50%', objectFit: 'cover' }} // (opcionális, stílus)
-                    />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mt-6 text-center">Forrás Fernanda</h2>
-                <p className="text-lg text-gray-900 mt-2 mb-4 text-center">Gyógytornász -fizikoterapeuta</p>
-                
-                <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-4">
-                <span className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium 
-                  bg-gradient-to-r from-blue-50 to-blue-100 text-black shadow-sm hover:shadow-md hover:scale-105 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3" />
-                  </svg>
-                  10+ év tapasztalat
-                </span>
-
-                <span className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium 
-                  bg-gradient-to-r from-green-50 to-green-150 text-black shadow-sm hover:shadow-md hover:scale-105 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                  Manuálterápia
-                </span>
-
-                <span className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium 
-                  bg-gradient-to-r from-purple-50 to-pink-100 text-black shadow-sm hover:shadow-md hover:scale-105 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6l4 2" />
-                  </svg>
-                  Sportrehabilitáció
-                </span>
-              </div>
-
-
-              </div>
-              {/* Dekoratív háttér kör */}
-              <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
-            </div>
-
-            {/* Professional Story */}
-            <div>
-              <h3 className="text-3xl md:text-4xl font-bold text-blue-1000 mb-8 relative text-center">
-                <span className="text-3xl font-bold text-gray-900 mt-6 ">
-                  Szakmai Háttér
-                </span>
-                <span className="absolute -bottom-2 left-0 w-20 h-1 bg-gradient-to-r text-grey-600 rounded-full"></span>
-              </h3>
-              <div className="prose prose-lg text-gray-900 space-y-6 max-w-none">
-                <p>
-                  Diplomámat 2017-ben szereztem a Szegedi Tudományegyetemen, majd ezt követően költöztem és kezdtem el Győrben dolgozni. 
-Az elmúlt évek döntő részében élsportolókkal dolgoztam együtt, kezdetben kézilabdázókkal majd ezt követően a Győri ETO FC gyógytornászaként négy évig labdarúgókkal. Ezek alatt az évek alatt lehetőségem nyílt evezős sportolókkal, kosárlabdázókkal és atlétákkal is együtt dolgozni, így komplex rálátást és szemléletet kaptam különböző sportok rehabilitációjáról. 2024-től léptem át a magánszektorba, ahol számos mozgásszervi betegséggel hozzám forduló pácienst segíthettem vissza a mindennapi fájdalommentes életéhez.
-                </p>
-                <h3 className="text-2xl font-semibold text-center mb-4">Szakterületeim</h3>
-                <ul className="space-y-2 list-disc list-inside">
-                  <li>Sportrehabilitáció/ műtétek utáni rehabilitáció</li>
-                  <li>Manuális fascia kezelések</li>
-                  <li>Állkapocs ízületi panaszok kezelése</li>
-                  <li>Porckorongsérv és egyéb gerinc panaszok kezelése</li>
-                  <li>Gerincferdülés</li>
-                  <li>Ízületi és mozgásszervi panaszok kezelése</li>
-                </ul>
-                <p>
-                  Az elmúlt évek tapasztalatait szeretném arra használni, hogy minél hatékonyabban tudjam segíteni a hozzám fordulókat, motivációt nyújtsak a rehabilitáció folyamatában és hozzásegítsem a pácienseimet a közösen kitűzött célok eléréséhez!
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Education and Qualifications */}
-      <section className="relative py-24 bg-gradient-to-br from-blue-50 via-white to-gray-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          {/* Fejléc */}
+          {/* Header - konzisztens stílus */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-              Képzettségek & Végzettségek
+              Szolgáltatások leírása
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              Folyamatos tanulás és szakmai fejlődés a legjobb ellátás érdekében
+              Professzionális fizioterápiás szolgáltatások
             </p>
           </div>
 
-          {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             
-            {/* Végzettségek */}
+            {/* Egyéni Szolgáltatások */}
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
               <div className="flex items-center mb-8">
-                <h3 className="ml-4 text-2xl font-bold text-gray-900">Végzettségek</h3>
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-lg flex items-center justify-center mr-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Egyéni Szolgáltatások</h3>
               </div>
               
-              <div className="space-y-6">
-                <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Gyógytornász Diploma</h4>
-                  <p className="text-gray-600">Semmelweis Egyetem Egészségtudományi Kar</p>
-                  <p className="text-sm text-gray-500">2014</p>
-                </div>
-                <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Manuálterápia Specialista</h4>
-                  <p className="text-gray-600">Magyar Manuálterápia Egyesület</p>
-                  <p className="text-sm text-gray-500">2016</p>
-                </div>
-                <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Sportrehabilitációs Tanúsítvány</h4>
-                  <p className="text-gray-600">Nemzetközi Sportrehabilitációs Intézet</p>
-                  <p className="text-sm text-gray-500">2018</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Specializációk */}
-            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
-              <div className="flex items-center mb-8">
-                <h3 className="ml-4 text-2xl font-bold text-gray-900">Specializációk</h3>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {[
-                  { title: "McKenzie módszer (MDT)", video: "/videos/mckenzie.mp4" },
-                  { title: "Trigger Point terápia", video: "/videos/triggerpoint.mp4" },
-                  { title: "Funkcionális mozgásanalízis (FMS)"},
-                  { title: "Gerinc stabilizáció"},
-                  { title: "Légzésterápia"},
-                  { title: "Szülés előtti/utáni rehabilitáció"},
-                ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="relative group flex items-center h-16 border-l-4 border-gray-600 pl-4"
-                  >
-                    <h4 className="font-semibold text-gray-900">{item.title}</h4>
-
-                    {/* Hover videó tooltip */}
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 w-64 h-36 rounded-xl overflow-hidden shadow-lg scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-300 origin-left z-20">
-                      <video
-                        src={item.video}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
+              <div className="space-y-4">
+                {SERVICES.map((service, index) => (
+                  <ServiceCard
+                    key={`service-${index}`}
+                    item={service}
+                    isExpanded={expandedServices.has(service.name)}
+                    onToggle={() => toggleServiceExpansion(service.name)}
+                    description={SERVICE_DESCRIPTIONS[service.name]}
+                  />
                 ))}
               </div>
             </div>
 
-
-
-
-
-          </div>
-        </div>
-      </section>
-
-  
-
-
-      {/* Philosophy and Approach */}
-      <section className="py-20 relative bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-        <div className="mx-auto px-4 sm:px-6 lg:px-2">
-          <div className="text-3xl md:text-base font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-                Szakmai Filozófia
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {[
-                { title: "Együttműködés", text: "A gyógyulás közös munka eredménye. Pácienseimmel partnerként dolgozom együtt céljaik elérése érdekében."},
-                { title: "Egyéni Megközelítés", text: "Minden páciens egyedi, ezért minden kezelési terv is személyre szabott. Nincs két egyforma eset." },
-                { title: "Folyamatos Tanulás", text: "A tudomány folyamatosan fejlődik. Számomra fontos, hogy mindig naprakész legyek a legújabb módszerekkel."},
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl 
-                            p-6 sm:p-8 border border-white/40 
-                            hover:-translate-y-2 hover:shadow-2xl transition duration-500 group"
-                >
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 text-center">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm sm:text-base md:text-lg text-gray-600 text-center leading-relaxed">
-                    {item.text}
-                  </p>
+            {/* Bérletek */}
+            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
+              <div className="flex items-center mb-8">
+                <div className="w-10 h-10 bg-[#EC7007] rounded-lg flex items-center justify-center mr-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
                 </div>
-              ))}
+                <h3 className="text-2xl font-bold text-gray-900">Bérletek</h3>
+              </div>
+              
+              <div className="space-y-4">
+                {PASSES.map((pass, index) => (
+                  <ServiceCard
+                    key={`pass-${index}`}
+                    item={pass}
+                    isExpanded={expandedPasses.has(pass.name)}
+                    onToggle={() => togglePassExpansion(pass.name)}
+                    description={`${pass.name} csomag kedvezményes áron. A bérlet ${pass.duration?.toLowerCase()} során használható fel, és jelentős megtakarítást biztosít az egyéni kezelésekhez képest.`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="mt-16 text-center">
+            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500 max-w-2xl mx-auto">
+              <h4 className="text-2xl font-bold text-gray-900 mb-4">
+                Szeretne időpontot foglalni?
+              </h4>
+              <p className="text-gray-600 mb-6">
+                Vegye fel velünk a kapcsolatot, és egyeztessünk egy ingyenes konzultációt!
+              </p>
+              <a 
+                href="/elerhetoseg#contact"
+                className="inline-flex items-center gap-2 bg-[#EC7007] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d4610a] transition-colors duration-200 shadow-sm hover:shadow-md hover:scale-105 transform"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Kapcsolatfelvétel
+              </a>
             </div>
           </div>
         </div>
+
+        {/* Dekoratív háttér kör */}
+        <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
+        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
       </section>
     </>
   );

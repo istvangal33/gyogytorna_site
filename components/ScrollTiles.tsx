@@ -91,9 +91,9 @@ export default function ServiceSlider() {
   }, [current, isMobile]);
 
   return (
-    <section className="w-full flex justify-center px-2 md:px-0 py-6 md:py-14">
-      <div className="rounded-3xl bg-gradient-to-br from-black blue-950 p-4 md:p-14 xl:p-24 relative flex flex-col w-full
-        max-w-[95vw] sm:max-w-[600px] md:max-w-[900px] lg:max-w-[1200px] xl:max-w-[1400px] min-h-[390px] md:min-h-[500px] overflow-hidden">
+    // TELJES SZÉLESSÉGŰ DESKTOP VERZIÓ
+    <section className="w-full px-0 py-6 md:py-14">
+      <div className="w-full rounded-none md:rounded-3xl bg-gradient-to-br from-black to-blue-950 p-4 md:p-14 xl:p-24 relative flex flex-col min-h-[390px] md:min-h-[500px] overflow-hidden">
 
         {/* Background Image with Smooth Transition */}
         <div className="absolute inset-0 transition-opacity duration-700 ease-in-out">
@@ -104,13 +104,13 @@ export default function ServiceSlider() {
             className={`object-cover transition-all duration-700 ${imageLoaded ? 'opacity-25' : 'opacity-0'}`}
             onLoad={() => setImageLoaded(true)}
             priority={current === 0}
-            sizes="(max-width: 768px) 95vw, (max-width: 1200px) 900px, 1400px"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-gray-900/85 to-green-950/80" />
         </div>
 
-        {/* Desktop: Split Layout */}
-        <div className="hidden md:grid md:grid-cols-5 gap-8 items-center flex-1 relative z-10">
+        {/* Desktop: Split Layout - TELJES SZÉLESSÉGŰ */}
+        <div className="hidden md:grid md:grid-cols-5 gap-8 items-center flex-1 relative z-10 max-w-7xl mx-auto w-full">
           
           {/* Left Side: Service Image */}
           <div className="col-span-2 relative h-80 lg:h-96 rounded-2xl overflow-hidden group">
@@ -139,7 +139,7 @@ export default function ServiceSlider() {
           </div>
         </div>
 
-        {/* Mobile: Original Layout with Enhanced Background */}
+        {/* Mobile: Original Layout */}
         <div className="md:hidden flex flex-col items-center justify-center text-center w-full relative z-10 flex-1">
           <span className="uppercase tracking-widest text-xs text-gray-300 mb-2 font-semibold">
             {services[current].title.split(" ")[0]}
@@ -159,107 +159,108 @@ export default function ServiceSlider() {
             </p>
           </div>
         </div>
-        {/* Navigation with Image Thumbnails */}
-        <div className="w-full mt-8 relative z-10">
-          {isMobile ? (
-            // MOBILE: Enhanced horizontal slider
-            <div
-              ref={sliderRef}
-              className="flex gap-3 overflow-x-auto no-scrollbar px-1 py-2"
-              style={{
-                WebkitOverflowScrolling: "touch",
-                scrollSnapType: "x mandatory"
-              }}
-            >
-              {services.map((service, idx) => (
-                <button
-                  key={idx}
-                  aria-label={service.title}
-                  tabIndex={0}
-                  className={`relative flex flex-col items-center justify-end min-w-[120px] max-w-[120px] h-32 rounded-2xl overflow-hidden
-                    transition-all duration-400 group
-                    ${idx === current ? "card-active border-2 border-white shadow-lg scale-105 z-10" : "border border-transparent opacity-60 scale-95"}
-                  `}
-                  onClick={() => setCurrent(idx)}
-                  style={{ scrollSnapAlign: "center" }}
-                >
-                  {/* Thumbnail Background */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover"
-                      sizes="120px"
-                    />
-                    <div 
-                      className="absolute inset-0"
-                      style={{
-                        background: idx === current
-                          ? `linear-gradient(135deg, ${service.color}70, #00000090)`
-                          : `linear-gradient(135deg, ${service.color}50, #00000070)`,
-                      }}
-                    />
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="relative z-10 flex flex-col items-center justify-end h-full pb-3">
-                    <div className="flex items-center justify-center mb-2 mt-4 text-white">
-                      {service.icon}
-                    </div>
-                    <div className="text-xs font-semibold text-white mb-1">{service.title.split(" ")[0]}</div>
-                    
-                  </div>
-                </button>
-              ))}
-            </div>
-          ) : (
-            // DESKTOP: Enhanced cards with thumbnails
-            <div className="flex flex-row items-end gap-3 md:gap-6 mt-auto justify-center w-full">
-              {services.map((service, idx) => (
-                <button
-                  key={idx}
-                  aria-label={service.title}
-                  tabIndex={0}
-                  className={`group transition-all duration-400 rounded-2xl flex flex-col items-center justify-end min-w-[112px] h-40 relative overflow-hidden
-                    ${idx === current
-                      ? "border-2 border-white shadow-lg scale-105 z-10"
-                      : "border border-transparent opacity-40 scale-95 hover:opacity-70 hover:scale-100"
-                    }
-                  `}
-                  onClick={() => setCurrent(idx)}
-                >
-                  {/* Thumbnail Background */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="112px"
-                    />
-                    <div 
-                      className="absolute inset-0"
-                      style={{
-                        background: idx === current
-                          ? `linear-gradient(135deg, ${service.color}80, #00000090)`
-                          : `linear-gradient(135deg, ${service.color}60, #00000080)`,
-                      }}
-                    />
-                  </div>
 
-                  {/* Content */}
-                  <div className="relative z-10 flex flex-col items-center justify-end h-full pb-3">
-                    <div className="flex items-center justify-center mb-2 mt-4 text-white group-hover:scale-110 transition-transform duration-300">
-                      {service.icon}
+        {/* Navigation with Image Thumbnails - KÖZÉPRE IGAZÍTVA */}
+        <div className="w-full mt-8 relative z-10">
+          <div className="max-w-7xl mx-auto">
+            {isMobile ? (
+              // MOBILE: Enhanced horizontal slider
+              <div
+                ref={sliderRef}
+                className="flex gap-3 overflow-x-auto no-scrollbar px-1 py-2"
+                style={{
+                  WebkitOverflowScrolling: "touch",
+                  scrollSnapType: "x mandatory"
+                }}
+              >
+                {services.map((service, idx) => (
+                  <button
+                    key={idx}
+                    aria-label={service.title}
+                    tabIndex={0}
+                    className={`relative flex flex-col items-center justify-end min-w-[120px] max-w-[120px] h-32 rounded-2xl overflow-hidden
+                      transition-all duration-400 group
+                      ${idx === current ? "card-active border-2 border-white shadow-lg scale-105 z-10" : "border border-transparent opacity-60 scale-95"}
+                    `}
+                    onClick={() => setCurrent(idx)}
+                    style={{ scrollSnapAlign: "center" }}
+                  >
+                    {/* Thumbnail Background */}
+                    <div className="absolute inset-0">
+                      <Image
+                        src={service.image}
+                        alt={service.title}
+                        fill
+                        className="object-cover"
+                        sizes="120px"
+                      />
+                      <div 
+                        className="absolute inset-0"
+                        style={{
+                          background: idx === current
+                            ? `linear-gradient(135deg, ${service.color}70, #00000090)`
+                            : `linear-gradient(135deg, ${service.color}50, #00000070)`,
+                        }}
+                      />
                     </div>
-                    <div className="text-sm font-semibold text-white mb-1">{service.title.split(" ")[0]}</div>
                     
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
+                    {/* Content */}
+                    <div className="relative z-10 flex flex-col items-center justify-end h-full pb-3">
+                      <div className="flex items-center justify-center mb-2 mt-4 text-white">
+                        {service.icon}
+                      </div>
+                      <div className="text-xs font-semibold text-white mb-1">{service.title.split(" ")[0]}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              // DESKTOP: Enhanced cards with thumbnails - KÖZÉPRE IGAZÍTVA
+              <div className="flex flex-row items-end gap-3 md:gap-6 mt-auto justify-center w-full">
+                {services.map((service, idx) => (
+                  <button
+                    key={idx}
+                    aria-label={service.title}
+                    tabIndex={0}
+                    className={`group transition-all duration-400 rounded-2xl flex flex-col items-center justify-end min-w-[112px] h-40 relative overflow-hidden
+                      ${idx === current
+                        ? "border-2 border-white shadow-lg scale-105 z-10"
+                        : "border border-transparent opacity-40 scale-95 hover:opacity-70 hover:scale-100"
+                      }
+                    `}
+                    onClick={() => setCurrent(idx)}
+                  >
+                    {/* Thumbnail Background */}
+                    <div className="absolute inset-0">
+                      <Image
+                        src={service.image}
+                        alt={service.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        sizes="112px"
+                      />
+                      <div 
+                        className="absolute inset-0"
+                        style={{
+                          background: idx === current
+                            ? `linear-gradient(135deg, ${service.color}80, #00000090)`
+                            : `linear-gradient(135deg, ${service.color}60, #00000080)`,
+                        }}
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 flex flex-col items-center justify-end h-full pb-3">
+                      <div className="flex items-center justify-center mb-2 mt-4 text-white group-hover:scale-110 transition-transform duration-300">
+                        {service.icon}
+                      </div>
+                      <div className="text-sm font-semibold text-white mb-1">{service.title.split(" ")[0]}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

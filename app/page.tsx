@@ -1,4 +1,3 @@
-import ScrollTiles from '../components/ScrollTiles';
 import WhyChooseUs from '../components/WhyChooseUs';
 
 import Image from 'next/image';
@@ -47,7 +46,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-blue-150 relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-[#00121a] relative overflow-hidden">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       
