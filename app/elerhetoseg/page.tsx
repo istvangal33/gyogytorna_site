@@ -21,49 +21,25 @@ export default function Elerhetoseg() {
   return (
     <>
       {/* Hero – visszafogott brand hátterekkel */}
-      <section className="relative bg-white text-gray-900 py-20 md:py-28 overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
-          {/* finom brand foltok */}
-          <div
-            className="absolute -top-24 -right-24 w-[28rem] h-[28rem] rounded-full blur-3xl"
-            style={{
-              background:
-                'radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-brand-primary, #004A6D) 12%, transparent), transparent 60%)',
-            } as React.CSSProperties}
-          />
-          <div
-            className="absolute -bottom-24 -left-24 w-[24rem] h-[24rem] rounded-full blur-3xl"
-            style={{
-              background:
-                'radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--color-brand-accent, #EC7007) 14%, transparent), transparent 60%)',
-            } as React.CSSProperties}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,74,109,0.06)_1px,transparent_1px)] bg-[length:42px_42px]" />
-        </div>
+      <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
+  {/* Animated background elements */}
+  <div className="pointer-events-none absolute inset-0">
+    <div className="absolute top-10 right-10 w-64 h-64 bg-[#004A6D]/10 rounded-full blur-3xl animate-pulse"></div>
+    <div className="absolute bottom-10 left-10 w-48 h-48 bg-[#EC7007]/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+  </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center">
-            <h1
-              className="text-4xl md:text-6xl font-extrabold tracking-tight"
-              style={{ color: BRAND_PRIMARY } as React.CSSProperties}
-            >
-              Elérhetőség
-            </h1>
-            <p className="mt-3 text-base md:text-lg text-gray-600">
-              Vegye fel velünk a kapcsolatot
-            </p>
-            <div className="mt-6 flex justify-center">
-              <span
-                className="h-[4px] w-24 rounded-full"
-                style={{
-                  background:
-                    'linear-gradient(90deg, color-mix(in srgb, var(--color-brand-primary, #004A6D) 80%, white), white, color-mix(in srgb, var(--color-brand-primary, #004A6D) 80%, white))',
-                } as React.CSSProperties}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+  <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+    {/* Header */}
+    <div className="text-center mb-16">      
+      <h1 className="text-4xl md:text-6xl font-extrabold text-[#004A6D] mb-4">
+        Vegye fel velünk a kapcsolatot
+      </h1>
+      <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+        Válaszolunk minden kérdésére és segítünk időpontot foglalni
+      </p>
+    </div>
+  </div>
+</section>
 
       {/* Helyszín + adatok kártyákban */}
       <section className="py-16 bg-white">

@@ -114,7 +114,7 @@ export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [captchaVerified, setCaptchaVerified] = useState(false);
 
-  const inputBase = 'w-full px-3 py-2 rounded-md border bg-white text-sm placeholder:text-slate-500 outline-none transition-shadow';
+  const inputBase = 'w-full px-3 py-2 rounded-md border bg-white text-gray-900 text-sm placeholder:text-slate-400 outline-none transition-shadow';
   const inputBorder = 'border-slate-300';
   const inputFocus = 'focus:ring-2 focus:ring-[color:var(--color-brand-primary,#004A6D)] focus:border-[color:var(--color-brand-primary,#004A6D)]';
 
@@ -214,18 +214,17 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   return (
     <section
-      className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-[#F7FAFC] to-blue-50 scroll-mt-[160px] lg:scroll-mt-[90px]"
+      className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#FFF] via-[#0d1b24] to-[#0f1f29] scroll-mt-[160px] lg:scroll-mt-[90px]"
       id="contact"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10 sm:mb-14">
           <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3"
-            style={{ color: BRAND_PRIMARY } as React.CSSProperties}
+            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white"
           >
             Kapcsolatfelvétel
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-white max-w-2xl mx-auto leading-relaxed">
             Töltse ki az alábbi űrlapot, és hamarosan felvesszük Önnel a kapcsolatot.
           </p>
         </div>

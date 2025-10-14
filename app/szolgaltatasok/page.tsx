@@ -11,24 +11,13 @@ interface PriceItem {
 
 const SERVICES: PriceItem[] = [
   { name: "Egyéni gyógytorna/rehabilitáció", duration: "50 P", price: 15000 },
-  { name: "Egyéni gyógytorna/rehabilitáció", duration: "30 P", price: 8000 },
   { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "50 P", price: 16000 },
-  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "30 P", price: 8500 },
   { name: "Schroth terápia", duration: "50 P", price: 15000 },
   { name: "TMI (Állkapocs ízületi) terápia", duration: "50 P", price: 15000 },
   { name: "Komplex rehabilitáció", duration: "50 P", price: 17000 },
   { name: "Csoportos gerinc core edzés", duration: "50 P", price: 7000 },
   { name: "Kinesiológiai tape", price: 5000 },
   { name: "Dinamikus tape", price: 7500 },
-];
-
-const PASSES: PriceItem[] = [
-  { name: "Egyéni gyógytorna bérlet", duration: "5 ALK", price: 70000 },
-  { name: "Egyéni gyógytorna bérlet", duration: "10 ALK", price: 135000 },
-  { name: "Komplex rehabilitációs bérlet", duration: "5 ALK", price: 80000 },
-  { name: "Komplex rehabilitációs bérlet", duration: "10 ALK", price: 155000 },
-  { name: "Csoportos gerinc core edzés bérlet", duration: "5 ALK", price: 30000 },
-  { name: "Csoportos gerinc core edzés bérlet", duration: "10 ALK", price: 55000 },
 ];
 
 // Szolgáltatás leírások
@@ -45,7 +34,6 @@ const SERVICE_DESCRIPTIONS: { [key: string]: string } = {
 
 export default function ServicesSection() {
   const [expandedServices, setExpandedServices] = useState<Set<string>>(new Set());
-  const [expandedPasses, setExpandedPasses] = useState<Set<string>>(new Set());
 
   const toggleServiceExpansion = (serviceName: string) => {
     const newExpanded = new Set(expandedServices);
@@ -55,16 +43,6 @@ export default function ServicesSection() {
       newExpanded.add(serviceName);
     }
     setExpandedServices(newExpanded);
-  };
-
-  const togglePassExpansion = (passName: string) => {
-    const newExpanded = new Set(expandedPasses);
-    if (newExpanded.has(passName)) {
-      newExpanded.delete(passName);
-    } else {
-      newExpanded.add(passName);
-    }
-    setExpandedPasses(newExpanded);
   };
 
   const formatPrice = (price: number) => {
@@ -138,9 +116,8 @@ export default function ServicesSection() {
 
   return (
     <>
-      {/* HERO SECTION - SZOLGÁLTATÁSOK CÍM - KONZISZTENS STÍLUS */}
+      {/* HERO SECTION */}
       <section className="relative bg-gradient-to-r from-black to-gray-900 text-white py-28 md:py-36">
-        {/* Dekoratív hullámos alj */}
         <div className="absolute inset-x-0 bottom-0">
           <svg
             className="w-full h-16 md:h-24 text-gray-50"
@@ -167,68 +144,41 @@ export default function ServicesSection() {
       {/* SERVICE SLIDER */}
       <ScrollTiles />
       
-      {/* PRICING SECTION */}
+      {/* PRICING SECTION - CSAK SZOLGÁLTATÁSOK */}
       <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Header - konzisztens stílus */}
+          {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-              Szolgáltatások leírása
+              Szolgáltatások részletesen
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              Professzionális fizioterápiás szolgáltatások
+              Professzionális fizioterápiás szolgáltatások egyénre szabottan
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            
-            {/* Egyéni Szolgáltatások */}
-            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
-              <div className="flex items-center mb-8">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-lg flex items-center justify-center mr-4">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Egyéni Szolgáltatások</h3>
+          {/* Egyéni Szolgáltatások - TELJES SZÉLESSÉG */}
+          <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-8 md:p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#EC7007] to-[#FFB347] rounded-xl flex items-center justify-center mr-4 shadow-md">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
               </div>
-              
-              <div className="space-y-4">
-                {SERVICES.map((service, index) => (
-                  <ServiceCard
-                    key={`service-${index}`}
-                    item={service}
-                    isExpanded={expandedServices.has(service.name)}
-                    onToggle={() => toggleServiceExpansion(service.name)}
-                    description={SERVICE_DESCRIPTIONS[service.name]}
-                  />
-                ))}
-              </div>
+              <h3 className="text-3xl font-bold text-gray-900">Szolgáltatásaink</h3>
             </div>
-
-            {/* Bérletek */}
-            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
-              <div className="flex items-center mb-8">
-                <div className="w-10 h-10 bg-[#EC7007] rounded-lg flex items-center justify-center mr-4">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Bérletek</h3>
-              </div>
-              
-              <div className="space-y-4">
-                {PASSES.map((pass, index) => (
-                  <ServiceCard
-                    key={`pass-${index}`}
-                    item={pass}
-                    isExpanded={expandedPasses.has(pass.name)}
-                    onToggle={() => togglePassExpansion(pass.name)}
-                    description={`${pass.name} csomag kedvezményes áron. A bérlet ${pass.duration?.toLowerCase()} során használható fel, és jelentős megtakarítást biztosít az egyéni kezelésekhez képest.`}
-                  />
-                ))}
-              </div>
+            
+            <div className="space-y-4">
+              {SERVICES.map((service, index) => (
+                <ServiceCard
+                  key={`service-${index}`}
+                  item={service}
+                  isExpanded={expandedServices.has(service.name)}
+                  onToggle={() => toggleServiceExpansion(service.name)}
+                  description={SERVICE_DESCRIPTIONS[service.name]}
+                />
+              ))}
             </div>
           </div>
 
@@ -254,7 +204,7 @@ export default function ServicesSection() {
           </div>
         </div>
 
-        {/* Dekoratív háttér kör */}
+        {/* Dekoratív háttér körök */}
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
       </section>
