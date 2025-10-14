@@ -205,10 +205,10 @@ export default function Footer() {
         className="
           group fixed right-4 bottom-4 z-10
           h-10 w-10 rounded-full
-          bg-white/10 border border-white/15 text-white
-          hover:bg-[var(--color-brand-accent-hover,#EC7007)] hover:text-[#001219]
+          bg-gray-800 border border-gray-50 text-white
+          hover:bg-[#EC7007] hover:text-white hover:border-[#EC7007]
           shadow-lg backdrop-blur
-          flex items-center justify-center transition-colors
+          flex items-center justify-center transition-all duration-300
         "
       >
         <FaChevronUp className="h-4 w-4" />
