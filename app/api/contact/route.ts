@@ -5,34 +5,86 @@ import path from "path";
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
-  const body = await req.json().catch(() => ({}));
-  const { name, email, phone, message, website } = body || {};
+  try {
+    // FormData feldolgozása
+    const formData = await req.formData();
+    
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
+    const message = formData.get('message') as string;
+    const website = formData.get('website') as string;
+    const documents = formData.getAll('documents') as File[];
 
-  if (website) return Response.json({ ok: true }, { status: 200 });
+    // Honeypot ellenőrzés
+    if (website) return Response.json({ ok: true }, { status: 200 });
 
-  if (!name || !email || !phone) {
-    return Response.json({ ok: false, error: "Hiányzó kötelező mező." }, { status: 400 });
-  }
+    // Kötelező mezők ellenőrzése
+    if (!name || !email || !phone) {
+      return Response.json({ ok: false, error: "Hiányzó kötelező mező." }, { status: 400 });
+    }
 
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const TO = process.env.CONTACT_TO;
-  const FROM = process.env.CONTACT_FROM;
+    const RESEND_API_KEY = process.env.RESEND_API_KEY;
+    const TO = process.env.CONTACT_TO;
+    const FROM = process.env.CONTACT_FROM;
 
-  if (!RESEND_API_KEY || !TO || !FROM) {
-    return Response.json({ ok: false, error: "Hiányzó szerver beállítás." }, { status: 500 });
-  }
+    if (!RESEND_API_KEY || !TO || !FROM) {
+      return Response.json({ ok: false, error: "Hiányzó szerver beállítás." }, { status: 500 });
+    }
 
-  // Logo beolvasása a public mappából
-  const logoPath = path.join(process.cwd(), "public", "logo.png");
-  const logoBuffer = fs.readFileSync(logoPath);
-  const logoBase64 = logoBuffer.toString("base64");
+    // Logo beolvasása
+    const logoPath = path.join(process.cwd(), "public", "logo.png");
+    const logoBuffer = fs.readFileSync(logoPath);
+    const logoBase64 = logoBuffer.toString("base64");
 
-  const subject = `Új üzenet – ${name}`;
-  
-  // Preheader text - ez jelenik meg a tárgysor mellett mobilon
-  const preheader = `${name} üzenetet küldött | ${email} | ${phone}`;
-  
-  const html = `
+    // Fájlok feldolgozása emailhez
+    const emailAttachments: Array<{
+      filename: string;
+      content: string;
+      content_id?: string;
+    }> = [
+      {
+        filename: "logo.png",
+        content: logoBase64,
+        content_id: "logo",
+      },
+    ];
+
+    // Feltöltött dokumentumok hozzáadása
+    for (const file of documents) {
+      if (file && file.size > 0) {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const base64Content = buffer.toString("base64");
+        
+        emailAttachments.push({
+          filename: file.name,
+          content: base64Content,
+        });
+      }
+    }
+
+    const subject = `Új üzenet – ${name}`;
+    const preheader = `${name} üzenetet küldött | ${email} | ${phone}`;
+    
+    // Dokumentumok lista a HTML emailhez
+    const documentsHtml = documents.length > 0 
+      ? `
+        <!-- Spacer -->
+        <tr><td style="height:16px;"></td></tr>
+        
+        <!-- Attachments Field -->
+        <tr>
+          <td class="field field-box" style="padding:20px;background-color:#f8f9fa;border-left:4px solid #ff8c00;border-radius:8px;">
+            <p style="margin:0 0 12px 0;font-size:12px;font-weight:600;color:#004a6d;text-transform:uppercase;letter-spacing:0.5px;">CSATOLT DOKUMENTUMOK</p>
+            <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:#1a1a1a;">
+              ${documents.map(file => `<li>${escapeHtml(file.name)} (${formatFileSize(file.size)})</li>`).join('')}
+            </ul>
+          </td>
+        </tr>
+      `
+      : '';
+
+    const html = `
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -56,7 +108,6 @@ export async function POST(req: NextRequest) {
 </head>
 <body style="margin:0;padding:0;background-color:#f4f4f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
   
-  <!-- Preheader text - rejtett, csak az értesítésben látszik -->
   <div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;">
     ${preheader}
     &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
@@ -67,7 +118,6 @@ export async function POST(req: NextRequest) {
       <td align="center" style="padding:40px 20px;">
         <table role="presentation" class="container card" style="max-width:600px;width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
           
-          <!-- Header with Logo -->
           <tr>
             <td style="padding:50px 40px 40px 40px;background:#ffffff;border-radius:12px 12px 0 0;border-bottom:4px solid #ff8c00;">
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
@@ -80,12 +130,10 @@ export async function POST(req: NextRequest) {
             </td>
           </tr>
 
-          <!-- Content -->
           <tr>
             <td class="content" style="padding:40px 40px;">
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                 
-                <!-- Name Field -->
                 <tr>
                   <td class="field field-box" style="padding:20px;background-color:#f8f9fa;border-left:4px solid #ff8c00;border-radius:8px;">
                     <p style="margin:0 0 8px 0;font-size:12px;font-weight:600;color:#004a6d;text-transform:uppercase;letter-spacing:0.5px;">NÉV</p>
@@ -93,10 +141,8 @@ export async function POST(req: NextRequest) {
                   </td>
                 </tr>
 
-                <!-- Spacer -->
                 <tr><td style="height:16px;"></td></tr>
 
-                <!-- Email Field -->
                 <tr>
                   <td class="field field-box" style="padding:20px;background-color:#f8f9fa;border-left:4px solid #ff8c00;border-radius:8px;">
                     <p style="margin:0 0 8px 0;font-size:12px;font-weight:600;color:#004a6d;text-transform:uppercase;letter-spacing:0.5px;">E-MAIL CÍM</p>
@@ -106,10 +152,8 @@ export async function POST(req: NextRequest) {
                   </td>
                 </tr>
 
-                <!-- Spacer -->
                 <tr><td style="height:16px;"></td></tr>
 
-                <!-- Phone Field -->
                 <tr>
                   <td class="field field-box" style="padding:20px;background-color:#f8f9fa;border-left:4px solid #ff8c00;border-radius:8px;">
                     <p style="margin:0 0 8px 0;font-size:12px;font-weight:600;color:#004a6d;text-transform:uppercase;letter-spacing:0.5px;">TELEFONSZÁM</p>
@@ -119,10 +163,8 @@ export async function POST(req: NextRequest) {
                   </td>
                 </tr>
 
-                <!-- Spacer -->
                 <tr><td style="height:16px;"></td></tr>
 
-                <!-- Message Field -->
                 <tr>
                   <td class="field field-box" style="padding:20px;background-color:#f8f9fa;border-left:4px solid #ff8c00;border-radius:8px;">
                     <p style="margin:0 0 12px 0;font-size:12px;font-weight:600;color:#004a6d;text-transform:uppercase;letter-spacing:0.5px;">ÜZENET</p>
@@ -130,10 +172,10 @@ export async function POST(req: NextRequest) {
                   </td>
                 </tr>
 
-                <!-- Spacer -->
+                ${documentsHtml}
+
                 <tr><td style="height:24px;"></td></tr>
 
-                <!-- Reply Button -->
                 <tr>
                   <td align="center">
                     <table role="presentation" style="border-collapse:collapse;">
@@ -150,7 +192,6 @@ export async function POST(req: NextRequest) {
             </td>
           </tr>
 
-          <!-- Footer -->
           <tr>
             <td style="padding:30px 40px;background-color:#f8f9fa;border-radius:0 0 12px 12px;border-top:1px solid #e9ecef;">
               <p class="text-secondary" style="margin:0;font-size:13px;line-height:1.6;color:#999999;text-align:center;">
@@ -166,39 +207,49 @@ export async function POST(req: NextRequest) {
   </table>
 </body>
 </html>
-  `;
+    `;
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: FROM,
-      to: [TO],
-      reply_to: email,
-      subject,
-      html,
-      attachments: [
-        {
-          filename: "logo.png",
-          content: logoBase64,
-          content_id: "logo",
-        },
-      ],
-    }),
-  });
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [TO],
+        reply_to: email,
+        subject,
+        html,
+        attachments: emailAttachments,
+      }),
+    });
 
-  if (!res.ok) {
-    const err = await res.text().catch(() => "");
-    console.error("Resend HTTP error:", res.status, err);
-    return Response.json({ ok: false, error: "Küldési hiba." }, { status: 500 });
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      console.error("Resend HTTP error:", res.status, err);
+      return Response.json({ ok: false, error: "Küldési hiba." }, { status: 500 });
+    }
+
+    return Response.json({ ok: true }, { status: 200 });
+    
+  } catch (error) {
+    console.error("API Error:", error);
+    return Response.json({ 
+      ok: false, 
+      error: "Szerverhiba történt." 
+    }, { status: 500 });
   }
-
-  return Response.json({ ok: true }, { status: 200 });
 }
 
 function escapeHtml(s: string) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
 }

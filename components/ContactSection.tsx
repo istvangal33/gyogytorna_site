@@ -89,7 +89,6 @@ const ModernCaptcha: React.FC<ModernCaptchaProps> = ({ onVerify, isVerified }) =
   );
 };
 
-// kis segéd a feltételes osztályokhoz
 const cls = (...parts: Array<string | false | undefined>) => parts.filter(Boolean).join(' ');
 
 function validateEmail(email: string) {
@@ -107,8 +106,46 @@ function validateHungarianPhone(phone: string) {
   return patterns.some((p) => p.test(c));
 }
 
+// Fájl validációs függvények
+function validateFileType(file: File): boolean {
+  const allowedTypes = [
+    'application/pdf',
+    'application/zip',
+    'application/x-zip-compressed',
+    'application/x-rar-compressed',
+    'application/x-7z-compressed',
+  ];
+  const allowedExtensions = ['.pdf', '.zip', '.rar', '.7z'];
+  
+  const fileName = file.name.toLowerCase();
+  const hasValidExtension = allowedExtensions.some(ext => fileName.endsWith(ext));
+  const hasValidMimeType = allowedTypes.includes(file.type);
+  
+  return hasValidExtension || hasValidMimeType;
+}
+
+function validateFileSize(file: File, maxSizeMB: number = 10): boolean {
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+  return file.size <= maxSizeBytes;
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+}
+
 export default function ContactSection() {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '', website: '' });
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    phone: '', 
+    message: '', 
+    website: '' 
+  });
+  const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<{ [k: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -118,15 +155,53 @@ export default function ContactSection() {
   const inputBorder = 'border-slate-300';
   const inputFocus = 'focus:ring-2 focus:ring-[color:var(--color-brand-primary,#004A6D)] focus:border-[color:var(--color-brand-primary,#004A6D)]';
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    
+    const selectedFiles = Array.from(e.target.files);
+    const validFiles: File[] = [];
+    const fileErrors: string[] = [];
+
+    selectedFiles.forEach(file => {
+      if (!validateFileType(file)) {
+        fileErrors.push(`${file.name}: Csak PDF és tömörített fájlok engedélyezettek`);
+        return;
+      }
+      
+      if (!validateFileSize(file, 10)) {
+        fileErrors.push(`${file.name}: Maximum 10 MB méret engedélyezett`);
+        return;
+      }
+      
+      validFiles.push(file);
+    });
+
+    if (fileErrors.length > 0) {
+      setErrors(prev => ({ ...prev, files: fileErrors.join('; ') }));
+    } else {
+      setErrors(prev => {
+        const { files, ...rest } = prev;
+        return rest;
+      });
+    }
+
+    setFiles(prev => [...prev, ...validFiles]);
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   const validateForm = () => {
     const n: { [k: string]: string } = {};
-    if (formData.website) n.form = 'Érvénytelen beküldés.'; // honeypot
+    if (formData.website) n.form = 'Érvénytelen beküldés.';
     if (formData.name.trim().length < 2) n.name = 'A név legalább 2 karakter';
     if (!validateEmail(formData.email)) n.email = 'Érvényes email szükséges';
     if (!validateHungarianPhone(formData.phone)) n.phone = 'Érvényes magyar telefonszám (+3630...)';
     if (!captchaVerified) n.captcha = 'Igazolja, hogy nem robot';
+    
     setErrors(n);
-    // fókusz az első hibás mezőre
+    
     const firstKey = Object.keys(n)[0];
     if (firstKey && typeof window !== 'undefined') {
       const el = document.getElementById(firstKey === 'form' ? 'name' : firstKey);
@@ -135,33 +210,39 @@ export default function ContactSection() {
     return Object.keys(n).length === 0;
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!validateForm()) return;
-  setIsSubmitting(true);
-  try {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        website: formData.website, // honeypot
-      }),
-    });
-    const json = await res.json();
-    if (!res.ok || !json?.ok) {
-      throw new Error(json?.error || "Küldési hiba");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('message', formData.message);
+      formDataToSend.append('website', formData.website);
+      
+      files.forEach(file => {
+        formDataToSend.append('documents', file);
+      });
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        body: formDataToSend,
+      });
+      
+      const json = await res.json();
+      if (!res.ok || !json?.ok) {
+        throw new Error(json?.error || "Küldési hiba");
+      }
+      setSubmitted(true);
+    } catch (err: any) {
+      setErrors((e) => ({ ...e, form: err?.message || "Ismeretlen hiba." }));
+    } finally {
+      setIsSubmitting(false);
     }
-    setSubmitted(true);
-  } catch (err: any) {
-    setErrors((e) => ({ ...e, form: err?.message || "Ismeretlen hiba." }));
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -199,6 +280,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               onClick={() => {
                 setSubmitted(false);
                 setFormData({ name: '', email: '', phone: '', message: '', website: '' });
+                setFiles([]);
                 setCaptchaVerified(false);
                 setErrors({});
               }}
@@ -219,9 +301,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10 sm:mb-14">
-          <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white"
-          >
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white">
             Kapcsolatfelvétel
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-white max-w-2xl mx-auto leading-relaxed">
@@ -235,7 +315,6 @@ const handleSubmit = async (e: React.FormEvent) => {
             style={{ border: `1px solid color-mix(in srgb, ${BRAND_PRIMARY} 18%, transparent)` } as React.CSSProperties}
           >
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-              {/* honeypot (rejtett) */}
               <input
                 type="text"
                 name="website"
@@ -249,7 +328,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
               <div>
                 <label htmlFor="name" className="block text-xs sm:text-sm font-medium text-slate-800 mb-1">
-                  Teljes név <span className="text-black-500">*</span>
+                  Teljes név <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="name"
@@ -339,6 +418,106 @@ const handleSubmit = async (e: React.FormEvent) => {
                 />
                 <div id="message-count" className="text-[10px] text-slate-500 text-right mt-1">
                   {formData.message.length}/500
+                </div>
+              </div>
+
+              {/* FÁJLFELTÖLTÉS SZEKCIÓ */}
+              <div>
+                <label htmlFor="file-upload" className="block text-xs sm:text-sm font-medium text-slate-800 mb-1">
+                  Dokumentumok csatolása
+                </label>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="file-upload"
+                    className={cls(
+                      'flex flex-col items-center justify-center w-full px-4 py-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors',
+                      errors.files 
+                        ? 'border-red-300 bg-red-50 hover:bg-red-100' 
+                        : 'border-slate-300 bg-slate-50 hover:bg-slate-100'
+                    )}
+                    style={{
+                      borderColor: errors.files 
+                        ? undefined 
+                        : `color-mix(in srgb, ${BRAND_PRIMARY} 30%, transparent)`
+                    } as React.CSSProperties}
+                  >
+                    <svg
+                      className="w-8 h-8 mb-2"
+                      style={{ color: errors.files ? '#ef4444' : BRAND_PRIMARY } as React.CSSProperties}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                    <p className="text-xs sm:text-sm text-slate-600 text-center">
+                      <span className="font-semibold">Kattintson a tallózáshoz</span> vagy húzza ide a fájlokat
+                    </p>
+                    <p className="text-[10px] text-slate-500 mt-1 text-center">
+                      PDF és tömörített fájlok (ZIP, RAR, 7Z) • Max. 10 MB/fájl
+                    </p>
+                    <input
+                      id="file-upload"
+                      name="documents"
+                      type="file"
+                      multiple
+                      accept=".pdf,.zip,.rar,.7z,application/pdf,application/zip,application/x-rar-compressed,application/x-7z-compressed"
+                      onChange={handleFileChange}
+                      className="hidden"
+                      aria-describedby={errors.files ? 'files-error' : 'files-help'}
+                    />
+                  </label>
+                  
+                  {errors.files && (
+                    <p id="files-error" className="text-[11px] text-red-600">{errors.files}</p>
+                  )}
+
+                  {files.length > 0 && (
+                    <div className="space-y-2 mt-3">
+                      {files.map((file, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-2 rounded-md bg-slate-50 border border-slate-200"
+                        >
+                          <div className="flex items-center gap-2 flex-1 min-w-0">
+                            <svg
+                              className="w-5 h-5 flex-shrink-0"
+                              style={{ color: BRAND_PRIMARY } as React.CSSProperties}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-medium text-slate-700 truncate">{file.name}</p>
+                              <p className="text-[10px] text-slate-500">{formatFileSize(file.size)}</p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(index)}
+                            className="ml-2 p-1 text-slate-400 hover:text-red-600 transition-colors flex-shrink-0"
+                            aria-label={`${file.name} eltávolítása`}
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 

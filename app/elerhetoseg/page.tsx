@@ -123,8 +123,8 @@ export default function Elerhetoseg() {
 
                 <ContactRow
                   title="Email"
-                  lines={['email@email.com']}
-                  href="mailto:email@email.com"
+                  lines={['restart.gyor@gmail.com']}
+                  href="mailto:restart.gyor@gmail.com"
                   icon={
                     <svg className="w-6 h-6 text-[color:var(--color-brand-accent,#EC7007)]" 
                     viewBox="0 0 24 24" 
