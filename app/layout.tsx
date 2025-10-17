@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import Layout from "../components/Layout";
+import Layout from "@/components/Layout";  // @ használata a gyökérre
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,9 +25,15 @@ export default function RootLayout({
   return (
     <html lang="hu">
       <body className="antialiased bg-white text-gray-900 font-sans">
+        {/* Google Analytics - GDPR kompatibilis */}
+        <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID!} />
+        
         <Layout>
           {children}
         </Layout>
+        
+        {/* Cookie Banner - az oldal alján */}
+        <CookieBanner />
       </body>
     </html>
   );
