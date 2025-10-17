@@ -183,19 +183,40 @@ export default function Footer() {
 
       {/* Alsó sáv */}
       <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex flex-col sm:flex-row gap-2 sm:gap-0 items-center justify-between text-sm">
-          <span className="text-white/60">© {year} ReStart Physio. Minden jog fenntartva.</span>
-          <span className="text-white/60">
-            Készítette:{" "}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          {/* Felső sor: Cookie és Adatvédelem linkek */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pb-3 border-b border-white/10">
             <Link
-              href="#"
-              className="text-white/80 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors underline-offset-4 hover:underline"
+              href="/cookie-policy"
+              className="text-sm text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
             >
-              Inspiry Themes
+              Cookie kezelése
             </Link>
-          </span>
+            <span className="text-white/30">•</span>
+            <Link
+              href="/adatvedelem"
+              className="text-sm text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+            >
+              Adatkezelési tájékoztató
+            </Link>
+          </div>
+
+          {/* Alsó sor: Copyright */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 items-center justify-between text-sm pt-3">
+            <span className="text-white/60">© {year} ReStart Physio. Minden jog fenntartva.</span>
+            <span className="text-white/60">
+              Készítette:{" "}
+              <Link
+                href="#"
+                className="text-white/80 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors underline-offset-4 hover:underline"
+              >
+                Inspiry Themes
+              </Link>
+            </span>
+          </div>
         </div>
       </div>
+
 
       {/* Vissza a tetejére */}
       <button
