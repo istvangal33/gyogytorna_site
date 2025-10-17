@@ -2,22 +2,41 @@
 
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+
+// Típusdeklaráció közvetlenül itt
+declare global {
+  interface Window {
+    gtag: (
+      command: 'config' | 'event' | 'consent',
+      targetId: string,
+      config?: Record<string, any>
+    ) => void;
+    dataLayer: any[];
+  }
+}
 
 export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [consent, setConsent] = useState(false);
 
   useEffect(() => {
-    const url = pathname + searchParams.toString();
-    
-    // Oldal megtekintés követése
-    if (window.gtag) {
+    const cookieConsent = Cookies.get('cookieConsent');
+    setConsent(cookieConsent === 'true');
+  }, []);
+
+  useEffect(() => {
+    if (consent && typeof window !== 'undefined' && window.gtag) {
+      const url = pathname + searchParams.toString();
       window.gtag('config', GA_MEASUREMENT_ID, {
         page_path: url,
       });
     }
-  }, [pathname, searchParams, GA_MEASUREMENT_ID]);
+  }, [pathname, searchParams, GA_MEASUREMENT_ID, consent]);
+
+  if (!consent) return null;
 
   return (
     <>
