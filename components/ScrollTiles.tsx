@@ -10,14 +10,14 @@ const services = [
     desc: "A sportrehabilitáció célja, hogy a sportolók a sérüléseket követően minél gyorsabban és biztonságosan visszatérhessenek a sporttevékenységhez. Személyre szabott programokkal segítjük az izomerő, ízületi mozgékonyság, koordináció és állóképesség fokozatos helyreállítását.", 
     icon: <HeartPulse className="h-7 w-7" />, 
     color: "#163e72",
-    image: "/checkup.png"
+    image: "/sportrehab.jpg"
   },
   { 
     title: "Állkapocs ízületi", 
     desc: "Az állkapocsízületi kezelés célja a fájdalom csökkentése és az ízület természetes mozgásának helyreállítása. Személyre szabott terápiás gyakorlatokkal, manuális technikákkal és szükség esetén kiegészítő kezelésekkel segítjük az állkapocs működésének harmonizálását és a mindennapi komfort visszanyerését.", 
     icon: <HeartPulse className="h-7 w-7" />, 
     color: "#163e72",
-    image: "/smr.png"
+    image: "/allkapocs.jpg"
   },
   { 
     title: "Manuál fascia kezelések", 

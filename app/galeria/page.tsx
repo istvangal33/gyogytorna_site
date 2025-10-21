@@ -18,10 +18,20 @@ export default function Galeria() {
     { id: 2, src: '/2.jfif', alt: 'Kezelőszoba', category: 'kezelés', title: 'Kezelőszoba' },
     { id: 3, src: '/3.jfif', alt: 'Gyógytornász eszközök', category: 'eszközök', title: 'Modern eszközök' },
     { id: 4, src: '/images/terapia-1.jpg', alt: 'Terápia', category: 'kezelés', title: 'Terápiás kezelés' },
-    { id: 5, src: '/images/rendelő-2.jpg', alt: 'Recepció', category: 'rendelő', title: 'Recepció' },
-    { id: 6, src: '/images/kezelo-2.jpg', alt: 'Második kezelőszoba', category: 'kezelés', title: 'Kezelőszoba 2' },
-    { id: 7, src: '/images/eszköz-2.jpg', alt: 'Speciális eszközök', category: 'eszközök', title: 'Speciális eszközök' },
-    { id: 8, src: '/images/terapia-2.jpg', alt: 'Egyéni terápia', category: 'kezelés', title: 'Egyéni terápia' },
+    { id: 5, src: '/rendelo1.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 6, src: '/rendelo2.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 7, src: '/rendelo3.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 8, src: '/rendelo4.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 9, src: '/rendelo5.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 10, src: '/rendelo6.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 11, src: '/rendelo7.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 12, src: '/rendelo8.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 13, src: '/rendelo9.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+
+
+    { id: 14, src: '/images/kezelo-2.jpg', alt: 'Második kezelőszoba', category: 'kezelés', title: 'Kezelőszoba 2' },
+    { id: 15, src: '/images/eszköz-2.jpg', alt: 'Speciális eszközök', category: 'eszközök', title: 'Speciális eszközök' },
+    { id: 16, src: '/images/terapia-2.jpg', alt: 'Egyéni terápia', category: 'kezelés', title: 'Egyéni terápia' },
   ];
 
   const categories = ['mind', 'rendelő', 'kezelés', 'eszközök'];
@@ -140,7 +150,7 @@ export default function Galeria() {
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="text-center text-white p-4">
                       <h3 className="text-xl font-bold mb-2">{image.title}</h3>
-                      <span className="text-sm text-gray-300">{image.category}</span>
+                      
                     </div>
                   </div>
                 </div>
