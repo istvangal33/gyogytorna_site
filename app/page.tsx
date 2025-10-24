@@ -53,7 +53,7 @@ export default function Home() {
             <div className="flex flex-col items-center w-full">
               <div className="relative w-full max-w-3xl h-[240px] sm:h-[320px] lg:h-[420px] overflow-hidden rounded-2xl shadow-lg">
                 <Image
-                  src="/mainpicture.jpg"
+                  src="/gerinc_core1.jpg"
                   alt="Forrás Fernanda - Gyógytornász fizikoterapeuta"
                   fill
                   className="object-cover object-center"
