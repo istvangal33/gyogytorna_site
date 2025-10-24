@@ -37,6 +37,9 @@ const PASSES: PriceItem[] = [
   { name: "Csoportos gerinc core edzés bérlet", duration: "5 ALK", price: 30000 },
   { name: "Csoportos gerinc core edzés bérlet", duration: "10 ALK", price: 55000 },
 ];
+  const RENT: PriceItem[] = [
+  { name: "BEMER készülék bérlése", duration: "1 HÓNAP", price: 100000 },
+];
 
 export default function PriceList() {
   return (
@@ -91,6 +94,13 @@ export default function PriceList() {
 
           {/* Bérletek */}
           <PriceGroup items={PASSES} />
+
+          <div
+            className="my-6 h-px w-full"
+            style={{ backgroundColor: "color-mix(in srgb, " + BRAND_PRIMARY + " 15%, #e3ded7)" } as React.CSSProperties}
+          />
+
+          <PriceGroup items={RENT} />
 
           {/* Kapcsolat footer – feljebb húzva és balra indított vonal */}
           <div className="mt-8 sm:mt-10 text-[#001219]">

@@ -63,7 +63,7 @@ export default function Footer() {
                 ReStart Physio
               </Link>
               <span className="text-white/30 hidden sm:inline">/</span>
-              <span className="text-white/70 text-sm hidden sm:inline">Ahol a mozgás újraindul!</span>
+              <span className="text-[#EC7007] text-sm hidden sm:inline">Ahol a mozgás újraindul!</span>
             </div>
           </div>
 

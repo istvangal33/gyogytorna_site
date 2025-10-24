@@ -14,24 +14,39 @@ interface GalleryImage {
 
 export default function Galeria() {
   const galleryImages: GalleryImage[] = [
-    { id: 1, src: '/1.jfif', alt: 'Modern várószoba', category: 'rendelő', title: 'Várószoba' },
-    { id: 2, src: '/2.jfif', alt: 'Kezelőszoba', category: 'kezelés', title: 'Kezelőszoba' },
-    { id: 3, src: '/3.jfif', alt: 'Gyógytornász eszközök', category: 'eszközök', title: 'Modern eszközök' },
-    { id: 4, src: '/images/terapia-1.jpg', alt: 'Terápia', category: 'kezelés', title: 'Terápiás kezelés' },
-    { id: 5, src: '/rendelo1.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 6, src: '/rendelo2.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 7, src: '/rendelo3.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 8, src: '/rendelo4.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 9, src: '/rendelo5.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 10, src: '/rendelo6.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 11, src: '/rendelo7.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 12, src: '/rendelo8.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-    { id: 13, src: '/rendelo9.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
-
-
-    { id: 14, src: '/images/kezelo-2.jpg', alt: 'Második kezelőszoba', category: 'kezelés', title: 'Kezelőszoba 2' },
-    { id: 15, src: '/images/eszköz-2.jpg', alt: 'Speciális eszközök', category: 'eszközök', title: 'Speciális eszközök' },
-    { id: 16, src: '/images/terapia-2.jpg', alt: 'Egyéni terápia', category: 'kezelés', title: 'Egyéni terápia' },
+    { id: 1, src: '/rendelo1.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 2, src: '/rendelo2.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 3, src: '/rendelo3.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 4, src: '/rendelo4.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 5, src: '/rendelo5.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 6, src: '/rendelo6.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 7, src: '/rendelo7.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 8, src: '/rendelo8.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 9, src: '/rendelo9.jpeg', alt: 'Rendelő', category: 'rendelő', title: 'Rendelő' },
+    { id: 10, src: '/bemer1.jpg', alt: 'Kezelés', category: 'kezelés', title: 'BEMER terápia' },
+    { id: 11, src: '/bemer2.jpg', alt: 'Kezelés', category: 'kezelés', title: 'BEMER terápia' },
+    { id: 12, src: '/bemer3.jpg', alt: 'Kezelés', category: 'kezelés', title: 'BEMER terápia' },
+    { id: 13, src: '/bemer4.jpg', alt: 'Kezelés', category: 'kezelés', title: 'BEMER terápia' },
+    { id: 14, src: '/manual1.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Manuális fasciakezelés' },
+    { id: 15, src: '/manual2.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Manuális fasciakezelés' },
+    { id: 16, src: '/manual3.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Manuális fasciakezelés' },
+    { id: 17, src: '/manual4.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Manuális fasciakezelés' },
+    { id: 18, src: '/sportrehab1.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Sportrehabilitáció ' },
+    { id: 19, src: '/sportrehab2.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Sportrehabilitáció' },
+    { id: 20, src: '/sportrehab3.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Sportrehabilitáció' },
+    { id: 21, src: '/sportrehab4.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Sportrehabilitáció' },
+    { id: 22, src: '/gerinc_core1.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Gerinc - Core stabilizáció' },
+    { id: 23, src: '/gerinc_core2.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Gerinc - Core stabilizáció' },
+    { id: 24, src: '/gerinc_core3.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Gerinc - Core stabilizáció' },
+    { id: 25, src: '/group_core1.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Csoportos core tréning' },
+    { id: 26, src: '/group_core2.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Csoportos core tréning' },
+    { id: 27, src: '/group_core3.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Csoportos core tréning' },
+    { id: 28, src: '/group_core4.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Csoportos core tréning' },
+    { id: 29, src: '/allkapocs1.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Állkapocs terápia' },
+    { id: 30, src: '/allkapocs2.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Állkapocs terápia' },
+    { id: 31, src: '/allkapocs3.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Állkapocs terápia' },
+    { id: 32, src: '/allkapocs4.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Állkapocs terápia' },
+    { id: 33, src: '/dynamictape1.jpg', alt: 'Kezelés', category: 'kezelés', title: 'Dynamic Tape' },
   ];
 
   const categories = ['mind', 'rendelő', 'kezelés', 'eszközök'];
@@ -246,7 +261,6 @@ export default function Galeria() {
                 <div className="absolute bottom-0 left-0 right-0 w-full">
                   <div className="bg-gradient-to-t from-black/90 via-black/70 to-transparent px-4 py-4 md:px-8 md:py-6 rounded-b-lg text-center">
                     <h3 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2">{currentImage.title}</h3>
-                    <p className="text-sm md:text-lg text-gray-300">{currentImage.category}</p>
                   </div>
                 </div>
               </motion.div>

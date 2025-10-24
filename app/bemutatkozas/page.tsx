@@ -14,7 +14,7 @@ export default function Bemutatkozo() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-black to-gray-900 text-white py-28 md:py-36">
+      <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
         {/* Dekoratív hullámos alj */}
         <div className="absolute inset-x-0 bottom-0">
           <svg
@@ -29,11 +29,11 @@ export default function Bemutatkozo() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-[#004A6D] mb-4">
               Bemutatkozás
             </h1>
-            <p className="text-lg md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              Több mint 10 éves tapasztalattal segítem pácienseimet a gyógyulás útján
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Közel 10 éves szakmai tapasztalattal segítem pácienseimet a gyógyulás útján
             </p>
           </div>
         </div>
@@ -63,29 +63,6 @@ export default function Bemutatkozo() {
                 <p className="text-lg text-gray-900 mt-2 mb-4 text-center">Gyógytornász -fizikoterapeuta</p>
                 
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-4">
-                <span className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium 
-                  bg-gradient-to-r from-blue-50 to-blue-100 text-black shadow-sm hover:shadow-md hover:scale-105 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3" />
-                  </svg>
-                  10+ év tapasztalat
-                </span>
-
-                <span className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium 
-                  bg-gradient-to-r from-green-50 to-green-150 text-black shadow-sm hover:shadow-md hover:scale-105 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                  Manuálterápia
-                </span>
-
-                <span className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium 
-                  bg-gradient-to-r from-purple-50 to-pink-100 text-black shadow-sm hover:shadow-md hover:scale-105 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6l4 2" />
-                  </svg>
-                  Sportrehabilitáció
-                </span>
               </div>
 
 
@@ -98,27 +75,29 @@ export default function Bemutatkozo() {
             <div>
               <h3 className="text-3xl md:text-4xl font-bold text-blue-1000 mb-8 relative text-center">
                 <span className="text-3xl font-bold text-gray-900 mt-6 ">
-                  Szakmai Háttér
+                  Bemutatkozás
                 </span>
                 <span className="absolute -bottom-2 left-0 w-20 h-1 bg-gradient-to-r text-grey-600 rounded-full"></span>
               </h3>
               <div className="prose prose-lg text-gray-900 space-y-6 max-w-none">
                 <p>
-                  Diplomámat 2017-ben szereztem a Szegedi Tudományegyetemen, majd ezt követően költöztem és kezdtem el Győrben dolgozni. 
-Az elmúlt évek döntő részében élsportolókkal dolgoztam együtt, kezdetben kézilabdázókkal majd ezt követően a Győri ETO FC gyógytornászaként négy évig labdarúgókkal. Ezek alatt az évek alatt lehetőségem nyílt evezős sportolókkal, kosárlabdázókkal és atlétákkal is együtt dolgozni, így komplex rálátást és szemléletet kaptam különböző sportok rehabilitációjáról. 2024-től léptem át a magánszektorba, ahol számos mozgásszervi betegséggel hozzám forduló pácienst segíthettem vissza a mindennapi fájdalommentes életéhez.
+                  Forrás Fernanda vagyok, okleveles gyógytornász-fizioterapeuta, a ReStart Physio alapítója és tulajdonosa. Diplomámat 2017-ben szereztem meg a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon.
+                </p>
+                <p>
+                  Az elmúlt évek döntő részében élsportolók körében tevékenykedtem. Tapasztalatot szereztem a sportban elszenvedett sérülések rehabilitációs kezelésében. Két évig a Mosonmagyaróvári Kézilabda Club gyógytornászaként, ezt követően négy évig a Győri ETO FC labdarúgócsapatának szakembereként. Ezen sportok mellett foglalkoztam egyéb sportágakban versenyzőkkel is, mint a Magyar Evezős Szövetség válogatott, illetve a Győri Atlétikai Club evezős szakosztályának sportolóival, továbbá kosárlabdázókkal, atlétákkal és úszókkal is. 2023-ban tagja voltam a Magyarországon megrendezett Atlétikai Világbajnokság fizioterapeuta csapatának.
+                </p>
+                <p>
+                  2024-től léptem át a magánszektorba, ahol azóta is számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
                 </p>
                 <h3 className="text-2xl font-semibold text-center mb-4">Szakterületeim</h3>
                 <ul className="space-y-2 list-disc list-inside">
-                  <li>Sportrehabilitáció/ műtétek utáni rehabilitáció</li>
-                  <li>Manuális fascia kezelések</li>
-                  <li>Állkapocs ízületi panaszok kezelése</li>
-                  <li>Porckorongsérv és egyéb gerinc panaszok kezelése</li>
-                  <li>Gerincferdülés</li>
-                  <li>Ízületi és mozgásszervi panaszok kezelése</li>
+                  <li>Sportrehabilitáció: Térdműtétek, speciálisan: ACL -elülső keresztszalag szakadást követő műtét utáni rehabilitáció, bokasérülés/műtét utáni rehabilitáció</li>
+                  <li>Porckorongsérv konzervatív kezelése</li>
+                  <li>SI ízületi panaszok kezelése</li>
+                  <li>Állkapocs ízületi terápia</li>
+                  <li>Izomsérülések és ízületi fájdalmak kezelése</li>
+                  <li>Gerincferdülés(Scoliosis) konzervatív kezelése</li>
                 </ul>
-                <p>
-                  Az elmúlt évek tapasztalatait szeretném arra használni, hogy minél hatékonyabban tudjam segíteni a hozzám fordulókat, motivációt nyújtsak a rehabilitáció folyamatában és hozzásegítsem a pácienseimet a közösen kitűzött célok eléréséhez!
-                </p>
               </div>
             </div>
           </div>

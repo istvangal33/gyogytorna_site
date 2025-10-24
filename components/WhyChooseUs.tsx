@@ -58,7 +58,7 @@ export default function ModernGlassSection() {
           </div>
           
           <h2 className="text-4xl lg:text-6xl font-light text-slate-900 mb-6 tracking-tight">
-            Több mint <span className="font-medium text-[#00072D]">10 éves</span> tapasztalat
+            Közel <span className="font-medium text-[#00072D]">10 éves</span> szakmai tapasztalat
           </h2>
           
           <p className="text-lg lg:text-xl text-slate-900 max-w-3xl mx-auto leading-relaxed font-light">
@@ -180,7 +180,7 @@ export default function ModernGlassSection() {
                 </motion.a>
                 
                 <motion.a
-                  href="tel:+36301234567"
+                  href="tel:+36 30 819 8449"
                   className="group relative inline-flex items-center gap-3 px-7 py-3 rounded-2xl font-semibold
                             text-[#00072D] hover:text-[#EC7007]
                             bg-white/70 backdrop-blur-md
@@ -196,7 +196,7 @@ export default function ModernGlassSection() {
                                   group-hover:opacity-100 transition-opacity duration-300
                                   bg-[radial-gradient(120%_120%_at_0%_0%,rgba(236,112,7,0.12),transparent_55%)]" />
                   <PhoneCall className="w-5 h-5" />
-                  +36 30 123 4567
+                  +36 30 819 8449
                 </motion.a>
               </div>
             </div>
