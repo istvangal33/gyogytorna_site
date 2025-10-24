@@ -117,10 +117,11 @@ export default function ServicesSection() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative bg-gradient-to-r from-black to-gray-900 text-white py-28 md:py-36">
+      <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
+        {/* Dekoratív hullámos alj */}
         <div className="absolute inset-x-0 bottom-0">
           <svg
-            className="w-full h-16 md:h-24 text-gray-50"
+            className="w-full h-16 md:h-24 text-white"
             viewBox="0 0 1440 320"
             preserveAspectRatio="none"
             fill="currentColor"
@@ -131,10 +132,10 @@ export default function ServicesSection() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg">
-              Szolgáltatások
+            <h1 className="text-4xl md:text-6xl font-extrabold text-[#004A6D] mb-4">
+              Bemutatkozás
             </h1>
-            <p className="text-lg md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Komplex fizioterápiás megoldások minden igényre – egyénre szabott kezelésekkel
             </p>
           </div>

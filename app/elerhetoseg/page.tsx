@@ -22,24 +22,30 @@ export default function Elerhetoseg() {
     <>
       {/* Hero – visszafogott brand hátterekkel */}
       <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
-  {/* Animated background elements */}
-  <div className="pointer-events-none absolute inset-0">
-    <div className="absolute top-10 right-10 w-64 h-64 bg-[#004A6D]/10 rounded-full blur-3xl animate-pulse"></div>
-    <div className="absolute bottom-10 left-10 w-48 h-48 bg-[#EC7007]/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-  </div>
+        {/* Dekoratív hullámos alj */}
+        <div className="absolute inset-x-0 bottom-0">
+          <svg
+            className="w-full h-16 md:h-24 text-white"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+            fill="currentColor"
+          >
+            <path d="M0,96L48,106.7C96,117,192,139,288,160C384,181,480,203,576,186.7C672,171,768,117,864,117.3C960,117,1056,171,1152,186.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z"></path>
+          </svg>
+        </div>
 
-  <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-    {/* Header */}
-    <div className="text-center mb-16">      
-      <h1 className="text-4xl md:text-6xl font-extrabold text-[#004A6D] mb-4">
-        Vegye fel velünk a kapcsolatot
-      </h1>
-      <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-        Válaszolunk minden kérdésére és segítünk időpontot foglalni
-      </p>
-    </div>
-  </div>
-</section>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-[#004A6D] mb-4">
+              Vegye fel velünk a kapcsolatot
+            </h1>
+            <p className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Válaszolunk minden kérdésére és segítünk időpontot foglalni
+            </p>
+          </div>
+        </div>
+      </section>
+
 
       {/* Helyszín + adatok kártyákban */}
       <section className="py-16 bg-white">

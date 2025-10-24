@@ -96,32 +96,40 @@ export default function Galeria() {
   return (
     <>
       {/* Hero Section - Alime Style */}
-      <section className="relative bg-gradient-to-r from-black to-gray-900 text-white py-28 md:py-36">
-        {/* Wavy bottom */}
+      <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
+        {/* Dekoratív hullámos alj */}
         <div className="absolute inset-x-0 bottom-0">
-          <svg className="w-full h-16 md:h-24 text-gray-50" viewBox="0 0 1440 320" preserveAspectRatio="none" fill="currentColor">
+          <svg
+            className="w-full h-16 md:h-24 text-white"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+            fill="currentColor"
+          >
             <path d="M0,96L48,106.7C96,117,192,139,288,160C384,181,480,203,576,186.7C672,171,768,117,864,117.3C960,117,1056,171,1152,186.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z"></path>
           </svg>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg"
-          >
-            Galéria
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed"
-          >
-            Tekintse meg modern rendelőnket és eszközeinket
-          </motion.p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl md:text-6xl font-extrabold text-[#004A6D] mb-4"
+            >
+              Galéria
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            >
+              Tekintse meg modern rendelőnket és eszközeinket
+            </motion.p>
+          </div>
         </div>
       </section>
+
 
       {/* Filter Buttons - Alime Style */}
       <section className="py-12 bg-white">
