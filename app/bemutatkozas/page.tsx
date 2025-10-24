@@ -50,7 +50,7 @@ export default function Bemutatkozo() {
               <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-500">
                 <div className="aspect-square overflow-hidden ">
                   <Image 
-                    src="/girl.jpg"   // vagy külső URL: "https://domain.com/example.jpg"
+                    src="/cv.jpg"   // vagy külső URL: "https://domain.com/example.jpg"
                     alt="Leírás a képről"
                     width={550}                 // pixelben, kötelező!
                     height={300}                // pixelben, kötelező!
@@ -62,10 +62,8 @@ export default function Bemutatkozo() {
                 <h2 className="text-3xl font-bold text-gray-900 mt-6 text-center">Forrás Fernanda</h2>
                 <p className="text-lg text-gray-900 mt-2 mb-4 text-center">Gyógytornász -fizikoterapeuta</p>
                 
-                <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-4">
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-4">
               </div>
-
-
               </div>
               {/* Dekoratív háttér kör */}
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
