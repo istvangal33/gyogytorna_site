@@ -153,12 +153,12 @@ export default function Bemutatkozo() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {[
-                  { title: "McKenzie módszer (MDT)", video: "/videos/mckenzie.mp4" },
-                  { title: "Trigger Point terápia", video: "/videos/triggerpoint.mp4" },
-                  { title: "Funkcionális mozgásanalízis (FMS)"},
-                  { title: "Gerinc stabilizáció"},
-                  { title: "Légzésterápia"},
-                  { title: "Szülés előtti/utáni rehabilitáció"},
+                  { title: "ACL -elülső keresztszalag szakadást követő műtét utáni rehabilitáció", video: "/videos/mckenzie.mp4" },
+                  { title: "Porckorongsérv konzervatív kezelése", video: "/videos/porckorong.mp4" },
+                  { title: "SI ízületi panaszok kezelése", video: "/videos/si.mp4" },
+                  { title: "Állkapocs ízületi terápia"},
+                  { title: "Izomsérülések és ízületi fájdalmak kezelése"},
+                  { title: "Gerincferdülés(Scoliosis) konzervatív kezelése"},
                 ].map((item, i) => (
                   <div
                     key={i}
@@ -167,7 +167,7 @@ export default function Bemutatkozo() {
                     <h4 className="font-semibold text-gray-900">{item.title}</h4>
 
                     {/* Hover videó tooltip */}
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 w-64 h-36 rounded-xl overflow-hidden shadow-lg scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-300 origin-left z-20">
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 w-96 h-56 rounded-xl overflow-hidden shadow-lg scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-300 origin-left z-20">
                       <video
                         src={item.video}
                         autoPlay
@@ -182,7 +182,61 @@ export default function Bemutatkozo() {
               </div>
             </div>
 
+            {/* Továbbképzéseim - Timeline stílusban */}
+            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
+              <div className="flex items-center mb-8">
+                <h3 className="ml-4 text-2xl font-bold text-gray-900">Továbbképzéseim</h3>
+              </div>
+              
+              <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#004A6D] scrollbar-track-gray-100">
+                {[
+                  { year: "2017", title: "Kinematic Taping" },
+                  { year: "2017", title: "SMR henger alapkurzus - Csiky System" },
+                  { year: "2018", title: "3D Scoliosis terápia tanfolyam" },
+                  { year: "2018", title: "Medical Flossing terápia" },
+                  { year: "2019", title: "FDM terápia I.-II.-III." },
+                  { year: "2021", title: "Functional Movement Screen – Gray Cook módszer" },
+                  { year: "2022", title: "S.I- terápia tanfolyam" },
+                  { year: "2023", title: "Craniomandibuláris diszfunkciók terápiája" },
+                  { year: "2024", title: "Aspetar International Rehabilitation Conference and Workshop – the Complete Guide to the Athletic ACL – at the Aspetar Orthopaedic and Sport Medicine Hospital in Doha, Qatar" },
+                  { year: "2025", title: "Special Therapy segédeszközök használata" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start space-x-3 p-3 rounded-lg hover:from-[#004A6D]/10 transition-colors">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
+                      {item.year}
+                    </div>
+                    <div className="flex-1 pt-1">
+                      <p className="font-semibold text-gray-900 text-sm leading-relaxed">{item.title}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
+
+
+            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
+              <div className="flex items-center mb-8">
+                <h3 className="ml-4 text-2xl font-bold text-gray-900">Tudományos előadások</h3>
+              </div>
+              
+              <div className="space-y-6">
+                <div className="border-l-4 border-gray-600 pl-4">
+                  <h4 className="font-semibold text-gray-900">Magyar Sporttudományi Kongresszus</h4>
+                  <p className="text-gray-600">Intervencióval összekapcsolt alsó végtagi funkciók fejlesztése evezősök körében</p>
+                  <p className="text-sm text-gray-500">2021</p>
+                </div>
+                <div className="border-l-4 border-gray-600 pl-4">
+                  <h4 className="font-semibold text-gray-900">Fiatal Sporttudósok Kongresszusa</h4>
+                  <p className="text-gray-600">Intervencióval összekapcsolt hosszmetszeti vizsgálat eredményei, LCA szakadás után, BTB plasztikából visszatérő labdarúgó esetében</p>
+                  <p className="text-sm text-gray-500">2021</p>
+                </div>
+                <div className="border-l-4 border-gray-600 pl-4">
+                  <h4 className="font-semibold text-gray-900">Puskás Akadémia lapszemle</h4>
+                  <p className="text-gray-600">Sportba való visszatérés Achilles-ín sérülések után</p>
+                </div>
+              </div>
+            </div>
 
 
 

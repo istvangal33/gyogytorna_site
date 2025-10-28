@@ -1,6 +1,48 @@
 import WhyChooseUs from '../components/WhyChooseUs';
-
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'ReStart Physio - Gyógytorna és Fizioterápia Győrben | Forrás Fernanda',
+  description: 'Szakszerű gyógytorna, fizioterápia és sportrehabilitáció Győrben. Közel 10 év tapasztalat gerincpanaszok, sportsérülések és mozgásszervi problémák kezelésében.',
+  keywords: 'gyógytorna Győr, fizioterápia, sportrehabilitáció, gerincpanasz, manuálterápia, porckorongsérv kezelés',
+  openGraph: {
+    title: 'ReStart Physio - Ahol a mozgás újraindul',
+    description: 'Szakszerű gyógytorna és fizioterápia Győrben. Foglalj időpontot még ma!',
+    url: 'https://gyogytorna.hu',
+    siteName: 'ReStart Physio',
+    images: [
+      {
+        url: '/gerinc_core1.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ReStart Physio - Gyógytorna Győr',
+      },
+    ],
+    locale: 'hu_HU',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ReStart Physio - Gyógytorna Győrben',
+    description: 'Szakszerű gyógytorna és fizioterápia szolgáltatások',
+    images: ['/gerinc_core1.jpg'],
+  },
+  alternates: {
+    canonical: 'https://gyogytorna.hu',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
 
 export default function Home() {
   return (

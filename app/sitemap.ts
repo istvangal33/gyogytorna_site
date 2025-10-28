@@ -1,30 +1,44 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://gyogytorna.hu';
+  
   return [
     {
-      url: 'https://gyogytorna.hu',
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: 'https://gyogytorna.hu/bemutatkozo',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://gyogytorna.hu/kapcsolat',
+      url: `${baseUrl}/bemutatkozas`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: 'https://gyogytorna.hu/elerhetoseg',
+      url: `${baseUrl}/szolgaltatasok`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/arak`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/kapcsolat`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/elerhetoseg`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
   ];
 }
