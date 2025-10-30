@@ -47,26 +47,36 @@ export default function Bemutatkozo() {
 
             {/* Photo and Basic Info */}
             <div className="relative group">
-              <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-500">
-                <div className="aspect-square overflow-hidden ">
-                  <Image 
-                    src="/cv.jpg"   // vagy külső URL: "https://domain.com/example.jpg"
-                    alt="Leírás a képről"
-                    width={550}                 // pixelben, kötelező!
-                    height={300}                // pixelben, kötelező!
-                    priority                    // (opcionális, ha fontos a gyors betöltés)
-                    quality={80}                // (opcionális, képek minősége 1-100)
-                    style={{ borderRadius: '50%', objectFit: 'cover' }} // (opcionális, stílus)
-                    />
+              <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl p-0 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-500">
+                <div className="
+                  relative w-full 
+                  h-[400px] 
+                  sm:h-[520px]   
+                  md:h-[760px]   
+                  lg:h-[540px] 
+                  xl:h-[700px] 
+                  overflow-hidden 
+                  rounded-t-2xl
+                ">
+                  <Image
+                    src="/main.jpg"
+                    alt="Bemutatkozó fotó"
+                    fill
+                    style={{
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      borderRadius: '0.75rem 0.75rem 0 0'
+                    }}
+                    priority
+                    quality={90}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+                  />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mt-6 text-center">Forrás Fernanda</h2>
-                <p className="text-lg text-gray-900 mt-2 mb-4 text-center">Gyógytornász -fizikoterapeuta</p>
-                
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mt-4">
+                <div className="px-6 py-4">
+                  <h2 className="text-3xl font-bold text-gray-900 mt-2 mb-2 text-center">Forrás Fernanda</h2>
+                  <p className="text-lg text-gray-900 mb-3 text-center">Gyógytornász - fizikoterapeuta</p>
+                </div>
               </div>
-              </div>
-              {/* Dekoratív háttér kör */}
-              <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
             </div>
 
             {/* Professional Story */}
@@ -200,7 +210,7 @@ export default function Bemutatkozo() {
                   { year: "2023", title: "Craniomandibuláris diszfunkciók terápiája" },
                   { year: "2024", title: "Aspetar International Rehabilitation Conference and Workshop – the Complete Guide to the Athletic ACL – at the Aspetar Orthopaedic and Sport Medicine Hospital in Doha, Qatar" },
                   { year: "2025", title: "Special Therapy segédeszközök használata" }
-                ].map((item, i) => (
+                ].slice().reverse().map((item, i) => (
                   <div key={i} className="flex items-start space-x-3 p-3 rounded-lg hover:from-[#004A6D]/10 transition-colors">
                     <div className="flex-shrink-0 w-10 h-10 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
                       {item.year}
@@ -212,7 +222,6 @@ export default function Bemutatkozo() {
                 ))}
               </div>
             </div>
-
 
 
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">

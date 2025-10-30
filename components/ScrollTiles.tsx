@@ -151,13 +151,6 @@ export default function ServiceSlider() {
 
               {/* Jobb - Tartalom */}
               <div className="flex-1">
-                <div 
-                  className="inline-block px-6 py-3 rounded-full text-sm font-bold text-white mb-6 shadow-lg"
-                  style={{ backgroundColor: services[current].color }}
-                >
-                  {services[current].title.split(" ")[0].toUpperCase()}
-                </div>
-                
                 <h1 className="text-4xl xl:text-6xl font-extrabold text-[#004A6D] mb-8 leading-tight">
                   {services[current].title}
                 </h1>
@@ -198,7 +191,7 @@ export default function ServiceSlider() {
                   <button
                     key={idx}
                     onClick={() => setCurrent(idx)}
-                    className={`relative w-full h-28 rounded-xl overflow-hidden transition-all duration-300 group bg-gradient-to-br from-gray-50 to-gray-100
+                    className={`relative w-full h-28 rounded-xl overflow-hidden transition-all duration-300 group bg-transparent
                       ${idx === current 
                         ? "ring-2 ring-[#EC7007] shadow-2xl" 
                         : "opacity-40 hover:opacity-100 hover:scale-105 hover:shadow-lg"
@@ -211,18 +204,10 @@ export default function ServiceSlider() {
                         src={service.image} 
                         alt={service.title} 
                         fill 
-                        className="object-contain p-2 transition-transform duration-500 group-hover:scale-110" 
+                        className={`object-contain p-2 transition-transform duration-500 group-hover:scale-110 ${idx === current ? '' : 'opacity-70'}`}
                         sizes="200px"
                       />
                     </div>
-                    
-                    <div 
-                      className="absolute inset-0 transition-opacity duration-300 pointer-events-none"
-                      style={{
-                        background: `linear-gradient(to top, ${service.color}${idx === current ? 'dd' : '99'}, transparent 60%)`
-                      }}
-                    />
-                    
                     <div className="absolute inset-0 flex flex-col items-center justify-end pb-2 pointer-events-none">
                       {idx === current && (
                         <span className="text-white text-xs font-bold mt-1 drop-shadow-lg">
@@ -292,7 +277,7 @@ export default function ServiceSlider() {
                     onClick={() => setCurrent(idx)}
                     className={`relative flex-shrink-0 w-[80px] h-[80px] rounded-xl overflow-hidden transition-all duration-300
                       ${idx === current 
-                        ? "card-active ring-[3px] ring-[#EC7007] shadow-xl opacity-100 scale-105" 
+                        ? "card-active ring-2 ring-[#EC7007] shadow-xl opacity-100 scale-105" 
                         : "opacity-55 hover:opacity-85 scale-100"
                       }
                     `}
@@ -300,29 +285,18 @@ export default function ServiceSlider() {
                     aria-label={service.title}
                   >
                     {/* ÉLES, TELJES KÉP - OBJECT-CONTAIN */}
-                    <div className="relative w-full h-full bg-gradient-to-br from-gray-50 to-gray-100">
+                    <div className="relative w-full h-full">
                       <Image 
                         src={service.image} 
                         alt={service.title} 
                         fill 
-                        className="object-contain p-1" 
+                        className={`object-contain p-1 ${idx === current ? '' : 'opacity-40'}`} 
                         quality={95}
                         sizes="80px"
                         priority={idx <= 2}
                       />
                     </div>
-                    
-                    {/* SZÍNES OVERLAY - CSAK ALUL */}
-                    <div 
-                      className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${
-                        idx === current ? 'opacity-50' : 'opacity-70'
-                      }`}
-                      style={{
-                        background: idx === current 
-                          ? `linear-gradient(to top, #EC7007ee 0%, transparent 45%)`
-                          : `linear-gradient(to top, ${service.color}dd 0%, transparent 45%)`
-                      }}
-                    />
+
                     
                     {/* KONTRASZT SZÖVEG */}
                     <div className="absolute inset-0 flex items-end justify-center pb-1.5 pointer-events-none">
