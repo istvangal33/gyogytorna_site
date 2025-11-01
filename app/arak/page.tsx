@@ -180,11 +180,11 @@ function PriceGroup({ items }: PriceGroupProps) {
                 {item.duration ?? "—"}
               </div>
               <div
-                className="py-2 text-[0.76rem] font-semibold tabular-nums whitespace-nowrap"
-                style={{ color: BRAND_PRIMARY } as React.CSSProperties}
-              >
-                {formatPrice(item.price)}
-              </div>
+              className="py-2 -mt-0.5 text-[0.76rem] font-semibold tabular-nums whitespace-nowrap"
+              style={{ color: BRAND_PRIMARY } as React.CSSProperties}
+            >
+              {formatPrice(item.price)}
+            </div>
             </React.Fragment>
           );
         })}

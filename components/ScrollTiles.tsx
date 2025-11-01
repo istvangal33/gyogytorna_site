@@ -7,47 +7,64 @@ import { HeartPulse, Activity, User, HandHeart, Users, Zap } from "lucide-react"
 const services = [
   { 
     title: "Sport rehabilitáció és műtétek utáni rehabilitáció", 
-    desc: "A sportrehabilitáció célja, hogy a sportolók a sérüléseket követően minél gyorsabban és biztonságosan visszatérhessenek a sporttevékenységhez. Személyre szabott programokkal segítjük az izomerő, ízületi mozgékonyság, koordináció és állóképesség fokozatos helyreállítását.", 
+    desc: "A sportrehabilitáció célja, hogy a sérülést követően a sportoló - legyen hobbi vagy élsportoló - minél gyorsabban, biztonságosan és teljes értékűen térhessen vissza az edzéshez vagy versenyzéshez. A kezelés nem csupán a fájdalomcsillapításról szól, hanem a teljes funkció helyreállításáról és a sérülés újbóli kialakulásának minimalizálásáról. A sportrehabilitáció során személyre szabott kezelési tervet készítünk, melyben ötvözzük a manuálterápiát, funkcionális gyakorlatokat. Megtanítjuk a helyes mozgásmintákat, javítjuk a mobilitást, koordinációt, stabilitást, dinamikát és az erőnlétet -legyen szó húzódásról, szalagsérülésekről, műtét utáni állapotról vagy túlterheléses problémákról.", 
     icon: <HeartPulse className="h-6 w-6" />, 
     color: "#EC7007",
     image: "/sportrehab4.jpg"
   },
   { 
     title: "Állkapocs ízületi terápia", 
-    desc: "Az állkapocsízületi kezelés célja a fájdalom csökkentése és az ízület természetes mozgásának helyreállítása. Személyre szabott terápiás gyakorlatokkal, manuális technikákkal és szükség esetén kiegészítő kezelésekkel segítjük az állkapocs működésének harmonizálását és a mindennapi komfort visszanyerését.", 
+    desc: "Az állkapocs-ízületi terápia a rágóízület (TMJ – temporomandibuláris ízület) működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés. A mindennapi stressz, fogszorítás, fogcsikorgatás, helytelen testtartás vagy harapási rendellenességek gyakran okozhatnak állkapocs körüli fájdalmat, kattogást, fejfájást, fülzúgást vagy szájnyitási nehézségeket. Az állkapocs-ízületi terápia során célzott technikákkal kezeljük az érintett izmokat, kötőszöveteket és ízületeket – kívülről és szükség esetén a szájüregen belül is. A kezelés által segítjük az ízületi funkciók normalizálását, oldjuk az ízületben kialakult feszüléseket és javítjuk a szájnyitás szabadságát, miközben enyhítjük a fájdalmat és a kapcsolódó tüneteket.", 
     icon: <Activity className="h-6 w-6" />, 
     color: "#004A6D",
     image: "/allkapocs3.jpg"
   },
   { 
     title: "Manuál fascia kezelések", 
-    desc: "A manuál- és fasciakezelések célja a mozgásszervi fájdalmak enyhítése és a test természetes egyensúlyának helyreállítása. Finom, célzott fogásokkal oldjuk az izmok, ízületek és kötőszövetek feszüléseit, javítjuk a keringést és elősegítjük a regenerációt, hogy a test szabadabban és fájdalommentesebben mozoghasson.",
+    desc: "Az állkapocs-ízületi terápia a rágóízület (TMJ – temporomandibuláris ízület) működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés. A mindennapi stressz, fogszorítás, fogcsikorgatás, helytelen testtartás vagy harapási rendellenességek gyakran okozhatnak állkapocs körüli fájdalmat, kattogást, fejfájást, fülzúgást vagy szájnyitási nehézségeket. Az állkapocs-ízületi terápia során célzott technikákkal kezeljük az érintett izmokat, kötőszöveteket és ízületeket – kívülről és szükség esetén a szájüregen belül is. A kezelés által segítjük az ízületi funkciók normalizálását, oldjuk az ízületben kialakult feszüléseket és javítjuk a szájnyitás szabadságát, miközben enyhítjük a fájdalmat és a kapcsolódó tüneteket. ",
     icon: <HandHeart className="h-6 w-6" />, 
     color: "#125341",
     image: "/manual3.jpg"
   },
   { 
-    title: "Gerinc- és ízületi panaszok kezelése", 
+    title: "Gerincpanaszok kezelése", 
     desc: "A kezelések célja a fájdalom csökkentése, a mozgékonyság helyreállítása és a testtartás javítása. Személyre szabott terápiás módszerekkel — például gyógytornával, manuális technikákkal és stabilizáló gyakorlatokkal — segítjük a gerinc és az ízületek egészséges működésének visszaállítását, valamint a panaszok kiújulásának megelőzését.",
     icon: <User className="h-6 w-6" />, 
     color: "#7e2c40",
     image: "/gerinc_core3.jpg"
   },
   { 
-    title: "BEMER terápia – Mikrokeringés javítása sejtszinten", 
-    desc: "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet mikrokeringését – vagyis a hajszálerekben zajló vérárramlást. Ez kulcsfontosságú a sejtek oxigén- és tápanyagellátása, valamint a salakanyagok elszállítása szempontjából.", 
+    title: "BEMER terápia", 
+    desc: "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amelycélzott, pulzáló elektromágneses mező segítségével javítja a szervezetmikrokeringését – vagyis a hajszálerekben zajló véráramlást. Ez kulcsfontosságú asejtek oxigén- és tápanyagellátása, valamint a salakanyagok elszállításaszempontjából. A terápia segít a szervezet öngyógyító folyamatait aktiválni, fokozza aregenerációt, csökkenti a gyulladást és elősegíti a fizikai és mentális teljesítőképességhelyreállítását.", 
     icon: <Zap className="h-6 w-6" />, 
     color: "#362a5b",
     image: "/bemer3.jpg"
   },
   { 
+    title: "Dinamikus tape", 
+    desc: "A Dynamic Tape egy innovatív, biomechanikai szemléletű tapasz, amely nemcsak támogatja az izmokat és ízületeket, hanem aktívan segíti a mozgást is. Ellentétben a klasszikus kineziológiai tapaszokkal, a Dynamic Tape erőteljesen rugalmas, több irányban nyúlik, és képes elnyelni, majd visszaadni a mozgás során keletkező energiát.​A Dynamic Tape kontrollálja a terhelést, a mozgásmintákat és funkciókat azáltal, hogy energiát juttat a rendszerbe. Ez az első és egyetlen biomechanikai tapasz, amely közvetlenül hatással van az izmok munkájára és az ízületek mozgására.​A tapaszt hatékonyan használhatjuk ficamok és sérülések után, izmok és ízületek terhelésének csökkentésére, mozgástartomány növelésére, fájdalom csökkentésére. A Dynamic Tape-et sérülések utáni rehabilitációban, sportteljesítmény javításában, krónikus fájdalmak enyhítésében (derékfájdalom, teniszkönyök, térdfájdalom) vagy mozgásminták korrekciójában használjuk.", 
+    icon: <Zap className="h-6 w-6" />, 
+    color: "#362a5b",
+    image: "/tape.jpg"
+  },
+  { 
     title: "Egyéni és csoportos foglalkozások", 
-    desc: "Az egyéni foglalkozások során a kezelés teljes mértékben a páciens igényeihez és aktuális állapotához igazodik, így gyorsabb és hatékonyabb eredmény érhető el. A csoportos foglalkozások motiváló légkört teremtenek, segítik a rendszeres mozgást és a közösségi élményt, miközben szakember irányítása mellett zajlanak a gyakorlatok.",
+    desc: "A core (törzsizomzat) a test stabilitásának alapja. Ha ezek az izmok gyengék vagy nem működnek megfelelően, a gerinc túlterhelődik – ez gyakori oka a fájdalmaknak és a sérüléseknek. A személyre szabott core-stabilizációs program célja, hogy fokozatosan, az egyéni állapothoz igazítva építsük vissza a törzs tartóerejét. A stabil, jól koordinált izommunka megtanítása által a páciens tehermentesítheti a gerincet, javíthatja a testtartást és megelőzheti a panaszok kiújulását. ",
     icon: <Users className="h-6 w-6" />, 
     color: "#633b1c",
     image: "/group_core1.jpg"
   }
 ];
+
+const SERVICE_MAPPING: { [key: string]: string } = {
+  "Sport rehabilitáció és műtétek utáni rehabilitáció": "Egyéni gyógytorna/rehabilitáció",
+  "Állkapocs ízületi terápia": "TMI (Állkapocs ízületi) terápia",
+  "Manuál fascia kezelések": "Lágy rész manuál terápia (FDM kezelések)",
+  "Gerinc- és ízületi panaszok kezelése": "Schroth terápia",
+  "BEMER terápia – Mikrokeringés javítása sejtszinten": "Komplex rehabilitáció",
+  "Egyéni és csoportos foglalkozások": "Csoportos gerinc core edzés"
+};
+
 
 export default function ServiceSlider() {
   const [current, setCurrent] = useState(0);
@@ -166,12 +183,16 @@ export default function ServiceSlider() {
                   {/* TOVÁBB GOMB */}
                   {services[current].desc.length > 200 && (
                     <button
-                      onClick={() => setIsExpanded(!isExpanded)}
+                      onClick={() => {
+                        //映射到 grid service name
+                        const gridServiceName = SERVICE_MAPPING[services[current].title] || services[current].title;
+                        window.location.hash = `detail-${encodeURIComponent(gridServiceName)}`;
+                      }}
                       className="mt-4 inline-flex items-center gap-2 text-[#004A6D] hover:text-[#EC7007] font-semibold transition-colors duration-200"
                     >
-                      <span>{isExpanded ? 'Kevesebb' : 'Továbbiak'}</span>
+                      <span>Továbbiak</span>
                       <svg 
-                        className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                        className="w-4 h-4 transition-transform duration-200"
                         fill="none" 
                         stroke="currentColor" 
                         viewBox="0 0 24 24"
@@ -186,7 +207,7 @@ export default function ServiceSlider() {
 
             {/* Thumbnails */}
             <div className="mt-12 pt-10 border-t border-gray-200">
-              <div className="grid grid-cols-6 gap-5">
+              <div className="grid grid-cols-7 gap-5">
                 {services.map((service, idx) => (
                   <button
                     key={idx}
@@ -199,15 +220,15 @@ export default function ServiceSlider() {
                     `}
                     aria-label={service.title}
                   >
-                    <div className={`w-full h-full transition-transform duration-300 ${idx === current ? 'scale-110' : ''}`}>
-                      <Image 
-                        src={service.image} 
-                        alt={service.title} 
-                        fill 
-                        className={`object-contain p-2 transition-transform duration-500 group-hover:scale-110 ${idx === current ? '' : 'opacity-70'}`}
-                        sizes="200px"
-                      />
-                    </div>
+                    <div className="relative w-full h-full">
+                    <Image 
+                      src={service.image} 
+                      alt={service.title} 
+                      fill 
+                      className={`object-contain p-2 transition-transform duration-500 group-hover:scale-110 ${idx === current ? '' : 'opacity-70'}`}
+                      sizes="200px"
+                    />
+                  </div>
                     <div className="absolute inset-0 flex flex-col items-center justify-end pb-2 pointer-events-none">
                       {idx === current && (
                         <span className="text-white text-xs font-bold mt-1 drop-shadow-lg">
@@ -246,15 +267,20 @@ export default function ServiceSlider() {
                   {services[current].desc}
                 </p>
                 
+                {/* MOBILE TOVÁBBIAK GOMB - MÓDOSÍTOTT */}
                 {services[current].desc.length > 150 && (
                   <button
-                    onClick={() => setIsExpanded(!isExpanded)}
+                    onClick={() => {
+                      const gridServiceName = SERVICE_MAPPING[services[current].title] || services[current].title;
+                      window.location.hash = `detail-${encodeURIComponent(gridServiceName)}`;
+                    }}
                     className="mt-2 text-[#004A6D] hover:text-[#EC7007] font-semibold text-sm transition-colors duration-200"
                   >
-                    {isExpanded ? 'Kevesebb ↑' : 'Továbbiak ↓'}
+                    Továbbiak ↓
                   </button>
                 )}
               </div>
+
             </div>
 
             {/* Mobile thumbnails */}

@@ -97,15 +97,6 @@ export default function Bemutatkozo() {
                 <p>
                   2024-től léptem át a magánszektorba, ahol azóta is számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
                 </p>
-                <h3 className="text-2xl font-semibold text-center mb-4">Szakterületeim</h3>
-                <ul className="space-y-2 list-disc list-inside">
-                  <li>Sportrehabilitáció: Térdműtétek, speciálisan: ACL -elülső keresztszalag szakadást követő műtét utáni rehabilitáció, bokasérülés/műtét utáni rehabilitáció</li>
-                  <li>Porckorongsérv konzervatív kezelése</li>
-                  <li>SI ízületi panaszok kezelése</li>
-                  <li>Állkapocs ízületi terápia</li>
-                  <li>Izomsérülések és ízületi fájdalmak kezelése</li>
-                  <li>Gerincferdülés(Scoliosis) konzervatív kezelése</li>
-                </ul>
               </div>
             </div>
           </div>
@@ -138,19 +129,17 @@ export default function Bemutatkozo() {
               
               <div className="space-y-6">
                 <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Gyógytornász Diploma</h4>
-                  <p className="text-gray-600">Semmelweis Egyetem Egészségtudományi Kar</p>
-                  <p className="text-sm text-gray-500">2014</p>
+                  <h4 className="font-semibold text-gray-900">Gyógytornász - fizikoterapeuta Diploma</h4>
+                  <p className="text-gray-600">Szegedi Tudományegyetem - Egészségtudományi és Szociális Képzési Kar</p>
+                  <p className="text-sm text-gray-500">2017</p>
                 </div>
                 <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Manuálterápia Specialista</h4>
-                  <p className="text-gray-600">Magyar Manuálterápia Egyesület</p>
-                  <p className="text-sm text-gray-500">2016</p>
+                  <h4 className="font-semibold text-gray-900">Craniomandibuláris diszfunkciók terápiája</h4>
+                  <p className="text-sm text-gray-500">2023</p>
                 </div>
                 <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Sportrehabilitációs Tanúsítvány</h4>
-                  <p className="text-gray-600">Nemzetközi Sportrehabilitációs Intézet</p>
-                  <p className="text-sm text-gray-500">2018</p>
+                  <h4 className="font-semibold text-gray-900">FDM terápia I.-II.-III.</h4>
+                  <p className="text-sm text-gray-500">2019</p>
                 </div>
               </div>
             </div>
