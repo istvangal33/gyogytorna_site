@@ -32,9 +32,19 @@
   --app-vh: 100vh;
 }
 
-/* Opcionális: dark mód alapszínek */
+/* Dark mode változók */
+.dark {
+  --color-bg: #001219;
+  --color-fg: #E2ECEF;
+  --color-bg-alt: #001B25;
+  --color-brand-primary: #0A9396;
+  --color-brand-accent: #FF9933;
+  --color-brand-accent-hover: #FFB366;
+}
+
+/* Opcionális: dark mód alapszínek (csak ha nincs class alapú) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --color-bg: #001219;
     --color-fg: #E2ECEF;
     --color-bg-alt: #001B25;

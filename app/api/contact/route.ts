@@ -32,23 +32,34 @@ export async function POST(req: NextRequest) {
       return Response.json({ ok: false, error: "Hiányzó szerver beállítás." }, { status: 500 });
     }
 
-    // Logo beolvasása
+    // Logo beolvasása (ha létezik)
     const logoPath = path.join(process.cwd(), "public", "logo.png");
-    const logoBuffer = fs.readFileSync(logoPath);
-    const logoBase64 = logoBuffer.toString("base64");
+    let logoBase64: string | null = null;
+    
+    try {
+      if (fs.existsSync(logoPath)) {
+        const logoBuffer = fs.readFileSync(logoPath);
+        logoBase64 = logoBuffer.toString("base64");
+      }
+    } catch (error) {
+      console.warn("Logo file not found or could not be read, continuing without logo");
+    }
 
     // Fájlok feldolgozása emailhez
     const emailAttachments: Array<{
       filename: string;
       content: string;
       content_id?: string;
-    }> = [
-      {
+    }> = [];
+    
+    // Logo hozzáadása, ha sikerült beolvasni
+    if (logoBase64) {
+      emailAttachments.push({
         filename: "logo.png",
         content: logoBase64,
         content_id: "logo",
-      },
-    ];
+      });
+    }
 
     // Feltöltött dokumentumok hozzáadása
     for (const file of documents) {
@@ -123,7 +134,7 @@ export async function POST(req: NextRequest) {
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                 <tr>
                   <td align="center">
-                    <img src="cid:logo" alt="ReStart Physio Logo" class="logo" style="max-width:350px;width:100%;height:auto;display:block;border:0;">
+                    ${logoBase64 ? `<img src="cid:logo" alt="ReStart Physio Logo" class="logo" style="max-width:350px;width:100%;height:auto;display:block;border:0;">` : `<div style="padding:20px;"><h1 style="color:#004a6d;margin:0;font-size:2rem;">ReStart Physio</h1></div>`}
                   </td>
                 </tr>
               </table>
