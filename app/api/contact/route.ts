@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         const logoBuffer = fs.readFileSync(logoPath);
         logoBase64 = logoBuffer.toString("base64");
       }
-    } catch (error) {
+    } catch {
       console.warn("Logo file not found or could not be read, continuing without logo");
     }
 
