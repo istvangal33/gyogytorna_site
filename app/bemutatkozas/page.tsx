@@ -74,7 +74,7 @@ export default function Bemutatkozo() {
                 </div>
                 <div className="px-6 py-4">
                   <h2 className="text-3xl font-bold text-gray-900 mt-2 mb-2 text-center">Forrás Fernanda</h2>
-                  <p className="text-lg text-gray-900 mb-3 text-center">Gyógytornász - fizikoterapeuta</p>
+                  <p className="text-lg text-gray-900 mb-3 text-center">Gyógytornász - fizioterapeuta</p>
                 </div>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function Bemutatkozo() {
               
               <div className="space-y-6">
                 <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Gyógytornász - fizikoterapeuta Diploma</h4>
+                  <h4 className="font-semibold text-gray-900">Gyógytornász - fizioterapeuta Diploma</h4>
                   <p className="text-gray-600">Szegedi Tudományegyetem - Egészségtudományi és Szociális Képzési Kar</p>
                   <p className="text-sm text-gray-500">2017</p>
                 </div>
@@ -186,25 +186,22 @@ export default function Bemutatkozo() {
               <div className="flex items-center mb-8">
                 <h3 className="ml-4 text-2xl font-bold text-gray-900">Továbbképzéseim</h3>
               </div>
-              
               <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#004A6D] scrollbar-track-gray-100">
                 {[
-                  { year: "2017", title: "Kinematic Taping" },
-                  { year: "2017", title: "SMR henger alapkurzus - Csiky System" },
-                  { year: "2018", title: "3D Scoliosis terápia tanfolyam" },
-                  { year: "2018", title: "Medical Flossing terápia" },
-                  { year: "2019", title: "FDM terápia I.-II.-III." },
-                  { year: "2021", title: "Functional Movement Screen – Gray Cook módszer" },
-                  { year: "2022", title: "S.I- terápia tanfolyam" },
-                  { year: "2023", title: "Craniomandibuláris diszfunkciók terápiája" },
-                  { year: "2024", title: "Aspetar International Rehabilitation Conference and Workshop – the Complete Guide to the Athletic ACL – at the Aspetar Orthopaedic and Sport Medicine Hospital in Doha, Qatar" },
-                  { year: "2025", title: "Special Therapy segédeszközök használata" }
-                ].slice().reverse().map((item, i) => (
-                  <div key={i} className="flex items-start space-x-3 p-3 rounded-lg hover:from-[#004A6D]/10 transition-colors">
-                    <div className="flex-shrink-0 w-10 h-10 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
-                      {item.year}
-                    </div>
-                    <div className="flex-1 pt-1">
+                  { title: "Aspetar International Rehabilitation Conference and Workshop – the Complete Guide to the Athletic ACL – at the Aspetar Orthopaedic and Sport Medicine Hospital in Doha, Qatar" },
+                  { title: "Craniomandibuláris diszfunkciók terápiája" },
+                  { title: "S.I- terápia tanfolyam" },
+                  { title: "Functional Movement Screen – Gray Cook módszer" },
+                  { title: "FDM terápia I.-II.-III." },
+                  { title: "Medical Flossing terápia" },
+                  { title: "3D Scoliosis terápia tanfolyam" },
+                  { title: "SMR henger alapkurzus - Csiky System" },
+                  { title: "Kinematic Taping" },
+                  { title: "Special Therapy segédeszközök használata" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-[#004A6D]/10 transition-colors">
+                    <div className="flex-shrink-0 w-2 h-2 bg-[#004A6D] rounded-full mt-2"></div>
+                    <div className="flex-1">
                       <p className="font-semibold text-gray-900 text-sm leading-relaxed">{item.title}</p>
                     </div>
                   </div>

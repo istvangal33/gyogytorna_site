@@ -96,7 +96,7 @@ export default function Home() {
               <div className="relative w-full max-w-3xl h-[240px] sm:h-[320px] lg:h-[420px] overflow-hidden rounded-2xl shadow-lg">
                 <Image
                   src="/gerinc_core1.jpg"
-                  alt="Forrás Fernanda - Gyógytornász fizikoterapeuta"
+                  alt="Forrás Fernanda - Gyógytornász fizioterapeuta"
                   fill
                   className="object-cover object-center"
                   priority
@@ -111,7 +111,7 @@ export default function Home() {
                   Forrás Fernanda
                 </h2>
                 <p className="text-base text-[#00254d] mt-2 mb-4 text-center">
-                  Gyógytornász - fizikoterapeuta
+                  Gyógytornász - fizioterapeuta
                 </p>
               </div>
 
@@ -130,27 +130,55 @@ export default function Home() {
 
             {/* RIGHT: professional story */}
             <div>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#00254d] mb-8 text-center lg:text-left">
+              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
                 Szakmai Háttér
               </h3>
-              <div className="prose prose-lg text-[#00254d] space-y-6 max-w-none">
-                <p className="[text-align:justify] indent-8">
-                  Diplomámat 2017-ben szereztem a Szegedi Tudományegyetemen, majd ezt követően költöztem és kezdtem el Győrben dolgozni. Az elmúlt évek döntő részében élsportolókkal dolgoztam együtt, kezdetben kézilabdázókkal majd ezt követően a Győri ETO FC gyógytornászaként négy évig labdarúgókkal. Ezek alatt az évek alatt lehetőségem nyílt evezős sportolókkal, kosárlabdázókkal és atlétákkal is együtt dolgozni, így komplex rálátást és szemléletet kaptam különböző sportok rehabilitációjáról. 2024-től léptem át a magánszektorba, ahol számos mozgásszervi betegséggel hozzám forduló pácienst segíthettem vissza a mindennapi fájdalommentes életéhez.
-                </p>
-                <h4 className="text-2xl font-semibold text-center lg:text-left">Szakterületeim</h4>
-                <ul className="space-y-2 list-disc list-inside">
-                  <li>Sportrehabilitáció / műtétek utáni rehabilitáció</li>
-                  <li>Manuális fascia kezelések</li>
-                  <li>Állkapocs ízületi panaszok kezelése</li>
-                  <li>Porckorongsérv és egyéb gerinc panaszok kezelése</li>
-                  <li>Gerincferdülés</li>
-                  <li>Ízületi és mozgásszervi panaszok kezelése</li>
-                </ul>
-                <p className="[text-align:justify] indent-8">
-                  Az elmúlt évek tapasztalatait szeretném arra használni, hogy minél hatékonyabban tudjam segíteni a hozzám fordulókat, motivációt nyújtsak a rehabilitáció folyamatában és hozzásegítsem a pácienseimet a közösen kitűzött célok eléréséhez!
-                </p>
+              <div className="prose prose-lg text-[#0F1F28]/90 space-y-6 max-w-none">
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+                  <p className="[text-align:justify] indent-8">
+                    Diplomámat 2017-ben szereztem meg a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon. Az elmúlt évek döntő részében élsportolókkal dolgoztam együtt, kezdetben kézilabdázókkal majd ezt követően a Győri ETO FC gyógytornászaként négy évig labdarúgókkal. Ezek alatt az évek alatt lehetőségem nyílt evezős sportolókval, kosárlabdázókkal és atlétákkal is együtt dolgozni, így komplex rálátást és szemléletet kaptam különböző sportok rehabilitációjáról. 2024-től léptem át a magánszektorba, ahol számos mozgásszervi betegséggel hozzám forduló pácienst segíthettem vissza a mindennapi fájdalommentes életéhez.
+                  </p>
+                </div>
+
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+                  <h4 className="text-2xl font-semibold text-center lg:text-left mb-4">Szakterületeim</h4>
+                  <ul className="space-y-3 list-none">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Sportrehabilitáció / műtétek utáni rehabilitáció</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Manuális fascia kezelések</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Állkapocs ízületi panaszok kezelése</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Porckorongsérv és egyéb gerinc panaszok kezelése</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Gerincferdülés</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Ízületi és mozgásszervi panaszok kezelése</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+                  <p className="[text-align:justify] indent-8">
+                    Az elmúlt évek tapasztalatait szeretném arra használni, hogy minél hatékonyabban tudjam segíteni a hozzám fordulókat, motivációt nyújtsak a rehabilitáció folyamatában és hozzásegítsem a pácienseimet a közösen kitűzött célok eléréséhez!
+                  </p>
+                </div>
               </div>
             </div>
+
+
           </div>
           {/* dekoratív háttér-kör (opcionális) */}
           <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl pointer-events-none" />

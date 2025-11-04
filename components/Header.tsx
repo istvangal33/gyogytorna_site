@@ -12,6 +12,7 @@ function UserIcon() {
     </svg>
   );
 }
+
 function ServicesIcon() {
   return (
     <svg 
@@ -62,6 +63,7 @@ function MailIcon() {
     </svg>
   );
 }
+
 function GalleryIcon() {
   return (
     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -121,7 +123,7 @@ export default function Header() {
     return (
       <>
         {/* Static skeleton - SSR safe */}
-        <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-white/90 backdrop-blur-md shadow-lg border-r border-[#004A6D]/20 z-50 flex-col">
+        <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-gradient-to-b from-[#0F1F28] to-[#0B1620] backdrop-blur-md shadow-lg border-r border-white/10 z-50 flex-col">
           <div className="flex flex-col items-center justify-between h-full py-6">
             <Link href="/" className="flex flex-col items-center group" aria-label="Főoldal">
               <Image src="/logo.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
@@ -129,14 +131,14 @@ export default function Header() {
             <nav className="flex flex-col space-y-4 items-center">
               {/* Skeleton nav items */}
               {navItems.map((item) => (
-                <div key={item.href} className="flex flex-col items-center px-2 py-2 text-[#004A6D]">
+                <div key={item.href} className="flex flex-col items-center px-2 py-2 text-white/70">
                   {item.icon}
                   <span className="text-[10px] text-center font-medium tracking-tight">{item.label}</span>
                 </div>
               ))}
             </nav>
             <div className="flex flex-col items-center">
-              <Link href="/elerhetoseg#contact" className="inline-flex flex-col items-center px-3 py-1.5 rounded-full border border-[#004A6D] text-[#004A6D] text-xs">
+              <Link href="/elerhetoseg#contact" className="inline-flex flex-col items-center px-3 py-1.5 rounded-full border border-white/30 text-white/70 text-xs">
                 <MailIcon />
                 <span className="text-center">Kapcsolat</span>
               </Link>
@@ -145,13 +147,13 @@ export default function Header() {
         </header>
 
         {/* Mobile skeleton */}
-        <header className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow-sm border-b border-[#004A6D]/20 z-40 lg:hidden">
+        <header className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#0F1F28] to-[#0B1620] backdrop-blur-md shadow-sm border-b border-white/10 z-40 lg:hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex justify-between items-center h-16">
               <Link href="/" className="flex items-center gap-2" aria-label="Főoldal">
                 <Image src="/logo.png" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" />
               </Link>
-              <div className="p-2 text-[#004A6D]">
+              <div className="p-2 text-white/80">
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                   <path d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -166,7 +168,7 @@ export default function Header() {
   return (
     <>
       {/* DESKTOP bal oldali sáv */}
-      <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-white/90 backdrop-blur-md shadow-lg border-r border-[#004A6D]/20 z-50 flex-col">
+      <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-gradient-to-b from-[#0F1F28] to-[#0B1620] backdrop-blur-md shadow-lg border-r border-white/10 z-50 flex-col">
         <div className="flex flex-col items-center justify-between h-full py-6">
           <Link href="/" className="flex flex-col items-center group" aria-label="Főoldal">
             <Image src="/logo.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
@@ -196,7 +198,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   className={`group relative flex flex-col items-center px-2 py-2 rounded-lg transition-colors ${
-                    active ? "text-[#EC7007]" : "text-[#004A6D] hover:text-[#EC7007]"
+                    active ? "text-[#EC7007]" : "text-white/70 hover:text-[#EC7007]"
                   }`}
                   aria-current={active ? "page" : undefined}
                 >
@@ -214,7 +216,7 @@ export default function Header() {
               className={`group inline-flex flex-col items-center px-3 py-1.5 rounded-full border text-xs transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC7007]/40 focus-visible:ring-offset-2 ${
                 pathname?.startsWith("/elerhetoseg")
                   ? "border-[#EC7007] text-[#EC7007]"
-                  : "border-[#004A6D] text-[#004A6D] hover:border-[#EC7007] hover:text-[#EC7007]"
+                  : "border-white/30 text-white/70 hover:border-[#EC7007] hover:text-[#EC7007]"
               }`}
             >
               <MailIcon />
@@ -225,7 +227,7 @@ export default function Header() {
       </header>
 
       {/* MOBILE: felső sáv */}
-      <header className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow-sm border-b border-[#004A6D]/20 z-40 lg:hidden">
+      <header className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#0F1F28] to-[#0B1620] backdrop-blur-md shadow-sm border-b border-white/10 z-40 lg:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center gap-2" aria-label="Főoldal">
@@ -238,7 +240,7 @@ export default function Header() {
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
               aria-label={isMenuOpen ? "Menü bezárása" : "Menü megnyitása"}
-              className="inline-flex items-center justify-center p-2 rounded-md text-[#004A6D] hover:bg-[#004A6D]/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC7007] focus-visible:ring-offset-2 transition-colors"
+              className="inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-[#EC7007] hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC7007] focus-visible:ring-offset-2 transition-colors"
             >
               {isMenuOpen ? (
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -267,8 +269,8 @@ export default function Header() {
           className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
         />
 
-        <div className="relative z-10 h-full w-full bg-white flex flex-col">
-          <div className="flex items-center justify-between h-16 px-4 sm:px-6 border-b border-slate-100">
+        <div className="relative z-10 h-full w-full bg-gradient-to-b from-[#0F1F28] to-[#0B1620] flex flex-col">
+          <div className="flex items-center justify-between h-16 px-4 sm:px-6 border-b border-white/10">
             <Link href="/" aria-label="Főoldal" onClick={() => setIsMenuOpen(false)}>
               <Image src="/logo.png" alt="ReStart Physio" width={56} height={56} className="h-8 w-auto" />
             </Link>
@@ -276,7 +278,7 @@ export default function Header() {
               type="button"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Menü bezárása"
-              className="p-2 rounded-md text-[#004A6D] hover:bg-[#004A6D]/10 transition-colors"
+              className="p-2 rounded-md text-white/80 hover:text-[#EC7007] hover:bg-white/10 transition-colors"
             >
               <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 18L18 6M6 6l12 12" />
@@ -297,7 +299,7 @@ export default function Header() {
                         className={`flex items-center gap-3 px-4 py-4 rounded-xl text-base transition-colors ${
                           active
                             ? "text-[#EC7007] bg-[#EC7007]/5"
-                            : "text-[#004A6D] hover:bg-[#004A6D]/5 hover:text-[#EC7007]"
+                            : "text-white/70 hover:text-[#EC7007] hover:bg-white/5"
                         }`}
                         aria-current={active ? "page" : undefined}
                       >
@@ -313,7 +315,7 @@ export default function Header() {
                 <Link
                   href="/elerhetoseg#contact"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 px-4 py-4 rounded-xl border text-[#004A6D] border-[#004A6D] hover:border-[#EC7007] hover:text-[#EC7007] transition-all duration-200 transform-gpu hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(236,112,7,0.15)] active:translate-y-0"
+                  className="flex items-center justify-center gap-2 px-4 py-4 rounded-xl border border-white/30 text-white/70 hover:border-[#EC7007] hover:text-[#EC7007] transition-all duration-200 transform-gpu hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(236,112,7,0.15)] active:translate-y-0"
                 >
                   <MailIcon />
                   <span className="font-semibold">Kapcsolat</span>

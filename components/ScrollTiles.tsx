@@ -31,7 +31,7 @@ const services = [
     desc: "A kezelések célja a fájdalom csökkentése, a mozgékonyság helyreállítása és a testtartás javítása. Személyre szabott terápiás módszerekkel — például gyógytornával, manuális technikákkal és stabilizáló gyakorlatokkal — segítjük a gerinc és az ízületek egészséges működésének visszaállítását, valamint a panaszok kiújulásának megelőzését.",
     icon: <User className="h-6 w-6" />, 
     color: "#7e2c40",
-    image: "/gerinc_core3.jpg"
+    image: "/gerinc_core1.jpg"
   },
   { 
     title: "BEMER terápia", 
@@ -52,7 +52,7 @@ const services = [
     desc: "A core (törzsizomzat) a test stabilitásának alapja. Ha ezek az izmok gyengék vagy nem működnek megfelelően, a gerinc túlterhelődik – ez gyakori oka a fájdalmaknak és a sérüléseknek. A személyre szabott core-stabilizációs program célja, hogy fokozatosan, az egyéni állapothoz igazítva építsük vissza a törzs tartóerejét. A stabil, jól koordinált izommunka megtanítása által a páciens tehermentesítheti a gerincet, javíthatja a testtartást és megelőzheti a panaszok kiújulását. ",
     icon: <Users className="h-6 w-6" />, 
     color: "#633b1c",
-    image: "/group_core1.jpg"
+    image: "/group_core3.jpg"
   }
 ];
 
