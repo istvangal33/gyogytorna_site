@@ -129,7 +129,7 @@ export default function Bemutatkozo() {
               
               <div className="space-y-6">
                 <div className="border-l-4 border-gray-600 pl-4">
-                  <h4 className="font-semibold text-gray-900">Gyógytornász - fizioterapeuta Diploma</h4>
+                  <h4 className="font-semibold text-gray-900">Gyógytornász - fizioterapeuta oklevél</h4>
                   <p className="text-gray-600">Szegedi Tudományegyetem - Egészségtudományi és Szociális Képzési Kar</p>
                   <p className="text-sm text-gray-500">2017</p>
                 </div>

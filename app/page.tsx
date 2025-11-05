@@ -52,7 +52,7 @@ export default function Home() {
         {/* Háttérkép - teljes szélesség, kitöltés vágással */}
         <div className="absolute inset-0 w-full h-full -z-10">
           <Image
-            src="/rendelo4.jpeg"
+            src="/group_core1.jpg"
             alt=""
             fill
             priority
@@ -67,14 +67,8 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 h-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center h-full">
-            {/* Bal oldali szöveg */}
-            <div className="text-center lg:text-left">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#004a6d] leading-tight mb-4 lg:mb-6">
-                Ahol a <span className="text-[#EC7007]">mozgás</span> újraindul.
-              </h1>
-            </div>
-            {/* Jobb oldali illusztráció */}
-            <div className="relative order-first lg:order-last">
+            {/* Logo - bal oldal gépen, felül mobil */}
+            <div className="relative order-first">
               <Image 
                 src="/logo.png" 
                 alt="ReStart Physio" 
@@ -84,9 +78,16 @@ export default function Home() {
                 priority
               />
             </div>
+            {/* Szöveg - jobb oldal gépen, alul mobil */}
+            <div className="text-center lg:text-left order-last">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#004a6d] leading-tight mb-4 lg:mb-6">
+                Ahol a <span className="text-[#EC7007]">mozgás</span> újraindul.
+              </h1>
+            </div>
           </div>
         </div>
       </section>
+
 
       <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-[#00121a] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
