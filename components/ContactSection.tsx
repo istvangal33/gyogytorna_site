@@ -263,19 +263,28 @@ export default function ContactSection() {
 
   if (submitted) {
     return (
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-green-50 to-blue-50 scroll-mt-[160px]" id="contact">
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-[#0F1F28]/5 to-[#0B1620]/10 scroll-mt-[160px]" id="contact">
         <div className="max-w-md sm:max-w-xl mx-auto px-4">
           <div
-            className="bg-white rounded-2xl shadow-lg p-8 sm:p-10 text-center"
-            style={{ border: `1px solid color-mix(in srgb, ${BRAND_PRIMARY} 18%, transparent)` } as React.CSSProperties}
+            className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 sm:p-10 text-center border"
+            style={{ border: `1px solid color-mix(in srgb, #0F1F28 15%, transparent)` } as React.CSSProperties}
           >
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            {/* ✅ HEADER SZÍNŰ IKON */}
+            <div className="w-16 h-16 bg-gradient-to-r from-[#0F1F28] to-[#0B1620] rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1d2b32] mb-3">Köszönjük a megkeresést!</h2>
-            <p className="text-base sm:text-lg text-slate-600 mb-6">Hamarosan kapcsolatba lépünk Önnel.</p>
+            
+            {/* ✅ HEADER SZÍNŰ SZÖVEGEK */}
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#0F1F28] mb-3">
+              Köszönjük a megkeresést!
+            </h2>
+            <p className="text-base sm:text-lg text-[#0F1F28]/70 mb-6">
+              Hamarosan kapcsolatba lépünk Önnel.
+            </p>
+            
+            {/* ✅ HEADER STÍLUSÚ GOMB */}
             <button
               onClick={() => {
                 setSubmitted(false);
@@ -284,13 +293,24 @@ export default function ContactSection() {
                 setCaptchaVerified(false);
                 setErrors({});
               }}
-              className="btn btn--primary"
+              className="group relative inline-flex items-center gap-3 px-7 py-3 rounded-2xl font-semibold
+                        text-white hover:text-white
+                        bg-gradient-to-r from-[#0F1F28] to-[#0B1620]
+                        border border-[#0F1F28]/20
+                        shadow-[0_6px_18px_rgba(15,31,40,0.25)]
+                        hover:shadow-[0_10px_32px_rgba(15,31,40,0.35)]
+                        transition-all duration-300
+                        hover:scale-[1.02] active:scale-[0.98]"
             >
+              <span className="pointer-events-none absolute inset-0 -z-10 rounded-2xl opacity-0
+                              group-hover:opacity-100 transition-opacity duration-300
+                              bg-[radial-gradient(120%_120%_at_50%_50%,rgba(15,31,40,0.1),transparent_60%)]" />
               Új üzenet
             </button>
           </div>
         </div>
       </section>
+
     );
   }
 

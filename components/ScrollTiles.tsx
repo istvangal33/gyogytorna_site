@@ -138,10 +138,10 @@ export default function ServiceSlider() {
           {/* ÉLES HÁTTÉRKÉP */}
           <div className="absolute inset-0 overflow-hidden">
             <Image
-              src={services[current].image}
-              alt=""
+              src={services[current].image} 
+              alt={`${services[current].title} - szakértő fizioterápiás kezelés a ReStart Physio-nál Győrben`}
               fill
-              className={`object-cover transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-105' : 'opacity-0'}`}
+              className="object-cover object-center transition-all duration-700"
               onLoad={() => setImageLoaded(true)}
               priority={current === 0}
               sizes="100vw"

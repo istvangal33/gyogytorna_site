@@ -1,22 +1,29 @@
 import WhyChooseUs from '../components/WhyChooseUs';
 import { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
+import StructuredData from '@/components/StructuredData';
+
+
 
 export const metadata: Metadata = {
   title: 'ReStart Physio - Gyógytorna és Fizioterápia Győrben | Forrás Fernanda',
-  description: 'Szakszerű gyógytorna, fizioterápia és sportrehabilitáció Győrben. Közel 10 év tapasztalat gerincpanaszok, sportsérülések és mozgásszervi problémák kezelésében.',
-  keywords: 'gyógytorna Győr, fizioterápia, sportrehabilitáció, gerincpanasz, manuálterápia, porckorongsérv kezelés',
+  description:
+    'Szakszerű gyógytorna, fizioterápia és sportrehabilitáció Győrben. Közel 10 év tapasztalat gerincpanaszok, sportsérülések és mozgásszervi problémák kezelésében.',
+  keywords:
+    'gyógytorna Győr, fizioterápia Győr, sportrehabilitáció Győr, gerincpanaszok kezelése, manuálterápia Győr, porckorongsérv kezelés Győr',
   openGraph: {
-    title: 'ReStart Physio - Ahol a mozgás újraindul',
-    description: 'Szakszerű gyógytorna és fizioterápia Győrben. Foglalj időpontot még ma!',
-    url: 'https://gyogytorna.hu',
+    title: 'ReStart Physio - Gyógytorna és Fizioterápia Győrben',
+    description:
+      'Szakszerű gyógytorna és fizioterápia Győrben. Foglalj időpontot még ma!',
+    url: 'https://restartphysio.hu',
     siteName: 'ReStart Physio',
     images: [
       {
-        url: '/gerinc_core1.jpg',
+        url: 'https://restartphysio.hu/group_core1.jpg',
         width: 1200,
         height: 630,
-        alt: 'ReStart Physio - Gyógytorna Győr',
+        alt: 'ReStart Physio rendelő Győr - gyógytorna és fizioterápia',
       },
     ],
     locale: 'hu_HU',
@@ -25,11 +32,12 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ReStart Physio - Gyógytorna Győrben',
-    description: 'Szakszerű gyógytorna és fizioterápia szolgáltatások',
-    images: ['/gerinc_core1.jpg'],
+    description:
+      'Szakszerű gyógytorna és fizioterápia szolgáltatások Győrben.',
+    images: ['https://restartphysio.hu/group_core1.jpg'],
   },
   alternates: {
-    canonical: 'https://gyogytorna.hu',
+    canonical: 'https://restartphysio.hu',
   },
   robots: {
     index: true,
@@ -44,21 +52,22 @@ export const metadata: Metadata = {
   },
 };
 
+
 export default function Home() {
   return (
     <>
+      <StructuredData />
       {/* Hero Section */}
       <section className="relative isolate overflow-hidden min-h-[600px] sm:min-h-[700px] w-full">
         {/* Háttérkép - teljes szélesség, kitöltés vágással */}
         <div className="absolute inset-0 w-full h-full -z-10">
           <Image
             src="/group_core1.jpg"
-            alt=""
+            alt="Csoportos core-stabilizációs gyakorlat a ReStart Physio fizioterapeutájának vezetésével – gumiszalagos törzsizom-erősítő tréning a stabil testtartásért."
             fill
             priority
             className="object-cover object-center"
             sizes="100vw"
-            // NINCS extra style!
           />
         </div>
 
@@ -71,7 +80,7 @@ export default function Home() {
             <div className="relative order-first">
               <Image 
                 src="/logo.png" 
-                alt="ReStart Physio" 
+                alt="ReStart Physio gyógytorna és fizioterápia logó Győr - ahol a mozgás újraindul" 
                 width={500}
                 height={350}
                 className="w-full max-w-md mx-auto lg:max-w-none h-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.15)]"
@@ -97,11 +106,11 @@ export default function Home() {
               <div className="relative w-full max-w-3xl h-[240px] sm:h-[320px] lg:h-[420px] overflow-hidden rounded-2xl shadow-lg">
                 <Image
                   src="/gerinc_core1.jpg"
-                  alt="Forrás Fernanda - Gyógytornász fizioterapeuta"
+                  alt="Gerincstabilizációs gyakorlat fitball gimnasztikai labdával – Forrás Fernanda, a ReStart Physio fizioterapeutája, szakértő irányításával."
                   fill
                   className="object-cover object-center"
-                  priority
-                  quality={90}
+                  loading="lazy"
+                  quality={85}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 900px"
                 />
               </div>
@@ -131,53 +140,74 @@ export default function Home() {
 
             {/* RIGHT: professional story */}
             <div>
-              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
                 Szakmai Háttér
-              </h3>
-              <div className="prose prose-lg text-[#0F1F28]/90 space-y-6 max-w-none">
+              </h2>
+              
+              <div className="prose prose-lg text-gray-900 space-y-6 max-w-none">
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <p className="[text-align:justify] indent-8">
+                  <p className="[text-align:justify] indent-8 text-gray-900">
                     Diplomámat 2017-ben szereztem meg a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon. Az elmúlt évek döntő részében élsportolókkal dolgoztam együtt, kezdetben kézilabdázókkal majd ezt követően a Győri ETO FC gyógytornászaként négy évig labdarúgókkal. Ezek alatt az évek alatt lehetőségem nyílt evezős sportolókval, kosárlabdázókkal és atlétákkal is együtt dolgozni, így komplex rálátást és szemléletet kaptam különböző sportok rehabilitációjáról. 2024-től léptem át a magánszektorba, ahol számos mozgásszervi betegséggel hozzám forduló pácienst segíthettem vissza a mindennapi fájdalommentes életéhez.
                   </p>
                 </div>
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <h4 className="text-2xl font-semibold text-center lg:text-left mb-4">Szakterületeim</h4>
+                  <h4 className="text-2xl font-semibold text-gray-900 text-center lg:text-left mb-4">Szakterületeim</h4>
                   <ul className="space-y-3 list-none">
                     <li className="flex items-start">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Sportrehabilitáció / műtétek utáni rehabilitáció</span>
+                      <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-900">Sportrehabilitáció / műtétek utáni rehabilitáció</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Manuális fascia kezelések</span>
+                      <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-900">Manuális fascia kezelések</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Állkapocs ízületi panaszok kezelése</span>
+                      <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-900">Állkapocs ízületi panaszok kezelése</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Porckorongsérv és egyéb gerinc panaszok kezelése</span>
+                      <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-900">Porckorongsérv és egyéb gerinc panaszok kezelése</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Gerincferdülés</span>
+                      <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-900">Gerincferdülés</span>
                     </li>
                     <li className="flex items-start">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Ízületi és mozgásszervi panaszok kezelése</span>
+                      <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-900">Ízületi és mozgásszervi panaszok kezelése</span>
                     </li>
                   </ul>
                 </div>
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <p className="[text-align:justify] indent-8">
+                  <p className="[text-align:justify] indent-8 text-gray-900">
                     Az elmúlt évek tapasztalatait szeretném arra használni, hogy minél hatékonyabban tudjam segíteni a hozzám fordulókat, motivációt nyújtsak a rehabilitáció folyamatában és hozzásegítsem a pácienseimet a közösen kitűzött célok eléréséhez!
+                  </p>
+                </div>
+
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                  <p className="text-center text-sm leading-relaxed text-gray-900">
+                    További információért tekintse meg{" "}
+                    <Link 
+                      href="/szolgaltatasok" 
+                      className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
+                    >
+                      szolgáltatásainkat
+                    </Link>, vagy{" "}
+                    <Link 
+                      href="/elerhetoseg" 
+                      className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
+                    >
+                      vegye fel velünk a kapcsolatot
+                    </Link>.
                   </p>
                 </div>
               </div>
             </div>
+
+
 
 
           </div>

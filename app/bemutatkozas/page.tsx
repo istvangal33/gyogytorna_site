@@ -1,18 +1,61 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
+
+
+
+function PersonSchema() {
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Forrás Fernanda",
+    "jobTitle": "Gyógytornász-fizioterapeuta",
+    "image": "https://restartphysio.hu/main.jpg",
+    "url": "https://restartphysio.hu/bemutatkozas",
+    "description": "Okleveles gyógytornász-fizioterapeuta, a ReStart Physio alapítója és vezető szakembere. Több éves tapasztalattal a sportrehabilitáció és mozgásszervi terápiák területén.",
+    "worksFor": {
+      "@type": "MedicalBusiness", 
+      "name": "ReStart Physio",
+      "url": "https://restartphysio.hu"
+    },
+    "alumniOf": "Szegedi Tudományegyetem",
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Gyógytornász-fizioterapeuta oklevél"
+      }
+    ],
+    "sameAs": [
+    "https://www.facebook.com/Restartphysiogyor/",
+    "https://www.instagram.com/restartphysiogyor/"
+  ]
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(personSchema)
+      }}
+    />
+  );
+}
 
 export const metadata: Metadata = {
-  title: 'Bemutatkozó | Gyógytorna - Professzionális Fizioterápia',
-  description: 'Ismerje meg szakképzett gyógytornászunkat, képzettségét és több éves tapasztalatát a rehabilitáció területén.',
+  title: 'Forrás Fernanda | Gyógytornász-fizioterapeuta – ReStart Physio',
+  description: 'Forrás Fernanda gyógytornász-fizioterapeuta a ReStart Physio alapítója. Szakterületei közé tartozik a sportrehabilitáció, gerincstabilizáció, TMI-terápia, FDM-kezelés, BEMER-terápia, core tréning és Schroth terápia. Célja, hogy páciensei fájdalommentesen, biztonságosan térhessenek vissza a mozgáshoz.',
   openGraph: {
-    title: 'Bemutatkozó | Gyógytorna - Professzionális Fizioterápia',
-    description: 'Ismerje meg szakképzett gyógytornászunkat, képzettségét és több éves tapasztalatát a rehabilitáció területén.',
+    title: 'Forrás Fernanda | Gyógytornász-fizioterapeuta – ReStart Physio',
+    description: 'Bemutatkozik Forrás Fernanda, a ReStart Physio szakértő fizioterapeutája, több éves tapasztalattal a sport- és mozgásszervi rehabilitáció területén.',
+    images: ['/main.jpg'],
   },
 };
+
 
 export default function Bemutatkozo() {
   return (
     <>
+      <PersonSchema />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
         {/* Dekoratív hullámos alj */}
@@ -41,7 +84,7 @@ export default function Bemutatkozo() {
 
 
       {/* About Content */}
-      <section className="py-24 bg-gradient-to-br from-white via-white to-blue-50 relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-[#00121a] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
@@ -60,15 +103,15 @@ export default function Bemutatkozo() {
                 ">
                   <Image
                     src="/main.jpg"
-                    alt="Bemutatkozó fotó"
+                    alt="Forrás Fernanda gyógytornász-fizioterapeuta szakmai portréja ReStart Physio rendelőjében Győrben"
                     fill
                     style={{
                       objectFit: 'cover',
                       objectPosition: 'center',
                       borderRadius: '0.75rem 0.75rem 0 0'
                     }}
-                    priority
-                    quality={90}
+                    loading="lazy"
+                    quality={85}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                   />
                 </div>
@@ -81,31 +124,58 @@ export default function Bemutatkozo() {
 
             {/* Professional Story */}
             <div>
-              <h3 className="text-3xl md:text-4xl font-bold text-blue-1000 mb-8 relative text-center">
-                <span className="text-3xl font-bold text-gray-900 mt-6 ">
-                  Bemutatkozás
-                </span>
-                <span className="absolute -bottom-2 left-0 w-20 h-1 bg-gradient-to-r text-grey-600 rounded-full"></span>
-              </h3>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+                Rólam
+              </h2>
+              
               <div className="prose prose-lg text-gray-900 space-y-6 max-w-none">
-                <p>
-                  Forrás Fernanda vagyok, okleveles gyógytornász-fizioterapeuta, a ReStart Physio alapítója és tulajdonosa. Diplomámat 2017-ben szereztem meg a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon.
-                </p>
-                <p>
-                  Az elmúlt évek döntő részében élsportolók körében tevékenykedtem. Tapasztalatot szereztem a sportban elszenvedett sérülések rehabilitációs kezelésében. Két évig a Mosonmagyaróvári Kézilabda Club gyógytornászaként, ezt követően négy évig a Győri ETO FC labdarúgócsapatának szakembereként. Ezen sportok mellett foglalkoztam egyéb sportágakban versenyzőkkel is, mint a Magyar Evezős Szövetség válogatott, illetve a Győri Atlétikai Club evezős szakosztályának sportolóival, továbbá kosárlabdázókkal, atlétákkal és úszókkal is. 2023-ban tagja voltam a Magyarországon megrendezett Atlétikai Világbajnokság fizioterapeuta csapatának.
-                </p>
-                <p>
-                  2024-től léptem át a magánszektorba, ahol azóta is számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
-                </p>
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+                  <p className="[text-align:justify] indent-8 text-gray-900">
+                    Forrás Fernanda vagyok, okleveles gyógytornász-fizioterapeuta, a ReStart Physio alapítója és tulajdonosa. Diplomámat 2017-ben szereztem meg a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon.
+                  </p>
+                </div>
+                
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+                  <p className="leading-relaxed text-gray-900">
+                    Az elmúlt évek döntő részében{" "}
+                    <Link 
+                      href="/szolgaltatasok#detail-Egyéni gyógytorna/rehabilitáció"
+                      className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
+                    >
+                      élsportolók körében tevékenykedtem
+                    </Link>.
+                    Tapasztalatot szereztem a sportban elszenvedett sérülések rehabilitációs kezelésében. 
+                    Két évig a Mosonmagyaróvári Kézilabda Club gyógytornászaként, ezt követően négy évig 
+                    a Győri ETO FC labdarúgócsapatának szakembereként. Ezen sportok mellett foglalkoztam 
+                    egyéb sportágakban versenyzőkkel is, mint a Magyar Evezős Szövetség válogatott, illetve 
+                    a Győri Atlétikai Club evezős szakosztályának sportolóival, továbbá kosárlabdázókkal, 
+                    atlétákkal és úszókkal is. 2023-ban tagja voltam a Magyarországon megrendezett 
+                    Atlétikai Világbajnokság fizioterapeuta csapatának, majd 2024-től{" "}
+                    <Link 
+                      href="/elerhetoseg"
+                      className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
+                    >
+                      magánpraxisomban
+                    </Link>{" "}
+                    segítem pácienseimet.
+                  </p>
+                </div>
+
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+                  <p className="[text-align:justify] indent-8 text-gray-900">
+                    2024-től léptem át a magánszektorba, ahol azóta is számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
+                  </p>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
 
       {/* Education and Qualifications */}
-      <section className="relative py-24 bg-gradient-to-br from-blue-50 via-white to-gray-50 overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-[#00121a] via-white to-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           {/* Fejléc */}

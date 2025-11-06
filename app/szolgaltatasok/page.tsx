@@ -1,7 +1,124 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import ScrollTiles from '../../components/ScrollTiles';
+
+function ServiceSchema() {
+  const servicesSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Physiotherapy",
+      "name": "Egyéni gyógytorna/rehabilitáció", 
+      "description": "A sportrehabilitáció célja, hogy a sérülést követően a sportoló minél gyorsabban, biztonságosan és teljes értékűen térhessen vissza az edzéshez vagy versenyzéshez.",
+      "provider": {
+        "@type": "MedicalBusiness",
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    },
+    {
+      "@context": "https://schema.org", 
+      "@type": "Service",
+      "serviceType": "MedicalTherapy", 
+      "name": "TMI (Állkapocs ízületi) terápia",
+      "description": "Az állkapocs-ízületi terápia a rágóízület működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés.",
+      "provider": {
+        "@type": "MedicalBusiness",
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service", 
+      "serviceType": "ManualTherapy",
+      "name": "Lágy rész manuál terápia (FDM kezelések)",
+      "description": "Az FDM (Fascia Disztorziós Modell) terápia egy innovatív manuális kezelési módszer, amellyel a fascia elváltozásainak helyreállítására fókuszálunk.",
+      "provider": {
+        "@type": "MedicalBusiness", 
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service", 
+      "serviceType": "SpinalTherapy",
+      "name": "Gerincpanaszok kezelése",
+      "description": "A gerincpanaszok napjaink egyik leggyakoribb mozgásszervi problémái közé tartoznak. A célunk nem csak a tünetek enyhítése, hanem az okok feltárása és a tartós megoldás megtalálása.",
+      "provider": {
+        "@type": "MedicalBusiness", 
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service", 
+      "serviceType": "ElectromagneticTherapy",
+      "name": "BEMER terápia",
+      "description": "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet mikrokeringését.",
+      "provider": {
+        "@type": "MedicalBusiness", 
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service", 
+      "serviceType": "KinesiologyTaping",
+      "name": "Dinamikus tape",
+      "description": "A Dynamic Tape egy innovatív, biomechanikai szemléletű tapasz, amely nemcsak támogatja az izmokat és ízületeket, hanem aktívan segíti a mozgást is.",
+      "provider": {
+        "@type": "MedicalBusiness", 
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service", 
+      "serviceType": "CoreStabilization",
+      "name": "Csoportos gerinc core edzés",
+      "description": "A core (törzsizomzat) a test stabilitásának alapja. A személyre szabott core-stabilizációs program célja, hogy fokozatosan építsük vissza a törzs tartóerejét.",
+      "provider": {
+        "@type": "MedicalBusiness", 
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service", 
+      "serviceType": "ScoliosisTherapy",
+      "name": "Gerincferdülés - Schroth terápia",
+      "description": "A Schroth terápia egy speciális, háromdimenziós mozgásterápia, amely a gerincferdülés (scoliosis) és más tartáshibák célzott kezelésére szolgál.",
+      "provider": {
+        "@type": "MedicalBusiness", 
+        "name": "ReStart Physio",
+        "url": "https://restartphysio.hu"
+      }
+    }
+  ];
+
+  return (
+    <>
+      {servicesSchema.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema)
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
 
 interface PriceItem {
   name: string;
@@ -98,6 +215,7 @@ useEffect(() => {
 
   return (
     <>
+      <ServiceSchema />
       {/* HERO SECTION */}
       <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-x-0 bottom-0">
@@ -232,7 +350,13 @@ useEffect(() => {
                 Szeretne időpontot foglalni?
               </h4>
               <p className="text-gray-600 mb-6">
-                Vegye fel velünk a kapcsolatot, és egyeztessünk egy ingyenes konzultációt!
+                Ismerje meg{" "}
+                <Link 
+                  href="/bemutatkozas" 
+                  className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
+                >
+                  tapasztalt fizioterapeutánkat
+                </Link>, vagy vegye fel velünk a kapcsolatot egy ingyenes konzultációért!
               </p>
               <a 
                 href="/elerhetoseg#contact"
@@ -245,6 +369,7 @@ useEffect(() => {
               </a>
             </div>
           </div>
+
         </div>
 
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>

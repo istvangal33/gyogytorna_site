@@ -148,10 +148,14 @@ export default function Footer() {
                   Győr, Magyarország
                 </address>
               </div>
-              <div className="flex items-center gap-3 text-white/80">
+              <a 
+                href="tel:+36308198449"
+                className="flex items-center gap-3 text-white/80 hover:text-[#EC7007] transition-colors cursor-pointer"
+              >
                 <FaPhoneAlt />
                 <span>+36 30 819 8449</span>
-              </div>
+              </a>
+
               <div className="flex items-center gap-3 text-white/80">
                 <FaEnvelope />
                 <Link
