@@ -39,7 +39,7 @@ export default function Footer() {
       className="
         relative overflow-hidden
         text-white
-        bg-gradient-to-b from-[#0F1F28] to-[#0B1620]
+        bg-[#0f1f29]
         border-t border-white/10
       "
     >
