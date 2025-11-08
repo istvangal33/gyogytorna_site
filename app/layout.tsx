@@ -5,12 +5,13 @@ import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://restartphysio.hu'),
+  
   title: {
     template: '%s | ReStart Physio - Gyógytorna Győr',
     default: 'ReStart Physio - Gyógytorna és Fizioterápia Győrben | Forrás Fernanda'
   },
   description: "Szakszerű gyógytorna, fizioterápia és sportrehabilitáció Győrben. Közel 10 év tapasztalat gerincpanaszok, sportsérülések és mozgásszervi problémák kezelésében.",
-  // keywords törölve - elavult!
   authors: [{ name: "Forrás Fernanda" }],
   
   openGraph: {
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     siteName: "ReStart Physio",
     images: [
       {
-        url: "/group_core1.jpg", // ezt létre kell hozni!
+        url: "/group_core1.jpg",
         width: 1200,
         height: 630,
         alt: "ReStart Physio - Gyógytorna Győr",
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ReStart Physio - Gyógytorna Győrben", 
     description: "Szakszerű gyógytorna és fizioterápia szolgáltatások",
-    images: ["/group_core1"],
+    images: ["/group_core1.jpg"],
   },
   
   alternates: {
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
   },
   
   verification: {
-    google: "your-google-verification-code", // Google Search Console-ból
+    google: "your-google-verification-code",
   },
 };
 
