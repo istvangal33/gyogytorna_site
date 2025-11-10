@@ -1,14 +1,21 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Szolgáltatások',
+  title: 'Szolgáltatások - Gyógytorna és Fizioterápia | ReStart Physio Győr',
   description: 'Komplex fizioterápiás szolgáltatások: sportrehabilitáció, gerincstabilizáció, TMI-terápia, FDM-kezelés, BEMER-terápia, core tréning és Schroth terápia Győrben.',
   keywords: 'gyógytorna szolgáltatások Győr, sportrehabilitáció, gerincstabilizáció, TMI terápia, FDM kezelés, BEMER terápia, Schroth terápia, dinamikus tape, core edzés',
   
   openGraph: {
-    title: 'Szolgáltatások | ReStart Physio',
+    title: 'Szolgáltatások | ReStart Physio Győr',
     description: 'Professzionális fizioterápiás szolgáltatások egyénre szabottan Győrben.',
-    images: ['/group_core1.jpg'], 
+    images: [
+      {
+        url: 'https://restartphysio.hu/group_core1.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ReStart Physio szolgáltatások - gyógytorna Győrben',
+      }
+    ],
     type: 'website',
     url: 'https://restartphysio.hu/szolgaltatasok',
     siteName: 'ReStart Physio',
@@ -17,9 +24,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Szolgáltatások | ReStart Physio',
+    title: 'Szolgáltatások | ReStart Physio Győr',
     description: 'Professzionális fizioterápiás szolgáltatások egyénre szabottan Győrben.',
-    images: ['/group_core1.jpg'],
+    images: ['https://restartphysio.hu/group_core1.jpg'],
   },
 
   alternates: {

@@ -6,13 +6,20 @@ const BRAND_ACCENT = 'var(--color-brand-accent, #EC7007)';
 
 export const metadata: Metadata = {
   title: 'Elérhetőség & Kapcsolat | ReStart Physio - Győr, Máté Mária u. 4/B',
-  description: 'ReStart Physio gyógytorna rendelő elérhetősége Győrben: +36 30 819 8449, restart.gyor@gmail.com. Máté Mária u. 4/B. Nyitvatartás, parkolás, tömegközlekedés.',
+  description: 'ReStart Physio gyógytorna rendelő elérhetősége Győrben: +36 30 819 8449, restart.gyor@gmail.com. Máté Mária u. 4/B. Nyitvatartás, parkolás, tömegközlekedés, kapcsolatfelvételi űrlap.', 
   keywords: 'ReStart Physio elérhetőség, gyógytorna Győr cím, fizioterapeuta Győr telefon, Máté Mária utca, időpontfoglalás, kapcsolat gyógytornász',
   
   openGraph: {
     title: 'Kapcsolat | ReStart Physio Győr',
     description: 'Vegye fel velünk a kapcsolatot! Máté Mária u. 4/B, Győr. Telefon: +36 30 819 8449',
-    images: ['/group_core1.jpg'],
+    images: [
+      {
+        url: 'https://restartphysio.hu/group_core1.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ReStart Physio rendelő Győr - Elérhetőség',
+      }
+    ],
     type: 'website',
     url: 'https://restartphysio.hu/elerhetoseg',
     siteName: 'ReStart Physio',
@@ -23,7 +30,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Kapcsolat | ReStart Physio Győr',
     description: 'Vegye fel velünk a kapcsolatot! Máté Mária u. 4/B, Győr.',
-    images: ['https://restartphysio.hu/group_core1.jpg']
+    images: ['https://restartphysio.hu/group_core1.jpg'],
   },
 
   alternates: {

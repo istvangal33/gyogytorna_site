@@ -8,7 +8,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Galéria | ReStart Physio Győr',
     description: 'Modern rendelőnk és professzionális kezeléseink képekben.',
-    images: ['/rendelo1.jpeg'],
+    images: [
+      {
+        url: 'https://restartphysio.hu/rendelo1.jpeg', // ✅ Teljes URL
+        width: 1200,
+        height: 630,
+        alt: 'ReStart Physio rendelő Győr - modern gyógytorna környezet',
+      }
+    ],
     type: 'website',
     url: 'https://restartphysio.hu/galeria',
     siteName: 'ReStart Physio',
@@ -19,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Galéria | ReStart Physio',
     description: 'Modern rendelőnk és professzionális kezeléseink képekben.',
-    images: ['/rendelo2.jpeg'],
+    images: ['https://restartphysio.hu/rendelo2.jpeg'], // ✅ Teljes URL
   },
 
   alternates: {

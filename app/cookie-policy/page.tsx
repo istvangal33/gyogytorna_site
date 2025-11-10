@@ -2,8 +2,30 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Cookie kezelési tájékoztató | ReStart Physio',
-  description: 'Tájékoztatás a weboldalon használt cookie-król',
+  title: 'Cookie Szabályzat | ReStart Physio Győr',
+  description: 'ReStart Physio cookie (süti) kezelési szabályzata. Hogyan használjuk a sütiket weboldalunkon.',
+  
+  openGraph: {
+    title: 'Cookie Szabályzat | ReStart Physio',
+    description: 'Tájékoztatás a weboldalon használt cookie-kről (sütikről).',
+    url: 'https://restartphysio.hu/cookie-policy',
+    siteName: 'ReStart Physio',
+    locale: 'hu_HU',
+    type: 'website',
+  },
+  
+  alternates: {
+    canonical: 'https://restartphysio.hu/cookie-policy',
+  },
+  
+  robots: {
+    index: false,
+    follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+    },
+  },
 };
 
 export default function CookiePolicyPage() {

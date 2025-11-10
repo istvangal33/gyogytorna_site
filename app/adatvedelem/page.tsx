@@ -2,8 +2,30 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Adatkezelési tájékoztató | ReStart Physio',
-  description: 'Adatvédelmi irányelvek és tájékoztatás',
+  title: 'Adatvédelmi Tájékoztató | ReStart Physio Győr',
+  description: 'ReStart Physio adatvédelmi tájékoztatója. GDPR-kompatibilis adatkezelés, személyes adatok védelme, cookie szabályzat.',
+  
+  openGraph: {
+    title: 'Adatvédelmi Tájékoztató | ReStart Physio',
+    description: 'GDPR-kompatibilis adatkezelés és személyes adatok védelme.',
+    url: 'https://restartphysio.hu/adatvedelem',
+    siteName: 'ReStart Physio',
+    locale: 'hu_HU',
+    type: 'website',
+  },
+  
+  alternates: {
+    canonical: 'https://restartphysio.hu/adatvedelem',
+  },
+  
+  robots: {
+    index: false, 
+    follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+    },
+  },
 };
 
 export default function PrivacyPolicyPage() {
@@ -66,7 +88,7 @@ export default function PrivacyPolicyPage() {
                 <p className="mb-2 text-gray-700"><strong>Működési nyilvántartási szám:</strong> 251415</p>
                 <p className="mb-2 text-gray-700"><strong>E-mail:</strong> restart.gyor@gmail.com</p>
                 <p className="mb-2 text-gray-700"><strong>Telefon:</strong> +36 30 819 8449</p>
-                <p className="mb-2 text-gray-700"><strong>Weboldal:</strong> [kitöltendő]</p>
+                <p className="mb-2 text-gray-700"><strong>Weboldal:</strong> <Link href="https://restartphysio.hu" className="text-EC7007 hover:underline font-semibold">restartphysio.hu</Link>/</p>
               </div>
 
               {/* 2. Az adatkezelés célja */}
@@ -97,7 +119,7 @@ export default function PrivacyPolicyPage() {
               </h4>
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
                 <p className="text-gray-700 leading-relaxed">
-                  Amennyiben megkeresné a Szolgáltatást, a fenti elérhetőségeken és a <strong>[kitöltendő]</strong> honlapon megadott módon léphet kapcsolatba az adatkezelővel.
+                  Amennyiben megkeresné a Szolgáltatást, a fenti elérhetőségeken és a <strong>https://restartphysio.hu/elerhetoseg</strong> honlapon megadott módon léphet kapcsolatba az adatkezelővel.
                 </p>
               </div>
 
@@ -816,19 +838,28 @@ A Szolgáltatás adatkezelési alapelvei összhangban vannak az adatvédelemmel 
                   <tbody>
                     <tr className="bg-white">
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">Munkavállalók</td>
-                      <td className="border border-gray-300 px-4 py-3 text-gray-600 italic">[kitöltendő]</td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        Név, születési név, születési hely és idő, anyja neve, lakcím, állampolgárság, 
+                        adóazonosító jel, TAJ szám, bankszámlaszám, személyi igazolvány szám
+                      </td>
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">A munkajogviszonnyal kapcsolatos ügyintézés.</td>
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">2011. évi CXII. törvény (Infotv.), 2012. évi I. törvény (Mt.), 2017. évi CL. törvény (Art.) illetve az érintett hozzájárulása.</td>
                     </tr>
                     <tr className="bg-gray-50">
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">Partnerek, szállítók</td>
-                      <td className="border border-gray-300 px-4 py-3 text-gray-600 italic">[kitöltendő]</td>
+                       <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        Név, email cím, telefonszám, számlázási cím, cégnév, adószám, 
+                        bankszámlaszám, kapcsolattartó neve
+                      </td>
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">A Szolgáltatás és partnerei, illetve szállítói közötti együttműködés, kapcsolatteremtés lehetővé tétele, megkönnyítése.</td>
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">2011. évi CXII. törvény (Infotv.), 2005. évi CLXIV. tv. (Kertv.) illetve az érintett hozzájárulása.</td>
                     </tr>
                     <tr className="bg-white">
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">Ügyfelek</td>
-                      <td className="border border-gray-300 px-4 py-3 text-gray-600 italic">[kitöltendő]</td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        Név, email cím, telefonszám, lakcím, születési dátum, TAJ szám, 
+                        egészségügyi adatok (anamnézis, diagnózis, kezelési terv), szerződéses adatok
+                      </td>
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">Az adatkezelés célja az érintett számára megfelelő szolgáltatás, információ, ajánlat nyújtása és kapcsolattartás, panasz esetén a panasz közlésének lehetővé tétele, a panasz azonosítása és a törvényből származó kötelezettségek, kötelező adatok felvétele.</td>
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">2011. évi CXII. törvény (Infotv.), illetve az érintett hozzájárulása. 1997. évi XLVII. törvény (kifejezett, írásbeli és célhoz kötött hozzájárulása)</td>
                     </tr>
@@ -908,7 +939,7 @@ A Szolgáltatás adatkezelési alapelvei összhangban vannak az adatvédelemmel 
                   A cookie-k elsődleges funkciója, hogy kényelmesebbé, személyre szabottá tegyék a böngészést, hiszen segítségükkel eltárolhatjuk különböző személyes adatainkat, beállításainkat. A cookie-k segítségével jól célzott, személyre szabott reklámkampányok is megvalósíthatók.
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  A <strong>[kitöltendő]</strong> weboldal tekintettel a 2003. évi C. törvény 155.§ 4. bekezdésében foglaltaknak, miszerint „Egy előfizetőnek vagy felhasználónak elektronikus hírközlő végberendezésén csak az érintett felhasználó vagy előfizető világos és teljes körű - az adatkezelés céljára is kiterjedő - tájékoztatását követő hozzájárulása alapján lehet adatot tárolni, vagy az ott tárolt adathoz hozzáférni" a következő tájékoztatást adja az általa használt analitikai eszközökkel, azaz cookie-kkal kapcsolatban.
+                  A <Link href="https://restartphysio.hu" className="text-EC7007 hover:underline font-semibold">restartphysio.hu</Link> weboldal tekintettel a 2003. évi C. törvény 155.§ 4. bekezdésében foglaltaknak, miszerint „Egy előfizetőnek vagy felhasználónak elektronikus hírközlő végberendezésén csak az érintett felhasználó vagy előfizető világos és teljes körű - az adatkezelés céljára is kiterjedő - tájékoztatását követő hozzájárulása alapján lehet adatot tárolni, vagy az ott tárolt adathoz hozzáférni" a következő tájékoztatást adja az általa használt analitikai eszközökkel, azaz cookie-kkal kapcsolatban.
                 </p>
               </div>
 

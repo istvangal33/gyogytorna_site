@@ -9,13 +9,22 @@ import StructuredData from '@/components/StructuredData';
 export const metadata: Metadata = {
   title: 'ReStart Physio - Gyógytorna és Fizioterápia Győrben | Forrás Fernanda',
   description:
-    'Szakszerű gyógytorna, fizioterápia és sportrehabilitáció Győrben. Közel 10 év tapasztalat gerincpanaszok, sportsérülések és mozgásszervi problémák kezelésében.',
+    'Szakszerű gyógytorna, fizioterápia és sportrehabilitáció Győrben. Közel 10 év tapasztalat gerincpanaszok, sportsérülések és mozgásszervi problémák kezelésében. Foglalj időpontot: +36 30 819 8449',
   keywords:
-    'gyógytorna Győr, fizioterápia Győr, sportrehabilitáció Győr, gerincpanaszok kezelése, manuálterápia Győr, porckorongsérv kezelés Győr',
+    'gyógytorna Győr, fizioterápia Győr, sportrehabilitáció Győr, gerincpanaszok kezelése, manuálterápia Győr, porckorongsérv kezelés Győr, TMI terápia, funkcionális tréning',
+  
+  // ✅ JSON-LD structured data (LocalBusiness + Person)
+  other: {
+    'application-name': 'ReStart Physio',
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+  },
+  
   openGraph: {
     title: 'ReStart Physio - Gyógytorna és Fizioterápia Győrben',
     description:
-      'Szakszerű gyógytorna és fizioterápia Győrben. Foglalj időpontot még ma!',
+      'Szakszerű gyógytorna és fizioterápia Győrben. Foglalj időpontot még ma! Tel: +36 30 819 8449',
     url: 'https://restartphysio.hu',
     siteName: 'ReStart Physio',
     images: [
@@ -23,22 +32,25 @@ export const metadata: Metadata = {
         url: 'https://restartphysio.hu/group_core1.jpg',
         width: 1200,
         height: 630,
-        alt: 'ReStart Physio rendelő Győr - gyógytorna és fizioterápia',
+        alt: 'ReStart Physio rendelő Győr - gyógytorna és fizioterápia szakember',
       },
     ],
     locale: 'hu_HU',
     type: 'website',
   },
+  
   twitter: {
     card: 'summary_large_image',
     title: 'ReStart Physio - Gyógytorna Győrben',
     description:
-      'Szakszerű gyógytorna és fizioterápia szolgáltatások Győrben.',
+      'Szakszerű gyógytorna és fizioterápia szolgáltatások Győrben. Foglalj időpontot: +36 30 819 8449',
     images: ['https://restartphysio.hu/group_core1.jpg'],
   },
+  
   alternates: {
     canonical: 'https://restartphysio.hu',
   },
+  
   robots: {
     index: true,
     follow: true,
