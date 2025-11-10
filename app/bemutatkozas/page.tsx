@@ -136,7 +136,7 @@ export default function Bemutatkozo() {
                 </div>
                 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <p className="leading-relaxed text-gray-900">
+                  <p className="[text-align:justify] indent-8 text-gray-900">
                     Az elmúlt évek döntő részében{" "}
                     <Link 
                       href="/szolgaltatasok#detail-Egyéni gyógytorna/rehabilitáció"
@@ -144,7 +144,7 @@ export default function Bemutatkozo() {
                     >
                       élsportolók körében tevékenykedtem
                     </Link>.
-                    Tapasztalatot szereztem a sportban elszenvedett sérülések rehabilitációs kezelésében. 
+                    {" "}Tapasztalatot szereztem a sportban elszenvedett sérülések rehabilitációs kezelésében. 
                     Két évig a Mosonmagyaróvári Kézilabda Club gyógytornászaként, ezt követően négy évig 
                     a Győri ETO FC labdarúgócsapatának szakembereként. Ezen sportok mellett foglalkoztam 
                     egyéb sportágakban versenyzőkkel is, mint a Magyar Evezős Szövetség válogatott, illetve 
@@ -160,6 +160,7 @@ export default function Bemutatkozo() {
                     segítem pácienseimet.
                   </p>
                 </div>
+
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <p className="[text-align:justify] indent-8 text-gray-900">
