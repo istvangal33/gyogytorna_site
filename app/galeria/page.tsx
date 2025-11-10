@@ -200,12 +200,15 @@ export default function Galeria() {
                 className="break-inside-avoid cursor-pointer group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300"
                 onClick={() => openViewer(index)}
               >
-                <div className="relative overflow-hidden">
-                  {/* ✅ IMG TAG VÁLTOZATLAN - BETÖLTÉS GARANTÁLT */}
-                  <img
+                <div className="relative overflow-hidden w-full h-auto">
+                  {/* ✅ IMG → IMAGE (Next.js komponens) */}
+                  <Image
                     src={image.src}
                     alt={image.alt}
+                    width={800}
+                    height={600}
                     className="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    unoptimized // ✅ FONTOS statikus exportnál!
                   />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="text-center text-white p-4">
@@ -285,17 +288,20 @@ export default function Galeria() {
                 className="relative w-full h-full flex flex-col items-center justify-center"
               >
                 <div className="relative w-full h-full flex items-center justify-center">
-                  <img
+                  <Image
                     src={currentImage.src}
                     alt={currentImage.alt}
+                    width={1920}
+                    height={1080}
                     className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-2xl"
                     style={{ 
                       maxHeight: 'calc(100vh - 200px)',
                       maxWidth: 'calc(100vw - 16px)'
                     }}
+                    unoptimized // ✅ FONTOS!
                   />
                 </div>
-                
+  
                 <div className="absolute bottom-0 left-0 right-0 w-full">
                   <div className="bg-gradient-to-t from-black/90 via-black/70 to-transparent px-4 py-4 md:px-8 md:py-6 rounded-b-lg text-center">
                     <h3 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2">{currentImage.title}</h3>

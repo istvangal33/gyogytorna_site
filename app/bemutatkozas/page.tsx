@@ -223,9 +223,9 @@ export default function Bemutatkozo() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {[
-                  { title: "ACL -elülső keresztszalag szakadást követő műtét utáni rehabilitáció", video: "/videos/mckenzie.mp4" },
-                  { title: "Porckorongsérv konzervatív kezelése", video: "/videos/porckorong.mp4" },
-                  { title: "SI ízületi panaszok kezelése", video: "/videos/si.mp4" },
+                  { title: "ACL -elülső keresztszalag szakadást követő műtét utáni rehabilitáció" /*, video: "/videos/mckenzie.mp4" */ },
+                  { title: "Porckorongsérv konzervatív kezelése" /*, video: "/videos/porckorong.mp4" */ },
+                  { title: "SI ízületi panaszok kezelése" /*, video: "/videos/si.mp4" */ },
                   { title: "Állkapocs ízületi terápia"},
                   { title: "Izomsérülések és ízületi fájdalmak kezelése"},
                   { title: "Gerincferdülés(Scoliosis) konzervatív kezelése"},
@@ -236,7 +236,8 @@ export default function Bemutatkozo() {
                   >
                     <h4 className="font-semibold text-gray-900">{item.title}</h4>
 
-                    {/* Hover videó tooltip */}
+                    {/* Hover videó tooltip - KIKOMMENTEZVE */}
+                    {/* 
                     <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 w-96 h-56 rounded-xl overflow-hidden shadow-lg scale-0 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-300 origin-left z-20">
                       <video
                         src={item.video}
@@ -247,10 +248,12 @@ export default function Bemutatkozo() {
                         className="w-full h-full object-cover"
                       />
                     </div>
+                    */}
                   </div>
                 ))}
               </div>
             </div>
+
 
             {/* Továbbképzéseim - Timeline stílusban */}
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
