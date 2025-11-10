@@ -61,7 +61,7 @@ export default function Galeria() {
     
     // SPORTREHABILITÁCIÓ
     { id: 17, src: '/sportrehab1.jpg', alt: 'ReStart Physio gyógytornász sportrehabilitációs tréninget tart páciensének – egyensúlyfejlesztő és erősítő gyakorlat Győrben.', category: 'kezelés', title: 'Sportrehabilitáció' },
-    { id: 18, src: '/sportrehab2.jpg', alt: 'ReStart Physio gyógytornász sportrehabilitációs gyakorlatot irányít – izomerősítés és mozgáskoordináció fejlesztés Győrben.', category: 'kezelés', title: 'Sport rehab tréning' },
+    { id: 18, src: '/sportrehab2.JPG', alt: 'ReStart Physio gyógytornász sportrehabilitációs gyakorlatot irányít – izomerősítés és mozgáskoordináció fejlesztés Győrben.', category: 'kezelés', title: 'Sport rehab tréning' },
     { id: 19, src: '/sportrehab3.jpg', alt: 'ReStart Physio gyógytornász térderősítő sportrehabilitációs gyakorlatot felügyel – sérülés utáni regeneráció és izomerősítés Győrben.', category: 'kezelés', title: 'Térd rehabilitáció' },
     { id: 20, src: '/sportrehab4.jpg', alt: 'ReStart Physio gyógytornász térdrehabilitációs gyakorlatot végez páciensével gumiszalag segítségével – izomerősítés és stabilizációs tréning Győrben.', category: 'kezelés', title: 'Funkcionális tréning' },
     
