@@ -37,6 +37,19 @@ export const metadata: Metadata = {
     description: "Szakszerű gyógytorna és fizioterápia szolgáltatások",
     images: ["https://restartphysio.hu/group_core1.jpg"],
   },
+
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+
+  manifest: '/site.webmanifest', 
   
   alternates: {
     canonical: "https://restartphysio.hu",
@@ -74,7 +87,12 @@ export default function RootLayout({
                   "@id": "https://restartphysio.hu/#organization",
                   "name": "ReStart Physio",
                   "url": "https://restartphysio.hu",
-                  "logo": "https://restartphysio.hu/logo.png",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://restartphysio.hu/logo.png",
+                    "width": 512,
+                    "height": 512
+                  },
                   "image": "https://restartphysio.hu/group_core1.jpg",
                   "description": "Szakszerű gyógytorna és fizioterápia Győrben",
                   "telephone": "+36308198449",
@@ -101,8 +119,8 @@ export default function RootLayout({
                   ],
                   "priceRange": "$$",
                   "sameAs": [
-                  "https://www.facebook.com/Restartphysiogyor",
-                  "https://www.instagram.com/restartphysiogyor"
+                    "https://www.facebook.com/Restartphysiogyor",
+                    "https://www.instagram.com/restartphysiogyor"
                   ]
                 },
                 {

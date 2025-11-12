@@ -150,7 +150,7 @@ export default function Bemutatkozo() {
                     egyéb sportágakban versenyzőkkel is, mint a Magyar Evezős Szövetség válogatott, illetve 
                     a Győri Atlétikai Club evezős szakosztályának sportolóival, továbbá kosárlabdázókkal, 
                     atlétákkal és úszókkal is. 2023-ban tagja voltam a Magyarországon megrendezett 
-                    Atlétikai Világbajnokság fizioterapeuta csapatának, majd 2024-től{" "}
+                    Atlétikai Világbajnokság fizioterapeuta csapatának, majd 2025-től{" "}
                     <Link 
                       href="/elerhetoseg"
                       className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
