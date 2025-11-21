@@ -21,7 +21,7 @@ const services = [
   },
   { 
     title: "Manuál fascia kezelések", 
-    desc: "Az állkapocs-ízületi terápia a rágóízület (TMJ – temporomandibuláris ízület) működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés. A mindennapi stressz, fogszorítás, fogcsikorgatás, helytelen testtartás vagy harapási rendellenességek gyakran okozhatnak állkapocs körüli fájdalmat, kattogást, fejfájást, fülzúgást vagy szájnyitási nehézségeket. Az állkapocs-ízületi terápia során célzott technikákkal kezeljük az érintett izmokat, kötőszöveteket és ízületeket – kívülről és szükség esetén a szájüregen belül is. A kezelés által segítjük az ízületi funkciók normalizálását, oldjuk az ízületben kialakult feszüléseket és javítjuk a szájnyitás szabadságát, miközben enyhítjük a fájdalmat és a kapcsolódó tüneteket. ",
+    desc: "Az FDM (Fascia Disztorziós Modell) terápia egy innovatív manuális kezelési módszer, amellyel a fascia (kötőszöveti hálózat) elváltozásainak helyreállítására fókuszálunk. A fascia az egész testet behálózó szövet, amely kulcsszerepet játszik a mozgásban, erőátvitelben és a testtartásban. Az FDM terápia során speciális fogásokat alkalmazunk, melynek során a fasciában kialakult letapadásokat és elmozdulásokat oldjuk, célzott pontok nyomásával és a szövetek felszakításával. A kezelések által hatékonyan enyhíthetjük a mozgásszervi panaszokat, például hát-, nyak-, váll- vagy derékfájdalmat. Az FDM terápia által gyors és látványos eredményeket érhetünk el már néhány alkalom után.",
     icon: <HandHeart className="h-6 w-6" />, 
     color: "#125341",
     image: "/manual3.jpg"
