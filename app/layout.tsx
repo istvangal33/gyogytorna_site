@@ -89,7 +89,7 @@ export default function RootLayout({
                   "url": "https://restartphysio.hu",
                   "logo": {
                     "@type": "ImageObject",
-                    "url": "https://restartphysio.hu/logo-square.png",
+                    "url": "https://restartphysio.hu/logo.png",
                     "width": 512,
                     "height": 512
                   },

@@ -126,7 +126,7 @@ export default function Header() {
         <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-[#0f1f29] backdrop-blur-md shadow-lg border-r border-white/10 z-50 flex-col">
           <div className="flex flex-col items-center justify-between h-full py-6">
             <Link href="/" className="flex flex-col items-center group" aria-label="Főoldal">
-              <Image src="/logo-square.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
+              <Image src="/logo.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
             </Link>
             <nav className="flex flex-col space-y-4 items-center">
               {/* Skeleton nav items */}
@@ -151,7 +151,7 @@ export default function Header() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex justify-between items-center h-16">
               <Link href="/" className="flex items-center gap-2" aria-label="Főoldal">
-                <Image src="/logo-square.png" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" />
+                <Image src="/logo.png" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" />
               </Link>
               <div className="p-2 text-white/80">
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -171,7 +171,7 @@ export default function Header() {
       <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-[#0f1f29] backdrop-blur-md shadow-lg border-r border-white/10 z-50 flex-col">
         <div className="flex flex-col items-center justify-between h-full py-6">
           <Link href="/" className="flex flex-col items-center group" aria-label="Főoldal">
-            <Image src="/logo-square.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
+            <Image src="/logo.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
           </Link>
 
           <nav className="flex flex-col space-y-4 items-center">
@@ -272,7 +272,7 @@ export default function Header() {
         <div className="relative z-10 h-full w-full bg-[#0f1f29] flex flex-col">
           <div className="flex items-center justify-between h-16 px-4 sm:px-6 border-b border-white/10">
             <Link href="/" aria-label="Főoldal" onClick={() => setIsMenuOpen(false)}>
-              <Image src="/logo-square.png" alt="ReStart Physio" width={56} height={56} className="h-8 w-auto" />
+              <Image src="/logo.png" alt="ReStart Physio" width={56} height={56} className="h-8 w-auto" />
             </Link>
             <button
               type="button"
