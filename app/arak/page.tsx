@@ -22,7 +22,7 @@ const SERVICES: PriceItem[] = [
   { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "50 P", price: 16000 },
   { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "30 P", price: 8500 },
   { name: "Schroth terápia", duration: "50 P", price: 15000 },
-  { name: "TMI (Állkapocs ízületi) terápia", duration: "50 P", price: 15000 },
+  { name: "TMI (Állkapocs ízületi) terápia", duration: "50 P", price: 16000 },
   { name: "Komplex rehabilitáció", duration: "50 P", price: 17000 },
   { name: "Csoportos gerinc core edzés", duration: "50 P", price: 7000 },
   { name: "Kinesiológiai tape", price: 5000 },
