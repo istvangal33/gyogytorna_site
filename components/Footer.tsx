@@ -143,12 +143,15 @@ export default function Footer() {
               <div className="flex items-start gap-3 text-white/80">
                 <FaMapMarkerAlt className="mt-1 shrink-0" />
                 <address className="not-italic leading-relaxed">
-                  Máté Mária u. 4/B
+                  <span className="font-semibold">ReStart Physio Győr</span>
                   <br />
-                  Győr, Magyarország
+                  Máté Mária u. 4b
+                  <br />
+                  9028 Győr, Magyarország
                 </address>
               </div>
-              <a 
+
+              <a
                 href="tel:+36308198449"
                 className="flex items-center gap-3 text-white/80 hover:text-[#EC7007] transition-colors cursor-pointer"
               >
@@ -158,29 +161,29 @@ export default function Footer() {
 
               <div className="flex items-center gap-3 text-white/80">
                 <FaEnvelope />
-                <Link
+                <a
                   href="mailto:restart.gyor@gmail.com"
                   className="hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
                 >
                   restart.gyor@gmail.com
-                </Link>
+                </a>
               </div>
             </div>
 
             {/* Térkép / CTA blokk (opcionális, placeholder) */}
             <div className="sm:justify-self-end">
-              <Link
-                href="https://www.google.com/maps/place/Gy%C5%91r,+M%C3%A1t%C3%A9+M%C3%A1ria+u.+4b,+9028/@47.6594735,17.6574138,17z/data=!3m1!4b1!4m6!3m5!1s0x476bc07d6ea485db:0x4b9c597308aacbc3!8m2!3d47.6594699!4d17.6599887!16s%2Fg%2F11sf1dzdfj?entry=ttu&g_ep=EgoyMDI1MTAwOC4wIKXMDSoASAFQAw%3D%3D"
+              <a
+                href="https://maps.app.goo.gl/MAsW9JaN2v5PcCR59"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
               >
                 Térkép megnyitása ↗
-              </Link>
+              </a>
               <p className="mt-3 text-white/60 text-sm">
-                Időpontfoglaláshoz hívd a számot vagy írj e‑mailt.
+                Időpontfoglaláshoz hívd a számot vagy írj e-mailt.
               </p>
-            </div>
+            </div>    
           </div>
         </div>
       </div>
@@ -206,16 +209,9 @@ export default function Footer() {
           </div>
 
           {/* Alsó sor: Copyright */}
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 items-center justify-between text-sm pt-3">
-            <span className="text-white/60">© {year} ReStart Physio. Minden jog fenntartva.</span>
+          <div className="flex items-center justify-center text-sm pt-3">
             <span className="text-white/60">
-              Készítette:{" "}
-              <Link
-                href="#"
-                className="text-white/80 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors underline-offset-4 hover:underline"
-              >
-                Inspiry Themes
-              </Link>
+              © {year} ReStart Physio. Minden jog fenntartva.
             </span>
           </div>
         </div>
