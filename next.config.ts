@@ -15,22 +15,6 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-
-async redirects() {
-  return [
-    {
-      source: '/:path*',
-      has: [
-        {
-          type: 'host',
-          value: 'www.restartphysio.hu',
-        },
-      ],
-      destination: 'https://restartphysio.hu/:path*',
-      permanent: true,
-    },
-  ];
-},
 };
 
 module.exports = nextConfig;
