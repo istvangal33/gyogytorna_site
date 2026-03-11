@@ -159,7 +159,7 @@ export default function ModernGlassSection() {
               
               <p className="text-[#004a6d] mb-10 text-lg font-light leading-relaxed">
                 Foglaljon időpontot még ma, és tapasztalja meg a különbséget 
-                professzionális gyógytornász kezeléseinkkel.
+                professzionális gyógytorna kezeléseinkkel.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

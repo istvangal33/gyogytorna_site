@@ -101,8 +101,9 @@ export default function Home() {
             </div>
             {/* Szöveg - jobb oldal gépen, alul mobil */}
             <div className="text-center lg:text-left order-last">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#004a6d] leading-tight mb-4 lg:mb-6">
-                Ahol a <span className="text-[#EC7007]">mozgás</span> újraindul.
+              <h1 className="mt-12 md:mt-24 text-3xl sm:text-3xl md:text-3xl lg:text-4xl font-bold italic text-[#004a6d] leading-tight mb-4 lg:mb-6">
+                Ahol a <span className="text-[#EC7007]">mozgás</span>
+                <br /> újraindul.
               </h1>
             </div>
           </div>

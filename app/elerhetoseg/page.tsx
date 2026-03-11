@@ -79,19 +79,20 @@ function ContactSchema() {
     },
     
     "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "08:00",
-        "closes": "18:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "09:00",
-        "closes": "14:00"
-      }
+  {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
     ],
+    "opens": "08:00",
+    "closes": "18:00"
+  }
+],
+
     
     "priceRange": "7000-17000 HUF",
     "paymentAccepted": ["Cash", "Credit Card"],
@@ -306,7 +307,7 @@ export default function Elerhetoseg() {
                 {/* ✅ ÚJ: NYITVATARTÁS */}
                 <ContactRow
                   title="Nyitvatartás"
-                  lines={['Hétfő-Péntek: 08:00-18:00', 'Szombat: 09:00-14:00', 'Vasárnap: zárva']}
+                  lines={['Hétfő-Péntek: 08:00-18:00', 'Szombat: Zárva', 'Vasárnap: zárva']}
                   icon={
                     <svg className="w-6 h-6 text-[color:var(--color-brand-accent,#EC7007)]" 
                     viewBox="0 0 24 24" 
@@ -321,8 +322,7 @@ export default function Elerhetoseg() {
                   microdata={{
                     scope: "openingHours",
                     props: [
-                      { prop: "openingHours", value: "Mo-Fr 08:00-18:00" },
-                      { prop: "openingHours", value: "Sa 09:00-14:00" }
+                      { prop: "openingHours", value: "Mo-Fr 08:00-18:00" }
                     ]
                   }}
                 />

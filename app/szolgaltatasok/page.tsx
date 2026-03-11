@@ -356,7 +356,7 @@ useEffect(() => {
                   className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
                 >
                   tapasztalt fizioterapeutánkat
-                </Link>, vagy vegye fel velünk a kapcsolatot egy ingyenes konzultációért!
+                </Link>, vagy vegye fel velünk a kapcsolatot!
               </p>
               <a 
                 href="/elerhetoseg#contact"
