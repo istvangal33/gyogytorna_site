@@ -62,7 +62,7 @@ export default function ModernGlassSection() {
           </h2>
           
           <p className="text-lg lg:text-xl text-slate-900 max-w-3xl mx-auto leading-relaxed font-light">
-            Professzionális gyógytornász szolgáltatások egyénre szabott megközelítéssel 
+            Professzionális gyógytorna szolgáltatások egyénre szabott megközelítéssel 
             és modern rehabilitációs módszerekkel.
           </p>
         </motion.div>
