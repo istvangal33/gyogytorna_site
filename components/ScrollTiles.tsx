@@ -24,7 +24,7 @@ const services = [
     desc: "Az FDM (Fascia Disztorziós Modell) terápia egy innovatív manuális kezelési módszer, amellyel a fascia (kötőszöveti hálózat) elváltozásainak helyreállítására fókuszálunk. A fascia az egész testet behálózó szövet, amely kulcsszerepet játszik a mozgásban, erőátvitelben és a testtartásban. Az FDM terápia során speciális fogásokat alkalmazunk, melynek során a fasciában kialakult letapadásokat és elmozdulásokat oldjuk, célzott pontok nyomásával és a szövetek felszakításával. A kezelések által hatékonyan enyhíthetjük a mozgásszervi panaszokat, például hát-, nyak-, váll- vagy derékfájdalmat. Az FDM terápia által gyors és látványos eredményeket érhetünk el már néhány alkalom után.",
     icon: <HandHeart className="h-6 w-6" />, 
     color: "#125341",
-    image: "/manual3.jpg"
+    image: "/manual5.jpg"
   },
   { 
     title: "Gerincpanaszok kezelése", 
@@ -53,6 +53,13 @@ const services = [
     icon: <Users className="h-6 w-6" />, 
     color: "#633b1c",
     image: "/group_core3.jpg"
+  },
+  { 
+  title: "Gerincferdülés - Schroth terápia", 
+  desc: "A Schroth terápia egy speciális, háromdimenziós fizioterápiás módszer, amelyet elsősorban gerincferdülés (scoliosis), hanyagtartás és egyéb testtartási eltérések kezelésére alkalmazunk. A terápia célja a gerinc görbületeinek korrekciója, a törzs szimmetriájának javítása, a légzésfunkció támogatása és a fájdalom csökkentése. A kezelések során személyre szabott gyakorlatokkal, tudatos testhelyzet-korrekcióval és speciális légzéstechnikával segítjük a helyes tartás kialakítását. A Schroth terápia gyermekeknél, serdülőknél és felnőtteknél egyaránt hatékony lehet, és fontos szerepet játszhat a gerincferdülés romlásának megelőzésében, valamint az életminőség javításában.", 
+  icon: <Activity className="h-6 w-6" />, 
+  color: "#004A6D",
+  image: "/schroth.jpg"
   }
 ];
 
@@ -62,7 +69,8 @@ const SERVICE_MAPPING: { [key: string]: string } = {
   "Manuál fascia kezelések": "Lágy rész manuál terápia (FDM kezelések)",
   "Gerinc- és ízületi panaszok kezelése": "Schroth terápia",
   "BEMER terápia – Mikrokeringés javítása sejtszinten": "Komplex rehabilitáció",
-  "Egyéni és csoportos foglalkozások": "Csoportos gerinc core edzés"
+  "Egyéni és csoportos foglalkozások": "Csoportos gerinc core edzés",
+  "Gerincferdülés - Schroth terápia": "Gerincferdülés - Schroth terápia"
 };
 
 
@@ -207,7 +215,7 @@ export default function ServiceSlider() {
 
             {/* Thumbnails */}
             <div className="mt-12 pt-10 border-t border-gray-200">
-              <div className="grid grid-cols-7 gap-5">
+              <div className="grid grid-cols-8 gap-5">
                 {services.map((service, idx) => (
                   <button
                     key={idx}

@@ -116,9 +116,9 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* LEFT: Photo + basic info */}
             <div className="flex flex-col items-center w-full">
-              <div className="relative w-full max-w-3xl h-[240px] sm:h-[320px] lg:h-[420px] overflow-hidden rounded-2xl shadow-lg">
+              <div className="relative w-full max-w-3xl aspect-[3/4] lg:aspect-[4/5] overflow-hidden rounded-2xl">
                 <Image
-                  src="/gerinc_core1.jpg"
+                  src="/main1.jpg"
                   alt="Gerincstabilizációs gyakorlat fitball gimnasztikai labdával – Forrás Fernanda, a ReStart Physio fizioterapeutája, szakértő irányításával."
                   fill
                   className="object-cover object-center"
@@ -128,7 +128,6 @@ export default function Home() {
                 />
               </div>
 
-              {/* Eddig a név/cím csak nagy kijelzőn volt balra, ezután mindig középen */}
               <div className="w-full flex flex-col items-center justify-center mt-6 mb-2">
                 <h2 className="text-2xl sm:text-3xl font-bold text-[#00254d] text-center">
                   Forrás Fernanda

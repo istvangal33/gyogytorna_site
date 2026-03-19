@@ -156,7 +156,8 @@ const SERVICE_MAPPING: { [key: string]: string } = {
   "Gerincpanaszok kezelése": "Gerincpanaszok kezelése",
   "BEMER terápia": "BEMER terápia",
   "Dinamikus tape": "Dinamikus tape",
-  "Egyéni és csoportos foglalkozások": "Csoportos gerinc core edzés"
+  "Egyéni és csoportos foglalkozások": "Csoportos gerinc core edzés",
+  "Gerincferdülés - Schroth terápia": "Gerincferdülés - Schroth terápia"
 };
 
 export default function ServicesSection() {
