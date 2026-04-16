@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 
 const BRAND_PRIMARY = "var(--color-brand-primary, #004A6D)";
@@ -227,9 +228,11 @@ export default function PriceList() {
                   restart.gyor@gmail.com
                 </span>
                 {/* Logó jobb szélre tolva */}
-                <img
+                <Image
                   src="/logo.png"
-                  alt="Restart Physio"
+                  alt="ReStart Physio"
+                  width={140}
+                  height={56}
                   className="h-10 w-auto md:h-14 ml-auto select-none"
                   draggable={false}
                 />

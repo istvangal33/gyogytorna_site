@@ -3,8 +3,8 @@ import type { MetadataRoute } from 'next';
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://restartphysio.hu';
   
-  // Oldal indulási dátuma vagy utolsó tartalmi frissítés
-  const siteLastUpdated = new Date('2025-11-20');
+  // Utolsó tartalmi frissítés dátuma
+  const siteLastUpdated = new Date('2026-03-30');
   
   return [
     {

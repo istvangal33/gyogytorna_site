@@ -49,6 +49,9 @@ export const metadata: Metadata = {
     description: 'Bemutatkozik Forrás Fernanda, a ReStart Physio szakértő fizioterapeutája, több éves tapasztalattal a sport- és mozgásszervi rehabilitáció területén.',
     images: ['/main.jpg'],
   },
+  alternates:{
+    canonical: "https://restartphysio.hu/bemutatkozas"
+  }
 };
 
 

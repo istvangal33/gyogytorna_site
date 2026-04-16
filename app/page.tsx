@@ -75,7 +75,7 @@ export default function Home() {
         <div className="absolute inset-0 w-full h-full -z-10">
           <Image
             src="/group_core1.jpg"
-            alt="Csoportos core-stabilizációs gyakorlat a ReStart Physio fizioterapeutájának vezetésével – gumiszalagos törzsizom-erősítő tréning a stabil testtartásért."
+            alt="Csoportos core-stabilizációs tréning gumiszalaggal a ReStart Physio rendelőben"
             fill
             priority
             className="object-cover object-center"
@@ -119,7 +119,7 @@ export default function Home() {
               <div className="relative w-full max-w-3xl aspect-[3/4] lg:aspect-[4/5] overflow-hidden rounded-2xl">
                 <Image
                   src="/main1.jpg"
-                  alt="Gerincstabilizációs gyakorlat fitball gimnasztikai labdával – Forrás Fernanda, a ReStart Physio fizioterapeutája, szakértő irányításával."
+                  alt="Gerincstabilizáció fitball labdával – Forrás Fernanda fizioterapeuta"
                   fill
                   className="object-cover object-center"
                   loading="lazy"
