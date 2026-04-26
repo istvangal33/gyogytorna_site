@@ -4,13 +4,16 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ScrollTiles from '../../components/ScrollTiles';
 
+/* ------------------------------------------------------------------ */
+/*  Structured Data – Services                                        */
+/* ------------------------------------------------------------------ */
 function ServiceSchema() {
   const servicesSchema = [
     {
       "@context": "https://schema.org",
       "@type": "Service",
       "serviceType": "Physiotherapy",
-      "name": "Egyéni gyógytorna/rehabilitáció", 
+      "name": "Egyéni gyógytorna/rehabilitáció",
       "description": "A sportrehabilitáció célja, hogy a sérülést követően a sportoló minél gyorsabban, biztonságosan és teljes értékűen térhessen vissza az edzéshez vagy versenyzéshez.",
       "provider": {
         "@type": "MedicalBusiness",
@@ -19,9 +22,9 @@ function ServiceSchema() {
       }
     },
     {
-      "@context": "https://schema.org", 
+      "@context": "https://schema.org",
       "@type": "Service",
-      "serviceType": "MedicalTherapy", 
+      "serviceType": "MedicalTherapy",
       "name": "TMI (Állkapocs ízületi) terápia",
       "description": "Az állkapocs-ízületi terápia a rágóízület működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés.",
       "provider": {
@@ -32,72 +35,72 @@ function ServiceSchema() {
     },
     {
       "@context": "https://schema.org",
-      "@type": "Service", 
+      "@type": "Service",
       "serviceType": "ManualTherapy",
       "name": "Lágy rész manuál terápia (FDM kezelések)",
       "description": "Az FDM (Fascia Disztorziós Modell) terápia egy innovatív manuális kezelési módszer, amellyel a fascia elváltozásainak helyreállítására fókuszálunk.",
       "provider": {
-        "@type": "MedicalBusiness", 
+        "@type": "MedicalBusiness",
         "name": "ReStart Physio",
         "url": "https://restartphysio.hu"
       }
     },
     {
       "@context": "https://schema.org",
-      "@type": "Service", 
+      "@type": "Service",
       "serviceType": "SpinalTherapy",
       "name": "Gerincpanaszok kezelése",
       "description": "A gerincpanaszok napjaink egyik leggyakoribb mozgásszervi problémái közé tartoznak. A célunk nem csak a tünetek enyhítése, hanem az okok feltárása és a tartós megoldás megtalálása.",
       "provider": {
-        "@type": "MedicalBusiness", 
+        "@type": "MedicalBusiness",
         "name": "ReStart Physio",
         "url": "https://restartphysio.hu"
       }
     },
     {
       "@context": "https://schema.org",
-      "@type": "Service", 
+      "@type": "Service",
       "serviceType": "ElectromagneticTherapy",
       "name": "BEMER terápia",
       "description": "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet mikrokeringését.",
       "provider": {
-        "@type": "MedicalBusiness", 
+        "@type": "MedicalBusiness",
         "name": "ReStart Physio",
         "url": "https://restartphysio.hu"
       }
     },
     {
       "@context": "https://schema.org",
-      "@type": "Service", 
+      "@type": "Service",
       "serviceType": "KinesiologyTaping",
       "name": "Dinamikus tape",
       "description": "A Dynamic Tape egy innovatív, biomechanikai szemléletű tapasz, amely nemcsak támogatja az izmokat és ízületeket, hanem aktívan segíti a mozgást is.",
       "provider": {
-        "@type": "MedicalBusiness", 
+        "@type": "MedicalBusiness",
         "name": "ReStart Physio",
         "url": "https://restartphysio.hu"
       }
     },
     {
       "@context": "https://schema.org",
-      "@type": "Service", 
+      "@type": "Service",
       "serviceType": "CoreStabilization",
       "name": "Csoportos gerinc core edzés",
       "description": "A core (törzsizomzat) a test stabilitásának alapja. A személyre szabott core-stabilizációs program célja, hogy fokozatosan építsük vissza a törzs tartóerejét.",
       "provider": {
-        "@type": "MedicalBusiness", 
+        "@type": "MedicalBusiness",
         "name": "ReStart Physio",
         "url": "https://restartphysio.hu"
       }
     },
     {
       "@context": "https://schema.org",
-      "@type": "Service", 
+      "@type": "Service",
       "serviceType": "ScoliosisTherapy",
       "name": "Gerincferdülés - Schroth terápia",
       "description": "A Schroth terápia egy speciális, háromdimenziós mozgásterápia, amely a gerincferdülés (scoliosis) és más tartáshibák célzott kezelésére szolgál.",
       "provider": {
-        "@type": "MedicalBusiness", 
+        "@type": "MedicalBusiness",
         "name": "ReStart Physio",
         "url": "https://restartphysio.hu"
       }
@@ -119,36 +122,103 @@ function ServiceSchema() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Structured Data – FAQ                                             */
+/* ------------------------------------------------------------------ */
+function ServicesFAQSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Mikor forduljak gyógytornászhoz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ha bármilyen mozgásszervi fájdalma van (derék, nyak, váll, térd), sportsérülés érte, műtét utáni rehabilitációra szorul, vagy tartáshibákat szeretne korrigálni. Beutaló nélkül is felkereshet minket."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Mi a különbség a gyógytorna és a fizioterápia között?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A fizioterápia a tágabb fogalom, amely magában foglalja a gyógytornát is. A gyógytorna célzott mozgásgyakorlatokra fókuszál, míg a fizioterápia egyéb kezelési módszereket is tartalmaz, mint a manuálterápia, fizikoterápia (pl. BEMER) és a funkcionális tréning."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hány alkalom szükséges a javuláshoz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ez egyénenként változó. Akut panaszoknál gyakran 3-5 alkalom is jelentős javulást hoz, krónikus problémáknál általában 8-15 kezelés szükséges. Az első alkalommal felállított kezelési terv tartalmazza a várható időtartamot."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Milyen panaszokkal fordulhatok a ReStart Physio rendelőbe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Derékfájdalom, nyakfájdalom, porckorongsérv, gerincferdülés, sportsérülések, műtét utáni rehabilitáció, SI ízületi panaszok, állkapocs ízületi problémák, krónikus fájdalmak és tartáshibák kezelésében segítünk."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Sportolóként is fordulhatok Önökhöz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Igen, kifejezetten! Forrás Fernanda közel 10 évig dolgozott élsportolókkal – a Győri ETO FC labdarúgóival, kézilabdázókkal és atlétákkal. A sportrehabilitáció az egyik fő szakterületünk."
+        }
+      }
+    ]
+  };
 
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Data                                                              */
+/* ------------------------------------------------------------------ */
 interface PriceItem {
   name: string;
+  slug: string;
   color?: string;
 }
 
 const SERVICES: PriceItem[] = [
-  { name: "Egyéni gyógytorna/rehabilitáció", color: "#004A6D" },
-  { name: "TMI (Állkapocs ízületi) terápia", color: "#004A6D" },
-  { name: "Lágy rész manuál terápia (FDM kezelések)", color: "#004A6D" },
-  { name: "Gerincpanaszok kezelése", color: "#004A6D" },
-  { name: "BEMER terápia", color: "#004A6D" },
-  { name: "Dinamikus tape", color: "#004A6D" },
-  { name: "Csoportos gerinc core edzés", color: "#004A6D" },
-  { name: "Gerincferdülés - Schroth terápia", color: "#004A6D"}
+  { name: "Egyéni gyógytorna/rehabilitáció", slug: "sportrehabilitacio", color: "#004A6D" },
+  { name: "TMI (Állkapocs ízületi) terápia", slug: "tmi-terapia", color: "#004A6D" },
+  { name: "Lágy rész manuál terápia (FDM kezelések)", slug: "manualterapia-fdm", color: "#004A6D" },
+  { name: "Gerincpanaszok kezelése", slug: "gerincpanaszok-kezelese", color: "#004A6D" },
+  { name: "BEMER terápia", slug: "bemer-terapia", color: "#004A6D" },
+  { name: "Dinamikus tape", slug: "dinamikus-tape", color: "#004A6D" },
+  { name: "Csoportos gerinc core edzés", slug: "core-edzes", color: "#004A6D" },
+  { name: "Gerincferdülés - Schroth terápia", slug: "schroth-terapia", color: "#004A6D" },
 ];
 
-// Szolgáltatás leírások
 const SERVICE_DESCRIPTIONS: { [key: string]: string } = {
-  "Egyéni gyógytorna/rehabilitáció": "A <strong>sportrehabilitáció</strong> célja, hogy a sérülést követően a sportoló - legyen hobbi vagy élsportoló - minél gyorsabban, biztonságosan és teljes értékűen térhessen vissza az edzéshez vagy versenyzéshez. A kezelés nem csupán a fájdalomcsillapításról szól, hanem a teljes funkció helyreállításáról és a sérülés újbóli kialakulásának minimalizálásáról. A sportrehabilitáció során személyre szabott kezelési tervet készítünk, melyben ötvözzük a manuálterápiát, funkcionális gyakorlatokat. Megtanítjuk a helyes mozgásmintákat, javítjuk a mobilitást, koordinációt, stabilitást, dinamikát és az erőnlétet -legyen szó húzódásról, szalagsérülésekről, műtét utáni állapotról vagy túlterheléses problémákról.",
-  "TMI (Állkapocs ízületi) terápia": "Az <strong>állkapocs-ízületi</strong> terápia a rágóízület (TMJ – temporomandibuláris ízület) működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés. <br>A mindennapi stressz, fogszorítás, fogcsikorgatás, helytelen testtartás vagy harapási rendellenességek gyakran okozhatnak állkapocs körüli fájdalmat, kattogást, fejfájást, fülzúgást vagy szájnyitási nehézségeket. Az állkapocs-ízületi terápia során célzott technikákkal kezeljük az érintett izmokat, kötőszöveteket és ízületeket – kívülről és szükség esetén a szájüregen belül is. A kezelés által segítjük az ízületi funkciók normalizálását, oldjuk az ízületben kialakult feszüléseket és javítjuk a szájnyitás szabadságát, miközben enyhítjük a fájdalmat és a kapcsolódó tüneteket.",
-  "Lágy rész manuál terápia (FDM kezelések)": "Az <strong>FDM (Fascia Disztorziós Modell)</strong> terápia egy innovatív manuális kezelési módszer, amellyel a fascia (kötőszöveti hálózat) elváltozásainak helyreállítására fókuszálunk. A fascia az egész testet behálózó szövet, amely kulcsszerepet játszik a mozgásban, erőátvitelben és a testtartásban. Az FDM terápia során speciális fogásokat alkalmazunk, melynek során a fasciában kialakult letapadásokat és elmozdulásokat oldjuk, célzott pontok nyomásával és a szövetek felszakításával. A kezelések által hatékonyan enyhíthetjük a mozgásszervi panaszokat, például hát-, nyak-, váll- vagy derékfájdalmat. Az FDM terápia által gyors és látványos eredményeket érhetünk el már néhány alkalom után.",
-  "Gerincpanaszok kezelése": "A <strong>gerincpanaszok</strong> napjaink egyik leggyakoribb mozgásszervi problémái közé tartoznak, érintve fiatalokat és időseket egyaránt. Hosszabb ülés, stressz, mozgáshiány vagy túlterhelés hozzájárulhatnak a gerinc szegmenseinek fájdalmához, instabilitásához, porckorong problémák kialakulásához. A célunk nem csak a tünetek enyhítése, hanem az okok feltárása és a tartós megoldás megtalálása. A gerincpanaszok kezelése komplex módon történik, manuális, mobilizációs és Core stabilizációs technikák alkalmazása által.",
-  "BEMER terápia": "A <strong>BEMER terápia</strong> egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet <strong>mikrokeringését</strong> – vagyis a hajszálerekben zajló vérárramlást. Ez kulcsfontosságú a sejtek oxigén- és tápanyagellátása, valamint a salakanyagok elszállítása szempontjából. A terápia segít a szervezet <strong>öngyógyító folyamatait aktiválni</strong>, fokozza a regenerációt, csökkenti a gyulladást és elősegíti a fizikai és mentális teljesítőképesség helyreállítását.<br><br><strong>Miben segít a BEMER terápia?</strong><br>• Sérülések, műtétek utáni gyorsabb regeneráció<br>• Krónikus fájdalmak, izomfeszülések csökkentése<br>• Keringési problémák, hideg végtagok<br>• Immunrendszer támogatása<br>• Alvászavarok, stressz tüneteinek enyhítése<br>• Sportteljesítmény és terhelhetőség javítása<br><br><strong>Hogyan zajlik a kezelés?</strong><br>A BEMER kezelés fájdalommentes, kényelmes, mindössze 8–20 percig tart. A páciens egy speciális kezelőmatracon fekszik, amely alacsony -közepes és magas intenzitású elektromágneses impulzusokat bocsát ki.",
-  "Dinamikus tape": "A <strong>Dynamic Tape</strong> egy innovatív, biomechanikai szemléletű tapasz, amely nemcsak támogatja az izmokat és ízületeket, hanem aktívan segíti a mozgást is. Ellentétben a klasszikus kineziológiai tapaszokkal, a Dynamic Tape erőteljesen rugalmas, több irányban nyúlik, és képes elnyelni, majd visszaadni a mozgás során keletkező energiát.​A Dynamic Tape kontrollálja a terhelést, a mozgásmintákat és funkciókat azáltal, hogy energiát juttat a rendszerbe. Ez az első és egyetlen biomechanikai tapasz, amely közvetlenül hatással van az izmok munkájára és az ízületek mozgására.​A tapaszt hatékonyan használhatjuk ficamok és sérülések után, izmok és ízületek terhelésének csökkentésére, mozgástartomány növelésére, fájdalom csökkentésére. A Dynamic Tape-et sérülések utáni rehabilitációban, sportteljesítmény javításában, krónikus fájdalmak enyhítésében (derékfájdalom, teniszkönyök, térdfájdalom) vagy mozgásminták korrekciójában használjuk.",
-  "Csoportos gerinc core edzés": "A <strong>core (törzsizomzat)</strong> a test stabilitásának alapja. Ha ezek az izmok gyengék vagy nem működnek megfelelően, a gerinc túlterhelődik – ez gyakori oka a fájdalmaknak és a sérüléseknek.<br><br>A <strong>személyre szabott core-stabilizációs program</strong> célja, hogy fokozatosan, az egyéni állapothoz igazítva építsük vissza a törzs tartóerejét. A stabil, jól koordinált izommunka megtanítása által a páciens tehermentesítheti a gerincet, javíthatja a testtartást és megelőzheti a panaszok kiújulását.<br><br><strong>Core stabilizáció elemei:</strong><br>• Mély has- és hátizmok aktiválása<br>• Légzéstechnika és testérzékelés fejlesztése<br>• Funkcionális gyakorlatok a mindennapi mozgásokhoz igazítva",
-  "Gerincferdülés - Schroth terápia": "A <strong>Schroth</strong> terápia egy speciális, háromdimenziós mozgásterápia, amely a gerincferdülés (scoliosis) és más tartáshibák célzott kezelésére szolgál. Ez a terápia az egyik leghatékonyabb konzervatív kezelési formának számít a gerincdeformitások korrigálásában. A terápia során a páciens megtanulja a saját testtartási mintáinak tudatos korrekcióját, speciális légzőgyakorlatokkal és izomaktiválással kombinálva. A kezelés célja, hogy javítsuk a gerinc helyzetét, csökkentsük az aszimmetriát, enyhítsük a fájdalmat és megelőzzük a ferdülés romlását."
+  "Egyéni gyógytorna/rehabilitáció": "A <strong>sportrehabilitáció</strong> célja, hogy a sérülést követően a sportoló – legyen hobbi vagy élsportoló – minél gyorsabban, biztonságosan és teljes értékűen térhessen vissza az edzéshez vagy versenyzéshez. Győri rendelőnkben a kezelés nem csupán a fájdalomcsillapításról szól, hanem a teljes funkció helyreállításáról és a sérülés újbóli kialakulásának minimalizálásáról.<br><br>A <strong>sportrehabilitáció és gyógytorna</strong> során személyre szabott kezelési tervet készítünk, melyben ötvözzük a manuálterápiát és a funkcionális gyakorlatokat. Megtanítjuk a helyes mozgásmintákat, javítjuk a mobilitást, koordinációt, stabilitást, dinamikát és az erőnlétet – legyen szó húzódásról, szalagsérülésekről, műtét utáni állapotról vagy túlterheléses problémákról.<br><br><strong>Mikor ajánlott?</strong><br>• Sportsérülések (húzódás, szalagsérülés, meniscus)<br>• Műtét utáni rehabilitáció (térd, váll, csípő, gerinc)<br>• Túlterheléses panaszok<br>• Visszatérés az edzéshez sérülés után<br><br><a href='/szolgaltatasok/sportrehabilitacio' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben a sportrehabilitációról</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>",
+
+  "TMI (Állkapocs ízületi) terápia": "Az <strong>állkapocs-ízületi (TMI) terápia</strong> a rágóízület (TMJ – temporomandibuláris ízület) működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés Győrben.<br><br>A mindennapi stressz, fogszorítás, fogcsikorgatás, helytelen testtartás vagy harapási rendellenességek gyakran okozhatnak állkapocs körüli fájdalmat, kattogást, fejfájást, fülzúgást vagy szájnyitási nehézségeket. Az <strong>állkapocs-ízületi terápia</strong> során célzott technikákkal kezeljük az érintett izmokat, kötőszöveteket és ízületeket – kívülről és szükség esetén a szájüregen belül is.<br><br>A kezelés által segítjük az ízületi funkciók normalizálását, oldjuk az ízületben kialakult feszüléseket és javítjuk a szájnyitás szabadságát, miközben enyhítjük a fájdalmat és a kapcsolódó tüneteket.<br><br><a href='/szolgaltatasok/tmi-terapia' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben a TMI terápiáról</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>",
+
+  "Lágy rész manuál terápia (FDM kezelések)": "Az <strong>FDM (Fascia Disztorziós Modell) manuálterápia</strong> egy innovatív manuális kezelési módszer, amellyel a fascia (kötőszöveti hálózat) elváltozásainak helyreállítására fókuszálunk. Győri rendelőnkben ezt a technikát gyakran alkalmazzuk akut és krónikus mozgásszervi panaszok kezelésére.<br><br>A fascia az egész testet behálózó szövet, amely kulcsszerepet játszik a mozgásban, erőátvitelben és a testtartásban. Az <strong>FDM terápia</strong> során speciális fogásokat alkalmazunk, melynek során a fasciában kialakult letapadásokat és elmozdulásokat oldjuk, célzott pontok nyomásával és a szövetek felszakításával.<br><br>A kezelések által hatékonyan enyhíthetjük a mozgásszervi panaszokat, például hát-, nyak-, váll- vagy derékfájdalmat. Az FDM manuálterápia által gyors és látványos eredményeket érhetünk el már néhány alkalom után.<br><br><a href='/szolgaltatasok/manualterapia-fdm' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben az FDM manuálterápiáról</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>",
+
+  "Gerincpanaszok kezelése": "A <strong>gerincpanaszok</strong> napjaink egyik leggyakoribb mozgásszervi problémái közé tartoznak, érintve fiatalokat és időseket egyaránt. Hosszabb ülés, stressz, mozgáshiány vagy túlterhelés hozzájárulhatnak a gerinc szegmenseinek fájdalmához, instabilitásához, porckorong problémák kialakulásához.<br><br>Győri <strong>fizioterápiás</strong> rendelőnkben a célunk nem csak a tünetek enyhítése, hanem az okok feltárása és a tartós megoldás megtalálása. A <strong>gerincpanaszok kezelése</strong> komplex módon történik: manuális technikák, mobilizációs módszerek és core stabilizációs gyakorlatok alkalmazásával.<br><br><strong>Gyakori gerincpanaszok, amiket kezelünk:</strong><br>• Porckorongsérv és porckorong-előboltozódás<br>• Derékfájdalom és hátfájás<br>• Nyaki gerinc panaszok, nyakmerevség<br>• SI ízületi (keresztcsont-csípőízületi) diszfunkció<br>• Ülőideg-becsípődés (isiász)<br>• Tartáshibák és gerincinstabilitás<br><br><a href='/szolgaltatasok/gerincpanaszok-kezelese' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben a gerincpanaszok kezeléséről</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>",
+
+  "BEMER terápia": "A <strong>BEMER terápia</strong> egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet mikrokeringését és aktiválja az öngyógyító folyamatokat. <br><br>Győri rendelőnkben önállóan vagy más kezelésekkel (pl. gyógytornával, manuálterápiával) kombinálva alkalmazzuk. Kiváló és fájdalommentes megoldás krónikus fájdalmak, sportsérülések, műtét utáni állapotok és keringési problémák kezelésére. A gyorsabb felépülés érdekében a készülék otthonra is bérelhető!<br><br><a href='/szolgaltatasok/bemer-terapia' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben a BEMER terápiáról és bérlésről</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>",
+  
+  "Dinamikus tape": "A <strong>Dynamic Tape</strong> egy innovatív, biomechanikai szemléletű tapasz, amely nemcsak támogatja az izmokat és ízületeket, hanem aktívan segíti a mozgást is. Győri rendelőnkben a dinamikus tape-et és a kineziológiai tape-et egyaránt alkalmazzuk.<br><br>Ellentétben a klasszikus kineziológiai tapaszokkal, a Dynamic Tape erőteljesen rugalmas, több irányban nyúlik, és képes elnyelni, majd visszaadni a mozgás során keletkező energiát. Ez az első és egyetlen biomechanikai tapasz, amely közvetlenül hatással van az izmok munkájára és az ízületek mozgására.<br><br><strong>Mikor alkalmazzuk?</strong><br>• Ficamok és sérülések utáni támogatás<br>• Izmok és ízületek terhelésének csökkentése<br>• Mozgástartomány növelése, fájdalom csökkentése<br>• Sportteljesítmény javítása<br>• Krónikus panaszok (derékfájdalom, teniszkönyök, térdfájdalom)<br>• Mozgásminták korrekciója<br><br><a href='/szolgaltatasok/dinamikus-tape' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben a dinamikus tape-ről</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>",
+
+  "Csoportos gerinc core edzés": "A <strong>core (törzsizomzat)</strong> a test stabilitásának alapja. Ha ezek az izmok gyengék vagy nem működnek megfelelően, a gerinc túlterhelődik – ez gyakori oka a fájdalmaknak és a sérüléseknek.<br><br>Győri rendelőnkben <strong>kiscsoportos core edzéseket</strong> tartunk, ahol a személyre szabott core-stabilizációs program célja, hogy fokozatosan, az egyéni állapothoz igazítva építsük vissza a törzs tartóerejét. A stabil, jól koordinált izommunka megtanítása által a páciens tehermentesítheti a gerincet, javíthatja a testtartást és megelőzheti a panaszok kiújulását.<br><br><strong>Core stabilizáció elemei:</strong><br>• Mély has- és hátizmok aktiválása<br>• Légzéstechnika és testérzékelés fejlesztése<br>• Funkcionális gyakorlatok a mindennapi mozgásokhoz igazítva<br>• Gerinc core edzés csoportosan, szakmai felügyelettel<br><br><a href='/szolgaltatasok/core-edzes' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben a core edzésről</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>",
+
+  "Gerincferdülés - Schroth terápia": "A <strong>Schroth terápia</strong> egy speciális, háromdimenziós mozgásterápia, amely a gerincferdülés (scoliosis) és más tartáshibák célzott kezelésére szolgál. Győri rendelőnkben ez az egyik legkeresettebb szolgáltatásunk fiatal és felnőtt páciensek körében egyaránt.<br><br>A <strong>Schroth terápia</strong> az egyik leghatékonyabb konzervatív kezelési formának számít a gerincdeformitások korrigálásában. A terápia során a páciens megtanulja a saját testtartási mintáinak tudatos korrekcióját, speciális légzőgyakorlatokkal és izomaktiválással kombinálva.<br><br><strong>A Schroth terápia célja:</strong><br>• A gerinc helyzetének javítása<br>• Az aszimmetria csökkentése<br>• A fájdalom enyhítése<br>• A ferdülés romlásának megelőzése<br>• Tudatos testtartás kialakítása a mindennapokban<br><br><a href='/szolgaltatasok/schroth-terapia' class='group block mt-6'><span class='flex items-center justify-between text-[#004A6D] group-hover:text-[#EC7007] font-bold text-base transition-colors duration-300'><span>Bővebben a Schroth terápiáról</span></span><span class='block h-1 w-full rounded-full bg-[#004A6D] group-hover:bg-[#EC7007] mt-3 transition-colors duration-300'></span></a>"
 };
 
-// SERVICE MAPPING - SCROLLTILES -> GRID MAPPING
 const SERVICE_MAPPING: { [key: string]: string } = {
   "Sport rehabilitáció és műtétek utáni rehabilitáció": "Egyéni gyógytorna/rehabilitáció",
   "Állkapocs ízületi terápia": "TMI (Állkapocs ízületi) terápia",
@@ -160,49 +230,49 @@ const SERVICE_MAPPING: { [key: string]: string } = {
   "Gerincferdülés - Schroth terápia": "Gerincferdülés - Schroth terápia"
 };
 
+/* ------------------------------------------------------------------ */
+/*  Fő komponens                                                      */
+/* ------------------------------------------------------------------ */
 export default function ServicesSection() {
   const [expandedServices, setExpandedServices] = useState<Set<string>>(new Set());
 
-  // Figyelj URL hash változásokat
-  // Figyelj URL hash változásokat
-useEffect(() => {
-  const handleHashChange = () => {
-    const hash = window.location.hash;
-    if (hash.startsWith('#detail-')) {
-      const serviceName = decodeURIComponent(hash.replace('#detail-', ''));
-      
-      // Nyisd ki a service-t
-      setExpandedServices(new Set([serviceName]));
-      
-      // Scroll a KONKRÉT KÁRTYÁHOZ
-      setTimeout(() => {
-        // Keressük meg a kártya indexét
-        const serviceIndex = SERVICES.findIndex(s => s.name === serviceName);
-        
-        if (serviceIndex !== -1) {
-          // Keressük meg a kártyát ID alapján
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      let serviceName = '';
+
+      if (hash.startsWith('#detail-')) {
+        serviceName = decodeURIComponent(hash.replace('#detail-', ''));
+      } else if (hash.length > 1) {
+        const slug = hash.replace('#', '');
+        const matched = SERVICES.find(s => s.slug === slug);
+        if (matched) {
+          serviceName = matched.name;
+        }
+      }
+
+      if (serviceName) {
+        setExpandedServices(new Set([serviceName]));
+
+        setTimeout(() => {
           const cardElement = document.querySelector(`[data-service-name="${serviceName}"]`);
-          
+
           if (cardElement) {
-            cardElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'center',  // A KÁRTYA kerül középre
-              inline: 'nearest' 
+            cardElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center',
+              inline: 'nearest'
             });
           }
-        }
-      }, 300); // Több idő a DOM frissüléshez
-    }
-  };
+        }, 300);
+      }
+    };
 
-    // Initial check
     handleHashChange();
-    
-    // Listen for hash changes
+
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
-
 
   const toggleServiceExpansion = (serviceName: string) => {
     const newExpanded = new Set(expandedServices);
@@ -217,7 +287,22 @@ useEffect(() => {
   return (
     <>
       <ServiceSchema />
-      {/* HERO SECTION */}
+      <ServicesFAQSchema />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://restartphysio.hu" },
+            { "@type": "ListItem", "position": 2, "name": "Szolgáltatások", "item": "https://restartphysio.hu/szolgaltatasok" }
+          ]
+        }) }}
+      />
+
+      {/* ============================================================== */}
+      {/* HERO SECTION                                                    */}
+      {/* ============================================================== */}
       <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-x-0 bottom-0">
           <svg
@@ -232,24 +317,28 @@ useEffect(() => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-extrabold text-[#004A6D] mb-4">
-              Szolgáltatásaink
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004A6D] mb-4">
+              Gyógytorna és Fizioterápia Szolgáltatások Győrben
             </h1>
             <p className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Komplex fizioterápiás megoldások minden igényre – egyénre szabott kezelésekkel
+              Gyógytorna, fizioterápia és sportrehabilitáció Győrben – egyénre szabott kezelésekkel
             </p>
           </div>
         </div>
       </section>
 
-      {/* SERVICE SLIDER */}
-      <ScrollTiles />
+      {/* ============================================================== */}
+      {/* SERVICE SLIDER                                                  */}
+      {/* ============================================================== */}
       
-      {/* SZOLGÁLTATÁSOK - FIXED GRID */}
+        <ScrollTiles />
+
+      {/* ============================================================== */}
+      {/* SZOLGÁLTATÁSOK GRID                                             */}
+      {/* ============================================================== */}
       <section id="services-details" className="py-24 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Header */}
+
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
               Szolgáltatások részletesen
@@ -259,23 +348,23 @@ useEffect(() => {
             </p>
           </div>
 
-          {/* GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+          <div id="services-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start scroll-mt-8">
             {SERVICES.map((service, index) => (
               <div
                 key={`service-${index}`}
+                id={service.slug}
                 data-service-name={service.name}
                 className={`group relative bg-white/70 backdrop-blur-xl rounded-2xl shadow-lg transition-all duration-500 border border-white/20 ${
-                  expandedServices.has(service.name) 
-                    ? 'shadow-2xl -translate-y-2'  // ← EXPANDED állapot: mintha hover lenne
-                    : 'hover:shadow-2xl hover:-translate-y-2'  // ← CSAK hover esetén
+                  expandedServices.has(service.name)
+                    ? 'shadow-2xl -translate-y-2'
+                    : 'hover:shadow-2xl hover:-translate-y-2'
                 }`}
               >
-                <div 
+                <div
                   className={`absolute inset-0 rounded-2xl transition-opacity duration-500 pointer-events-none ${
                     expandedServices.has(service.name)
-                      ? 'opacity-100'  // ← EXPANDED: mindig látszik
-                      : 'opacity-0 group-hover:opacity-100'  // ← CSAK hover esetén
+                      ? 'opacity-100'
+                      : 'opacity-0 group-hover:opacity-100'
                   }`}
                   style={{
                     background: `linear-gradient(135deg, ${service.color || '#004A6D'}15, transparent)`
@@ -283,24 +372,26 @@ useEffect(() => {
                 />
 
                 <div className="relative z-10 p-6">
-                  <h3 className={`text-lg md:text-xl font-bold mb-3 transition-colors duration-300 min-h-[3.5rem] flex items-center ${
-                    expandedServices.has(service.name) 
-                      ? 'text-[#EC7007]'
-                      : 'text-gray-900 group-hover:text-[#004A6D]'
-                  }`}>
+                  <h3
+                    className={`text-lg md:text-xl font-bold mb-3 transition-colors duration-300 min-h-[3.5rem] flex items-center ${
+                      expandedServices.has(service.name)
+                        ? 'text-[#EC7007]'
+                        : 'text-gray-900 group-hover:text-[#004A6D]'
+                    }`}
+                  >
                     {service.name}
                   </h3>
 
-                   <div 
-                      className={`h-1 rounded-full mb-4 transition-all duration-500 ${
-                        expandedServices.has(service.name)
-                          ? 'w-full'  // ← EXPANDED: teljes szélesség
-                          : 'w-12 group-hover:w-full'  // ← CSAK hover esetén nő
-                      }`}
-                      style={{ backgroundColor: service.color || '#004A6D' }}
-                    />
+                  <div
+                    className={`h-1 rounded-full mb-4 transition-all duration-500 ${
+                      expandedServices.has(service.name)
+                        ? 'w-full'
+                        : 'w-12 group-hover:w-full'
+                    }`}
+                    style={{ backgroundColor: service.color || '#004A6D' }}
+                  />
 
-                  <div 
+                  <div
                     className={`text-gray-600 text-sm leading-relaxed transition-all duration-500 overflow-hidden ${
                       expandedServices.has(service.name) ? 'max-h-[2000px]' : 'h-[4.5rem]'
                     }`}
@@ -323,12 +414,12 @@ useEffect(() => {
                     }`}
                   >
                     <span>{expandedServices.has(service.name) ? 'Kevesebb' : 'Továbbiak'}</span>
-                    <svg 
+                    <svg
                       className={`w-4 h-4 transition-transform duration-200 ${
                         expandedServices.has(service.name) ? 'rotate-180' : ''
                       }`}
-                      fill="none" 
-                      stroke="currentColor" 
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -336,7 +427,7 @@ useEffect(() => {
                   </button>
                 </div>
 
-                 <div 
+                <div
                   className="h-1 rounded-b-2xl"
                   style={{ backgroundColor: service.color || '#004A6D' }}
                 />
@@ -344,7 +435,9 @@ useEffect(() => {
             ))}
           </div>
 
-          {/* Call to Action */}
+          {/* ============================================================ */}
+          {/* CTA                                                          */}
+          {/* ============================================================ */}
           <div className="mt-20 text-center">
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500 max-w-2xl mx-auto">
               <h4 className="text-2xl font-bold text-gray-900 mb-4">
@@ -352,16 +445,16 @@ useEffect(() => {
               </h4>
               <p className="text-gray-600 mb-6">
                 Ismerje meg{" "}
-                <Link 
-                  href="/bemutatkozas" 
+                <Link
+                  href="/bemutatkozas"
                   className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
                 >
                   tapasztalt fizioterapeutánkat
                 </Link>, vagy vegye fel velünk a kapcsolatot!
               </p>
-              <a 
+              <a
                 href="/elerhetoseg#contact"
-                className="inline-flex items-center gap-2 bg-[#EC7007] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d4610a] transition-colors duration-200 shadow-sm hover:shadow-md hover:scale-105 transform"
+                className="inline-flex items-center gap-2 bg-[#0f1f29] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d4610a] transition-colors duration-200 shadow-sm hover:shadow-md hover:scale-105 transform"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -371,8 +464,127 @@ useEffect(() => {
             </div>
           </div>
 
+          {/* ============================================================ */}
+          {/* FAQ SZEKCIÓ                                                   */}
+          {/* ============================================================ */}
+          <div className="mt-20 max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+              Gyakran Ismételt Kérdések
+            </h2>
+
+            <div className="space-y-4">
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-md">
+                <h3 className="font-semibold text-[#004a6d] mb-2">
+                  Mikor forduljak gyógytornászhoz?
+                </h3>
+                <p className="text-gray-700">
+                  Ha bármilyen mozgásszervi fájdalma van (derék, nyak, váll, térd),
+                  sportsérülés érte, műtét utáni rehabilitációra szorul, vagy tartáshibákat
+                  szeretne korrigálni. Beutaló nélkül is felkereshet minket.
+                </p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-md">
+                <h3 className="font-semibold text-[#004a6d] mb-2">
+                  Mi a különbség a gyógytorna és a fizioterápia között?
+                </h3>
+                <p className="text-gray-700">
+                  A fizioterápia a tágabb fogalom, amely magában foglalja a gyógytornát is.
+                  A gyógytorna célzott mozgásgyakorlatokra fókuszál, míg a fizioterápia egyéb
+                  kezelési módszereket is tartalmaz, mint a{" "}
+                  <a
+                    href="#manualterapia-fdm"
+                    className="text-[#004a6d] font-semibold hover:text-[#EC7007] transition-colors"
+                  >
+                    manuálterápia
+                  </a>, fizikoterápia (pl.{" "}
+                  <a
+                    href="#bemer-terapia"
+                    className="text-[#004a6d] font-semibold hover:text-[#EC7007] transition-colors"
+                  >
+                    BEMER
+                  </a>) és a funkcionális tréning.
+                </p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-md">
+                <h3 className="font-semibold text-[#004a6d] mb-2">
+                  Hány alkalom szükséges a javuláshoz?
+                </h3>
+                <p className="text-gray-700">
+                  Ez egyénenként változó. Akut panaszoknál gyakran 3–5 alkalom is jelentős
+                  javulást hoz, krónikus problémáknál általában 8–15 kezelés szükséges.
+                  Az első alkalommal felállított kezelési terv tartalmazza a várható időtartamot.
+                </p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-md">
+                <h3 className="font-semibold text-[#004a6d] mb-2">
+                  Milyen panaszokkal fordulhatok a ReStart Physio rendelőbe?
+                </h3>
+                <p className="text-gray-700">
+                  Derékfájdalom, nyakfájdalom, porckorongsérv, gerincferdülés, sportsérülések,
+                  műtét utáni rehabilitáció, SI ízületi panaszok, állkapocs ízületi problémák,
+                  krónikus fájdalmak és tartáshibák kezelésében segítünk.
+                </p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-md">
+                <h3 className="font-semibold text-[#004a6d] mb-2">
+                  Sportolóként is fordulhatok Önökhöz?
+                </h3>
+                <p className="text-gray-700">
+                  Igen, kifejezetten! Forrás Fernanda közel 10 évig dolgozott élsportolókkal
+                  – a Győri ETO FC labdarúgóival, kézilabdázókkal és atlétákkal. A{" "}
+                  <a
+                    href="#sportrehabilitacio"
+                    className="text-[#004a6d] font-semibold hover:text-[#EC7007] transition-colors"
+                  >
+                    sportrehabilitáció
+                  </a>{" "}
+                  az egyik fő szakterületünk.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ============================================================ */}
+          {/* ÖSSZEFOGLALÓ SZÖVEG – SEO                                    */}
+          {/* ============================================================ */}
+          <div className="mt-20 max-w-3xl mx-auto text-center relative z-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+              Gyógytorna és Fizioterápia Győrben
+            </h2>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              A ReStart Physio rendelőben Győrben komplex fizioterápiás és gyógytorna
+              szolgáltatásokat kínálunk. Legyen szó sportrehabilitációról, gerincpanaszok
+              kezeléséről, SI ízületi terápiáról, BEMER terápiáról vagy Schroth
+              terápiáról – minden kezelést egyénre szabottan, szakszerűen végzünk.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Rendelőnk a Győr, Máté Mária u. 4b szám alatt található. Fizikoterápiás
+              és manuálterápiás kezeléseink célja nem csupán a tünetek enyhítése,
+              hanem az okok feltárása és a tartós javulás elérése.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/arak"
+                className="inline-flex items-center justify-center gap-2 bg-[#004A6D]/10 text-[#004A6D] px-6 py-3 rounded-lg font-semibold hover:bg-[#0f1f29] hover:text-white transition-all duration-300"
+              >
+                Áraink megtekintése
+              </Link>
+              <Link
+                href="/elerhetoseg#contact"
+                className="inline-flex items-center justify-center gap-2 bg-[#EC7007] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#d4610a] transition-colors duration-200"
+              >
+                Időpontfoglalás
+              </Link>
+            </div>
+          </div>
+
         </div>
 
+        {/* Dekoratív körök */}
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-200 rounded-full opacity-20 blur-2xl"></div>
       </section>

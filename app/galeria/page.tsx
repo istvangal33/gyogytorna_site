@@ -131,6 +131,17 @@ export default function Galeria() {
     <>
       {/* ✅ STRUCTURED DATA HOZZÁADVA */}
       <GallerySchema images={galleryImages} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://restartphysio.hu" },
+            { "@type": "ListItem", "position": 2, "name": "Galéria", "item": "https://restartphysio.hu/galeria" }
+          ]
+        }) }}
+      />
       
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
@@ -208,7 +219,6 @@ export default function Galeria() {
                     width={800}
                     height={600}
                     className="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-500"
-                    unoptimized // ✅ FONTOS statikus exportnál!
                   />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="text-center text-white p-4">
@@ -298,7 +308,6 @@ export default function Galeria() {
                       maxHeight: 'calc(100vh - 200px)',
                       maxWidth: 'calc(100vw - 16px)'
                     }}
-                    unoptimized // ✅ FONTOS!
                   />
                 </div>
   

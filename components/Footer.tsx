@@ -23,6 +23,7 @@ const navRight = [
   { label: "Árak", href: "/arak" },
   { label: "Elérhetőség", href: "/elerhetoseg" },
   { label: "Galéria", href: "/galeria" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export default function Footer() {
@@ -50,12 +51,13 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <Link href="/" aria-label="Főoldal – ReStart Physio" className="shrink-0">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="ReStart Physio"
-                width={140}
-                height={40}
+                width={56}
+                height={56}
                 className="h-10 w-auto"
-                priority
+                quality={85}
+                sizes="56px"
               />
             </Link>
             <div className="flex items-center gap-3">

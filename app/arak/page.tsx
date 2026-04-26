@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import React from "react";
+import FaqAccordion from '@/components/FaqAccordion';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 const BRAND_PRIMARY = "var(--color-brand-primary, #004A6D)";
 const BRAND_ACCENT = "var(--color-brand-accent, #EC7007)";
@@ -44,94 +46,34 @@ const PASSES: PriceItem[] = [
 
 
 function PriceSchema() {
-  const businessWithPricesSchema = {
+  const priceSchema = {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "MedicalBusiness"],
-    "name": "ReStart Physio",
-    "description": "Szakszerű gyógytorna és fizioterápia Győrben. Átlátható árazással, professzionális kezelésekkel.",
-    "url": "https://restartphysio.hu",
-    "image": "https://restartphysio.hu/group_core1.jpg",
-    "telephone": "+36-30-819-8449",
-    "email": "restart.gyor@gmail.com",
-    
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Máté Mária u. 4b",
-      "addressLocality": "Győr",
-      "addressRegion": "Győr-Moson-Sopron",
-      "postalCode": "9028",
-      "addressCountry": "HU"
+    "@type": "OfferCatalog",
+    "name": "ReStart Physio Árlista",
+    "offeredBy": {
+      "@id": "https://restartphysio.hu/#organization"
     },
-    
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 47.6596433009664,
-      "longitude": 17.659999426322084
-    },
-    
-    "openingHours": [
-      "Mo-Fr 08:00-18:00",
-      "Sa 09:00-14:00"
-    ],
-    
-    "priceRange": "7000-17000 HUF",
-    "paymentAccepted": ["Cash", "Credit Card"],
-    "currenciesAccepted": "HUF",
-    
-    "hasMap": "https://www.google.com/maps?ll=47.65947,17.659989&z=16&t=m&hl=hu&gl=HU&mapclient=embed&q=M%C3%A1t%C3%A9+M%C3%A1ria+u.+4b+Gy%C5%91r+9028",
-    
-    "sameAs": [
-      "https://www.facebook.com/Restartphysiogyor/",
-      "https://www.instagram.com/restartphysiogyor/"
-    ],
-    
-    "founder": {
-      "@type": "Person",
-      "name": "Forrás Fernanda",
-      "jobTitle": "Gyógytornász-fizioterapeuta",
-      "url": "https://restartphysio.hu/bemutatkozas"
-    },
-    
-    "employee": {
-      "@type": "Person",
-      "name": "Forrás Fernanda",
-      "jobTitle": "Gyógytornász-fizioterapeuta"
-    },
-    
-    // ✅ ÁRAK STRUCTURED DATA
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "ReStart Physio Árlista",
-      "itemListElement": [...SERVICES, ...PASSES, ...RENT].map((service, index) => ({
-        "@type": "Offer",
+    "itemListElement": [...SERVICES, ...PASSES, ...RENT].map((service) => ({
+      "@type": "Offer",
+      "name": service.name,
+      "description": service.duration ? `${service.duration} időtartam` : 'Professzionális kezelés',
+      "price": service.price,
+      "priceCurrency": "HUF",
+      "priceValidUntil": "2026-12-31",
+      "availability": "https://schema.org/InStock",
+      "itemOffered": {
+        "@type": "Service",
         "name": service.name,
-        "description": `${service.duration ? `${service.duration} időtartam` : 'Professzionális kezelés'}`,
-        "price": service.price,
-        "priceCurrency": "HUF",
-        "priceValidUntil": "2025-12-31",
-        "availability": "https://schema.org/InStock",
-        "seller": {
-          "@type": "MedicalBusiness",
-          "name": "ReStart Physio"
-        },
-        "itemOffered": {
-          "@type": "Service",
-          "name": service.name,
-          "serviceType": "MedicalTherapy",
-          "provider": {
-            "@type": "MedicalBusiness",
-            "name": "ReStart Physio"
-          }
-        }
-      }))
-    }
+        "serviceType": "MedicalTherapy"
+      }
+    }))
   };
 
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(businessWithPricesSchema)
+        __html: JSON.stringify(priceSchema)
       }}
     />
   );
@@ -140,6 +82,10 @@ function PriceSchema() {
 export default function PriceList() {
   return (
     <div className="min-h-screen bg-white">
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Árak', url: 'https://restartphysio.hu/arak' }
+      ]} />
       <PriceSchema />
 
       <section
@@ -162,23 +108,23 @@ export default function PriceList() {
                 className="flex-1 h-px"
                 style={{ backgroundColor: "color-mix(in srgb, " + BRAND_PRIMARY + " 25%, #e3ded7)" } as React.CSSProperties}
               />
-              <h1
+              <span
                 id="price-list-heading"
                 className="mx-6 text-center tracking-[0.2em] text-[0.75rem] sm:text-sm font-medium text-[#001219]"
               >
                 R E S T A R T&nbsp;&nbsp;P H Y S I O
-              </h1>
+              </span>
               <span
                 className="flex-1 h-px"
                 style={{ backgroundColor: "color-mix(in srgb, " + BRAND_PRIMARY + " 25%, #e3ded7)" } as React.CSSProperties}
               />
             </div>
-            <h2
+            <h1
               className="mt-3 text-[0.95rem] sm:text-base tracking-[0.2em] font-semibold"
               style={{ color: BRAND_ACCENT } as React.CSSProperties}
             >
               Á R L I S T A
-            </h2>
+            </h1>
           </div>
 
           {/* Szolgáltatások */}
@@ -233,13 +179,23 @@ export default function PriceList() {
                   alt="ReStart Physio"
                   width={140}
                   height={56}
-                  className="h-10 w-auto md:h-14 ml-auto select-none"
+                  className="ml-auto select-none"
+                  style={{ height: '40px', width: 'auto' }}
                   draggable={false}
                 />
               </div>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#004A6D] mb-3">Gyakran Ismételt Kérdések</h2>
+          <p className="text-gray-600">Válaszok a leggyakoribb kérdésekre árainkkal és foglalással kapcsolatban.</p>
+        </div>
+        <FaqAccordion />
       </section>
     </div>
   );
