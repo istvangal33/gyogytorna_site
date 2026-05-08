@@ -131,13 +131,10 @@ export default function SchrothTherapyPage() {
               <p>
                 A Schroth terápia az egyik leghatékonyabb konzervatív kezelési formának számít a gerincdeformitások korrigálásában. A terápia során a páciens megtanulja a saját testtartási mintáinak tudatos korrekcióját, speciális légzőgyakorlatokkal és izomaktiválással kombinálva.
               </p>
-              <p>
-                Győri rendelőnkben ez az egyik legkeresettebb szolgáltatásunk fiatal és felnőtt páciensek körében egyaránt. A célzott, 3D-s gyakorlatok nem csupán a gerincgörbületet korrigálják, hanem megerősítik a korrekciós helyzetet fenntartó izmokat is.
-              </p>
 
               <h2 className="text-3xl font-bold text-[#004A6D] pt-8">A kezelés céljai</h2>
               <ul className="list-disc pl-6 space-y-2 mt-4">
-                <li>A gerinc helyzetének anatómiai javítása</li>
+                <li>A gerinc helyzetének javítása</li>
                 <li>Az aszimmetria és a látható deformitások csökkentése</li>
                 <li>Gyakran jelentkező hát- és derékfájdalom enyhítése</li>
                 <li>A ferdülés (scoliosis) romlásának megelőzése, megállítása</li>
