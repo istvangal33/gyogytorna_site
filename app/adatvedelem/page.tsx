@@ -80,8 +80,8 @@ export default function PrivacyPolicyPage() {
                 <p className="mb-2 text-gray-700"><strong>Telephely:</strong> 9028 Győr, Máté Mária utca 4/B 3. emelet 24. számú ajtó</p>
                 <p className="mb-2 text-gray-700"><strong>Tulajdonos / működtető neve:</strong> Forrás Fernanda</p>
                 <p className="mb-2 text-gray-700"><strong>Cégforma:</strong> egyéni vállalkozás</p>
-                <p className="mb-2 text-gray-700"><strong>Nyilvántartási szám:</strong> <span className="text-gray-500 italic">[kitöltendő]</span></p>
-                <p className="mb-2 text-gray-700"><strong>Adószám:</strong> <span className="text-gray-500 italic">[kitöltendő]</span></p>
+                <p className="mb-2 text-gray-700"><strong>Nyilvántartási szám:</strong> <span className="text-gray-500 italic">251415</span></p>
+                <p className="mb-2 text-gray-700"><strong>Adószám:</strong> <span className="text-gray-500 italic">90981885-1-38</span></p>
                 <p className="mb-2 text-gray-700"><strong>TEÁOR:</strong> 8690 – Egyéb humán-egészségügyi ellátás</p>
                 <p className="mb-2 text-gray-700"><strong>Szakmai felelős neve:</strong> Forrás Fernanda</p>
                 <p className="mb-2 text-gray-700"><strong>Végzettség:</strong> okleveles gyógytornász-fizioterapeuta</p>
