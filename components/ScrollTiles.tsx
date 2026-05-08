@@ -2,12 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import HeartPulse from "lucide-react/dist/esm/icons/heart-pulse";
-import Activity from "lucide-react/dist/esm/icons/activity";
-import User from "lucide-react/dist/esm/icons/user";
-import HandHeart from "lucide-react/dist/esm/icons/hand-heart";
-import Users from "lucide-react/dist/esm/icons/users";
-import Zap from "lucide-react/dist/esm/icons/zap";
+import { HeartPulse, Activity, User, HandHeart, Users, Zap } from "lucide-react";
 
 const services = [
   { 
@@ -146,7 +141,7 @@ export default function ServiceSlider() {
     <section className="w-full py-16 md:py-20 bg-white">
       <div className="w-full">
         {/* FULL WIDTH SLIDER */}
-        <div className="relative w-full bg-white md:rounded-none rounded-2xl shadow-xl overflow-hidden h-auto md:h-[900px]">
+        <div className="relative w-full bg-white md:rounded-none rounded-2xl shadow-xl overflow-visible h-auto md:h-[900px]">
           
           {/* ÉLES HÁTTÉRKÉP */}
           <div className="absolute inset-0 overflow-hidden">
@@ -157,8 +152,6 @@ export default function ServiceSlider() {
               className="object-cover object-center transition-all duration-700"
               onLoad={() => setImageLoaded(true)}
               priority={current === 0}
-              fetchPriority={current === 0 ? 'high' : 'auto'}
-              loading={current === 0 ? 'eager' : 'lazy'}
               sizes="100vw"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-white/92 via-white/88 to-blue-50/92" />
@@ -183,7 +176,7 @@ export default function ServiceSlider() {
 
               {/* Jobb - Tartalom */}
               <div className="flex-1">
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-[#004A6D] mb-8 leading-tight">
+                <h1 className="text-4xl xl:text-6xl font-extrabold text-[#004A6D] mb-8 leading-tight">
                   {services[current].title}
                 </h1>
                 
@@ -374,20 +367,16 @@ export default function ServiceSlider() {
           </div>
 
           {/* Navigation Arrows */}
-          {/* Navigation Arrows - CSAK DESKTOP */}
-          <div className="hidden md:block">
-            <ArrowButton 
-              direction="left" 
-              onClick={() => setCurrent(prev => Math.max(0, prev - 1))} 
-              disabled={current === 0}
-            />
-            <ArrowButton 
-              direction="right" 
-              onClick={() => setCurrent(prev => Math.min(services.length - 1, prev + 1))} 
-              disabled={current === services.length - 1}
-            />
-          </div>
-          
+          <ArrowButton 
+            direction="left" 
+            onClick={() => setCurrent(prev => Math.max(0, prev - 1))} 
+            disabled={current === 0}
+          />
+          <ArrowButton 
+            direction="right" 
+            onClick={() => setCurrent(prev => Math.min(services.length - 1, prev + 1))} 
+            disabled={current === services.length - 1}
+          />
 
           {/* Progress bar - DESKTOP */}
           <div className="hidden md:block absolute bottom-0 left-0 right-0 h-1 bg-gray-200 z-20">

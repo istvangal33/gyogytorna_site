@@ -72,36 +72,17 @@ function GalleryIcon() {
   );
 }
 
-const BlogIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5" />
-  </svg>
-);
-
 const navItems = [
   { label: "Bemutatkozás", href: "/bemutatkozas", icon: <UserIcon /> },
   { label: "Szolgáltatások", href: "/szolgaltatasok", icon: <ServicesIcon /> },
   { label: "Árak", href: "/arak", icon: <PriceIcon /> },
   { label: "Elérhetőség", href: "/elerhetoseg", icon: <MailIcon /> },
   { label: "Galéria", href: "/galeria", icon: <GalleryIcon /> },
-  { label: "Blog", href: "/blog", icon: <BlogIcon /> },
-];
-
-const serviceItems = [
-  { label: "Sportrehabilitáció", href: "/szolgaltatasok/sportrehabilitacio" },
-  { label: "Gerincpanaszok kezelése", href: "/szolgaltatasok/gerincpanaszok-kezelese" },
-  { label: "BEMER terápia", href: "/szolgaltatasok/bemer-terapia" },
-  { label: "Manuálterápia (FDM)", href: "/szolgaltatasok/manualterapia-fdm" },
-  { label: "TMI terápia", href: "/szolgaltatasok/tmi-terapia" },
-  { label: "Schroth terápia", href: "/szolgaltatasok/schroth-terapia" },
-  { label: "Core edzés", href: "/szolgaltatasok/core-edzes" },
-  { label: "Dinamikus tape", href: "/szolgaltatasok/dinamikus-tape" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const [mounted, setMounted] = useState(false); // FIX: Safe hydration
 
   // FIX: Safe hydration - csak client oldalon renderel
@@ -112,7 +93,6 @@ export default function Header() {
   // Zárd a menüt útvonal váltáskor
   useEffect(() => {
     setIsMenuOpen(false);
-    setServicesOpen(false);
   }, [pathname]);
 
   // Body scroll lock - csak client oldalon
@@ -146,7 +126,7 @@ export default function Header() {
         <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-[#0f1f29] backdrop-blur-md shadow-lg border-r border-white/10 z-50 flex-col">
           <div className="flex flex-col items-center justify-between h-full py-6">
             <Link href="/" className="flex flex-col items-center group" aria-label="Főoldal">
-              <Image src="/logo.webp" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" sizes="80px" quality={90} />
+              <Image src="/logo.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
             </Link>
             <nav className="flex flex-col space-y-4 items-center">
               {/* Skeleton nav items */}
@@ -171,7 +151,7 @@ export default function Header() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex justify-between items-center h-16">
               <Link href="/" className="flex items-center gap-2" aria-label="Főoldal">
-                <Image src="/logo.webp" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" sizes="56px" quality={90} />
+                <Image src="/logo.png" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" />
               </Link>
               <div className="p-2 text-white/80">
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -191,7 +171,7 @@ export default function Header() {
       <header className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-[#0f1f29] backdrop-blur-md shadow-lg border-r border-white/10 z-50 flex-col">
         <div className="flex flex-col items-center justify-between h-full py-6">
           <Link href="/" className="flex flex-col items-center group" aria-label="Főoldal">
-            <Image src="/logo.webp" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" sizes="56px" quality={90} />
+            <Image src="/logo.png" alt="ReStart Physio" width={80} height={80} className="group-hover:scale-110 transition-transform" />
           </Link>
 
           <nav className="flex flex-col space-y-4 items-center">
@@ -213,55 +193,7 @@ export default function Header() {
                 }
               };
 
-              return item.label === "Szolgáltatások" ? (
-                <div
-                  key={item.href}
-                  className="relative"
-                  onMouseEnter={() => setServicesOpen(true)}
-                  onMouseLeave={() => setServicesOpen(false)}
-                >
-                  <Link
-                    href={item.href}
-                    className={`group relative flex flex-col items-center px-2 py-2 rounded-lg transition-colors ${
-                      active ? "text-[#EC7007]" : "text-white/70 hover:text-[#EC7007]"
-                    }`}
-                    aria-current={active ? "page" : undefined}
-                  >
-                    <span className={`pointer-events-none absolute ${getLeftPosition()} top-1/2 -translate-y-1/2 w-1 h-6 rounded-full transition-opacity ${active ? "bg-[#EC7007] opacity-100" : "opacity-0"}`} />
-                    {item.icon}
-                    <span className="text-[10px] text-center font-medium tracking-tight">{item.label}</span>
-                  </Link>
-                  {/* Láthatatlan híd – betölti a rést a nav és a flyout között */}
-                  {servicesOpen && (
-                    <div className="absolute left-full top-0 w-4 h-full" />
-                  )}
-                  {/* Desktop flyout */}
-                  <div className={`absolute left-full top-0 ml-3 w-52 bg-[#0f1f29] border border-white/10 rounded-xl shadow-2xl transition-all duration-150 z-50 ${
-                    servicesOpen ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 translate-x-1 pointer-events-none"
-                  }`}>
-                    <div className="p-2">
-                      <p className="px-3 py-1.5 text-[10px] font-semibold text-white/40 uppercase tracking-widest">Szolgáltatások</p>
-                      {serviceItems.map((s) => {
-                        const serviceActive = pathname === s.href;
-                        return (
-                          <Link
-                            key={s.href}
-                            href={s.href}
-                            className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-lg transition-colors ${
-                              serviceActive
-                                ? "text-[#EC7007] bg-[#EC7007]/10 font-semibold"
-                                : "text-white/70 hover:text-[#EC7007] hover:bg-white/5"
-                            }`}
-                          >
-                            <span className="w-1 h-1 rounded-full bg-current opacity-60 flex-shrink-0" />
-                            {s.label}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              ) : (
+              return (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -299,7 +231,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center gap-2" aria-label="Főoldal">
-              <Image src="/logo.webp" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" sizes="56px" quality={90} />
+              <Image src="/logo.png" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" />
             </Link>
 
             <button
@@ -340,7 +272,7 @@ export default function Header() {
         <div className="relative z-10 h-full w-full bg-[#0f1f29] flex flex-col">
           <div className="flex items-center justify-between h-16 px-4 sm:px-6 border-b border-white/10">
             <Link href="/" aria-label="Főoldal" onClick={() => setIsMenuOpen(false)}>
-              <Image src="/logo.webp" alt="ReStart Physio" width={56} height={56} className="h-10 w-auto" sizes="56px" quality={90} />
+              <Image src="/logo.png" alt="ReStart Physio" width={56} height={56} className="h-8 w-auto" />
             </Link>
             <button
               type="button"
@@ -359,56 +291,6 @@ export default function Header() {
               <ul className="space-y-2">
                 {navItems.map((item) => {
                   const active = isActive(item.href);
-                  if (item.label === "Szolgáltatások") {
-                    return (
-                      <li key={item.href}>
-                        <div
-                          className={`flex items-center gap-3 px-4 py-4 rounded-xl text-base transition-colors cursor-pointer ${
-                            active ? "text-[#EC7007] bg-[#EC7007]/5" : "text-white/70 hover:text-[#EC7007] hover:bg-white/5"
-                          }`}
-                          onClick={() => setServicesOpen((o) => !o)}
-                        >
-                          <span className="shrink-0">{item.icon}</span>
-                          <Link
-                            href={item.href}
-                            onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }}
-                            className="font-medium flex-1"
-                          >
-                            {item.label}
-                          </Link>
-                          <svg
-                            className={`w-4 h-4 transition-transform duration-200 flex-shrink-0 ${servicesOpen ? "rotate-180" : ""}`}
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                        {servicesOpen && (
-                          <ul className="pl-12 mt-1 space-y-1">
-                            {serviceItems.map((s) => {
-                              const serviceActive = pathname === s.href;
-                              return (
-                                <li key={s.href}>
-                                  <Link
-                                    href={s.href}
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-lg transition-colors ${
-                                      serviceActive
-                                        ? "text-[#EC7007] bg-[#EC7007]/10 font-semibold"
-                                        : "text-white/60 hover:text-[#EC7007] hover:bg-white/5"
-                                    }`}
-                                  >
-                                    <span className="w-1 h-1 rounded-full bg-current opacity-60 flex-shrink-0" />
-                                    {s.label}
-                                  </Link>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        )}
-                      </li>
-                    );
-                  }
                   return (
                     <li key={item.href}>
                       <Link

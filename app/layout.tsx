@@ -1,17 +1,8 @@
 import type { Metadata } from "next";
-import dynamic from 'next/dynamic';
 import Layout from "@/components/Layout";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
-import { Inter } from 'next/font/google';
-import CookieBanner from '@/components/CookieBanner';
-
-const inter = Inter({
-  subsets: ['latin', 'latin-ext'],
-  display: 'swap',
-  preload: true,
-  fallback: ['system-ui', 'arial'],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://restartphysio.hu'),
@@ -83,23 +74,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="hu" className={inter.className} data-scroll-behavior="smooth">
+    <html lang="hu">
       <head>
-        <link
-          rel="preload"
-          href="/group_core1.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/logo.webp"
-          as="image"
-          type="image/webp"
-        />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -107,9 +83,9 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@graph": [
                 {
-                  "@type": ["MedicalClinic", "HealthAndBeautyBusiness", "LocalBusiness"],
+                  "@type": "LocalBusiness",
                   "@id": "https://restartphysio.hu/#organization",
-                  "name": "ReStart Physio - Gyógytorna és Fizioterápia",
+                  "name": "ReStart Physio",
                   "url": "https://restartphysio.hu",
                   "logo": {
                     "@type": "ImageObject",
@@ -118,12 +94,12 @@ export default function RootLayout({
                     "height": 512
                   },
                   "image": "https://restartphysio.hu/group_core1.jpg",
-                  "description": "Szakszerű gyógytorna, fizioterápia és sportrehabilitáció Győrben.",
+                  "description": "Szakszerű gyógytorna és fizioterápia Győrben",
                   "telephone": "+36308198449",
                   "email": "restart.gyor@gmail.com",
                   "address": {
                     "@type": "PostalAddress",
-                    "streetAddress": "Máté Mária u. 4b",
+                    "streetAddress": "Máté Mária u. 4/B",
                     "addressLocality": "Győr",
                     "postalCode": "9028",
                     "addressCountry": "HU"
@@ -133,11 +109,6 @@ export default function RootLayout({
                     "latitude": 47.6596433,
                     "longitude": 17.6599994
                   },
-                  "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "5.0",
-                    "reviewCount": "41"
-                  },
                   "openingHoursSpecification": [
                     {
                       "@type": "OpeningHoursSpecification",
@@ -146,36 +117,7 @@ export default function RootLayout({
                       "closes": "18:00"
                     }
                   ],
-                  "medicalSpecialty": ["Physiotherapy"],
-                  "priceRange": "7000–17000 HUF",
-                  "currenciesAccepted": "HUF",
-                  "paymentAccepted": ["Cash", "Credit Card", "NFC mobile payments"],
-                  "hasMap": "https://maps.app.goo.gl/MAsW9JaN2v5PcCR59",
-                  "areaServed": [
-                    { "@type": "City", "name": "Győr" },
-                    { "@type": "AdministrativeArea", "name": "Győr-Moson-Sopron megye" }
-                  ],
-                  "contactPoint": {
-                    "@type": "ContactPoint",
-                    "telephone": "+36308198449",
-                    "contactType": "customer service",
-                    "email": "restart.gyor@gmail.com",
-                    "availableLanguage": "Hungarian"
-                  },
-                  "hasOfferCatalog": {
-                    "@type": "OfferCatalog",
-                    "name": "Szolgáltatások",
-                    "itemListElement": [
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gyógytorna" } },
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fizioterápia" } },
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sportrehabilitáció" } },
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gerinckezelés és gerinc core edzés" } },
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Állkapocs ízületi (TMJ) terápia" } },
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fascia kezelések (FDM)" } },
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Schroth terápia" } },
-                      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "BEMER terápia" } }
-                    ]
-                  },
+                  "priceRange": "$$",
                   "sameAs": [
                     "https://www.facebook.com/Restartphysiogyor",
                     "https://www.instagram.com/restartphysiogyor"

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 
 
@@ -59,10 +58,6 @@ export const metadata: Metadata = {
 export default function Bemutatkozo() {
   return (
     <>
-      <BreadcrumbSchema items={[
-        { name: 'Főoldal', url: 'https://restartphysio.hu' },
-        { name: 'Bemutatkozás', url: 'https://restartphysio.hu/bemutatkozas' }
-      ]} />
       <PersonSchema />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
@@ -118,7 +113,7 @@ export default function Bemutatkozo() {
                       objectPosition: 'center',
                       borderRadius: '0.75rem 0.75rem 0 0'
                     }}
-                    priority
+                    loading="lazy"
                     quality={85}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                   />
@@ -192,7 +187,7 @@ export default function Bemutatkozo() {
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
               Képzettségek & Végzettségek
             </h2>
-            <p className="text-lg md:text-xl text-gray-900 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
               Folyamatos tanulás és szakmai fejlődés a legjobb ellátás érdekében
             </p>
           </div>

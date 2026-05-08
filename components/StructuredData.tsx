@@ -37,10 +37,16 @@ export default function StructuredData() {
             "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
             "opens": "08:00",
             "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Saturday"],
+            "opens": "09:00",
+            "closes": "14:00"
           }
         ],
 
-        "priceRange": "7000–17000 HUF",
+        "priceRange": "5000–17000 HUF",
         "currenciesAccepted": "HUF",
         "paymentAccepted": ["Cash", "Credit Card", "NFC mobile payments"],
 
