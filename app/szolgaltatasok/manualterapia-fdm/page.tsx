@@ -104,7 +104,7 @@ export default function FDMTherapyPage() {
                 Az <strong>FDM (Fascia Disztorziós Modell)</strong> egy innovatív manuális kezelési módszer, amellyel a fascia (kötőszöveti hálózat) elváltozásainak helyreállítására fókuszálunk. Győri rendelőnkben ezt a technikát gyakran alkalmazzuk akut és krónikus panaszok kezelésére.
               </p>
               <p>
-                A terápiában speciális fogásokat alkalmazunk, mellyel a letapadásokat és elmozdulásokat oldjuk célzott pontok nyomásával. Az FDM terápia által gyors és látványos eredményeket érhetünk el, mint például a hát-, nyak-, váll- vagy derékfájdalmak csökkenése már egy-két alkalom után.
+                A terápiában speciális fogásokat alkalmazunk, mellyel a letapadásokat és elmozdulásokat oldjuk célzott pontok nyomásával. Az FDM manuálterápia által gyors és látványos eredményeket érhetünk el, mint például a hát-, nyak-, váll- vagy derékfájdalmak csökkenése már egy-két alkalom után.
               </p>
             </div>
 

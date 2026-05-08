@@ -8,6 +8,10 @@ interface FAQ {
 
 const faqs: FAQ[] = [
   {
+    question: "Mennyibe kerül a gyógytorna Győrben?",
+    answer: "Az egyéni gyógytorna 50 perces kezelés ára 15.000 Ft, a rövidebb 30 perces kezelés 8.000 Ft. Csoportos gerinc core edzésünk 7.000 Ft alkalmanként. Bérleteinkkel akár 10-15%-ot spórolhat a kezelések árából."
+  },
+  {
     question: "Kell-e beutaló a gyógytornához?",
     answer: (
       <>
@@ -18,6 +22,10 @@ const faqs: FAQ[] = [
         keresztül.
       </>
     )
+  },
+  {
+    question: "Hogyan fizethetek a ReStart Physio rendelőben?",
+    answer: "Készpénzzel és bankkártyával egyaránt fizethet. Számláját igény esetén automatikusan Egészségpénztárra (EP) állítjuk ki, ami az összes nagyobb pénztárnál elszámolható. A bérletek esetében a végösszeget az első alkalommal kérjük rendezni."
   },
   {
     question: "Le lehet-e mondani az időpontot ingyenesen?",

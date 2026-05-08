@@ -120,11 +120,9 @@ export default function Home() {
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#004a6d] leading-tight mb-4 lg:mb-6">
               Gyógytorna, fizioterápia és sportrehabilitáció Győrben
             </h1>
-            
             <p className="text-lg md:text-xl text-[#004a6d] font-medium max-w-xl mx-auto mb-8">
-              Sportsérülések, állkapocs fájdalom, derék és nyaki panaszok esetén egyénre szabott kezelési tervvel segítek visszatérni a fájdalommentes, aktív mindennapokhoz.
+              Derékfájás, nyakfájás, porckorongsérv vagy sportsérülés esetén egyénre szabott kezelési tervvel segítek visszatérni a fájdalommentes, aktív mindennapokhoz.
             </p>
-            
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/elerhetoseg#contact"
@@ -199,13 +197,13 @@ export default function Home() {
               <div className="prose prose-lg text-gray-900 space-y-6 max-w-none">
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <p className="[text-align:justify] text-gray-900">
-                    Diplomámat 2017-ben szereztem a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon. Pályafutásom meghatározó részét az élsportban töltöttem: kezdetben kézilabdázók rehabilitációjával foglalkoztam, majd négy éven át a Győri ETO FC gyógytornászaként labdarúgókkal dolgoztam. Emellett evezős sportolókkal, kosárlabdázókkal és atlétákkal is együttműködtem, így több éves tapasztalatom van abban, hogyan tér vissza egy sérült sportoló a pályára – sportágtól függetlenül. 2024-től a magánszektorban dolgozom, ahol mozgásszervi problémákkal hozzám forduló pácienseket segítek visszatérni a fájdalommentes, aktív mindennapokhoz. Minden kezelési terv egyénre szabott, mert két sérülés sosem egyforma.
+                    Diplomámat 2017-ben szereztem a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon. Pályafutásom meghatározó részét az élsportban töltöttem: kezdetben kézilabdázók rehabilitációjával foglalkoztam, majd négy éven át a Győri ETO FC gyógytornászaként labdarúgókkal dolgoztam. Emellett evezős sportolókkal, kosárlabdázókkal és atlétákkal is együttműködtem, így rálátásom van arra, hogyan tér vissza egy sérült sportoló a pályára – sportágtól függetlenül. 2024-től a magánszektorban dolgozom, ahol Győrben mozgásszervi problémákkal hozzám forduló pácienseket segítek visszatérni a fájdalommentes, aktív mindennapokhoz. Minden kezelési terv egyénre szabott, mert két sérülés sosem egyforma.
                   </p>
                 </div>
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <h3 className="text-2xl font-semibold text-gray-900 text-center lg:text-left mb-4">
-                    Szakterületeim
+                    Szakterületeim Győrben
                   </h3>
                   <ul className="space-y-3 list-none">
                     <li className="flex items-start">
@@ -214,11 +212,15 @@ export default function Home() {
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-900">Porckorongsérv, derékfájás, nyakfájás kezelése</span>
+                      <span className="text-gray-900">Porckorongsérv (gerincsérv), derékfájás, hátfájás és nyakfájás kezelése</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <span className="text-gray-900">Isiász és egyéb gerinc eredetű fájdalmak kezelése</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-900">FDM kezelések és manuálterápia</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-[#004A6D] rounded-full mt-2 mr-3 flex-shrink-0"></div>
@@ -237,7 +239,8 @@ export default function Home() {
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <p className="text-gray-900 [text-align:justify] leading-relaxed">
-                    Győri rendelőmben manuális kezelési technikákkal, BEMER terápiával és egyénre szabott gyógytorna programmal támogatom a hozzám fordulókat – a fájdalom csökkentésétől a biztonságos visszatérésig.
+                    Győri rendelőmben gyógytorna és fizioterápia segítségével, manuálterápiával, BEMER terápiával és egyénre szabott
+                    mozgásprogrammal támogatom a hozzám fordulókat – a fájdalom csökkentésétől a biztonságos visszatérésig.
                   </p>
                 </div>
 
@@ -273,10 +276,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Gyógytorna és fizioterápiás szolgáltatásaink Győrben
+              Gyógytorna és fizioterápia szolgáltatásaink Győrben
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Egyénre szabott gyógytorna, fizioterápia sportsérülések, nyakfájás, derékfájás és egyéb mozgásszervi panaszok esetén.
+              Egyénre szabott gyógytorna és fizioterápia derékfájás, nyakfájás, sportsérülések és egyéb mozgásszervi panaszok esetén.
             </p>
           </div>
 
