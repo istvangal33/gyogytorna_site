@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 
 
@@ -58,9 +59,13 @@ export const metadata: Metadata = {
 export default function Bemutatkozo() {
   return (
     <>
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Bemutatkozás', url: 'https://restartphysio.hu/bemutatkozas' }
+      ]} />
       <PersonSchema />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
+      <section className="relative bg-linear-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
         {/* Dekoratív hullámos alj */}
         <div className="absolute inset-x-0 bottom-0">
           <svg
@@ -87,7 +92,7 @@ export default function Bemutatkozo() {
 
 
       {/* About Content */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-[#00121a] relative overflow-hidden">
+      <section className="py-24 bg-linear-to-br from-gray-50 via-white to-[#00121a] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
@@ -96,11 +101,11 @@ export default function Bemutatkozo() {
               <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl p-0 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-500">
                 <div className="
                   relative w-full 
-                  h-[400px] 
-                  sm:h-[520px]   
-                  md:h-[760px]   
-                  lg:h-[540px] 
-                  xl:h-[700px] 
+                  h-100 
+                  sm:h-130   
+                  md:h-190   
+                  lg:h-135 
+                  xl:h-175 
                   overflow-hidden 
                   rounded-t-2xl
                 ">
@@ -113,7 +118,7 @@ export default function Bemutatkozo() {
                       objectPosition: 'center',
                       borderRadius: '0.75rem 0.75rem 0 0'
                     }}
-                    loading="lazy"
+                    priority
                     quality={85}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                   />
@@ -133,13 +138,13 @@ export default function Bemutatkozo() {
               
               <div className="prose prose-lg text-gray-900 space-y-6 max-w-none">
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <p className="[text-align:justify] indent-8 text-gray-900">
+                  <p className="text-justify indent-8 text-gray-900">
                     Forrás Fernanda vagyok, okleveles gyógytornász-fizioterapeuta, a ReStart Physio alapítója és tulajdonosa. Diplomámat 2017-ben szereztem meg a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon.
                   </p>
                 </div>
                 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <p className="[text-align:justify] indent-8 text-gray-900">
+                  <p className="text-justify indent-8 text-gray-900">
                     Az elmúlt évek döntő részében{" "}
                     <Link 
                       href="/szolgaltatasok#detail-Egyéni gyógytorna/rehabilitáció"
@@ -166,7 +171,7 @@ export default function Bemutatkozo() {
 
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <p className="[text-align:justify] indent-8 text-gray-900">
+                  <p className="text-justify indent-8 text-gray-900">
                     2024-től léptem át a magánszektorba, ahol azóta is számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
                   </p>
                 </div>
@@ -179,7 +184,7 @@ export default function Bemutatkozo() {
 
 
       {/* Education and Qualifications */}
-      <section className="relative py-24 bg-gradient-to-br from-[#00121a] via-white to-gray-50 overflow-hidden">
+      <section className="relative py-24 bg-linear-to-br from-[#00121a] via-white to-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           {/* Fejléc */}
@@ -187,7 +192,7 @@ export default function Bemutatkozo() {
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
               Képzettségek & Végzettségek
             </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-900 max-w-2xl mx-auto">
               Folyamatos tanulás és szakmai fejlődés a legjobb ellátás érdekében
             </p>
           </div>
@@ -200,21 +205,65 @@ export default function Bemutatkozo() {
               <div className="flex items-center mb-8">
                 <h3 className="ml-4 text-2xl font-bold text-gray-900">Végzettségek</h3>
               </div>
-              
+
               <div className="space-y-6">
                 <div className="border-l-4 border-gray-600 pl-4">
                   <h4 className="font-semibold text-gray-900">Gyógytornász - fizioterapeuta oklevél</h4>
                   <p className="text-gray-600">Szegedi Tudományegyetem - Egészségtudományi és Szociális Képzési Kar</p>
                   <p className="text-sm text-gray-500">2017</p>
                 </div>
+
+                <div className="border-l-4 border-gray-600 pl-4">
+                  <h4 className="font-semibold text-gray-900">Cranio-Mandibular Therapy Course</h4>
+                  <p className="text-gray-600">Cervico-Cranio-Mandibular Academy</p>
+                  <p className="text-sm text-gray-500">2026</p>
+                </div>
+
+                <div className="border-l-4 border-gray-600 pl-4">
+                  <h4 className="font-semibold text-gray-900">Aspetar International Rehabilitation Conference and Workshop</h4>
+                  <p className="text-gray-600">The Complete Guide to the Athletic ACL – Aspetar Orthopaedic and Sport Medicine Hospital, Doha, Qatar</p>
+                  <p className="text-sm text-gray-500">2024</p>
+                </div>
+
                 <div className="border-l-4 border-gray-600 pl-4">
                   <h4 className="font-semibold text-gray-900">Craniomandibuláris diszfunkciók terápiája</h4>
+                  <p className="text-gray-600">PhysioVit</p>
                   <p className="text-sm text-gray-500">2023</p>
                 </div>
+
                 <div className="border-l-4 border-gray-600 pl-4">
                   <h4 className="font-semibold text-gray-900">FDM terápia I.-II.-III.</h4>
                   <p className="text-sm text-gray-500">2019</p>
                 </div>
+              </div>
+            </div>
+
+            {/* Továbbképzéseim - Timeline stílusban */}
+            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
+              <div className="flex items-center mb-8">
+                <h3 className="ml-4 text-2xl font-bold text-gray-900">Továbbképzéseim</h3>
+              </div>
+              <div className="space-y-4 max-h-100 overflow-y-auto scrollbar-thin scrollbar-thumb-[#004A6D] scrollbar-track-gray-100">
+                {[
+                  { title: "Cranio-Mandibular Therapy Course - Cervico-Cranio-Mandibular Academy" },
+                  { title: "Aspetar International Rehabilitation Conference and Workshop – the Complete Guide to the Athletic ACL – at the Aspetar Orthopaedic and Sport Medicine Hospital in Doha, Qatar" },
+                  { title: "Craniomandibuláris diszfunkciók terápiája - PhysioVit" },
+                  { title: "S.I- terápia tanfolyam" },
+                  { title: "Functional Movement Screen – Gray Cook módszer" },
+                  { title: "FDM terápia I.-II.-III." },
+                  { title: "Medical Flossing terápia" },
+                  { title: "3D Scoliosis terápia tanfolyam" },
+                  { title: "SMR henger alapkurzus - Csiky System" },
+                  { title: "Kinematic Taping" },
+                  { title: "Special Therapy segédeszközök használata" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-linear-to-r hover:from-[#004A6D]/10 transition-colors">
+                    <div className="shrink-0 w-2 h-2 bg-[#004A6D] rounded-full mt-2"></div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-900 text-sm leading-relaxed">{item.title}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -257,36 +306,7 @@ export default function Bemutatkozo() {
               </div>
             </div>
 
-
-            {/* Továbbképzéseim - Timeline stílusban */}
-            <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
-              <div className="flex items-center mb-8">
-                <h3 className="ml-4 text-2xl font-bold text-gray-900">Továbbképzéseim</h3>
-              </div>
-              <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#004A6D] scrollbar-track-gray-100">
-                {[
-                  { title: "Aspetar International Rehabilitation Conference and Workshop – the Complete Guide to the Athletic ACL – at the Aspetar Orthopaedic and Sport Medicine Hospital in Doha, Qatar" },
-                  { title: "Craniomandibuláris diszfunkciók terápiája" },
-                  { title: "S.I- terápia tanfolyam" },
-                  { title: "Functional Movement Screen – Gray Cook módszer" },
-                  { title: "FDM terápia I.-II.-III." },
-                  { title: "Medical Flossing terápia" },
-                  { title: "3D Scoliosis terápia tanfolyam" },
-                  { title: "SMR henger alapkurzus - Csiky System" },
-                  { title: "Kinematic Taping" },
-                  { title: "Special Therapy segédeszközök használata" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-[#004A6D]/10 transition-colors">
-                    <div className="flex-shrink-0 w-2 h-2 bg-[#004A6D] rounded-full mt-2"></div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-gray-900 text-sm leading-relaxed">{item.title}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-
+            {/* Tudományos előadások */}
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
               <div className="flex items-center mb-8">
                 <h3 className="ml-4 text-2xl font-bold text-gray-900">Tudományos előadások</h3>
@@ -310,8 +330,6 @@ export default function Bemutatkozo() {
               </div>
             </div>
 
-
-
           </div>
         </div>
       </section>
@@ -320,9 +338,9 @@ export default function Bemutatkozo() {
 
 
       {/* Philosophy and Approach */}
-      <section className="py-20 relative bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <section className="py-20 relative bg-linear-to-br from-indigo-50 via-white to-purple-50">
         <div className="mx-auto px-4 sm:px-6 lg:px-2">
-          <div className="text-3xl md:text-base font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
+          <div className="text-3xl md:text-base font-bold bg-linear-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
             <div className="text-center mb-6">
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
                 Szakmai Filozófia

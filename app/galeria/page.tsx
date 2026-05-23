@@ -58,32 +58,35 @@ export default function Galeria() {
     { id: 14, src: '/manual2.jpg', alt: 'Manuális nyak- és vállkezelés – izomlazítás és fascia terápia', category: 'kezelés', title: '' },
     { id: 15, src: '/manual3.jpg', alt: 'Manuális vállkezelés fizioterapeuta által Győrben', category: 'kezelés', title: '' },
     { id: 16, src: '/manual4.jpg', alt: 'Személyre szabott manuális nyakkezelés fizioterapeutával', category: 'kezelés', title: '' },
+    { id: 17, src: '/manual5.jpg', alt: 'Manuális nyak- és vállkezelés, lágyrész-manuálterápia és fasciakezelés a ReStart Physio győri rendelőjében', category: 'kezelés', title: '' },
     
     // SPORTREHABILITÁCIÓ
-    { id: 17, src: '/sportrehab1.jpg', alt: 'Sportrehabilitáció – egyensúlyfejlesztő gyakorlat Győrben', category: 'kezelés', title: '' },
-    { id: 18, src: '/sportrehab2.JPG', alt: 'Sportrehabilitáció – izomerősítés és koordináció fejlesztés', category: 'kezelés', title: '' },
-    { id: 19, src: '/sportrehab3.jpg', alt: 'Térderősítő sportrehabilitáció sérülés után Győrben', category: 'kezelés', title: '' },
-    { id: 20, src: '/sportrehab4.jpg', alt: 'Térdrehabilitáció gumiszalaggal – izomerősítés és stabilizáció', category: 'kezelés', title: '' },
+    { id: 18, src: '/sportrehab1.jpg', alt: 'Sportrehabilitáció – egyensúlyfejlesztő gyakorlat Győrben', category: 'kezelés', title: '' },
+    { id: 19, src: '/sportrehab2.JPG', alt: 'Sportrehabilitáció – izomerősítés és koordináció fejlesztés', category: 'kezelés', title: '' },
+    { id: 20, src: '/sportrehab3.jpg', alt: 'Térderősítő sportrehabilitáció sérülés után Győrben', category: 'kezelés', title: '' },
+    { id: 21, src: '/sportrehab4.jpg', alt: 'Térdrehabilitáció gumiszalaggal – izomerősítés és stabilizáció', category: 'kezelés', title: '' },
+    { id: 22, src: '/sportrehab5.jpg', alt: 'Személyre szabott sportrehabilitáció és térdízületi stabilizáció gumiszalaggal, gyógytornász vezetésével a győri ReStart Physio rendelőben', category: 'kezelés', title: '' },
     
     // GERINCSTABILIZÁCIÓ
-    { id: 21, src: '/gerinc_core1.jpg', alt: 'Core-stabilizáció fitball labdán – törzserősítés Győrben', category: 'kezelés', title: '' },
-    { id: 22, src: '/gerinc_core2.jpg', alt: 'Gerincstabilizáció súlyzóval és pilates labdával Győrben', category: 'kezelés', title: '' },
-    { id: 23, src: '/gerinc_core3.jpg', alt: 'Core-stabilizáció BOSU labdán – egyensúlyfejlesztés Győrben', category: 'kezelés', title: '' },
+    { id: 23, src: '/gerinc_core1.jpg', alt: 'Core-stabilizáció fitball labdán – törzserősítés Győrben', category: 'kezelés', title: '' },
+    { id: 24, src: '/gerinc_core2.jpg', alt: 'Gerincstabilizáció súlyzóval és pilates labdával Győrben', category: 'kezelés', title: '' },
+    { id: 25, src: '/gerinc_core3.jpg', alt: 'Core-stabilizáció BOSU labdán – egyensúlyfejlesztés Győrben', category: 'kezelés', title: '' },
     
     // CSOPORTOS CORE
-    { id: 24, src: '/group_core1.jpg', alt: 'Csoportos core tréning gumiszalaggal Győrben', category: 'kezelés', title: '' },
-    { id: 25, src: '/group_core2.jpg', alt: 'Csoportos core gyakorlat fitball-labdával Győrben', category: 'kezelés', title: '' },
-    { id: 26, src: '/group_core3.jpg', alt: 'Csoportos core gyakorlat – törzsizom erősítés a rendelőben', category: 'kezelés', title: '' },
-    { id: 27, src: '/group_core4.jpg', alt: 'Csoportos core tréning és nyújtás gyógytornász vezetésével', category: 'kezelés', title: '' },
+    { id: 26, src: '/group_core1.jpg', alt: 'Csoportos core tréning gumiszalaggal Győrben', category: 'kezelés', title: '' },
+    { id: 27, src: '/group_core2.jpg', alt: 'Csoportos core gyakorlat fitball-labdával Győrben', category: 'kezelés', title: '' },
+    { id: 28, src: '/group_core3.jpg', alt: 'Csoportos core gyakorlat – törzsizom erősítés a rendelőben', category: 'kezelés', title: '' },
+    { id: 29, src: '/group_core4.jpg', alt: 'Csoportos core tréning és nyújtás gyógytornász vezetésével', category: 'kezelés', title: '' },
     
     // ÁLLKAPOCS TERÁPIA
-    { id: 28, src: '/allkapocs1.jpg', alt: 'TMI terápia – állkapocs-ízületi manuálterápia Győrben', category: 'kezelés', title: '' },
-    { id: 29, src: '/allkapocs2.jpg', alt: 'Állkapocs-ízületi TMI kezelés rágóizom feszültség oldására', category: 'kezelés', title: '' },
-    { id: 30, src: '/allkapocs3.jpg', alt: 'TMI manuálterápia fekvő helyzetben – állkapocs kezelés', category: 'kezelés', title: '' },
-    { id: 31, src: '/allkapocs4.jpg', alt: 'TMI terápia szájüregen keresztül – ízületi blokkok oldása', category: 'kezelés', title: '' },
-    
-    // DYNAMIC TAPE
-    { id: 32, src: '/dynamictape1.jpg', alt: 'Dynamic Tape boka stabilizálás – kineziológiai taping Győrben', category: 'kezelés', title: '' },
+    { id: 30, src: '/allkapocs1.jpg', alt: 'TMI terápia – állkapocs-ízületi manuálterápia Győrben', category: 'kezelés', title: '' },
+    { id: 31, src: '/allkapocs2.jpg', alt: 'Állkapocs-ízületi TMI kezelés rágóizom feszültség oldására', category: 'kezelés', title: '' },
+    { id: 32, src: '/allkapocs3.jpg', alt: 'TMI manuálterápia fekvő helyzetben – állkapocs kezelés', category: 'kezelés', title: '' },
+    { id: 33, src: '/allkapocs4.jpg', alt: 'TMI terápia szájüregen keresztül – ízületi blokkok oldása', category: 'kezelés', title: '' },
+    { id: 34, src: '/allkapocs5.jpg', alt: 'Állkapocsízületi TMI terápia és a rágóizmok feszültségének oldása manuális kezeléssel a győri ReStart Physio rendelőben', category: 'kezelés', title: '' },
+      
+      // DYNAMIC TAPE
+    { id: 35, src: '/dynamictape1.jpg', alt: 'Dynamic Tape boka stabilizálás – kineziológiai taping Győrben', category: 'kezelés', title: '' },
   ];
 
   const categories = ['mind', 'rendelő', 'kezelés'];
@@ -131,9 +134,20 @@ export default function Galeria() {
     <>
       {/* ✅ STRUCTURED DATA HOZZÁADVA */}
       <GallerySchema images={galleryImages} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Főoldal", "item": "https://restartphysio.hu" },
+            { "@type": "ListItem", "position": 2, "name": "Galéria", "item": "https://restartphysio.hu/galeria" }
+          ]
+        }) }}
+      />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
+      <section className="relative bg-linear-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-x-0 bottom-0">
           <svg
             className="w-full h-16 md:h-24 text-white"
@@ -208,7 +222,6 @@ export default function Galeria() {
                     width={800}
                     height={600}
                     className="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-500"
-                    unoptimized // ✅ FONTOS statikus exportnál!
                   />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="text-center text-white p-4">
@@ -298,12 +311,11 @@ export default function Galeria() {
                       maxHeight: 'calc(100vh - 200px)',
                       maxWidth: 'calc(100vw - 16px)'
                     }}
-                    unoptimized // ✅ FONTOS!
                   />
                 </div>
   
                 <div className="absolute bottom-0 left-0 right-0 w-full">
-                  <div className="bg-gradient-to-t from-black/90 via-black/70 to-transparent px-4 py-4 md:px-8 md:py-6 rounded-b-lg text-center">
+                  <div className="bg-linear-to-t from-black/90 via-black/70 to-transparent px-4 py-4 md:px-8 md:py-6 rounded-b-lg text-center">
                     <h3 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2">{currentImage.title}</h3>
                   </div>
                 </div>

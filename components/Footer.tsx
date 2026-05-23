@@ -50,16 +50,17 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <Link href="/" aria-label="Főoldal – ReStart Physio" className="shrink-0">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="ReStart Physio"
-                width={140}
-                height={40}
+                width={56}
+                height={56}
                 className="h-10 w-auto"
-                priority
+                quality={85}
+                sizes="56px"
               />
             </Link>
             <div className="flex items-center gap-3">
-              <Link href="/" className="font-extrabold tracking-tight hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors">
+              <Link href="/" className="font-extrabold tracking-tight hover:text-(--color-brand-accent-hover,#EC7007) transition-colors">
                 ReStart Physio
               </Link>
               <span className="text-white/30 hidden sm:inline">/</span>
@@ -84,7 +85,7 @@ export default function Footer() {
                   inline-flex items-center justify-center
                   h-9 w-9 rounded-full
                   border border-white/10 bg-white/5 text-white/80
-                  hover:text-[#001219] hover:bg-[var(--color-brand-accent-hover,#EC7007)]
+                  hover:text-[#001219] hover:bg-(--color-brand-accent-hover,#EC7007)
                   transition-colors
                 "
               >
@@ -108,7 +109,7 @@ export default function Footer() {
                     <li key={item.label}>
                       <Link
                         href={item.href}
-                        className="group inline-flex items-center gap-2 text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+                        className="group inline-flex items-center gap-2 text-white/70 hover:text-(--color-brand-accent-hover,#EC7007) transition-colors"
                       >
                         <FaChevronRight className="h-3 w-3 opacity-70 group-hover:opacity-100" />
                         <span>{item.label}</span>
@@ -125,7 +126,7 @@ export default function Footer() {
                     <li key={item.label}>
                       <Link
                         href={item.href}
-                        className="group inline-flex items-center gap-2 text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+                        className="group inline-flex items-center gap-2 text-white/70 hover:text-(--color-brand-accent-hover,#EC7007) transition-colors"
                       >
                         <FaChevronRight className="h-3 w-3 opacity-70 group-hover:opacity-100" />
                         <span>{item.label}</span>
@@ -163,7 +164,7 @@ export default function Footer() {
                 <FaEnvelope />
                 <a
                   href="mailto:restart.gyor@gmail.com"
-                  className="hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+                  className="hover:text-(--color-brand-accent-hover,#EC7007) transition-colors"
                 >
                   restart.gyor@gmail.com
                 </a>
@@ -176,7 +177,7 @@ export default function Footer() {
                 href="https://maps.app.goo.gl/MAsW9JaN2v5PcCR59"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-(--color-brand-accent-hover,#EC7007) transition-colors"
               >
                 Térkép megnyitása ↗
               </a>
@@ -195,14 +196,14 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-4 pb-3 border-b border-white/10">
             <Link
               href="/cookie-policy"
-              className="text-sm text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+              className="text-sm text-white/70 hover:text-(--color-brand-accent-hover,#EC7007) transition-colors"
             >
               Cookie kezelése
             </Link>
             <span className="text-white/30">•</span>
             <Link
               href="/adatvedelem"
-              className="text-sm text-white/70 hover:text-[var(--color-brand-accent-hover,#EC7007)] transition-colors"
+              className="text-sm text-white/70 hover:text-(--color-brand-accent-hover,#EC7007) transition-colors"
             >
               Adatkezelési tájékoztató
             </Link>

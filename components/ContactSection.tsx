@@ -1,93 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Turnstile } from '@marsidev/react-turnstile';  // ✅ ÚJ IMPORT
 
 const BRAND_PRIMARY = 'var(--color-brand-primary, #004A6D)';
 const BRAND_ACCENT = 'var(--color-brand-accent, #EC7007)';
 
-interface ModernCaptchaProps {
-  onVerify: (isVerified: boolean) => void;
-  isVerified: boolean;
-}
-
-const ModernCaptcha: React.FC<ModernCaptchaProps> = ({ onVerify, isVerified }) => {
-  const [isChecking, setIsChecking] = useState(false);
-
-  const verify = () => {
-    if (isVerified) return;
-    setIsChecking(true);
-    setTimeout(() => {
-      setIsChecking(false);
-      onVerify(true);
-    }, 900);
-  };
-
-  const onKeyDown: React.KeyboardEventHandler<HTMLButtonElement> = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      verify();
-    }
-  };
-
-  return (
-    <div
-      className="flex items-center justify-between rounded-lg p-3 sm:p-4 bg-white"
-      style={{
-        border: `1px solid color-mix(in srgb, ${BRAND_PRIMARY} 22%, transparent)`,
-        boxShadow: '0 8px 22px rgba(0,0,0,0.05)',
-      } as React.CSSProperties}
-    >
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          aria-pressed={isVerified}
-          aria-label={isVerified ? 'Ellenőrizve' : 'Nem vagyok robot ellenőrzés'}
-          onClick={verify}
-          onKeyDown={onKeyDown}
-          className="w-6 h-6 rounded-md flex items-center justify-center border relative"
-          style={{
-            borderColor: isVerified ? BRAND_PRIMARY : 'rgba(100,116,139,.6)',
-            background: isVerified ? `${BRAND_PRIMARY}` : '#fff',
-            color: '#fff',
-          } as React.CSSProperties}
-        >
-          {isChecking && (
-            <span
-              className="block w-4 h-4 rounded-full border-2 animate-spin"
-              style={{
-                borderColor: `color-mix(in srgb, ${BRAND_ACCENT} 90%, white)`,
-                borderTopColor: 'transparent',
-              } as React.CSSProperties}
-            />
-          )}
-          {isVerified && !isChecking && (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-            </svg>
-          )}
-        </button>
-        <span className="text-xs sm:text-sm font-medium text-[#1d2b32] select-none">Nem vagyok robot</span>
-      </div>
-
-      <div className="flex flex-col items-end">
-        <div
-          className="flex items-center mb-1 text-[10px] sm:text-xs font-semibold"
-          style={{ color: `color-mix(in srgb, ${BRAND_PRIMARY} 80%, #64748b)` } as React.CSSProperties}
-        >
-          <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 2l1.09 6.26L22 9l-8.91.74L12 16l-1.09-6.26L2 9l8.91-.74L12 2z" />
-          </svg>
-          reCAPTCHA
-        </div>
-        <div className="flex gap-2 text-[10px] sm:text-xs text-slate-500">
-          <a href="#" className="hover:text-slate-700">Privacy</a>
-          <span aria-hidden="true">·</span>
-          <a href="#" className="hover:text-slate-700">Terms</a>
-        </div>
-      </div>
-    </div>
-  );
-};
+// ❌ TÖRÖLVE: A teljes ModernCaptchaProps interface
+// ❌ TÖRÖLVE: A teljes ModernCaptcha komponens (~60 sor)
 
 const cls = (...parts: Array<string | false | undefined>) => parts.filter(Boolean).join(' ');
 
@@ -106,7 +26,6 @@ function validateHungarianPhone(phone: string) {
   return patterns.some((p) => p.test(c));
 }
 
-// Fájl validációs függvények
 function validateFileType(file: File): boolean {
   const allowedTypes = [
     'application/pdf',
@@ -150,10 +69,11 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState('');  // ✅ ÚJ STATE
 
   const inputBase = 'w-full px-3 py-2 rounded-md border bg-white text-gray-900 text-sm placeholder:text-slate-400 outline-none transition-shadow';
   const inputBorder = 'border-slate-300';
-  const inputFocus = 'focus:ring-2 focus:ring-[color:var(--color-brand-primary,#004A6D)] focus:border-[color:var(--color-brand-primary,#004A6D)]';
+  const inputFocus = 'focus:ring-2 focus:ring-(--color-brand-primary,#004A6D) focus:border-(--color-brand-primary,#004A6D)';
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -222,6 +142,7 @@ export default function ContactSection() {
       formDataToSend.append('phone', formData.phone);
       formDataToSend.append('message', formData.message);
       formDataToSend.append('website', formData.website);
+      formDataToSend.append('captchaToken', captchaToken);  // ✅ ÚJ: token küldése
       
       files.forEach(file => {
         formDataToSend.append('documents', file);
@@ -263,20 +184,18 @@ export default function ContactSection() {
 
   if (submitted) {
     return (
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-[#0F1F28]/5 to-[#0B1620]/10 scroll-mt-[160px]" id="contact">
+      <section className="py-16 sm:py-20 bg-linear-to-br from-[#0F1F28]/5 to-[#0B1620]/10 scroll-mt-[160px]" id="contact">
         <div className="max-w-md sm:max-w-xl mx-auto px-4">
           <div
             className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 sm:p-10 text-center border"
             style={{ border: `1px solid color-mix(in srgb, #0F1F28 15%, transparent)` } as React.CSSProperties}
           >
-            {/* ✅ HEADER SZÍNŰ IKON */}
-            <div className="w-16 h-16 bg-gradient-to-r from-[#0F1F28] to-[#0B1620] rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
+            <div className="w-16 h-16 bg-linear-to-r from-[#0F1F28] to-[#0B1620] rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
               </svg>
             </div>
             
-            {/* ✅ HEADER SZÍNŰ SZÖVEGEK */}
             <h2 className="text-2xl sm:text-3xl font-bold text-[#0F1F28] mb-3">
               Köszönjük a megkeresést!
             </h2>
@@ -284,18 +203,18 @@ export default function ContactSection() {
               Hamarosan kapcsolatba lépünk Önnel.
             </p>
             
-            {/* ✅ HEADER STÍLUSÚ GOMB */}
             <button
               onClick={() => {
                 setSubmitted(false);
                 setFormData({ name: '', email: '', phone: '', message: '', website: '' });
                 setFiles([]);
                 setCaptchaVerified(false);
+                setCaptchaToken('');  // ✅ ÚJ: token reset
                 setErrors({});
               }}
               className="group relative inline-flex items-center gap-3 px-7 py-3 rounded-2xl font-semibold
                         text-white hover:text-white
-                        bg-gradient-to-r from-[#0F1F28] to-[#0B1620]
+                        bg-linear-to-r from-[#0F1F28] to-[#0B1620]
                         border border-[#0F1F28]/20
                         shadow-[0_6px_18px_rgba(15,31,40,0.25)]
                         hover:shadow-[0_10px_32px_rgba(15,31,40,0.35)]
@@ -310,13 +229,12 @@ export default function ContactSection() {
           </div>
         </div>
       </section>
-
     );
   }
 
   return (
     <section
-      className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#FFF] via-[#0d1b24] to-[#0f1f29] scroll-mt-[160px] lg:scroll-mt-[90px]"
+      className="py-12 sm:py-16 md:py-20 bg-linear-to-br from-[#FFF] via-[#0d1b24] to-[#0f1f29] scroll-mt-[160px] lg:scroll-mt-[90px]"
       id="contact"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -507,7 +425,7 @@ export default function ContactSection() {
                         >
                           <div className="flex items-center gap-2 flex-1 min-w-0">
                             <svg
-                              className="w-5 h-5 flex-shrink-0"
+                              className="w-5 h-5 shrink-0"
                               style={{ color: BRAND_PRIMARY } as React.CSSProperties}
                               fill="currentColor"
                               viewBox="0 0 20 20"
@@ -527,7 +445,7 @@ export default function ContactSection() {
                           <button
                             type="button"
                             onClick={() => removeFile(index)}
-                            className="ml-2 p-1 text-slate-400 hover:text-red-600 transition-colors flex-shrink-0"
+                            className="ml-2 p-1 text-slate-400 hover:text-red-600 transition-colors shrink-0"
                             aria-label={`${file.name} eltávolítása`}
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -541,11 +459,23 @@ export default function ContactSection() {
                 </div>
               </div>
 
+              {/* ✅ ÚJ: TURNSTILE CAPTCHA (a régi ModernCaptcha helyett) */}
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-slate-800 mb-2">
                   Biztonsági ellenőrzés <span className="text-red-500">*</span>
                 </label>
-                <ModernCaptcha onVerify={setCaptchaVerified} isVerified={captchaVerified} />
+                <Turnstile
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                  onSuccess={(token) => {
+                    setCaptchaToken(token);
+                    setCaptchaVerified(true);
+                  }}
+                  onError={() => setCaptchaVerified(false)}
+                  options={{
+                    theme: 'light',
+                    language: 'hu',
+                  }}
+                />
                 {errors.captcha && <p className="text-[11px] text-red-600 mt-1">{errors.captcha}</p>}
               </div>
 

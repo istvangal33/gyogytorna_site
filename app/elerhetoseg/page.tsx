@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
 import ContactSection from '@/components/ContactSection';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 const BRAND_PRIMARY = 'var(--color-brand-primary, #004A6D)';
 const BRAND_ACCENT = 'var(--color-brand-accent, #EC7007)';
 
 export const metadata: Metadata = {
-  title: 'Elérhetőség & Kapcsolat | ReStart Physio - Győr, Máté Mária u. 4/B',
-  description: 'ReStart Physio gyógytorna rendelő elérhetősége Győrben: +36 30 819 8449, restart.gyor@gmail.com. Máté Mária u. 4/B. Nyitvatartás, parkolás, tömegközlekedés, kapcsolatfelvételi űrlap.', 
-  keywords: 'ReStart Physio elérhetőség, gyógytorna Győr cím, fizioterapeuta Győr telefon, Máté Mária utca, időpontfoglalás, kapcsolat gyógytornász',
+  title: 'Elérhetőség & Kapcsolat | ReStart Physio - Győr, Máté Mária u. 4b',
+  description: 'ReStart Physio gyógytorna rendelő elérhetősége Győrben: +36 30 819 8449, restart.gyor@gmail.com. Máté Mária u. 4b. Nyitvatartás, parkolás, tömegközlekedés, kapcsolatfelvételi űrlap.', 
+  keywords: 'ReStart Physio elérhetőség, gyógytorna Győr cím, fizioterapeuta Győr telefon, Máté Mária utca, időpontfoglalás, kapcsolat gyógytornász, gyógytorna időpontfoglalás győr, online időpontfoglalás gyógytorna',
   
   openGraph: {
     title: 'Kapcsolat | ReStart Physio Győr',
-    description: 'Vegye fel velünk a kapcsolatot! Máté Mária u. 4/B, Győr. Telefon: +36 30 819 8449',
+    description: 'Vegye fel velünk a kapcsolatot! Máté Mária u. 4b, Győr. Telefon: +36 30 819 8449',
     images: [
       {
         url: 'https://restartphysio.hu/group_core1.jpg',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Kapcsolat | ReStart Physio Győr',
-    description: 'Vegye fel velünk a kapcsolatot! Máté Mária u. 4/B, Győr.',
+    description: 'Vegye fel velünk a kapcsolatot! Máté Mária u. 4b, Győr.',
     images: ['https://restartphysio.hu/group_core1.jpg'],
   },
 
@@ -50,121 +51,16 @@ export const metadata: Metadata = {
   },
 };
 
-// ✅ ENHANCED STRUCTURED DATA
-function ContactSchema() {
-  const contactSchema = {
-    "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "MedicalBusiness"],
-    "name": "ReStart Physio",
-    "description": "Szakszerű gyógytorna és fizioterápia rendelő Győrben. Időpontfoglalás és kapcsolatfelvétel.",
-    "url": "https://restartphysio.hu",
-    "image": "https://restartphysio.hu/group_core1.jpg",
-    
-    "telephone": "+36-30-819-8449",
-    "email": "restart.gyor@gmail.com",
-    
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Máté Mária u. 4/B",
-      "addressLocality": "Győr",
-      "addressRegion": "Győr-Moson-Sopron",
-      "postalCode": "9028",
-      "addressCountry": "HU"
-    },
-    
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 47.6596433009664,
-      "longitude": 17.659999426322084
-    },
-    
-    "openingHoursSpecification": [
-  {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday"
-    ],
-    "opens": "08:00",
-    "closes": "18:00"
-  }
-],
-
-    
-    "priceRange": "7000-17000 HUF",
-    "paymentAccepted": ["Cash", "Credit Card"],
-    "currenciesAccepted": "HUF",
-    
-    "hasMap": "https://www.google.com/maps?ll=47.65947,17.659989&z=16&t=m&hl=hu&gl=HU&mapclient=embed&q=M%C3%A1t%C3%A9+M%C3%A1ria+u.+4b+Gy%C5%91r+9028",
-    
-    "sameAs": [
-      "https://www.facebook.com/Restartphysiogyor/",
-      "https://www.instagram.com/restartphysiogyor/"
-    ],
-    
-    "founder": {
-      "@type": "Person",
-      "name": "Forrás Fernanda",
-      "jobTitle": "Gyógytornász-fizioterapeuta",
-      "url": "https://restartphysio.hu/bemutatkozas"
-    },
-
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+36-30-819-8449",
-      "contactType": "customer service",
-      "email": "restart.gyor@gmail.com",
-      "availableLanguage": "Hungarian"
-    },
-
-    // ✅ EXTRA SEO FEATURES
-    "areaServed": [
-      {
-        "@type": "City",
-        "name": "Győr"
-      },
-      {
-        "@type": "AdministrativeArea", 
-        "name": "Győr-Moson-Sopron megye"
-      }
-    ],
-
-    "knowsAbout": [
-      "Sportrehabilitáció",
-      "Gerincstabilizáció", 
-      "TMI terápia",
-      "FDM kezelés",
-      "Schroth terápia",
-      "Manuálterápia"
-    ],
-
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5",
-      "reviewCount": "1"
-    }
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(contactSchema)
-      }}
-    />
-  );
-}
-
 export default function Elerhetoseg() {
   return (
     <>
-      <ContactSchema />
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Elérhetőség', url: 'https://restartphysio.hu/elerhetoseg' },
+      ]} />
       
       {/* Hero – visszafogott brand hátterekkel */}
-      <section className="relative bg-gradient-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
+      <section className="relative bg-linear-to-br from-[#004A6D]/5 via-white to-[#EC7007]/5 py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-x-0 bottom-0">
           <svg
             className="w-full h-16 md:h-24 text-white"
@@ -201,9 +97,9 @@ export default function Elerhetoseg() {
                   borderColor: 'color-mix(in srgb, var(--color-brand-primary, #004A6D) 18%, transparent)',
                 } as React.CSSProperties}
               >
-                <div className="aspect-[4/3] relative">
+                <div className="aspect-4/3 relative">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2687.2842845431364!2d17.657413776724603!3d47.65947348432445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476bc07d6ea485db%3A0x4b9c597308aacbc3!2zR3nFkXIsIE3DoXTDqSBNw6FyaWEgdS4gNGIsIDkwMjg!5e0!3m2!1shu!2shu!4v1760255470417!5m2!1shu!2shu"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2687.2842845493446!2d17.657408412546594!3d47.65947348420384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476bc16f404851ef%3A0x36921a3e0363dfa5!2sReStart%20Physio%20Gy%C5%91r!5e0!3m2!1shu!2shu!4v1775244297055!5m2!1shu!2shu"
                     width="100%"
                     height="100%"
                     className="absolute inset-0 w-full h-full"
@@ -227,7 +123,7 @@ export default function Elerhetoseg() {
                   <span itemProp="name">ReStart Physio</span> - Rendelő adatai
                 </h2>
                 <div
-                  className="h-[3px] w-20 rounded-full"
+                  className="h-0.75 w-20 rounded-full"
                   style={{
                     background: 'linear-gradient(90deg, color-mix(in srgb, var(--color-brand-accent, #EC7007) 85%, white), white)',
                   } as React.CSSProperties}
@@ -237,9 +133,9 @@ export default function Elerhetoseg() {
               <div className="space-y-8">
                 <ContactRow
                   title="Cím"
-                  lines={['9028 Győr', 'Máté Mária u. 4/B']}
+                  lines={['9028 Győr', 'Máté Mária u. 4b']}
                   icon={
-                    <svg className="w-6 h-6 text-[color:var(--color-brand-accent,#EC7007)]" 
+                    <svg className="w-6 h-6 text-(--color-brand-accent,#EC7007)" 
                     viewBox="0 0 24 24" 
                     fill="none" 
                     stroke="currentColor"
@@ -255,7 +151,7 @@ export default function Elerhetoseg() {
                     props: [
                       { prop: "postalCode", value: "9028" },
                       { prop: "addressLocality", value: "Győr" },
-                      { prop: "streetAddress", value: "Máté Mária u. 4/B" }
+                      { prop: "streetAddress", value: "Máté Mária u. 4b" }
                     ]
                   }}
                 />
@@ -265,7 +161,7 @@ export default function Elerhetoseg() {
                   lines={['+36 30 819 8449']}
                   href="tel:+36308198449"
                   icon={
-                    <svg className="w-6 h-6 text-[color:var(--color-brand-accent,#EC7007)]" 
+                    <svg className="w-6 h-6 text-(--color-brand-accent,#EC7007)" 
                     viewBox="0 0 24 24" 
                     fill="none" 
                     stroke="currentColor"
@@ -287,7 +183,7 @@ export default function Elerhetoseg() {
                   lines={['restart.gyor@gmail.com']}
                   href="mailto:restart.gyor@gmail.com"
                   icon={
-                    <svg className="w-6 h-6 text-[color:var(--color-brand-accent,#EC7007)]" 
+                    <svg className="w-6 h-6 text-(--color-brand-accent,#EC7007)" 
                     viewBox="0 0 24 24" 
                     fill="none" 
                     stroke="currentColor"
@@ -309,7 +205,7 @@ export default function Elerhetoseg() {
                   title="Nyitvatartás"
                   lines={['Hétfő-Péntek: 08:00-18:00', 'Szombat: Zárva', 'Vasárnap: zárva']}
                   icon={
-                    <svg className="w-6 h-6 text-[color:var(--color-brand-accent,#EC7007)]" 
+                    <svg className="w-6 h-6 text-(--color-brand-accent,#EC7007)" 
                     viewBox="0 0 24 24" 
                     fill="none" 
                     stroke="currentColor"
@@ -336,11 +232,11 @@ export default function Elerhetoseg() {
       <div
         id="contact"
         className="
-          scroll-mt-[1.5rem]
-          sm:scroll-mt-[0rem]
-          md:scroll-mt-[0rem]
-          lg:scroll-mt-[0rem]
-          xl:scroll-mt-[0rem]
+          scroll-mt-6
+          sm:scroll-mt-0
+          md:scroll-mt-0
+          lg:scroll-mt-0
+          xl:scroll-mt-0
         "
       >
         <ContactSection />
@@ -387,7 +283,7 @@ function ContactRow({
   return (
     <div className="flex items-start gap-4" {...containerProps}>
       <div
-        className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
+        className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
         style={{ background: bg, color } as React.CSSProperties}
         aria-hidden="true"
       >
@@ -403,7 +299,7 @@ function ContactRow({
         {href ? (
           <a
             href={href}
-            className="text-gray-700 hover:text-[color:var(--color-brand-accent,#EC7007)] transition-colors font-medium inline-flex items-center gap-2"
+            className="text-gray-700 hover:text-(--color-brand-accent,#EC7007) transition-colors font-medium inline-flex items-center gap-2"
             {...(microdata?.props?.[0] && { itemProp: microdata.props[0].prop, content: microdata.props[0].value })}
           >
             {lines[0]}

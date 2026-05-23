@@ -2,7 +2,12 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { HeartPulse, Activity, User, HandHeart, Users, Zap } from "lucide-react";
+import HeartPulse from "lucide-react/dist/esm/icons/heart-pulse";
+import Activity from "lucide-react/dist/esm/icons/activity";
+import User from "lucide-react/dist/esm/icons/user";
+import HandHeart from "lucide-react/dist/esm/icons/hand-heart";
+import Users from "lucide-react/dist/esm/icons/users";
+import Zap from "lucide-react/dist/esm/icons/zap";
 
 const services = [
   { 
@@ -141,7 +146,7 @@ export default function ServiceSlider() {
     <section className="w-full py-16 md:py-20 bg-white">
       <div className="w-full">
         {/* FULL WIDTH SLIDER */}
-        <div className="relative w-full bg-white md:rounded-none rounded-2xl shadow-xl overflow-visible h-auto md:h-[900px]">
+        <div className="relative w-full bg-white md:rounded-none rounded-2xl shadow-xl overflow-hidden h-auto md:h-225">
           
           {/* ÉLES HÁTTÉRKÉP */}
           <div className="absolute inset-0 overflow-hidden">
@@ -152,9 +157,11 @@ export default function ServiceSlider() {
               className="object-cover object-center transition-all duration-700"
               onLoad={() => setImageLoaded(true)}
               priority={current === 0}
+              fetchPriority={current === 0 ? 'high' : 'auto'}
+              loading={current === 0 ? 'eager' : 'lazy'}
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-white/92 via-white/88 to-blue-50/92" />
+            <div className="absolute inset-0 bg-linear-to-br from-white/92 via-white/88 to-blue-50/92" />
           </div>
 
           {/* DESKTOP LAYOUT */}
@@ -164,7 +171,7 @@ export default function ServiceSlider() {
             <div className="flex items-center gap-16 flex-1">
               
               {/* Bal - KÉP */}
-              <div className="w-1/2 relative h-[600px] rounded-3xl overflow-hidden group flex-shrink-0">
+              <div className="w-1/2 relative h-150 rounded-3xl overflow-hidden group shrink-0">
                 <Image
                   src={services[current].image}
                   alt={services[current].title}
@@ -176,7 +183,7 @@ export default function ServiceSlider() {
 
               {/* Jobb - Tartalom */}
               <div className="flex-1">
-                <h1 className="text-4xl xl:text-6xl font-extrabold text-[#004A6D] mb-8 leading-tight">
+                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-[#004A6D] mb-8 leading-tight">
                   {services[current].title}
                 </h1>
                 
@@ -251,7 +258,7 @@ export default function ServiceSlider() {
           </div>
 
           {/* MOBILE LAYOUT */}
-          <div className="md:hidden flex flex-col min-h-[600px] relative z-10">
+          <div className="md:hidden flex flex-col min-h-150 relative z-10">
             <div className="flex-1 flex flex-col items-center text-center justify-center p-6">
               <div 
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-white mb-4 shadow-lg"
@@ -309,7 +316,7 @@ export default function ServiceSlider() {
                   <button
                     key={idx}
                     onClick={() => setCurrent(idx)}
-                    className={`relative flex-shrink-0 w-[80px] h-[80px] rounded-xl overflow-hidden transition-all duration-300
+                    className={`relative shrink-0 w-20 h-20 rounded-xl overflow-hidden transition-all duration-300
                       ${idx === current 
                         ? "card-active ring-2 ring-[#EC7007] shadow-xl opacity-100 scale-105" 
                         : "opacity-55 hover:opacity-85 scale-100"
@@ -353,7 +360,7 @@ export default function ServiceSlider() {
               {/* PROGRESS BAR - MOBILE ALATT */}
               <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden mx-2 mt-2">
                 <div 
-                  className="h-full bg-gradient-to-r from-[#EC7007] to-[#004A6D] transition-all duration-300 rounded-full"
+                  className="h-full bg-linear-to-r from-[#EC7007] to-[#004A6D] transition-all duration-300 rounded-full"
                   style={{ width: `${((current + 1) / services.length) * 100}%` }}
                 />
               </div>
@@ -367,21 +374,25 @@ export default function ServiceSlider() {
           </div>
 
           {/* Navigation Arrows */}
-          <ArrowButton 
-            direction="left" 
-            onClick={() => setCurrent(prev => Math.max(0, prev - 1))} 
-            disabled={current === 0}
-          />
-          <ArrowButton 
-            direction="right" 
-            onClick={() => setCurrent(prev => Math.min(services.length - 1, prev + 1))} 
-            disabled={current === services.length - 1}
-          />
+          {/* Navigation Arrows - CSAK DESKTOP */}
+          <div className="hidden md:block">
+            <ArrowButton 
+              direction="left" 
+              onClick={() => setCurrent(prev => Math.max(0, prev - 1))} 
+              disabled={current === 0}
+            />
+            <ArrowButton 
+              direction="right" 
+              onClick={() => setCurrent(prev => Math.min(services.length - 1, prev + 1))} 
+              disabled={current === services.length - 1}
+            />
+          </div>
+          
 
           {/* Progress bar - DESKTOP */}
           <div className="hidden md:block absolute bottom-0 left-0 right-0 h-1 bg-gray-200 z-20">
             <div 
-              className="h-full bg-gradient-to-r from-[#EC7007] to-[#004A6D] transition-all duration-300"
+              className="h-full bg-linear-to-r from-[#EC7007] to-[#004A6D] transition-all duration-300"
               style={{ width: `${((current + 1) / services.length) * 100}%` }}
             />
           </div>

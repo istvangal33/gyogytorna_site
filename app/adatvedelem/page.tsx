@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-gray-600">
@@ -80,8 +80,8 @@ export default function PrivacyPolicyPage() {
                 <p className="mb-2 text-gray-700"><strong>Telephely:</strong> 9028 Győr, Máté Mária utca 4/B 3. emelet 24. számú ajtó</p>
                 <p className="mb-2 text-gray-700"><strong>Tulajdonos / működtető neve:</strong> Forrás Fernanda</p>
                 <p className="mb-2 text-gray-700"><strong>Cégforma:</strong> egyéni vállalkozás</p>
-                <p className="mb-2 text-gray-700"><strong>Nyilvántartási szám:</strong> <span className="text-gray-500 italic">[kitöltendő]</span></p>
-                <p className="mb-2 text-gray-700"><strong>Adószám:</strong> <span className="text-gray-500 italic">[kitöltendő]</span></p>
+                <p className="mb-2 text-gray-700"><strong>Nyilvántartási szám:</strong> 251415</p>
+                <p className="mb-2 text-gray-700"><strong>Adószám:</strong> 90981885-1-38</p>
                 <p className="mb-2 text-gray-700"><strong>TEÁOR:</strong> 8690 – Egyéb humán-egészségügyi ellátás</p>
                 <p className="mb-2 text-gray-700"><strong>Szakmai felelős neve:</strong> Forrás Fernanda</p>
                 <p className="mb-2 text-gray-700"><strong>Végzettség:</strong> okleveles gyógytornász-fizioterapeuta</p>
@@ -1292,7 +1292,7 @@ A Szolgáltatás adatkezelési alapelvei összhangban vannak az adatvédelemmel 
               </div>
 
               {/* NAIH elérhetőségek - FRISSÍTETT 2025 */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border-2 border-blue-200 mb-6">
+              <div className="bg-linear-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border-2 border-blue-200 mb-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)
                 </h3>

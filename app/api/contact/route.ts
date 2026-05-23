@@ -15,9 +15,28 @@ export async function POST(req: NextRequest) {
     const message = formData.get('message') as string;
     const website = formData.get('website') as string;
     const documents = formData.getAll('documents') as File[];
+    const captchaToken = formData.get('captchaToken') as string | null;
 
     // Honeypot ellenőrzés
     if (website) return Response.json({ ok: true }, { status: 200 });
+
+    // Turnstile token ellenőrzés
+    if (!captchaToken) {
+      return Response.json({ ok: false, error: "Hiányzó CAPTCHA igazolás." }, { status: 400 });
+    }
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (!turnstileSecret) {
+      return Response.json({ ok: false, error: "Hiányzó Turnstile biztonsági kulcs." }, { status: 500 });
+    }
+    const turnstileRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret: turnstileSecret, response: captchaToken }).toString(),
+    });
+    const turnstileData = await turnstileRes.json();
+    if (!turnstileData.success) {
+      return Response.json({ ok: false, error: "Kérjük igazolja, hogy nem robot!" }, { status: 403 });
+    }
 
     // Kötelező mezők ellenőrzése
     if (!name || !email || !phone) {

@@ -78,7 +78,7 @@ export default function ServiceCarousel() {
 
   return (
     <div 
-      className="carousel-container relative overflow-hidden rounded-2xl shadow-2xl bg-white min-h-[500px] lg:min-h-[400px]"
+      className="carousel-container relative overflow-hidden rounded-2xl shadow-2xl bg-white min-h-125 lg:min-h-100"
       onMouseEnter={() => setIsPaused(false)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -97,7 +97,7 @@ export default function ServiceCarousel() {
               <ul className="text-gray-600 space-y-2">
                 {service.features.map((feature, i) => (
                   <li key={i} className="flex items-center">
-                    <span className="w-2 h-2 bg-blue-600 rounded-full mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-blue-600 rounded-full mr-3 shrink-0"></span>
                     {feature}
                   </li>
                 ))}
@@ -105,7 +105,7 @@ export default function ServiceCarousel() {
             </div>
             <div className="lg:w-1/2 w-full mt-6 lg:mt-0">
               <div className="relative">
-                <div className="w-full h-64 lg:h-50 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl shadow-lg flex items-center justify-center">
+                <div className="w-full h-64 lg:h-50 bg-linear-to-br from-gray-100 to-gray-200 rounded-xl shadow-lg flex items-center justify-center">
                   <div className="text-6xl text-gray-400">🏥</div>
                 </div>
                 <div className="absolute inset-0 bg-black bg-opacity-20 rounded-xl"></div>
