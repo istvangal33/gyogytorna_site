@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import FaqAccordion from '@/components/FaqAccordion';
+import FaqSchema from '@/components/FaqSchema';
 import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 
 const BRAND_PRIMARY = "var(--color-brand-primary, #004A6D)";
@@ -16,29 +17,27 @@ interface PriceItem {
   name: string;
   duration?: string;
   price: number;
+  includes?: string; // <- mit tartalmaz az ár (halvány leírás a név alatt)
   highlight?: boolean; // <- szükséges, mert PriceGroup használja
 }
 
 const SERVICES: PriceItem[] = [
-  { name: "Egyéni gyógytorna/rehabilitáció", duration: "50 P", price: 15000 },
-  { name: "Egyéni gyógytorna/rehabilitáció", duration: "30 P", price: 8000 },
-  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "50 P", price: 16000 },
-  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "30 P", price: 8500 },
-  { name: "Schroth terápia", duration: "50 P", price: 15000 },
-  { name: "TMI (Állkapocs ízületi) terápia", duration: "50 P", price: 16000 },
-  { name: "Komplex rehabilitáció", duration: "50 P", price: 17000 },
-  { name: "Csoportos gerinc core edzés", duration: "50 P", price: 7000 },
-  { name: "Kinesiológiai tape", price: 5000 },
-  { name: "Dinamikus tape", price: 7500 },
+  { name: "Egyéni gyógytorna/rehabilitáció", duration: "50 P", price: 16000, includes: "Állapotfelmérés, rehabilitációs ütemterv, célzott gyakorlatorientált terápia, házi feladatok" },
+  { name: "Egyéni gyógytorna/rehabilitáció", duration: "30 P", price: 9000, includes: "Célzott terápia, házi feladatok · első alkalom esetén kizárólag 50 perces foglalható" },
+  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "50 P", price: 18000, includes: "FDM kezelés, triggerpont terápia, eszköztámogatott manuális technikák, Medical Flossing" },
+  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "30 P", price: 10000 },
+  { name: "Schroth terápia", duration: "50 P", price: 16000, includes: "Gerincferdülés Schroth-módszeren alapuló kezelése, izomerősítő és mobilizációs technikákkal" },
+  { name: "TMI (Állkapocs ízületi) terápia", duration: "50 P", price: 20000, includes: "Komplex állapotfelmérés, kezelési terv, manuális kezelés extra- és intraorálisan, házi feladatok" },
+  { name: "Csoportos gerinc core edzés", duration: "50 P", price: 8000 },
+  { name: "Csoportos gerinc core edzés", duration: "30 P", price: 6000 },
+  { name: "Kineziológiai tape", price: 5000 },
+  { name: "Dinamikus tape", price: 8000 },
 ];
 
 const PASSES: PriceItem[] = [
-  { name: "Egyéni gyógytorna bérlet", duration: "5 ALK", price: 70000 },
-  { name: "Egyéni gyógytorna bérlet", duration: "10 ALK", price: 135000 },
-  { name: "Komplex rehabilitációs bérlet", duration: "5 ALK", price: 80000 },
-  { name: "Komplex rehabilitációs bérlet", duration: "10 ALK", price: 155000 },
-  { name: "Csoportos gerinc core edzés bérlet", duration: "5 ALK", price: 30000 },
-  { name: "Csoportos gerinc core edzés bérlet", duration: "10 ALK", price: 55000 },
+  { name: "Egyéni gyógytorna bérlet", duration: "5 ALK", price: 75000, includes: "Igénybevétele minimum heti 2 alkalom vállalásával lehetséges" },
+  { name: "Egyéni gyógytorna bérlet", duration: "10 ALK", price: 144000 },
+  { name: "TMI (Állkapocs ízületi) terápia bérlet", duration: "3 ALK", price: 55000 },
 ];
   const RENT: PriceItem[] = [
   { name: "BEMER készülék bérlése", duration: "1 HÓNAP", price: 100000 },
@@ -56,7 +55,7 @@ function PriceSchema() {
     "itemListElement": [...SERVICES, ...PASSES, ...RENT].map((service) => ({
       "@type": "Offer",
       "name": service.name,
-      "description": service.duration ? `${service.duration} időtartam` : 'Professzionális kezelés',
+      "description": service.includes ?? (service.duration ? `${service.duration} időtartam` : 'Professzionális kezelés'),
       "price": service.price,
       "priceCurrency": "HUF",
       "priceValidUntil": "2026-12-31",
@@ -125,6 +124,12 @@ export default function PriceList() {
             >
               Á R L I S T A
             </h1>
+            <p
+              className="mt-2 tracking-[0.15em] text-[0.58rem] sm:text-[0.62rem] font-medium uppercase"
+              style={{ color: "color-mix(in srgb, " + BRAND_PRIMARY + " 55%, #6b7378)" } as React.CSSProperties}
+            >
+              Érvényes 2026. július 1-től
+            </p>
           </div>
 
           {/* Szolgáltatások */}
@@ -195,6 +200,7 @@ export default function PriceList() {
           <h2 className="text-2xl sm:text-3xl font-bold text-[#004A6D] mb-3">Gyakran Ismételt Kérdések</h2>
           <p className="text-gray-600">Válaszok a leggyakoribb kérdésekre árainkkal és foglalással kapcsolatban.</p>
         </div>
+        <FaqSchema /> 
         <FaqAccordion />
       </section>
     </div>
@@ -228,6 +234,14 @@ function PriceGroup({ items }: PriceGroupProps) {
                   />
                 )}
                 {item.name}
+                {item.includes && (
+                  <p
+                    className="mt-1 font-normal text-[0.62rem] leading-snug tracking-normal"
+                    style={{ color: "color-mix(in srgb, " + BRAND_PRIMARY + " 50%, #6b7378)" } as React.CSSProperties}
+                  >
+                    {item.includes}
+                  </p>
+                )}
               </div>
               <div
                 className="py-2 text-[0.66rem] font-medium tabular-nums whitespace-nowrap"
@@ -270,6 +284,14 @@ function PriceGroup({ items }: PriceGroupProps) {
               <div className={`text-[0.9rem] leading-snug ${isBold ? "font-semibold" : "font-medium"} text-[#1d2b32]`}>
                 {item.name}
               </div>
+              {item.includes && (
+                <p
+                  className="mt-1 text-[0.72rem] leading-snug"
+                  style={{ color: "color-mix(in srgb, " + BRAND_PRIMARY + " 50%, #6b7378)" } as React.CSSProperties}
+                >
+                  {item.includes}
+                </p>
+              )}
               <div className="mt-1 flex items-center gap-3 text-[0.72rem]">
                 <span
                   className="font-medium"
