@@ -144,6 +144,13 @@ export default function PriceList() {
           {/* Bérletek */}
           <PriceGroup items={PASSES} />
 
+          <p
+            className="mt-2 text-center md:text-left text-[0.62rem] leading-snug tracking-[0.08em] font-medium"
+            style={{ color: BRAND_ACCENT } as React.CSSProperties}
+          >
+            A bérletek a vásárlástól számított 3 hónapig használhatók fel.
+          </p>
+
           <div
             className="my-6 h-px w-full"
             style={{ backgroundColor: "color-mix(in srgb, " + BRAND_PRIMARY + " 15%, #e3ded7)" } as React.CSSProperties}
