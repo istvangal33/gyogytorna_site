@@ -3,13 +3,20 @@
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { CONSENT_COOKIE, CONSENT_EVENT } from '@/lib/consent';
 
 export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
   const [consent, setConsent] = useState(false);
 
   useEffect(() => {
-    const cookieConsent = Cookies.get('cookieConsent');
-    setConsent(cookieConsent === 'true');
+    const readConsent = () => setConsent(Cookies.get(CONSENT_COOKIE) === 'true');
+
+    // Induláskor a már meglévő döntést olvassuk, utána a bannerre figyelünk.
+    // Így a hozzájárulás pillanatában, oldalújratöltés nélkül indul a mérés –
+    // a document.referrer érintetlen marad, tehát a forgalom forrása is helyes.
+    readConsent();
+    window.addEventListener(CONSENT_EVENT, readConsent);
+    return () => window.removeEventListener(CONSENT_EVENT, readConsent);
   }, []);
 
   // Csak akkor renderelünk, ha van beleegyezés
@@ -29,9 +36,7 @@ export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${GA_MEASUREMENT_ID}', {
-            page_path: window.location.pathname,
-          });
+          gtag('config', '${GA_MEASUREMENT_ID}');
         `}
       </Script>
     </>

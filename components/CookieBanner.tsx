@@ -3,29 +3,30 @@
 import { useState, useEffect } from 'react';
 import CookieConsent from 'react-cookie-consent';
 import Cookies from 'js-cookie';
+import { CONSENT_COOKIE, CONSENT_EVENT, type ConsentValue } from '@/lib/consent';
 
 export default function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
     // Ellenőrzi, hogy van-e már cookie beleegyezés
-    const consent = Cookies.get('cookieConsent');
+    const consent = Cookies.get(CONSENT_COOKIE);
     if (!consent) {
       setShowBanner(true);
     }
   }, []);
 
-  const handleAcceptCookie = () => {
-    Cookies.set('cookieConsent', 'true', { expires: 365 });
+  // A döntést elmentjük, majd szólunk a mérőkódnak. Újratöltés szándékosan
+  // nincs: az felülírná a document.referrer-t, és minden látogató "Direct"
+  // forrásként jelenne meg a Google Analyticsben.
+  const saveConsent = (value: ConsentValue) => {
+    Cookies.set(CONSENT_COOKIE, value, { expires: 365, sameSite: 'lax' });
     setShowBanner(false);
-    // Oldal újratöltése, hogy a Google Analytics betöltődjön
-    window.location.reload();
+    window.dispatchEvent(new Event(CONSENT_EVENT));
   };
 
-  const handleDeclineCookie = () => {
-    Cookies.set('cookieConsent', 'false', { expires: 365 });
-    setShowBanner(false);
-  };
+  const handleAcceptCookie = () => saveConsent('true');
+  const handleDeclineCookie = () => saveConsent('false');
 
   if (!showBanner) return null;
 
