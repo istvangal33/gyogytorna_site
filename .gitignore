@@ -41,3 +41,16 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+
+# Local Netlify folder
+.netlify
+.netlify-dist
+
+# a Tailwind hibakereso naplofajlja, futaskor keletkezik
+tailwindcss-*.log
+
+# a Netlify CLI generalja az edge fuggvenyekhez
+deno.lock
+
+# csomagfrissites elotti mentesek - a git elozmeny ugyis tartalmazza
+dokumentumok/frissites-*/

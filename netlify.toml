@@ -1,0 +1,34 @@
+# Netlify konfiguráció.
+#
+# A telepítés NEM Git-tárolóból megy, hanem a fejlesztői gépről, paranccsal:
+#
+#   npx netlify-cli deploy --build --prod
+#
+# Így a foglalórendszer kódja nem kerül fel a nyilvános GitHub-tárolóba.
+# A --build kapcsoló miatt a fordítás helyben fut le, a Next.js futtatóval
+# együtt, és csak a kész kimenet töltődik fel.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# A Next.js futtatót a Netlify magától felismeri és alkalmazza. Itt
+# kifejezetten is kimondjuk, hogy a beállítás verziókövetve legyen, és ne
+# automatikus felismerésen múljon.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# --- ütemezett feladatok ---
+#
+# A Vercel a vercel.json "crons" szakaszát használta; a Netlifyn ütemezett
+# függvények végzik ugyanezt. Maguk a függvények nem csinálnak mást, mint
+# meghívják a már meglévő és tesztelt /api/cron/... végpontokat — a logika
+# egyetlen helyen marad.
+
+# Emlékeztető levelek a másnapi kezelésekről, minden nap 16:00-kor.
+[functions."emlekezteto"]
+  schedule = "0 16 * * *"
+
+# A megőrzési időn túli foglalások törlése, minden hónap 1-jén 3:00-kor.
+[functions."adattorles"]
+  schedule = "0 3 1 * *"

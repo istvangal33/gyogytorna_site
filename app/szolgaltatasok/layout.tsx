@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Gyógytorna Szolgáltatások Győrben | BEMER, Manuálterápia, Schroth',
+  title: { absolute: 'Gyógytorna Szolgáltatások Győrben | BEMER, Manuálterápia, Schroth' },
   description: 'Fájdalommentes mozgás egyénre szabott terápiákkal. BEMER terápia, FDM manuálterápia, Schroth és sportrehabilitáció Győrben Forrás Fernandával. Nézze meg szolgáltatásainkat!',
   keywords: 'gyógytorna győr, fizioterápia győr, sportrehabilitáció győr, bemer terápia győr, gerincstabilizáció, TMI terápia, FDM kezelés, manuálterápia győr, Schroth terápia, si terápia győr, fizikoterápia győr, core edzés győr, dinamikus tape, derékfájás kezelés győr, nyakfájás kezelés győr, scoliosis kezelés győr, műtét utáni rehabilitáció győr, térdprotézis utáni gyógytorna, csípőprotézis utáni rehabilitáció',
 

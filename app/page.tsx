@@ -133,7 +133,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/szolgaltatasok#services-details"
-                className="inline-flex items-center justify-center gap-2 bg-white/80 text-[#004a6d] px-6 py-3 rounded-full font-semibold transition-all duration-300 border border-[#004a6d]/15 hover:bg-white shadow-lg hover:scale-[1.02]"
+                className="inline-flex items-center justify-center  bg-white/80 text-[#004a6d] px-6 py-3 rounded-full font-semibold transition-all duration-300 border border-[#004a6d]/15 hover:bg-white shadow-lg hover:scale-[1.02]"
               >
                 Szolgáltatásaink
               </Link>

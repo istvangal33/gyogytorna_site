@@ -52,11 +52,10 @@ export default function Footer() {
               <Image
                 src="/logo.webp"
                 alt="ReStart Physio"
-                width={56}
-                height={56}
+                width={152}
+                height={80}
                 className="h-10 w-auto"
                 quality={85}
-                sizes="56px"
               />
             </Link>
             <div className="flex items-center gap-3">

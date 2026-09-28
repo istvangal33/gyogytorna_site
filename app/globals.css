@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* A Tailwind alapból az egész projektben keres osztályneveket. A
+   dokumentumok/ mappában viszont idegen oldalak mentett másolatai vannak
+   (adatfeldolgozói szerződések), amelyek maguk is Tailwindet használnak — az
+   ottani osztályok olyan képekre hivatkoznak, amelyek nálunk nem léteznek, és
+   emiatt a build elszáll. Ezért ezt a mappát kihagyjuk a pásztázásból. */
+@source not "../dokumentumok";
+
 /* Brand és alapváltozók */
 :root {
   /* Márka színek */
@@ -55,6 +62,15 @@ body {
 @media (min-width: 1024px) {
   body { padding-left: 6rem; padding-top: 0; }
 }
+
+/* Az admin felület nem kapja meg a publikus oldalsáv helyét. A :has() miatt
+   ehhez nem kell JS, és a publikus oldal szabályaihoz sem nyúlunk hozzá. */
+body:has(.admin-root) {
+  padding-left: 0;
+  padding-top: 0;
+  background: #f9fafb;
+}
+
 
 /* Admin “no-chrome” – teljes képernyős, görgetés tiltás, stabil viewport kezelés */
 body.admin-no-chrome {
@@ -224,3 +240,13 @@ body.admin-no-chrome {
 .masonry-column { background-clip: padding-box; }
 .masonry-column > div { margin-bottom: 24px; }
 
+
+
+/* Lemondott foglalás a naptárban: halvány és áthúzott. */
+.foglalas-lemondva {
+  opacity: 0.7;
+}
+.foglalas-lemondva .fc-event-title,
+.foglalas-lemondva .fc-event-main {
+  text-decoration: line-through;
+}

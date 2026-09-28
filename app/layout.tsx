@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import dynamic from 'next/dynamic';
 import Layout from "@/components/Layout";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
 import { Inter } from 'next/font/google';
-import CookieBanner from '@/components/CookieBanner';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],
@@ -199,15 +195,11 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-white text-gray-900 font-sans">
-        <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID!} />
         
         <Layout>
           {children}
         </Layout>
         
-        <CookieBanner />
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

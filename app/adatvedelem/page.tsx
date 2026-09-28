@@ -863,6 +863,18 @@ A Szolgáltatás adatkezelési alapelvei összhangban vannak az adatvédelemmel 
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">Az adatkezelés célja az érintett számára megfelelő szolgáltatás, információ, ajánlat nyújtása és kapcsolattartás, panasz esetén a panasz közlésének lehetővé tétele, a panasz azonosítása és a törvényből származó kötelezettségek, kötelező adatok felvétele.</td>
                       <td className="border border-gray-300 px-4 py-3 text-gray-700">2011. évi CXII. törvény (Infotv.), illetve az érintett hozzájárulása. 1997. évi XLVII. törvény (kifejezett, írásbeli és célhoz kötött hozzájárulása)</td>
                     </tr>
+                    <tr className="bg-gray-50">
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">Időpontot foglaló ügyfelek</td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        Név, e-mail cím, telefonszám (ha az érintett megadja), az időpont kezdete és
+                        vége, az igénybe vett szolgáltatás megnevezése és ára, a foglaláshoz fűzött
+                        megjegyzés, valamint az időpont állapota (foglalt, megtörtént, lemondott,
+                        meg nem jelent). A rendszer egészségügyi adatot – így különösen anamnézist,
+                        diagnózist vagy kezelési tervet – nem tárol.
+                      </td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">Az időpont nyilvántartása, a kezelés megszervezése, az érintett értesítése a foglalásról, annak módosításáról vagy lemondásáról, valamint emlékeztetés a közelgő időpontra.</td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">GDPR 6. cikk (1) bekezdés b) pont: az adatkezelés olyan szerződés teljesítéséhez szükséges, amelyben az érintett az egyik fél.</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -882,18 +894,107 @@ A Szolgáltatás adatkezelési alapelvei összhangban vannak az adatvédelemmel 
                   </thead>
                   <tbody>
                     <tr className="bg-white">
-                      <td className="border border-gray-300 px-4 py-3 text-gray-700 font-medium">Online fizetési szolgáltató</td>
-                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
-                        A kezelt adatok köre: név, e-mail cím. Az adatkezelés célja az adományozás lebonyolítása, a tranzakciók visszaigazolása és a felhasználók védelme érdekében végzett fraud-monitoring (visszaélések ellenőrzése). Az adatkezelés időtartama, az adatok törlésének határideje: az online fizetés lebonyolítása.
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700 font-medium">
+                        Vercel Inc.<br />
+                        <span className="text-sm font-normal text-gray-600">Amerikai Egyesült Államok</span>
                       </td>
-                      <td className="border border-gray-300 px-4 py-3 text-gray-700">Érintett hozzájárulása, az 2011. évi CXII. törvény (Infotv.), 2001. évi CVIII. törvény (Eker. tv.)</td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        Tárhelyszolgáltatás: a weboldal és az időpontfoglaló felület üzemeltetése.
+                        A szolgáltató a működéshez szükséges mértékben fér hozzá az oldalon áthaladó
+                        adatokhoz, azokat saját céljára nem használja. Adatkezelési tájékoztatója:{" "}
+                        <a
+                          href="https://vercel.com/legal/privacy-policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#EC7007] hover:underline"
+                        >
+                          vercel.com/legal/privacy-policy
+                        </a>
+                      </td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        GDPR 28. cikk szerinti adatfeldolgozói szerződés, amely a felhasználási
+                        feltételek elfogadásával külön aláírás nélkül hatályba lép:{" "}
+                        <a
+                          href="https://vercel.com/legal/dpa"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#EC7007] hover:underline"
+                        >
+                          vercel.com/legal/dpa
+                        </a>
+                        . Az Európai Unión kívülre történő adattovábbítás az Európai Bizottság által
+                        elfogadott általános szerződési feltételek (SCC) alapján történik.
+                      </td>
                     </tr>
                     <tr className="bg-gray-50">
-                      <td className="border border-gray-300 px-4 py-3 text-gray-700 font-medium">Tárhely szolgáltató</td>
-                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
-                        Az adatkezelés célja a weboldal elérhetővé tétele, megfelelő működtetése. Az adatkezelés időtartama a regisztráció törléséig tart.
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700 font-medium">
+                        Supabase Pte. Ltd.<br />
+                        <span className="text-sm font-normal text-gray-600">adatbázis; a cég székhelye Szingapúr, az adatok tárolása az Európai Unióban (Frankfurt) történik</span>
                       </td>
-                      <td className="border border-gray-300 px-4 py-3 text-gray-700">Érintett hozzájárulása, az 2011. évi CXII. törvény (Infotv.), 2001. évi CVIII. törvény (Eker. tv.)</td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        Az időpontfoglalás adatainak tárolása. A tárolt adatok köre megegyezik a
+                        fenti 3. pont „Időpontot foglaló ügyfelek” sorában felsoroltakkal.
+                        Adatkezelési tájékoztatója:{" "}
+                        <a
+                          href="https://supabase.com/privacy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#EC7007] hover:underline"
+                        >
+                          supabase.com/privacy
+                        </a>
+                      </td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        GDPR 28. cikk szerinti adatfeldolgozói szerződés, amely a felhasználási
+                        feltételek elfogadásával külön aláírás nélkül hatályba lép:{" "}
+                        <a
+                          href="https://supabase.com/legal/dpa"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#EC7007] hover:underline"
+                        >
+                          supabase.com/legal/dpa
+                        </a>
+                        . Az adatok tárolása az Európai Unión belül történik; az ezen kívüli
+                        hozzáférésre az Európai Bizottság által elfogadott általános szerződési
+                        feltételek (SCC) vonatkoznak.
+                      </td>
+                    </tr>
+                    <tr className="bg-white">
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700 font-medium">
+                        Plus Five Five, Inc. („Resend”)<br />
+                        <span className="text-sm font-normal text-gray-600">levélküldő szolgáltatás, Amerikai Egyesült Államok</span>
+                      </td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        Az időpontfoglalással kapcsolatos e-mailek (visszaigazolás, lemondási
+                        értesítő, emlékeztető), valamint a kapcsolati űrlapon érkező üzenetek
+                        továbbítása. A kezelt adatok köre: a címzett neve és e-mail címe, valamint a
+                        levél tartalma. Adatkezelési tájékoztatója:{" "}
+                        <a
+                          href="https://resend.com/legal/privacy-policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#EC7007] hover:underline"
+                        >
+                          resend.com/legal/privacy-policy
+                        </a>
+                      </td>
+                      <td className="border border-gray-300 px-4 py-3 text-gray-700">
+                        GDPR 28. cikk szerinti adatfeldolgozói szerződés, amely a felhasználási
+                        feltételek elfogadásával külön aláírás nélkül hatályba lép:{" "}
+                        <a
+                          href="https://resend.com/legal/dpa"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#EC7007] hover:underline"
+                        >
+                          resend.com/legal/dpa
+                        </a>
+                        . Az Európai Unión kívülre történő adattovábbítás az Európai Bizottság által
+                        elfogadott általános szerződési feltételek (SCC), valamint az EU–USA
+                        adatvédelmi keret (EU–U.S. Data Privacy Framework) alapján történik,
+                        amelyhez a szolgáltató csatlakozott.
+                      </td>
                     </tr>
                     <tr className="bg-white">
                       <td className="border border-gray-300 px-4 py-3 text-gray-700 font-medium">Munkatárs, alvállalkozó</td>
@@ -918,6 +1019,134 @@ A Szolgáltatás adatkezelési alapelvei összhangban vannak az adatvédelemmel 
                     </tr>
                   </tbody>
                 </table>
+              </div>
+
+              {/* 5. Időpontfoglaló rendszer */}
+              <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-4">
+                5. Az időpontfoglaló rendszer adatkezelése
+              </h3>
+
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-6 mb-6">
+                <p className="text-gray-700 leading-relaxed">
+                  Az Adatkezelő az időpontok nyilvántartására saját, jelszóval védett belső
+                  rendszert használ. <strong>Időpontot a weboldalon keresztül nem lehet foglalni:</strong>{" "}
+                  a foglalást minden esetben az Adatkezelő munkatársa rögzíti, azt követően, hogy az
+                  érintett telefonon, e-mailben vagy személyesen időpontot kért.
+                </p>
+              </div>
+
+              <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-3">
+                5.1. A kezelt adatok köre
+              </h4>
+              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  A rendszerben az alábbi adatok kerülnek rögzítésre:
+                </p>
+                <ul className="space-y-2 text-gray-700 ml-4 mb-4">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span>az érintett neve és e-mail címe;</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span>telefonszáma, amennyiben azt megadja (megadása nem kötelező);</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span>az időpont kezdete és vége, valamint az azt ellátó munkatárs;</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span>az igénybe vett szolgáltatás megnevezése és ára;</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span>az időpont állapota (foglalt, megtörtént, lemondott, meg nem jelent);</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span>a foglaláshoz fűzött szöveges megjegyzés, amennyiben az szükséges (például „első alkalom” vagy „később érkezik”).</span>
+                  </li>
+                </ul>
+                <div className="bg-white p-4 rounded border border-gray-300">
+                  <p className="text-gray-700 leading-relaxed">
+                    <strong>Egészségügyi adatot ez a rendszer nem tárol.</strong> A szolgáltatás
+                    megnevezése önmagában nem minősül diagnózisnak. Az érintett egészségi állapotára
+                    vonatkozó adatokat – így az anamnézist, a vizsgálati eredményeket és a kezelési
+                    tervet – az Adatkezelő ettől elkülönítve, a fenti 3. pontban foglaltak szerint
+                    kezeli.
+                  </p>
+                </div>
+              </div>
+
+              <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-3">
+                5.2. Az adatkezelés jogalapja
+              </h4>
+              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
+                <p className="text-gray-700 leading-relaxed">
+                  Az adatkezelés jogalapja a GDPR 6. cikk (1) bekezdés b) pontja: az adatkezelés
+                  olyan szerződés teljesítéséhez szükséges, amelyben az érintett az egyik fél. A
+                  megadott adatok nélkül az időpont nem tartható nyilván, így a szolgáltatás sem
+                  nyújtható.
+                </p>
+              </div>
+
+              <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-3">
+                5.3. Az érintettnek küldött üzenetek
+              </h4>
+              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  A megadott e-mail címre az alábbi üzenetek érkeznek:
+                </p>
+                <ul className="space-y-2 text-gray-700 ml-4 mb-4">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span><strong>visszaigazolás</strong> a foglalás rögzítésekor, naptárbejegyzésként is menthető melléklettel;</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span><strong>értesítés</strong> az időpont módosításáról vagy lemondásáról;</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[#EC7007] font-bold mt-1">•</span>
+                    <span><strong>emlékeztető</strong> a kezelést megelőző napon.</span>
+                  </li>
+                </ul>
+                <p className="text-gray-700 leading-relaxed">
+                  Ezek az üzenetek a szolgáltatás teljesítéséhez tartoznak, nem minősülnek reklámnak
+                  vagy közvetlen üzletszerzésnek. Az Adatkezelő a foglalás során megadott e-mail
+                  címre hírlevelet vagy ajánlatot nem küld.
+                </p>
+              </div>
+
+              <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-3">
+                5.4. Az adatkezelés időtartama
+              </h4>
+              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
+                <p className="text-gray-700 leading-relaxed">
+                  Az Adatkezelő a foglalás adatait az időpont napjától számított{" "}
+                  <strong>5 év</strong> elteltével törli. Ez az időtartam a szolgáltatásból eredő
+                  igények elévülési idejéhez igazodik. Amennyiben a foglalás adata számviteli
+                  bizonylat alátámasztásául is szolgál, annak megőrzésére a számvitelről szóló 2000.
+                  évi C. törvény szerinti határidő az irányadó.
+                </p>
+              </div>
+
+              <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-3">
+                5.5. Ki fér hozzá az adatokhoz
+              </h4>
+              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-6">
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  A rendszert kizárólag az Adatkezelő és az általa feljogosított munkatársak
+                  használhatják, egyedi, jelszóval védett belépéssel. A jelszavak kizárólag
+                  visszafejthetetlen formában kerülnek tárolásra. A munkatársak jogosultsága
+                  korlátozható úgy, hogy csak a saját időpontjaikat lássák.
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  Az adatokhoz ezen kívül a fenti 4. pontban megnevezett adatfeldolgozók férhetnek
+                  hozzá, kizárólag a szolgáltatásuk nyújtásához szükséges mértékben. Az Adatkezelő
+                  az adatokat sem marketing célra nem használja fel, sem harmadik félnek nem adja át.
+                </p>
               </div>
             </section>
 

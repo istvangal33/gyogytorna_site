@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Galéria | ReStart Physio - Rendelő & Kezelések Fotói Győr',
+  title: { absolute: 'Galéria | ReStart Physio - Rendelő & Kezelések Fotói Győr' },
   description: 'ReStart Physio galéria: modern rendelő, BEMER terápia, sportrehabilitáció, gerincstabilizáció, manuális kezelések és csoportos edzések képekben. Győr, Máté Mária u.',
   keywords: 'gyógytorna rendelő Győr képek, fizioterapeuta galéria, BEMER terápia fotók, sportrehabilitáció Győr, gerincstabilizáció képek, core tréning galéria',
   
