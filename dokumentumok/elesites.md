@@ -116,21 +116,25 @@ Ha a meghívó link lejár (60 perc), a belépőoldal „Elfelejtett jelszó" go
 
 ## 4. Telepítés a Netlifyra
 
-A telepítés **nem Git-tárolóból** megy, hanem erről a gépről. Így a
-foglalórendszer kódja nem kerül fel a nyilvános GitHub-tárolóba.
+A telepítés a **privát GitHub-tárolóból** megy: a Netlify a saját Linux-gépein
+fordít. Erre azért volt szükség, mert a helyi, windowsos fordítás a Netlify
+utófeldolgozó lépésén elakadt (a `.next` mappát nem engedte átnevezni a
+rendszer, EPERM). A privát tároló miatt a kód nem lett nyilvános.
 
-- [ ] Bejelentkezés: `npx netlify-cli login`
-- [ ] Projekt összekapcsolása vagy létrehozása: `npx netlify-cli init`
-      (válaszd a „create & configure a new project" lehetőséget, **ne**
-      kapcsold Git-tárolóhoz)
-- [ ] Próbatelepítés **még nem az éles domainre**:
+- [ ] A tároló **privát** legyen a GitHubon
+- [ ] A Netlify felületén: **Project configuration → Developer settings →
+      Continuous deployment → Repository → Link repository** → GitHub →
+      `istvangal33/gyogytorna_site`, ág: `main`
 
-      npx netlify-cli deploy --build
+      Ne a főoldali „Import from Git"-et használd — az új projektet hozna
+      létre a meglévő helyett.
 
-      Ez ad egy ideiglenes `*.netlify.app` címet. A füstteszt (5. szakasz)
-      **ezen a címen** menjen végig, mielőtt a DNS-hez hozzányúlnánk.
+      A fordítási beállításokat nem kell begépelni: a `netlify.toml`
+      tartalmazza őket.
 
-- [ ] Ha minden rendben: `npx netlify-cli deploy --build --prod`
+- [ ] Ezután minden `git push` után magától épül és települ.
+- [ ] A füstteszt (5. szakasz) a `*.netlify.app` próbacímen menjen végig,
+      mielőtt a DNS-hez hozzányúlnánk.
 - [ ] **Ütemezett feladatok ellenőrzése** a Netlify felületén
       (Project configuration → Functions). A `netlify.toml` kettőt ír le:
       - `emlekezteto` — minden nap 16:00

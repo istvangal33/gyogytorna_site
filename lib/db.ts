@@ -3,8 +3,25 @@ import { Pool } from "pg";
 // dev alatt a hot-reload ne nyisson újabb és újabb poolt
 const globalForDb = globalThis as unknown as { pool?: Pool };
 
+const kapcsolat = process.env.DATABASE_URL ?? "";
+
+// A fejlesztői adatbázis a saját gépen fut, ott nincs mit titkosítani. Minden
+// más esetben viszont a betegek neve, e-mail címe és telefonszáma utazik a
+// hálózaton, ezért a kapcsolat titkosítva megy.
+//
+// A tanúsítványt nem ellenőrizzük: a Supabase saját aláírású láncot használ,
+// amit a rendszer gyökértanúsítványai nem ismernek el. Így a lehallgatás ellen
+// védve vagyunk, egy aktív közbeékelődés ellen nem. Ha ez is kell, a Supabase
+// vezérlőpultjáról letölthető a hitelesítésszolgáltató tanúsítványa, és az
+// `ca` mezőben megadható.
+const helyi = /^(postgres(ql)?:\/\/)?[^@]*@?(localhost|127\.0\.0\.1)/.test(kapcsolat);
+
 export const pool =
-  globalForDb.pool ?? new Pool({ connectionString: process.env.DATABASE_URL });
+  globalForDb.pool ??
+  new Pool({
+    connectionString: kapcsolat,
+    ssl: helyi ? undefined : { rejectUnauthorized: false },
+  });
 
 if (process.env.NODE_ENV !== "production") globalForDb.pool = pool;
 
