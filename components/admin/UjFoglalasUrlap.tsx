@@ -182,7 +182,7 @@ export default function UjFoglalasUrlap({
         idopontokBetoltese();
         return;
       }
-      onKesz('A foglalás módosítva.');
+      onKesz(r.figyelmeztetes ?? 'A foglalás módosítva.');
       return;
     }
 

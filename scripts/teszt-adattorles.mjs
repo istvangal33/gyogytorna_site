@@ -7,7 +7,8 @@
 import { pool, regiAdatokTorlese, foglalhatoSzolgaltatasok } from "../lib/db.ts";
 import { hatarnap, MEGORZES_EV } from "../lib/adattorles.ts";
 
-const BASE = "http://localhost:3000";
+// A TESZT_BASE megadasaval mas kornyezet is vizsgalhato, pl. az eles telepites.
+const BASE = process.env.TESZT_BASE || "http://localhost:3000";
 const ADMIN_EMAIL = "teszt.torles.admin@example.invalid";
 
 let siker = 0, bukas = 0;

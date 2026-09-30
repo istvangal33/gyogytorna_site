@@ -34,7 +34,8 @@ import {
 } from "../lib/password-reset.ts";
 import { munkamenetElavult } from "../lib/munkamenet-belyeg.ts";
 
-const BASE = "http://localhost:3000";
+// A TESZT_BASE megadasaval mas kornyezet is vizsgalhato, pl. az eles telepites.
+const BASE = process.env.TESZT_BASE || "http://localhost:3000";
 const ADMIN_EMAIL = "teszt.admin@example.invalid";
 const ALK_EMAIL = "teszt.alkalmazott@example.invalid";
 const JELSZO = "TesztJelszo123";

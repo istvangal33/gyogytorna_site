@@ -30,7 +30,9 @@ export type FoglalasEredmeny =
   | { ok: true; id: string; figyelmeztetes?: string }
   | { ok: false; hiba: string };
 
-export type EgyszeruEredmeny = { ok: true } | { ok: false; hiba: string };
+export type EgyszeruEredmeny =
+  | { ok: true; figyelmeztetes?: string }
+  | { ok: false; hiba: string };
 
 const ALLAPOTOK = ["BOOKED", "COMPLETED", "CANCELLED", "NO_SHOW"] as const;
 export type Allapot = (typeof ALLAPOTOK)[number];
@@ -280,12 +282,15 @@ export async function allapotValtas(
     if (!sikeres) return { ok: false, hiba: "A foglalás nem található." };
 
     // Lemondásról értesítjük a vendéget, a többi állapotváltás belső ügy.
+    // Ha a levél nem megy ki, azt meg kell tudni: a vendég ilyenkor nem
+    // értesül róla, hogy az időpontja elmaradt.
+    let levelHiba: string | undefined;
     if (allapot === "CANCELLED") {
-      await vendegErtesitese(foglalasId, "lemondas", 2);
+      levelHiba = await vendegErtesitese(foglalasId, "lemondas", 2);
     }
 
     revalidatePath("/admin/naptar");
-    return { ok: true };
+    return { ok: true, figyelmeztetes: levelHiba };
   } catch (err) {
     // visszaállításnál ütközhet egy időközben felvett másik foglalással
     if ((err as { code?: string }).code === "23P01") {
@@ -339,13 +344,14 @@ export async function foglalasSzerkesztes(adat: {
     });
     if (!sikeres) return { ok: false, hiba: "A foglalás nem található." };
 
+    let levelHiba: string | undefined;
     if (adat.ertesites !== false) {
       // a sorszám növelése kell, hogy a naptárak frissítsék a meglévő bejegyzést
-      await vendegErtesitese(adat.id, "modositas", 1);
+      levelHiba = await vendegErtesitese(adat.id, "modositas", 1);
     }
 
     revalidatePath("/admin/naptar");
-    return { ok: true };
+    return { ok: true, figyelmeztetes: levelHiba };
   } catch (err) {
     if ((err as { code?: string }).code === "23P01") {
       return { ok: false, hiba: "Ebben az idősávban már van foglalása ennek a munkatársnak." };

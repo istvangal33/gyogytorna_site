@@ -202,8 +202,10 @@ export default function NapiNaptar({
     const r = await allapotValtas(fogl.id, allapot);
     setMuvelet(false);
     if (!r.ok) { setHiba(r.hiba); return; }
-    setHiba(null);
-    setUzenet('Az állapot módosítva.');
+    // Ha a vendégnek szóló levél nem ment ki, azt ki kell írni: a foglalás
+    // állapota megváltozott, de a vendég nem tud róla.
+    if (r.figyelmeztetes) { setHiba(r.figyelmeztetes); setUzenet(null); }
+    else { setHiba(null); setUzenet('Az állapot módosítva.'); }
     setKivalasztott(null);
     betolt(nap, nezet);
   }

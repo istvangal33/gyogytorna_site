@@ -321,8 +321,8 @@ ${LEVEL_FEJ}
           </tr>
           <tr>
             <td align="center" style="padding:36px 40px;text-align:center;">
-              <p style="margin:0 0 16px 0;font-size:16px;color:#1a1a1a;">Kedves ${escapeHtml(adat.vendegNev)}!</p>
-              <p style="margin:0 0 24px 0;font-size:15px;line-height:1.6;color:#1a1a1a;">${bevezeto}</p>
+              <p style="margin:0 0 ${bevezeto ? "16px" : "24px"} 0;font-size:16px;color:#1a1a1a;">Kedves ${escapeHtml(adat.vendegNev)}!</p>
+              ${bevezeto ? `<p style="margin:0 0 24px 0;font-size:15px;line-height:1.6;color:#1a1a1a;">${bevezeto}</p>` : ""}
 
               <table role="presentation" style="width:100%;border-collapse:collapse;background:#f8f9fa;border-radius:8px;">
                 <tr>
@@ -414,11 +414,9 @@ export async function foglalasLemondas(adat: FoglalasLevelAdat) {
 }
 
 export async function foglalasEmlekezteto(adat: FoglalasLevelAdat) {
-  const html = foglalasTorzs(
-    adat,
-    "Emlékeztetőül: holnap várunk a lenti időpontban.",
-    false
-  );
+  // Bevezető mondat nélkül: a tárgy már elmondja, hogy emlékeztetőről van szó,
+  // az időpont pedig közvetlenül alatta látszik.
+  const html = foglalasTorzs(adat, "", false);
 
   return levelKuldes(
     adat.vendegEmail,

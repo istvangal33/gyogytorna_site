@@ -15,6 +15,9 @@ const eslintConfig = [
     ignores: [
       "node_modules/**",
       ".next/**",
+      // a Netlify fordításkor ide másolja a kész, összecsomagolt kódot —
+      // azt nincs értelme ellenőrizni, csak zajt csinál
+      ".netlify/**",
       "out/**",
       "build/**",
       "next-env.d.ts",

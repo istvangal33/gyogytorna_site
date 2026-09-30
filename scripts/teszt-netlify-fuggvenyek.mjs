@@ -5,7 +5,8 @@
 // Futo dev szervert feltetelez a 3000-es porton. Ezek a fuggvenyek felugyelet
 // nelkul futnak elesben, ezert a hibaagakat is ellenorizzuk: ha csendben
 // elszallnanak, senki nem venne eszre.
-const BASE = "http://localhost:3000";
+// A TESZT_BASE megadasaval mas kornyezet is vizsgalhato, pl. az eles telepites.
+const BASE = process.env.TESZT_BASE || "http://localhost:3000";
 
 let siker = 0, bukas = 0;
 const bukottak = [];

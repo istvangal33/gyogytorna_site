@@ -9,7 +9,8 @@ import bcrypt from "bcryptjs";
 import { pool, foglalhatoSzolgaltatasok, foglalasMentese } from "../lib/db.ts";
 import { savKiosztas } from "../lib/atfedes.ts";
 
-const BASE = "http://localhost:3000";
+// A TESZT_BASE megadasaval mas kornyezet is vizsgalhato, pl. az eles telepites.
+const BASE = process.env.TESZT_BASE || "http://localhost:3000";
 const ADMIN_EMAIL = "teszt.het.admin@example.invalid";
 const MASIK_EMAIL = "teszt.het.masik@example.invalid";
 const BEOSZTOTT_EMAIL = "teszt.het.beosztott@example.invalid";
