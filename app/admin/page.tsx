@@ -71,7 +71,7 @@ export default async function AdminPage() {
     <main className="mx-auto max-w-7xl px-3 py-5 sm:px-6 sm:py-7">
       <header className="mb-6">
         <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
-          Üdv, {user.name.split(" ").slice(-1)[0]} 👋
+          Üdv, {user.name.split(" ").slice(-1)[0]}
         </h1>
         <p className="mt-0.5 text-sm text-gray-500">
           {napNev.charAt(0).toUpperCase() + napNev.slice(1)} ·{" "}
