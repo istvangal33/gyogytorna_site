@@ -257,13 +257,14 @@ export async function ujFoglalas(adat: {
     );
   }
 
-  // Ha e-mail nélkül, név alapján találtunk meglévő vendéget, azt ki kell írni:
-  // két azonos nevű páciens némán összeolvadna, és az egyikük lapján ott lenne
-  // a másik előzménye is. Így ha nem ő az, rögtön látszik.
-  if (!vendeg.ujVendeg && !email && korabbiak > 0) {
+  // Csak akkor szólunk, ha a név tényleg kétértelmű: több azonos nevű vendég
+  // van, és sem e-mail, sem telefonszám nem döntötte el, melyikükről van szó.
+  // Egyértelmű névnél hallgatunk — különben minden visszatérő vendégnél
+  // felvillanna, és épp azt tanítaná meg, hogy ne olvassák el.
+  if (!vendeg.ujVendeg && !email && !telefon && meglevo?.tobbAzonosNevu) {
     uzenetek.push(
-      `Meglévő vendéghez került: ${vendeg.name} — ${korabbiak} korábbi foglalás. ` +
-        `Ha nem ő az, adj meg telefonszámot vagy pontosítsd a nevet.`
+      `Több "${vendeg.name}" nevű vendég is van. Ez ${korabbiak} korábbi ` +
+        `foglalással rendelkezőhöz került — ha nem ő az, adj meg telefonszámot.`
     );
   }
 

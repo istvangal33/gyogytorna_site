@@ -260,21 +260,27 @@ export async function vendegKereses(
   const jeloltek = azonosNevuek.rows;
   if (jeloltek.length === 0) return null;
 
+  // Ebbol tudja a hivo, hogy a nev onmagaban egyertelmu-e. Csak akkor erdemes
+  // visszajelezni a felhasznalonak, ha tobb azonos nevu vendeg is letezik —
+  // egyebkent a figyelmeztetes minden visszatero vendegnel felvillanna, es
+  // eppen azt tanitana meg, hogy ne olvassak el.
+  const tobbAzonosNevu = jeloltek.length > 1;
+
   if (telefon) {
     // Két azonos nevű páciens a telefonszámban különbözik — ez dönti el,
     // melyikükről van szó.
     const egyezo = jeloltek.find((v) => v.phone === telefon);
-    if (egyezo) return egyezo;
+    if (egyezo) return { ...egyezo, tobbAzonosNevu };
 
     // Akinek még nincs száma, az lehet ugyanő: a szám most kerül fel hozzá.
     const szamNelkuli = jeloltek.find((v) => !v.phone);
-    if (szamNelkuli) return szamNelkuli;
+    if (szamNelkuli) return { ...szamNelkuli, tobbAzonosNevu };
 
     // Van azonos nevű, de mind más számmal: ez valaki más.
     return null;
   }
 
-  return jeloltek[0];
+  return { ...jeloltek[0], tobbAzonosNevu };
 }
 
 export async function vendegRogzitese(
