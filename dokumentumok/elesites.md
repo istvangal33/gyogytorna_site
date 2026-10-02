@@ -183,38 +183,81 @@ Ez a lépés a legkockázatosabb: innentől a látogatók is az új helyre érke
 Csak akkor kezdj bele, ha az előző szakasz végigment.
 
 > ⚠️ **A névszervereket NE vidd át a Netlifyra.** A `restartphysio.hu` DNS-e az
-> Elin-nél van, és ott vannak a levelezés rekordjai is: a Resend DKIM-je, az
-> SPF, a DMARC és az MX. Ha a névszerver átkerül, ezek egy pillanat alatt
-> eltűnnek — a foglalási visszaigazolók és a kapcsolati űrlap levelei is
-> elakadnak. **Maradjon minden az Elin-nél, és csak a weboldalra mutató
-> rekordokat írd át.**
+> Elin-nél van (`ns1`/`ns2`/`ns3.elin.hu`), és ott vannak a levelezés rekordjai
+> is. Ha a névszerver átkerül, ezek egy pillanat alatt eltűnnek — a foglalási
+> visszaigazolók és a kapcsolati űrlap levelei is elakadnak. **Maradjon minden
+> az Elin-nél, és csak a weboldalra mutató rekordokat írd át.**
 
-- [ ] **Egy-két nappal korábban** vidd le a weboldal DNS-rekordjának TTL
-      értékét az Elin-nél (pl. 3600-ról 300-ra). Ez azért kell, hogy ha
-      vissza kell lépni, az percek alatt megtörténjen, ne órákig tartson.
-- [ ] A Netlifyn: Domain management → Add a domain → `restartphysio.hu` és
-      `www.restartphysio.hu`. A Netlify jelezni fogja, hogy a DNS még nem rá
-      mutat — ez ilyenkor rendben van.
+### Amihez nem nyúlunk
+
+A zónában ez a tizenhárom rekord a levelezéshez és a tulajdonjog-igazoláshoz
+tartozik. Egyiket sem módosítjuk és egyiket sem töröljük:
+
+`elin-check` · `mail` · `mx1` · `mx2` · a két `MX` · `autoconfig` ·
+`_autodiscover._tcp` · `restartphysio.hu.` **TXT** (google-site-verification) ·
+`resend._domainkey` · `send` (MX és TXT) · `_dmarc` · `links`
+
+A `send` TXT a Resend SPF-je, a `resend._domainkey` a DKIM-aláírása, a `links`
+pedig a linkkövetése. A levélküldés mindhármon múlik.
+
+### Amit átírunk — pontosan két rekord
+
+| Név | Típus | Régi érték (Vercel) | Új érték (Netlify) |
+|---|---|---|---|
+| `restartphysio.hu.` | A | `216.198.79.1` | `75.2.60.5` |
+| `www` | CNAME | `723f4bcabe10570f.vercel-dns-017.com.` | `restartphysio.netlify.app.` |
+
+A `75.2.60.5` a Netlify apex terheléselosztója (`apex-loadbalancer.netlify.com`).
+
+> ⚠️ **Az A-rekordba soha ne a `restartphysio.netlify.app` feloldott IP-címe
+> kerüljön.** Az jelenleg `63.176.8.218` és `35.157.26.135`, de ezek a Netlify
+> belső, változó címei: ha beégeted őket, az oldal egy átszervezéskor némán
+> elérhetetlenné válik. Apexre mindig a `75.2.60.5` megy.
+
+### Lépések
+
+- [ ] **TTL.** Ha a DNS-kezelő enged TTL-t állítani, vidd le 300-ra, és várj
+      annyit, amennyi a régi érték volt. Az Elin felülete **nem kínál TTL-t**,
+      ezért ezt kihagyjuk: számolj azzal, hogy egy visszalépés nem 5, hanem
+      legfeljebb 20 percig tart (a mért TTL 1200 másodperc).
+- [ ] **Előbb a Netlify, csak utána a DNS.** Domain management → Add a domain →
+      `restartphysio.hu` **és** `www.restartphysio.hu`. Ha fordítva csinálod, a
+      látogatók az átállás és a domain felvétele között hibaoldalt kapnak.
+- [ ] **A Primary domain a `restartphysio.hu` legyen**, a `www` alias. A Netlify
+      az aliasokról magától 301-gyel átirányít a primaryra — ez ugyanaz a
+      viselkedés, ami ma is él (a `www` jelenleg 308-cal irányít át). Ha a
+      Netlify a `www`-t tenné primarynak, fordítsd meg: különben megváltozik a
+      kanonikus cím, és kettéválik az analitika.
 
       **A domaint egyelőre hagyd rajta a Vercelen is.** Amíg a DNS nem változik,
-      a Vercel szolgálja ki az oldalt, és ez a visszalépési lehetőséged. Ha
-      előbb levennéd róla, a domain a DNS átállásáig senkinél nem működne.
-- [ ] Az Elin DNS-kezelőjében írd át **csak** a weboldal rekordjait a Netlify
-      által megadott értékre. A levelezéshez tartozó rekordokhoz (MX, SPF,
-      DKIM, DMARC) **ne nyúlj**.
-- [ ] Várd meg az átállást. Ellenőrzés:
+      a Vercel szolgálja ki az oldalt, és ez a visszalépési lehetőséged.
+- [ ] Az Elin DNS-kezelőjében írd át a fenti **két** rekordot.
+- [ ] Várd meg az átállást (a TTL miatt ~20 perc). Ellenőrzés:
 
       nslookup restartphysio.hu
 
+      A várt válasz: `75.2.60.5`.
 - [ ] A HTTPS-tanúsítványt a Netlify magától kiállítja, miután a DNS rá mutat.
       Ez pár perc. Amíg nincs kész, a böngésző tanúsítványhibát jelez — ez
       ilyenkor normális, nem kell beavatkozni.
-- [ ] **A füstteszt (5. szakasz) még egyszer, most az éles címen.**
-- [ ] Küldj egy próbalevelet magadnak a kapcsolati űrlapról — ezzel ellenőrzöd,
-      hogy a levelezés a DNS-átállítás után is működik.
-- [ ] **Csak ha minden rendben:** a Vercelen vedd le a domaint a projektről, és
-      állítsd vissza a TTL-t a korábbi értékre. Amíg ezt nem tetted meg, egy
-      DNS-visszaírással bármikor visszaléphetsz a régi oldalra.
+- [ ] **`NEXT_PUBLIC_SITE_URL` → `https://restartphysio.hu`**, majd új telepítés.
+      Enélkül a jelszó-visszaállító és meghívó linkek a netlify.app címre
+      mutatnának. (Működnének, csak rossz címmel.)
+- [ ] **A füstteszt (5. szakasz) még egyszer, most az éles címen.** Itt kerül
+      sorra a kapcsolati űrlap is: a Turnstile csak az engedélyezett
+      hosztneveken jelenik meg, ezért a próbacímen nem volt tesztelhető.
+- [ ] Ellenőrizd, hogy a `www.restartphysio.hu` átirányít-e:
+
+      curl -I https://www.restartphysio.hu
+
+      A várt válasz: `301`, `location: https://restartphysio.hu/`.
+- [ ] Küldj egy próbaüzenetet a kapcsolati űrlapról, és nézd meg a naplóban:
+
+      node scripts/resend-naplo.mjs
+
+- [ ] **Csak ha minden rendben:** a Vercelen vedd le a domaint a projektről.
+      Amíg ezt nem tetted meg, egy DNS-visszaírással bármikor visszaléphetsz.
+
 
 ---
 
