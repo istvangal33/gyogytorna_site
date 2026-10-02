@@ -80,7 +80,7 @@ export default async function VendegekPage({
                 <Link href={`/admin/vendegek/${v.id}`} className="font-semibold text-[#004a6d]">
                   {v.name}
                 </Link>
-                <p className="mt-1 truncate text-sm text-gray-600">{v.email}</p>
+                {v.email && <p className="mt-1 truncate text-sm text-gray-600">{v.email}</p>}
                 {v.phone && <p className="text-sm text-gray-500">{v.phone}</p>}
                 <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
                   <span>
@@ -115,7 +115,11 @@ export default async function VendegekPage({
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-600">
-                      <div>{v.email}</div>
+                      {v.email ? (
+                        <div>{v.email}</div>
+                      ) : (
+                        <div className="text-xs italic text-gray-400">nincs e-mail cím</div>
+                      )}
                       {v.phone && <div className="text-xs text-gray-500">{v.phone}</div>}
                     </td>
                     <td className="px-4 py-3 tabular-nums text-gray-700">

@@ -5,7 +5,7 @@ import { bejelentkezettFelhasznalo } from "@/lib/munkamenet";
 import {
   foglalhatoSzolgaltatasok,
   vendegRogzitese,
-  vendegEmaillel,
+  vendegKereses,
   vendegKorabbiFoglalasai,
   foglalasMentese,
   foglalasAzonositoval,
@@ -140,6 +140,17 @@ async function vendegErtesitese(
     const f = await foglalasReszletei(foglalasId);
     if (!f) return "A foglalás adatai nem olvashatók, értesítés nem ment ki.";
 
+    // E-mail cím nélküli vendégnek nincs hova küldeni. Új foglalásnál ez
+    // magától értetődő — a rögzítő épp most hagyta üresen. Módosításnál és
+    // lemondásnál viszont szólni kell: a vendég ilyenkor NEM tudja meg, hogy
+    // az időpontja megváltozott vagy elmaradt, és telefonon kell értesíteni.
+    if (!f.vendeg_email) {
+      if (fajta === "uj") return undefined;
+      return fajta === "lemondas"
+        ? "A vendégnek nincs e-mail címe, a lemondásról nem kapott értesítést — hívd fel."
+        : "A vendégnek nincs e-mail címe, a módosításról nem kapott értesítést — hívd fel.";
+    }
+
     const kezdet = new Date(f.startsAt);
     const veg = new Date(f.endsAt);
 
@@ -203,10 +214,14 @@ export async function ujFoglalas(adat: {
   if (!jog) return { ok: false, hiba: "Nincs jogosultság." };
 
   const nev = adat.vendegNev.trim();
-  const email = adat.vendegEmail.trim().toLowerCase();
+  // Az e-mail cím nem kötelező: belső rendszer, a legtöbb páciensé nincs meg.
+  // Enélkül a foglalás létrejön, csak levél nem megy róla.
+  const email = adat.vendegEmail.trim().toLowerCase() || null;
 
   if (!nev) return { ok: false, hiba: "A vendég neve kötelező." };
-  if (!email.includes("@")) return { ok: false, hiba: "Adj meg érvényes e-mail címet." };
+  if (email && !email.includes("@")) {
+    return { ok: false, hiba: "Az e-mail cím hibás. Hagyd üresen, ha nincs meg." };
+  }
   if (!adat.serviceId) return { ok: false, hiba: "Válassz szolgáltatást." };
   if (!adat.staffId) return { ok: false, hiba: "Válassz munkatársat." };
 
@@ -227,16 +242,32 @@ export async function ujFoglalas(adat: {
 
   const veg = new Date(kezdet.getTime() + blokk.perc * 60000);
 
-  const meglevo = await vendegEmaillel(email);
+  const telefon = adat.vendegTelefon.trim() || null;
+
+  const meglevo = await vendegKereses(nev, email, telefon);
   const korabbiak = meglevo ? await vendegKorabbiFoglalasai(meglevo.id) : 0;
 
-  const vendeg = await vendegRogzitese(nev, email, adat.vendegTelefon.trim() || null);
+  const vendeg = await vendegRogzitese(nev, email, telefon);
 
-  let figyelmeztetes: string | undefined;
+  const uzenetek: string[] = [];
+
   if (korabbiak === 0 && szolgaltatas.durationMin < 50) {
-    figyelmeztetes =
-      "Ez a vendég most jár először, az árlista szerint viszont az első alkalom csak 50 perces lehet.";
+    uzenetek.push(
+      "Ez a vendég most jár először, az árlista szerint viszont az első alkalom csak 50 perces lehet."
+    );
   }
+
+  // Ha e-mail nélkül, név alapján találtunk meglévő vendéget, azt ki kell írni:
+  // két azonos nevű páciens némán összeolvadna, és az egyikük lapján ott lenne
+  // a másik előzménye is. Így ha nem ő az, rögtön látszik.
+  if (!vendeg.ujVendeg && !email && korabbiak > 0) {
+    uzenetek.push(
+      `Meglévő vendéghez került: ${vendeg.name} — ${korabbiak} korábbi foglalás. ` +
+        `Ha nem ő az, adj meg telefonszámot vagy pontosítsd a nevet.`
+    );
+  }
+
+  let figyelmeztetes: string | undefined = uzenetek.join(" ") || undefined;
 
   try {
     const id = await foglalasMentese({

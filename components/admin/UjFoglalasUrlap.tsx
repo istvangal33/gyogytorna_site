@@ -238,8 +238,14 @@ export default function UjFoglalasUrlap({
               <Mezo cimke="Vendég neve" kotelezo>
                 <input value={nev} onChange={(e) => setNev(e.target.value)} required autoFocus className={INPUT} />
               </Mezo>
-              <Mezo cimke="E-mail cím" kotelezo>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className={INPUT} />
+              <Mezo cimke="E-mail cím">
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={INPUT} />
+                {!email.trim() && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    Üresen hagyható. Ilyenkor a vendég nem kap sem visszaigazolást,
+                    sem emlékeztetőt.
+                  </p>
+                )}
               </Mezo>
               <Mezo cimke="Telefonszám">
                 <input type="tel" value={telefon} onChange={(e) => setTelefon(e.target.value)} className={INPUT} />
@@ -389,15 +395,17 @@ export default function UjFoglalasUrlap({
           <label className="flex items-start gap-2 rounded-md bg-gray-50 px-4 py-3">
             <input
               type="checkbox"
-              checked={ertesites}
+              checked={ertesites && Boolean(email.trim())}
+              disabled={!email.trim()}
               onChange={(e) => setErtesites(e.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#004a6d] focus:ring-[#004a6d]"
+              className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#004a6d] focus:ring-[#004a6d] disabled:opacity-40"
             />
             <span className="text-sm text-gray-700">
               Értesítő e-mail a vendégnek
               <span className="mt-0.5 block text-xs text-gray-500">
-                Naptármeghívóval, amit egy kattintással betehet a saját naptárába.
-                Vedd ki a pipát, ha a cím nem valós, vagy a vendég nem kér levelet.
+                {email.trim()
+                  ? 'Naptármeghívóval, amit egy kattintással betehet a saját naptárába. Vedd ki a pipát, ha a cím nem valós, vagy a vendég nem kér levelet.'
+                  : 'Nincs megadva e-mail cím, ezért nem megy ki levél. A foglalás ettől még létrejön.'}
               </span>
             </span>
           </label>

@@ -101,7 +101,7 @@ CREATE TABLE public."Booking" (
 CREATE TABLE public."Client" (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     name text NOT NULL,
-    email text NOT NULL,
+    email text,
     phone text,
     "createdAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp(3) with time zone DEFAULT now() NOT NULL

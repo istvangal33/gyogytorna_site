@@ -51,8 +51,12 @@ export default async function VendegPage({ params }: { params: Promise<{ id: str
         </Link>
         <h1 className="mt-1 text-xl font-bold text-gray-900 sm:text-2xl">{vendeg.name}</h1>
         <p className="mt-0.5 wrap-break-word text-sm text-gray-500">
-          {vendeg.email}
-          {vendeg.phone && ` · ${vendeg.phone}`}
+          {[vendeg.email, vendeg.phone].filter(Boolean).join(" · ")}
+          {!vendeg.email && (
+            <span className="italic text-gray-400">
+              {vendeg.phone ? " · nincs e-mail cím" : "nincs e-mail cím"}
+            </span>
+          )}
         </p>
       </header>
 

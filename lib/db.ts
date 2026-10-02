@@ -219,18 +219,82 @@ export async function foglalhatoSzolgaltatasok() {
 // A vendéget e-mail alapján azonosítjuk: ha van már ilyen, frissítjük az
 // adatait, ha nincs, létrejön. Így nem keletkezik két rekord ugyanahhoz
 // az emberhez, és megmarad a foglalási előzménye.
-export async function vendegRogzitese(nev: string, email: string, telefon: string | null) {
-  const result = await pool.query(
+/**
+ * Melyik meglévő vendég ez? Sorrend: e-mail, majd telefon, majd név.
+ *
+ * Ez belső rendszer: a gyógytornász a vendég helyett rögzít, és a legtöbb
+ * páciens e-mail címe nincs meg. Ezért az e-mail nem lehet az egyetlen
+ * felismerési alap — de ahol van, az a legmegbízhatóbb, ezért az az első.
+ *
+ * A név szerinti egyezés szándékosan a LEGUTOLSÓ: két Kovács János némán
+ * összeolvadna, és az egyikük vendéglapján ott lenne a másik előzménye is.
+ * Ezért a hívó oldalnak ki kell írnia, melyik meglévő vendéget találtuk el —
+ * a felismerés kényelme így megmarad, de nem történik semmi észrevétlenül.
+ */
+export async function vendegKereses(
+  nev: string,
+  email: string | null,
+  telefon: string | null
+) {
+  const MEZOK = `id, name, email, phone`;
+
+  if (email) {
+    const r = await pool.query(
+      `SELECT ${MEZOK} FROM "Client" WHERE email = $1 LIMIT 1`,
+      [email]
+    );
+    if (r.rows[0]) return r.rows[0];
+  }
+
+  if (telefon) {
+    const r = await pool.query(
+      `SELECT ${MEZOK} FROM "Client" WHERE phone = $1 LIMIT 1`,
+      [telefon]
+    );
+    if (r.rows[0]) return r.rows[0];
+  }
+
+  const r = await pool.query(
+    `SELECT ${MEZOK} FROM "Client"
+     WHERE lower(btrim(name)) = lower(btrim($1))
+     ORDER BY "createdAt"
+     LIMIT 1`,
+    [nev]
+  );
+  return r.rows[0] ?? null;
+}
+
+export async function vendegRogzitese(
+  nev: string,
+  email: string | null,
+  telefon: string | null
+) {
+  const meglevo = await vendegKereses(nev, email, telefon);
+
+  if (meglevo) {
+    // A COALESCE miatt a meglévő adat nem vész el: ha most nem adtak meg
+    // e-mailt, a korábbi megmarad. Így a vendégkör idővel kiegészül, ahogy
+    // az elérhetőségek előkerülnek.
+    const r = await pool.query(
+      `UPDATE "Client"
+         SET name = $2,
+             email = COALESCE($3, email),
+             phone = COALESCE($4, phone),
+             "updatedAt" = now()
+       WHERE id = $1
+       RETURNING id, name, email, phone`,
+      [meglevo.id, nev, email, telefon]
+    );
+    return { ...r.rows[0], ujVendeg: false };
+  }
+
+  const r = await pool.query(
     `INSERT INTO "Client" (name, email, phone)
      VALUES ($1, $2, $3)
-     ON CONFLICT (email) DO UPDATE
-       SET name = EXCLUDED.name,
-           phone = COALESCE(EXCLUDED.phone, "Client".phone),
-           "updatedAt" = now()
-     RETURNING id, name, email`,
+     RETURNING id, name, email, phone`,
     [nev, email, telefon]
   );
-  return result.rows[0];
+  return { ...r.rows[0], ujVendeg: true };
 }
 
 export async function vendegEmaillel(email: string) {
@@ -516,6 +580,7 @@ export async function emlekeztetoreVaroFoglalasok(napokElore: number) {
      JOIN "User"    u ON u.id = b."staffId"
      WHERE b.status = 'BOOKED'
        AND b."reminderSentAt" IS NULL
+       AND c.email IS NOT NULL
        AND b."startsAt"::date = (now() + ($1 || ' days')::interval)::date
      ORDER BY b."startsAt"`,
     [String(napokElore)]
