@@ -151,7 +151,7 @@ rendszer, EPERM). A privát tároló miatt a kód nem lett nyilvános.
 Ezt végig kell kattintani, mert olyan dolgokat fed le, amit teszttel nem tudok
 ellenőrizni.
 
-- [ ] `https://restartphysio.hu/admin` → átirányít a belépésre
+- [ ] `https://restartphysio.netlify.app/admin` → átirányít a belépésre
 - [ ] Belépés az új admin jelszóval
 - [ ] Naptár betölt, látszik a munkaidő sávja
 - [ ] **Foglalás felvitele a saját e-mail címeddel** → megérkezik a
@@ -172,7 +172,7 @@ Az emlékeztető levelet érdemes külön ellenőrizni: vigyél fel egy foglalá
 
 ```bash
 curl -H "Authorization: Bearer <CRON_SECRET>" \
-  "https://restartphysio.hu/api/cron/emlekezteto?napok=1"
+  "https://restartphysio.netlify.app/api/cron/emlekezteto?napok=1"
 ```
 
 ---
