@@ -246,22 +246,35 @@ export async function vendegKereses(
     if (r.rows[0]) return r.rows[0];
   }
 
-  if (telefon) {
-    const r = await pool.query(
-      `SELECT ${MEZOK} FROM "Client" WHERE phone = $1 LIMIT 1`,
-      [telefon]
-    );
-    if (r.rows[0]) return r.rows[0];
-  }
-
-  const r = await pool.query(
+  // Innentől a NÉV az alap, a telefonszám csak azon belül különböztet meg.
+  //
+  // A telefonszám szándékosan NEM azonosít önmagában: egy rendelőben teljesen
+  // hétköznapi, hogy anya és gyereke vagy egy házaspár ugyanazt a számot adja
+  // meg. Ha a szám önmagában döntene, két külön páciensből egy lenne.
+  const azonosNevuek = await pool.query(
     `SELECT ${MEZOK} FROM "Client"
      WHERE lower(btrim(name)) = lower(btrim($1))
-     ORDER BY "createdAt"
-     LIMIT 1`,
+     ORDER BY "createdAt"`,
     [nev]
   );
-  return r.rows[0] ?? null;
+  const jeloltek = azonosNevuek.rows;
+  if (jeloltek.length === 0) return null;
+
+  if (telefon) {
+    // Két azonos nevű páciens a telefonszámban különbözik — ez dönti el,
+    // melyikükről van szó.
+    const egyezo = jeloltek.find((v) => v.phone === telefon);
+    if (egyezo) return egyezo;
+
+    // Akinek még nincs száma, az lehet ugyanő: a szám most kerül fel hozzá.
+    const szamNelkuli = jeloltek.find((v) => !v.phone);
+    if (szamNelkuli) return szamNelkuli;
+
+    // Van azonos nevű, de mind más számmal: ez valaki más.
+    return null;
+  }
+
+  return jeloltek[0];
 }
 
 export async function vendegRogzitese(
