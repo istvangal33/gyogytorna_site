@@ -1,3 +1,4 @@
+import { IDOZONA } from "./idozona.ts";
 import {
   emlekeztetoreVaroFoglalasok,
   emlekeztetoJelolese,
@@ -34,6 +35,7 @@ export async function emlekeztetokKuldese(napokElore = 1): Promise<EmlekeztetoOs
     const kezdet = new Date(f.startsAt);
     const veg = new Date(f.endsAt);
     const idopont = new Intl.DateTimeFormat("hu-HU", {
+      timeZone: IDOZONA,
       dateStyle: "short",
       timeStyle: "short",
     }).format(kezdet);
