@@ -1,3 +1,4 @@
+import { IDOZONA } from "@/lib/idozona";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -65,6 +66,7 @@ export default async function AdminPage() {
     weekday: "long",
     month: "long",
     day: "numeric",
+    timeZone: IDOZONA,
   }).format(most);
 
   return (
@@ -191,7 +193,7 @@ export default async function AdminPage() {
                     <div className="flex w-11 shrink-0 flex-col items-center justify-center rounded-md bg-gray-50 py-1">
                       <span className="text-sm font-bold text-gray-900">{k.getDate()}</span>
                       <span className="text-[10px] uppercase text-gray-500">
-                        {new Intl.DateTimeFormat("hu-HU", { month: "short" }).format(k)}
+                        {new Intl.DateTimeFormat("hu-HU", { month: "short", timeZone: IDOZONA }).format(k)}
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
@@ -201,6 +203,7 @@ export default async function AdminPage() {
                         {new Intl.DateTimeFormat("hu-HU", {
                           hour: "2-digit",
                           minute: "2-digit",
+                          timeZone: IDOZONA,
                         }).format(k)}{" "}
                         · {perc} perc
                         {lathatMindent && ` · ${f.munkatars}`}

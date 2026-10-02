@@ -1,3 +1,4 @@
+import { IDOZONA } from "@/lib/idozona";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 function datum(ertek: string | null) {
   if (!ertek) return "—";
-  return new Intl.DateTimeFormat("hu-HU", { dateStyle: "medium" }).format(new Date(ertek));
+  return new Intl.DateTimeFormat("hu-HU", { dateStyle: "medium", timeZone: IDOZONA }).format(new Date(ertek));
 }
 
 export default async function VendegekPage({

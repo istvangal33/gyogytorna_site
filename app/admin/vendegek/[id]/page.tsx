@@ -1,3 +1,4 @@
+import { IDOZONA } from "@/lib/idozona";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -21,7 +22,7 @@ function forint(ertek: number) {
 }
 
 function idopont(ertek: string) {
-  return new Intl.DateTimeFormat("hu-HU", { dateStyle: "medium", timeStyle: "short" }).format(
+  return new Intl.DateTimeFormat("hu-HU", { dateStyle: "medium", timeStyle: "short", timeZone: IDOZONA }).format(
     new Date(ertek)
   );
 }

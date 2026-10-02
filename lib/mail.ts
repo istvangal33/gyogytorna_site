@@ -7,6 +7,8 @@
 //                         valódi címzett helyett. Fejlesztéshez való: így a
 //                         tesztadatokban szereplő címekre soha nem megy ki levél.
 
+import { IDOZONA } from "./idozona.ts";
+
 export type KuldesEredmeny =
   | { ok: true; atiranyitva?: string }
   | { ok: false; hiba: string };
@@ -285,15 +287,22 @@ export type FoglalasLevelAdat = {
   ics?: string;
 };
 
-function idopontSzoveg(kezdet: Date, veg: Date) {
+export function idopontSzoveg(kezdet: Date, veg: Date) {
+  // Az időzóna itt kifejezetten meg van adva: ez a szöveg megy ki a
+  // vendégnek, és nem múlhat azon, hogy a szerver milyen zónában fut.
   const nap = new Intl.DateTimeFormat("hu-HU", {
     year: "numeric",
     month: "long",
     day: "numeric",
     weekday: "long",
+    timeZone: IDOZONA,
   }).format(kezdet);
   const ora = (d: Date) =>
-    new Intl.DateTimeFormat("hu-HU", { hour: "2-digit", minute: "2-digit" }).format(d);
+    new Intl.DateTimeFormat("hu-HU", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: IDOZONA,
+    }).format(d);
   return `${nap}, ${ora(kezdet)}–${ora(veg)}`;
 }
 
