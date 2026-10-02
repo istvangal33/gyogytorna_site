@@ -14,7 +14,7 @@ import path from "node:path";
 
 const ALAP_FAJL = "scripts/netlify-kredit-alap.json";
 const KREDIT_PER_TELEPITES = 15;
-const HAVI_KERET = 300;
+// a keretet es a ciklus veget az alapfajl mondja meg — csomagvaltaskor csak ott kell atirni
 
 function token() {
   const p = path.join(
@@ -42,7 +42,8 @@ try {
   const fiok = fiokok[0];
 
   const sav = await hivas(`/api/v1/accounts/${fiok.id}/bandwidth`, t);
-  const ciklusVege = new Date(sav.period_end_date);
+  const HAVI_KERET = alap.keret ?? 300;
+  const ciklusVege = new Date(alap.lejar ?? sav.period_end_date);
   const hatraNap = Math.max(0, Math.ceil((ciklusVege - new Date()) / 86400000));
 
   // eles telepitesek a meresi pont ota, minden projekten

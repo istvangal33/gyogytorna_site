@@ -1,5 +1,7 @@
 {
-  "idopont": "2026-10-02T13:00:00.000Z",
-  "kredit": 228.1,
-  "megjegyzes": "A Netlify felületén (Billing -> Credit usage breakdown) leolvasott érték. Ha ott pontosabbat látsz, írd át ezt a kettőt."
+  "idopont": "2026-10-02T15:00:00.000Z",
+  "kredit": 0,
+  "keret": 1000,
+  "lejar": "2026-11-02",
+  "megjegyzes": "Personal csomag (9 USD/ho) 2026-10-02-tol. A kiindulo egyenleg 1000/1000 volt; a csomagvaltas elotti ingyenes idoszak fogyasztasa nem szamit bele."
 }
