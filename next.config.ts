@@ -10,6 +10,21 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+
+  // Telepítésenként változó azonosító — verzióeltérés elleni védelem.
+  //
+  // A Server Actionök azonosítója minden fordításnál új. Ha valakinél nyitva
+  // marad az admin felület, és közben telepítünk, a következő kattintása egy
+  // olyan azonosítót küldene, amit az új szerver már nem ismer — a felhasználó
+  // pedig egy "Server Action was not found" hibaoldalt kapna, ami nem mond
+  // neki semmit.
+  //
+  // Ezzel a kliens észreveszi, hogy a lapja régebbi a szervernél, és teljes
+  // oldalfrissítést végez a hibaüzenet helyett.
+  //
+  // A DEPLOY_ID-t a Netlify adja fordításkor. Helyi fejlesztésnél nincs ilyen
+  // változó, ilyenkor a viselkedés változatlan.
+  deploymentId: process.env.DEPLOY_ID,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
