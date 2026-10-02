@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import AdminLogo from "@/components/AdminLogo";
 import Link from "next/link";
-import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import { signIn } from "@/auth";
 
 export const metadata: Metadata = {
@@ -19,6 +18,8 @@ export default async function LoginPage({
   // átirányítása pedig az `error`-t — mindkettőre ugyanazt jelezzük ki
   const { hiba, error, visszaallitva } = await searchParams;
   const sikertelen = Boolean(hiba || error);
+  // a "szerver" eset nem a megadott adatokrol szol, ezert mast kell mondani
+  const szerverHiba = hiba === "szerver";
 
   async function belepes(formData: FormData) {
     "use server";
@@ -30,13 +31,30 @@ export default async function LoginPage({
         redirectTo: "/admin",
       });
     } catch (error) {
-      // Sikeres belépéskor a signIn egy átirányítási hibát dob — azt tovább kell
-      // engedni, különben nem történik meg az átirányítás. Csak a valódi
-      // auth-hibát fogjuk el.
-      if (error instanceof AuthError) {
-        redirect("/admin/login?hiba=1");
+      // Sikeres belépéskor a signIn átirányítási hibát dob. Azt a Next.js-nek
+      // kell megkapnia, különben nem történik meg az átirányítás.
+      unstable_rethrow(error);
+
+      // Innentől a belépés tényleg nem sikerült. Szándékosan NEM az
+      // `error instanceof AuthError` vizsgálatra építünk: a next-auth két
+      // példányban is bekerülhet a köteg be, és akkor az instanceof hamisat ad.
+      // Emiatt a hiba kiszökött, és a felhasználó egy üres hibaoldalt kapott
+      // egy elgépelt jelszó miatt — ezt láttuk élesben.
+      const tipus =
+        (error as { type?: string; name?: string })?.type ??
+        (error as { name?: string })?.name ??
+        "";
+      const rosszAdat = /credentials|signin/i.test(tipus);
+
+      if (!rosszAdat) {
+        // Nem a jelszóval van baj, hanem alattunk romlott el valami (például
+        // az adatbázis). Ilyenkor félrevezető lenne hibás jelszót mondani: a
+        // felhasználó a végtelenségig próbálkozna a helyes adataival.
+        console.error("[belépés] váratlan hiba:", error);
+        redirect("/admin/login?hiba=szerver");
       }
-      throw error;
+
+      redirect("/admin/login?hiba=1");
     }
   }
 
@@ -61,7 +79,9 @@ export default async function LoginPage({
               role="alert"
               className="mb-5 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
             >
-              Hibás e-mail cím vagy jelszó.
+              {szerverHiba
+                ? "A belépés most nem sikerült egy technikai hiba miatt. Próbáld újra; ha továbbra sem megy, szólj."
+                : "Hibás e-mail cím vagy jelszó."}
             </div>
           )}
 
