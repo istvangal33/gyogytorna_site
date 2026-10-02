@@ -578,7 +578,7 @@ export default function NapiNaptar({
                       e.stopPropagation();
                       setKivalasztott(f);
                     }}
-                    className="absolute overflow-hidden rounded-md px-2 py-1 text-left text-white transition-transform hover:z-10 hover:scale-[1.01]"
+                    className="absolute overflow-hidden rounded-md px-2 py-1 text-left text-white transition-[filter] hover:z-10 hover:brightness-110"
                     style={{
                       top,
                       height: magas,

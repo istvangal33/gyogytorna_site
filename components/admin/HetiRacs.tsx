@@ -206,7 +206,7 @@ export default function HetiRacs({
                         onFoglalas(f);
                       }}
                       title={`${ora(new Date(f.kezdet))} · ${f.vendeg} · ${f.szolgaltatas}`}
-                      className="absolute overflow-hidden rounded px-1 py-0.5 text-left text-white transition-transform hover:z-10 hover:scale-[1.02]"
+                      className="absolute overflow-hidden rounded px-1 py-0.5 text-left text-white transition-[filter] hover:z-10 hover:brightness-110"
                       style={{
                         top: kezdet * pxPerPerc,
                         height: magas,
