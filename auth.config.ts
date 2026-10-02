@@ -3,6 +3,7 @@
 // runtime alatt megy — ezért ide NEM kerülhet se `pg`, se `bcryptjs` import.
 // A jelszót ellenőrző Credentials provider az auth.ts-ben jön hozzá.
 import type { NextAuthConfig } from "next-auth";
+import { NextResponse } from "next/server";
 
 export const authConfig = {
   session: { strategy: "jwt" },
@@ -32,9 +33,17 @@ export const authConfig = {
       const { pathname } = request.nextUrl;
 
       if (pathname === "/admin/login") {
-        // aki már belépett, annak nincs dolga a belépőoldalon
-        if (bejelentkezve) {
-          return Response.redirect(new URL("/admin", request.nextUrl));
+        // Aki már belépett, annak nincs dolga a belépőoldalon — DE csak a
+        // valódi oldalletöltést szabad elterelni.
+        //
+        // A belépés Server Actionje ugyanerre az útvonalra POST-ol. Ha azt is
+        // átirányítottuk, a böngésző követte az átirányítást, és közben
+        // elveszett az, amitől a kérés Server Action-kérés volt: a szerver
+        // teljes HTML oldalt küldött vissza oda, ahol a kliens a Next.js belső
+        // adatformátumát várta. A felhasználó ebből annyit látott, hogy
+        // "This page couldn't load" — élesben ez fogadta a bejelentkezést.
+        if (bejelentkezve && request.method === "GET") {
+          return NextResponse.redirect(new URL("/admin", request.nextUrl));
         }
         return true;
       }
