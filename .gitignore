@@ -54,3 +54,6 @@ deno.lock
 
 # csomagfrissites elotti mentesek - a git elozmeny ugyis tartalmazza
 dokumentumok/frissites-*/
+
+# A mentesek paciensadatot tartalmaznak - soha nem kerulhetnek a tarolo
+mentesek/
