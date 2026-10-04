@@ -83,19 +83,6 @@ export default function RootLayout({
   return (
     <html lang="hu" className={inter.className} data-scroll-behavior="smooth">
       <head>
-        <link
-          rel="preload"
-          href="/group_core1.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/logo.webp"
-          as="image"
-          type="image/webp"
-        />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
         <script
@@ -131,11 +118,6 @@ export default function RootLayout({
                     "latitude": 47.6596433,
                     "longitude": 17.6599994
                   },
-                  "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "5.0",
-                    "reviewCount": "56"
-                  },
                   "openingHoursSpecification": [
                     {
                       "@type": "OpeningHoursSpecification",
@@ -145,7 +127,7 @@ export default function RootLayout({
                     }
                   ],
                   "medicalSpecialty": ["Physiotherapy"],
-                  "priceRange": "7000–17000 HUF",
+                  "priceRange": "5000-20000 HUF",
                   "currenciesAccepted": "HUF",
                   "paymentAccepted": ["Cash", "Credit Card", "NFC mobile payments"],
                   "hasMap": "https://maps.app.goo.gl/MAsW9JaN2v5PcCR59",

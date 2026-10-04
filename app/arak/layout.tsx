@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: { absolute: 'Árak & Szolgáltatások | ReStart Physio - Fizioterápia Győrben' },
-  description: 'Teljes árlista: egyéni gyógytorna 15.000 Ft-tól, csoportos core edzés 7.000 Ft-tól, TMI terápia, FDM kezelések. Átlátható árak, nincsenek rejtett költségek.',
+  description: 'Teljes árlista: egyéni gyógytorna 9.000 Ft-tól, csoportos core edzés 6.000 Ft-tól, TMI terápia, FDM kezelések. Átlátható árak, nincsenek rejtett költségek.',
   keywords: 'fizioterápia árak Győr, gyógytorna ár, TMI terápia ár, FDM kezelés árak, csoportos edzés bérlet, gyógytorna Győr árak, sportrehabilitáció költség',
   
   openGraph: {
