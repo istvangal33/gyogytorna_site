@@ -6,6 +6,7 @@ import {
   foglalhatoSzolgaltatasok,
   vendegRogzitese,
   vendegKereses,
+  ervenyesAr,
   vendegKorabbiFoglalasai,
   foglalasMentese,
   foglalasAzonositoval,
@@ -279,9 +280,9 @@ export async function ujFoglalas(adat: {
       veg,
       createdById: jog.user.id,
       megjegyzes: adat.megjegyzes.trim() || null,
-      // A szolgáltatás akkori ára rögzül a foglaláson: egy későbbi áremelés
-      // nem írja át visszamenőleg az előzményeket.
-      ar: szolgaltatas.price,
+      // A munkatársra érvényes akkori ár rögzül a foglaláson: egy későbbi
+      // áremelés nem írja át visszamenőleg az előzményeket.
+      ar: await ervenyesAr(adat.staffId, szolgaltatas.id, szolgaltatas.price),
     });
 
     if (adat.ertesites !== false) {
@@ -371,8 +372,9 @@ export async function foglalasSzerkesztes(adat: {
       kezdet,
       veg,
       megjegyzes: adat.megjegyzes.trim() || null,
-      // szolgáltatásváltáskor az új szolgáltatás mostani ára kerül rá
-      ar: szolgaltatas.price,
+      // Szolgáltatás- vagy munkatársváltáskor újraszámoljuk: a foglalás
+      // ahhoz a munkatárshoz tartozó mostani árat kapja.
+      ar: await ervenyesAr(adat.staffId, szolgaltatas.id, szolgaltatas.price),
     });
     if (!sikeres) return { ok: false, hiba: "A foglalás nem található." };
 

@@ -12,6 +12,10 @@ import {
   aktivAdminokSzama,
   getUserByEmail,
   ujVisszaallitoToken,
+  arFelulirasMentese,
+  foglalhatoSzolgaltatasok,
+  felhasznaloNaptarbanSzerepel,
+  jovobeliFoglalasaiSzama,
 } from "@/lib/db";
 import { fiokMeghivoLevel } from "@/lib/mail";
 import { ujToken, lejaratIdopont, TOKEN_ELETTARTAM_PERC } from "@/lib/password-reset";
@@ -184,5 +188,96 @@ export async function aktivValtas(userId: string, ertek: boolean): Promise<Eredm
   return {
     ok: true,
     uzenet: ertek ? `${user.name} fiókja újra aktív.` : `${user.name} fiókja kikapcsolva.`,
+  };
+}
+
+/**
+ * Munkatársankénti ár mentése.
+ *
+ * Az üres mező (null) törli a felülírást: a munkatárs onnantól újra az
+ * árlistát követi, és egy későbbi áremelés magától érvényesül nála.
+ *
+ * A már meglévő foglalásokat ez nem érinti — azokra az ár a foglaláskor
+ * rámásolódott, és ott is marad.
+ */
+export async function arakMentese(
+  userId: string,
+  arak: { serviceId: string; ar: number | null }[]
+): Promise<Eredmeny> {
+  const admin = await adminJog();
+  if (!admin) return { ok: false, hiba: "Ehhez adminisztrátori jog kell." };
+
+  const user = await felhasznaloAzonositoval(userId);
+  if (!user) return { ok: false, hiba: "A felhasználó nem található." };
+
+  // Csak létező, foglalható szolgáltatásra engedünk árat állítani.
+  const szolgaltatasok = await foglalhatoSzolgaltatasok();
+  const ismert = new Set(szolgaltatasok.map((s) => s.id));
+
+  for (const { serviceId, ar } of arak) {
+    if (!ismert.has(serviceId)) {
+      return { ok: false, hiba: "Ismeretlen szolgáltatás." };
+    }
+    if (ar !== null && (!Number.isInteger(ar) || ar < 0)) {
+      return { ok: false, hiba: "Az ár csak nemnegatív egész szám lehet." };
+    }
+  }
+
+  for (const { serviceId, ar } of arak) {
+    await arFelulirasMentese(userId, serviceId, ar);
+  }
+
+  revalidatePath("/admin/felhasznalok");
+  revalidatePath("/admin/naptar");
+
+  const elteres = arak.filter((a) => a.ar !== null).length;
+  return {
+    ok: true,
+    uzenet: elteres
+      ? `${user.name} árai mentve — ${elteres} szolgáltatásnál tér el az árlistától.`
+      : `${user.name} mostantól mindenhol az árlistát követi.`,
+  };
+}
+
+/**
+ * Szerepeljen-e a munkatárs a naptárban?
+ *
+ * A rendszert adminisztrálhatja olyan is, aki nem fogad pácienst. Az ő
+ * oszlopa csak foglalná a helyet a naptárban, és tévedésből oda is kerülhetne
+ * foglalás.
+ *
+ * Levételkor szólunk, ha vannak jövőbeli foglalásai: azok nem tűnnek el, de
+ * a naptárban nem látszanának — ez olyasmi, amit előre tudni kell.
+ */
+export async function naptarbanSzerepelValtas(
+  userId: string,
+  ertek: boolean
+): Promise<Eredmeny> {
+  const admin = await adminJog();
+  if (!admin) return { ok: false, hiba: "Ehhez adminisztrátori jog kell." };
+
+  const user = await felhasznaloAzonositoval(userId);
+  if (!user) return { ok: false, hiba: "A felhasználó nem található." };
+
+  const jovobeli = ertek ? 0 : await jovobeliFoglalasaiSzama(userId);
+
+  const sikeres = await felhasznaloNaptarbanSzerepel(userId, ertek);
+  if (!sikeres) return { ok: false, hiba: "A módosítás nem sikerült." };
+
+  revalidatePath("/admin/felhasznalok");
+  revalidatePath("/admin/naptar");
+  revalidatePath("/admin");
+
+  if (ertek) {
+    return { ok: true, uzenet: `${user.name} mostantól szerepel a naptárban.` };
+  }
+
+  return {
+    ok: true,
+    uzenet:
+      jovobeli > 0
+        ? `${user.name} lekerült a naptárról. Figyelem: ${jovobeli} jövőbeli foglalása van, ` +
+          `azok nem törlődtek, de a naptárban nem látszanak, amíg vissza nem kapcsolod.`
+        : `${user.name} lekerült a naptárról, és nem vehető fel hozzá foglalás.`,
   };
 }

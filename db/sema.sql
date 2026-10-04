@@ -17,9 +17,8 @@
 -- FONTOS: a btree_gist kiterjesztes nelkul a booking_no_overlap megszoritas
 -- nem jon letre, es ket foglalas ugyanarra az idopontra is felvihetove valik.
 --
--- Keszult: 2026-09-28, pg_dump --schema-only alapjan.
+-- Keszult: 2026-10-04, pg_dump --schema-only alapjan.
 --
-
 --
 -- PostgreSQL database dump
 --
@@ -27,12 +26,30 @@
 -- Dumped from database version 17.5
 -- Dumped by pg_dump version 17.5
 
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
 
 CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
 
 
 --
@@ -71,7 +88,9 @@ END;
 $$;
 
 
+SET default_tablespace = '';
 
+SET default_table_access_method = heap;
 
 --
 -- Name: Booking; Type: TABLE; Schema: public; Owner: -
@@ -141,6 +160,20 @@ CREATE TABLE public."Service" (
 
 
 --
+-- Name: StaffServicePrice; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."StaffServicePrice" (
+    "staffId" uuid NOT NULL,
+    "serviceId" uuid NOT NULL,
+    price integer NOT NULL,
+    "createdAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT "StaffServicePrice_price_check" CHECK ((price >= 0))
+);
+
+
+--
 -- Name: TimeOff; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -168,7 +201,8 @@ CREATE TABLE public."User" (
     "createdAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
     "canBookOthers" boolean DEFAULT false NOT NULL,
-    "passwordChangedAt" timestamp with time zone
+    "passwordChangedAt" timestamp with time zone,
+    "takesBookings" boolean DEFAULT true NOT NULL
 );
 
 
@@ -234,6 +268,14 @@ ALTER TABLE ONLY public."Service"
 
 
 --
+-- Name: StaffServicePrice StaffServicePrice_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."StaffServicePrice"
+    ADD CONSTRAINT "StaffServicePrice_pkey" PRIMARY KEY ("staffId", "serviceId");
+
+
+--
 -- Name: TimeOff TimeOff_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -292,6 +334,13 @@ CREATE INDEX "Booking_staffId_startsAt_idx" ON public."Booking" USING btree ("st
 --
 
 CREATE INDEX "PasswordResetToken_userId_idx" ON public."PasswordResetToken" USING btree ("userId");
+
+
+--
+-- Name: StaffServicePrice_staffId_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "StaffServicePrice_staffId_idx" ON public."StaffServicePrice" USING btree ("staffId");
 
 
 --
@@ -374,6 +423,22 @@ ALTER TABLE ONLY public."Booking"
 
 ALTER TABLE ONLY public."PasswordResetToken"
     ADD CONSTRAINT "PasswordResetToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."User"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: StaffServicePrice StaffServicePrice_serviceId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."StaffServicePrice"
+    ADD CONSTRAINT "StaffServicePrice_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES public."Service"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: StaffServicePrice StaffServicePrice_staffId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."StaffServicePrice"
+    ADD CONSTRAINT "StaffServicePrice_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES public."User"(id) ON DELETE CASCADE;
 
 
 --

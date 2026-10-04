@@ -151,17 +151,22 @@ export async function tokenBevaltas(
 
 export async function felhasznaloAzonositoval(id: string) {
   const result = await pool.query(
-    `SELECT id, name, email, role, "canViewAll", "canBookOthers", active, "passwordChangedAt"
+    `SELECT id, name, email, role, "canViewAll", "canBookOthers", active,
+            "takesBookings", "passwordChangedAt"
      FROM "User" WHERE id = $1 LIMIT 1`,
     [id]
   );
   return result.rows[0] ?? null;
 }
 
+// A naptar oszlopai. Csak az kerul bele, aki tenylegesen fogad pacienst —
+// a rendszert adminisztralhatja olyan is, aki nem gyogytornasz, es az o
+// oszlopa csak foglalna a helyet, raadasul tevedesbol oda is kerulhetne
+// foglalas.
 export async function munkatarsak() {
   const result = await pool.query(
     `SELECT id, name, email, role, "canViewAll"
-     FROM "User" WHERE active ORDER BY name`
+     FROM "User" WHERE active AND "takesBookings" ORDER BY name`
   );
   return result.rows;
 }
@@ -461,7 +466,8 @@ export async function regiAdatokTorlese(hatar: Date, proba: boolean) {
 
 export async function felhasznalokReszletesen() {
   const result = await pool.query(
-    `SELECT u.id, u.name, u.email, u.role, u."canViewAll", u."canBookOthers", u.active,
+    `SELECT u.id, u.name, u.email, u.role, u."canViewAll", u."canBookOthers",
+            u.active, u."takesBookings",
             u."passwordHash" IS NOT NULL AS van_jelszo,
             to_char(u."createdAt", 'YYYY-MM-DD') AS letrehozva,
             (SELECT count(*)::int FROM "Booking" b WHERE b."staffId" = u.id) AS foglalas_db
@@ -501,6 +507,25 @@ export async function felhasznaloAktiv(id: string, ertek: boolean) {
 export async function aktivAdminokSzama() {
   const result = await pool.query(
     `SELECT count(*)::int AS db FROM "User" WHERE role = 'ADMIN' AND active`
+  );
+  return result.rows[0].db as number;
+}
+
+export async function felhasznaloNaptarbanSzerepel(id: string, ertek: boolean) {
+  const result = await pool.query(
+    `UPDATE "User" SET "takesBookings" = $2, "updatedAt" = now() WHERE id = $1 RETURNING id`,
+    [id, ertek]
+  );
+  return result.rowCount === 1;
+}
+
+// Hany jovobeli foglalasa van? Mielott valakit leveszunk a naptarrol, tudni
+// kell: az o foglalasai eltunnenek a nezetbol.
+export async function jovobeliFoglalasaiSzama(staffId: string) {
+  const result = await pool.query(
+    `SELECT count(*)::int AS db FROM "Booking"
+     WHERE "staffId" = $1 AND "startsAt" >= now() AND status = 'BOOKED'`,
+    [staffId]
   );
   return result.rows[0].db as number;
 }
@@ -709,4 +734,77 @@ export async function idoszakStatisztika(kezdet: Date, veg: Date, staffId: strin
     osszes: number; megtortent: number; foglalt: number;
     nem_jott: number; lemondva: number; bevetel: number;
   };
+}
+
+// ---------------------------------------------------------------------------
+// Munkatársankénti ár
+//
+// Egy szolgáltatásnak van egy ára az árlistában — ez az alapértelmezés. Egy
+// munkatárshoz viszont megadható ettől eltérő ár, és akkor nála az érvényes.
+//
+// Szándékosan FELÜLÍRÁS és nem külön árlista: akinél nincs sor, az az árlistát
+// követi, és egy későbbi áremelés magától érvényesül nála — nincs mit
+// karbantartani. Csak az eltérést kell nyilvántartani.
+// ---------------------------------------------------------------------------
+
+/**
+ * A munkatársra érvényes ár. Ahol nincs felülírás, az árlista ára marad.
+ *
+ * A visszaadott érték a foglalásra RÁMÁSOLÓDIK, nem hivatkozásként kerül rá —
+ * így egy későbbi árváltozás a meglévő foglalásokat nem írja át.
+ */
+export async function ervenyesAr(staffId: string, serviceId: string, alapAr: number) {
+  const r = await pool.query(
+    `SELECT price FROM "StaffServicePrice" WHERE "staffId" = $1 AND "serviceId" = $2`,
+    [staffId, serviceId]
+  );
+  return (r.rows[0]?.price as number | undefined) ?? alapAr;
+}
+
+/** Egy munkatárs eltérő árai. Ami nincs benne, az az árlista szerint megy. */
+export async function munkatarsArai(staffId: string) {
+  const r = await pool.query(
+    `SELECT "serviceId", price FROM "StaffServicePrice" WHERE "staffId" = $1`,
+    [staffId]
+  );
+  return r.rows as { serviceId: string; price: number }[];
+}
+
+/** Minden eltérő ár, munkatárs szerint csoportosítva — az admin felülethez. */
+export async function osszesArFeluliras() {
+  const r = await pool.query(
+    `SELECT "staffId", "serviceId", price FROM "StaffServicePrice"`
+  );
+  const szerint = new Map<string, Record<string, number>>();
+  for (const sor of r.rows) {
+    const eddig = szerint.get(sor.staffId) ?? {};
+    eddig[sor.serviceId] = sor.price;
+    szerint.set(sor.staffId, eddig);
+  }
+  return szerint;
+}
+
+/**
+ * Eltérő ár mentése. A `null` ár törli a felülírást: a munkatárs onnantól
+ * újra az árlistát követi.
+ */
+export async function arFelulirasMentese(
+  staffId: string,
+  serviceId: string,
+  ar: number | null
+) {
+  if (ar === null) {
+    await pool.query(
+      `DELETE FROM "StaffServicePrice" WHERE "staffId" = $1 AND "serviceId" = $2`,
+      [staffId, serviceId]
+    );
+    return;
+  }
+  await pool.query(
+    `INSERT INTO "StaffServicePrice" ("staffId", "serviceId", price)
+     VALUES ($1, $2, $3)
+     ON CONFLICT ("staffId", "serviceId")
+       DO UPDATE SET price = EXCLUDED.price, "updatedAt" = now()`,
+    [staffId, serviceId, ar]
+  );
 }

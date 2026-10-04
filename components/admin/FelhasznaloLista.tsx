@@ -7,8 +7,10 @@ import {
   foglalasJogValtas,
   aktivValtas,
   meghivoUjrakuldes,
+  naptarbanSzerepelValtas,
   type Szerep,
 } from '@/app/admin/felhasznalok/actions';
+import Link from 'next/link';
 
 export type Felhasznalo = {
   id: string;
@@ -18,6 +20,7 @@ export type Felhasznalo = {
   canViewAll: boolean;
   canBookOthers: boolean;
   active: boolean;
+  takesBookings: boolean;
   van_jelszo: boolean;
   letrehozva: string;
   foglalas_db: number;
@@ -212,6 +215,33 @@ export default function FelhasznaloLista({
                   </dd>
                 </div>
 
+                <div className="flex items-center justify-between gap-3">
+                  <dt className="text-xs text-gray-500">Szerepel a naptárban</dt>
+                  <dd>
+                    <Kapcsolo
+                      be={f.takesBookings}
+                      tiltva={fut}
+                      onValt={(ertek) => kezel(() => naptarbanSzerepelValtas(f.id, ertek))}
+                      beFelirat="Fogad pácienst"
+                      kiFelirat="Nem fogad"
+                    />
+                  </dd>
+                </div>
+
+                {f.takesBookings && (
+                  <div className="flex items-center justify-between gap-3">
+                    <dt className="text-xs text-gray-500">Árai</dt>
+                    <dd>
+                      <Link
+                        href={`/admin/felhasznalok/${f.id}/arak`}
+                        className="text-xs font-medium text-[#004a6d] hover:underline"
+                      >
+                        Árak beállítása ›
+                      </Link>
+                    </dd>
+                  </div>
+                )}
+
                 <div className="flex items-start justify-between gap-3">
                   <dt className="text-xs text-gray-500">Állapot</dt>
                   <dd className="text-right">
@@ -256,6 +286,7 @@ export default function FelhasznaloLista({
               <th className="px-4 py-3 font-medium">Foglalhat másnak</th>
               <th className="px-4 py-3 font-medium">Állapot</th>
               <th className="px-4 py-3 font-medium">Foglalás</th>
+              <th className="px-4 py-3 font-medium">Naptár</th>
               <th className="px-4 py-3" />
             </tr>
           </thead>
@@ -309,6 +340,24 @@ export default function FelhasznaloLista({
                       beFelirat="Bárkinek"
                       kiFelirat="Csak magának"
                     />
+                  </td>
+
+                  <td className="px-4 py-3">
+                    <Kapcsolo
+                      be={f.takesBookings}
+                      tiltva={fut}
+                      onValt={(ertek) => kezel(() => naptarbanSzerepelValtas(f.id, ertek))}
+                      beFelirat="Fogad pácienst"
+                      kiFelirat="Nem fogad"
+                    />
+                    {f.takesBookings && (
+                      <Link
+                        href={`/admin/felhasznalok/${f.id}/arak`}
+                        className="mt-1 block text-xs text-[#004a6d] hover:underline"
+                      >
+                        Árak ›
+                      </Link>
+                    )}
                   </td>
 
                   <td className="px-4 py-3">
