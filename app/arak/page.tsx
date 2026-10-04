@@ -109,7 +109,7 @@ export default function PriceList() {
               />
               <span
                 id="price-list-heading"
-                className="mx-6 text-center tracking-[0.2em] text-[0.75rem] sm:text-sm font-medium text-[#001219]"
+                className="mx-3 sm:mx-6 text-center tracking-[0.1em] sm:tracking-[0.2em] text-[0.7rem] sm:text-sm font-medium text-[#001219]"
               >
                 R E S T A R T&nbsp;&nbsp;P H Y S I O
               </span>
