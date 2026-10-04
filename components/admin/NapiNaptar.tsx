@@ -47,6 +47,8 @@ type Nezet = 'nap' | 'het';
 type Props = {
   munkaidok: Munkaido[];
   szolgaltatasok: Szolgaltatas[];
+  /** Munkatársanként eltérő árak: { munkatársId: { szolgáltatásId: ár } } */
+  arak: Record<string, Record<string, number>>;
   lathatMindent: boolean;
   foglalhatMasnak: boolean;
   admin: boolean;
@@ -56,6 +58,7 @@ type Props = {
 export default function NapiNaptar({
   munkaidok,
   szolgaltatasok,
+  arak,
   lathatMindent,
   foglalhatMasnak,
   admin,
@@ -725,6 +728,7 @@ export default function NapiNaptar({
       {ujFoglalasAdat && (
         <UjFoglalasUrlap
           szolgaltatasok={szolgaltatasok}
+          arak={arak}
           munkatarsak={
             foglalhatMasnak ? munkatarsak : munkatarsak.filter((m) => m.id === sajatId)
           }

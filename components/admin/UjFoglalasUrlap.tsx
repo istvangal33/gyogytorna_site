@@ -26,6 +26,8 @@ type Jelolt = { kezdet: string; maxPerc: number };
 
 type Props = {
   szolgaltatasok: Szolgaltatas[];
+  /** Munkatársanként eltérő árak: { munkatársId: { szolgáltatásId: ár } } */
+  arak: Record<string, Record<string, number>>;
   munkatarsak: Munkatars[];
   eloStaffId: string;
   // helyi idő szerinti "YYYY-MM-DDTHH:mm"
@@ -56,6 +58,7 @@ function bontas(ertek: string) {
 
 export default function UjFoglalasUrlap({
   szolgaltatasok,
+  arak,
   munkatarsak,
   eloStaffId,
   eloKezdet,
@@ -64,12 +67,19 @@ export default function UjFoglalasUrlap({
   onMegse,
 }: Props) {
   const szerkesztes = Boolean(szerkesztendo);
+
   const elo = bontas(eloKezdet);
 
   const [nev, setNev] = useState(szerkesztendo?.vendeg ?? '');
   const [email, setEmail] = useState(szerkesztendo?.email ?? '');
   const [telefon, setTelefon] = useState('');
   const [staffId, setStaffId] = useState(eloStaffId);
+  // A kiválasztott munkatársra érvényes ár. Ahol nincs saját ár, az árlista
+  // ára marad — ugyanaz a szabály, ami a mentésnél is érvényesül. Enélkül a
+  // választékban az árlista ára állna akkor is, ha a munkatársnál más összeg
+  // érvényes, és a rendelő azt mondaná a páciensnek, ami nem az ő ára.
+  const arHozza = (serviceId: string, alapAr: number) =>
+    arak?.[staffId]?.[serviceId] ?? alapAr;
   const [nap, setNap] = useState(elo.nap);
   const [serviceId, setServiceId] = useState(szerkesztendo?.serviceId ?? '');
   const [megjegyzes, setMegjegyzes] = useState(szerkesztendo?.megjegyzes ?? '');
@@ -371,7 +381,7 @@ export default function UjFoglalasUrlap({
               </option>
               {ferok.map((s) => (
                 <option key={s.id} value={s.id}>
-                  {s.name} — {forintban(s.price)}
+                  {s.name} — {forintban(arHozza(s.id, s.price))}
                 </option>
               ))}
             </select>
@@ -408,8 +418,9 @@ export default function UjFoglalasUrlap({
                 <span className="text-sm text-gray-500">Ft</span>
               </div>
               <p className="mt-1 text-xs text-gray-500">
-                {kivalasztottSzolgaltatas && Number(ar.replace(/\s/g, '')) !== kivalasztottSzolgaltatas.price
-                  ? `Eltér a szolgáltatás árától (${forintban(kivalasztottSzolgaltatas.price)}). Üresen hagyva az lesz érvényes.`
+                {kivalasztottSzolgaltatas &&
+                Number(ar.replace(/\s/g, '')) !== arHozza(kivalasztottSzolgaltatas.id, kivalasztottSzolgaltatas.price)
+                  ? `Eltér a szokásos ártól (${forintban(arHozza(kivalasztottSzolgaltatas.id, kivalasztottSzolgaltatas.price))}). Üresen hagyva az lesz érvényes.`
                   : 'Átírható, ha ennél az alkalomnál más összeget számolsz.'}
               </p>
             </Mezo>

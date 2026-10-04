@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { bejelentkezettFelhasznalo } from "@/lib/munkamenet";
-import { munkaidok, foglalhatoSzolgaltatasok } from "@/lib/db";
+import { munkaidok, foglalhatoSzolgaltatasok, osszesArFeluliras } from "@/lib/db";
 import NapiNaptar from "@/components/admin/NapiNaptar";
 
 export const metadata: Metadata = {
@@ -17,7 +17,16 @@ export default async function NaptarPage() {
 
   const lathatMindent = user.role === "ADMIN" || user.canViewAll;
 
-  const [idok, szolgaltatasok] = await Promise.all([munkaidok(), foglalhatoSzolgaltatasok()]);
+  const [idok, szolgaltatasok, felulirasok] = await Promise.all([
+    munkaidok(),
+    foglalhatoSzolgaltatasok(),
+    osszesArFeluliras(),
+  ]);
+
+  // Munkatársanként eltérő árak. Enélkül a foglalási űrlap az árlista árát
+  // mutatná akkor is, ha az adott munkatársnál más összeg érvényes — és a
+  // rendelő azt mondaná a páciensnek, ami nem az ő ára.
+  const arak = Object.fromEntries(felulirasok);
 
   return (
     <main className="mx-auto max-w-7xl px-2 py-5 sm:px-6 sm:py-7">
@@ -33,6 +42,7 @@ export default async function NaptarPage() {
       <NapiNaptar
         munkaidok={idok}
         szolgaltatasok={szolgaltatasok}
+        arak={arak}
         lathatMindent={lathatMindent}
         foglalhatMasnak={user.canBookOthers === true}
         admin={user.role === "ADMIN"}
