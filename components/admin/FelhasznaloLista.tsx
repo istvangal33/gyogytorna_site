@@ -290,9 +290,10 @@ export default function FelhasznaloLista({
               <th className="px-4 py-3 font-medium">Szerepkör</th>
               <th className="px-4 py-3 font-medium">Látja mindenki foglalását</th>
               <th className="px-4 py-3 font-medium">Foglalhat másnak</th>
+              <th className="px-4 py-3 font-medium">Naptár</th>
+              <th className="px-4 py-3 font-medium">Beállítások</th>
               <th className="px-4 py-3 font-medium">Állapot</th>
               <th className="px-4 py-3 font-medium">Foglalás</th>
-              <th className="px-4 py-3 font-medium">Naptár</th>
               <th className="px-4 py-3" />
             </tr>
           </thead>
@@ -356,21 +357,26 @@ export default function FelhasznaloLista({
                       beFelirat="Fogad pácienst"
                       kiFelirat="Nem fogad"
                     />
-                    {f.takesBookings && (
-                      <div className="mt-1 flex gap-2 text-xs">
+                  </td>
+
+                  <td className="px-4 py-3">
+                    {f.takesBookings ? (
+                      <div className="flex flex-col gap-1 text-sm">
                         <Link
                           href={`/admin/felhasznalok/${f.id}/munkaido`}
-                          className="text-[#004a6d] hover:underline"
+                          className="whitespace-nowrap text-[#004a6d] hover:underline"
                         >
                           Munkaidő ›
                         </Link>
                         <Link
                           href={`/admin/felhasznalok/${f.id}/arak`}
-                          className="text-[#004a6d] hover:underline"
+                          className="whitespace-nowrap text-[#004a6d] hover:underline"
                         >
                           Árak ›
                         </Link>
                       </div>
+                    ) : (
+                      <span className="text-xs text-gray-400">—</span>
                     )}
                   </td>
 
