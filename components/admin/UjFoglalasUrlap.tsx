@@ -19,6 +19,7 @@ export type Szerkesztendo = {
   email: string;
   serviceId: string;
   megjegyzes: string | null;
+  ar: number;
 };
 
 type Jelolt = { kezdet: string; maxPerc: number };
@@ -72,6 +73,9 @@ export default function UjFoglalasUrlap({
   const [nap, setNap] = useState(elo.nap);
   const [serviceId, setServiceId] = useState(szerkesztendo?.serviceId ?? '');
   const [megjegyzes, setMegjegyzes] = useState(szerkesztendo?.megjegyzes ?? '');
+  // Szerkesztéskor az ár átírható: kedvezmény, vagy ha az alkalom másképp
+  // alakult. Üresen hagyva a szolgáltatás szerinti ár marad.
+  const [ar, setAr] = useState(szerkesztendo ? String(szerkesztendo.ar) : '');
 
   const [jeloltek, setJeloltek] = useState<Jelolt[]>([]);
   const [valasztott, setValasztott] = useState<Jelolt | null>(null);
@@ -168,6 +172,13 @@ export default function UjFoglalasUrlap({
     setHiba(null);
 
     if (szerkesztendo) {
+      const nyersAr = ar.replace(/\s/g, '');
+      if (nyersAr !== '' && (!/^\d+$/.test(nyersAr) || Number(nyersAr) < 0)) {
+        setHiba('Az ár csak nemnegatív egész szám lehet.');
+        setMentes(false);
+        return;
+      }
+
       const r = await foglalasSzerkesztes({
         id: szerkesztendo.id,
         serviceId,
@@ -175,6 +186,7 @@ export default function UjFoglalasUrlap({
         kezdet,
         megjegyzes,
         ertesites,
+        ar: nyersAr === '' ? null : Number(nyersAr),
       });
       setMentes(false);
       if (!r.ok) {
@@ -382,6 +394,26 @@ export default function UjFoglalasUrlap({
               </p>
             )}
           </Mezo>
+
+          {szerkesztes && (
+            <Mezo cimke="Ár">
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={ar}
+                  onChange={(e) => setAr(e.target.value)}
+                  className={INPUT + ' max-w-[10rem] tabular-nums'}
+                />
+                <span className="text-sm text-gray-500">Ft</span>
+              </div>
+              <p className="mt-1 text-xs text-gray-500">
+                {kivalasztottSzolgaltatas && Number(ar.replace(/\s/g, '')) !== kivalasztottSzolgaltatas.price
+                  ? `Eltér a szolgáltatás árától (${forintban(kivalasztottSzolgaltatas.price)}). Üresen hagyva az lesz érvényes.`
+                  : 'Átírható, ha ennél az alkalomnál más összeget számolsz.'}
+              </p>
+            </Mezo>
+          )}
 
           <Mezo cimke="Megjegyzés">
             <textarea

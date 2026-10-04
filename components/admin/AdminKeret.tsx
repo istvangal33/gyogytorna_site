@@ -35,6 +35,7 @@ export default function AdminKeret({
     { cim: 'Áttekintés', ut: '/admin', ikon: <IkonAttekintes /> },
     { cim: 'Naptár', ut: '/admin/naptar', ikon: <IkonNaptar /> },
     { cim: 'Vendégek', ut: '/admin/vendegek', ikon: <IkonVendegek /> },
+    { cim: 'Szolgáltatások', ut: '/admin/szolgaltatasok', ikon: <IkonSzolgaltatasok />, csakAdmin: true },
     { cim: 'Felhasználók', ut: '/admin/felhasznalok', ikon: <IkonFelhasznalok />, csakAdmin: true },
   ];
 
@@ -171,6 +172,19 @@ function IkonVendegek() {
       <circle cx="7.5" cy="6.5" r="3" stroke="currentColor" strokeWidth="1.5" />
       <path d="M2 16.5c0-2.8 2.5-4.5 5.5-4.5s5.5 1.7 5.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <path d="M14 4.6a2.9 2.9 0 010 5.3M15.8 16.5c0-2-.9-3.4-2.4-4.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IkonSzolgaltatasok() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className={IKON}>
+      <path
+        d="M3.5 6.5h13M3.5 10h13M3.5 13.5h8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }

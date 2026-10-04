@@ -344,12 +344,24 @@ export async function foglalasSzerkesztes(adat: {
   kezdet: string;
   megjegyzes: string;
   ertesites?: boolean;
+  /**
+   * Kézzel megadott ár erre az EGY foglalásra — kedvezmény, vagy ha az alkalom
+   * másképp alakult. A `null` azt jelenti: a szolgáltatásból (és a munkatárs
+   * esetleges saját árából) adódó összeg legyen érvényes.
+   */
+  ar?: number | null;
 }): Promise<EgyszeruEredmeny> {
   const ell = await sajatjaVagyLathatja(adat.id);
   if (!ell.ok) return { ok: false, hiba: ell.hiba };
 
   const kezdet = new Date(adat.kezdet);
   if (Number.isNaN(kezdet.getTime())) return { ok: false, hiba: "Hibás időpont." };
+
+  if (adat.ar !== undefined && adat.ar !== null) {
+    if (!Number.isInteger(adat.ar) || adat.ar < 0) {
+      return { ok: false, hiba: "Az ár csak nemnegatív egész szám lehet." };
+    }
+  }
 
   if (!ell.jog.foglalhatMasnak && adat.staffId !== ell.jog.user.id) {
     return { ok: false, hiba: "Csak magadhoz rakhatod át a foglalást." };
@@ -372,9 +384,13 @@ export async function foglalasSzerkesztes(adat: {
       kezdet,
       veg,
       megjegyzes: adat.megjegyzes.trim() || null,
-      // Szolgáltatás- vagy munkatársváltáskor újraszámoljuk: a foglalás
-      // ahhoz a munkatárshoz tartozó mostani árat kapja.
-      ar: await ervenyesAr(adat.staffId, szolgaltatas.id, szolgaltatas.price),
+      // Kézzel megadott ár erősebb mindennél: ha a felhasználó beírt egy
+      // összeget, azt tiszteletben tartjuk. Egyébként szolgáltatás- vagy
+      // munkatársváltáskor újraszámoljuk.
+      ar:
+        adat.ar === undefined || adat.ar === null
+          ? await ervenyesAr(adat.staffId, szolgaltatas.id, szolgaltatas.price)
+          : adat.ar,
     });
     if (!sikeres) return { ok: false, hiba: "A foglalás nem található." };
 

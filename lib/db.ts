@@ -857,3 +857,66 @@ export async function munkaidoCsereje(
     kliens.release();
   }
 }
+
+// ---------------------------------------------------------------------------
+// Szolgáltatások karbantartása
+//
+// Az árlista eddig csak telepítőszkripttel volt módosítható. A rendelőnek
+// magának kell tudnia áremelést végrehajtani vagy új kezelést felvenni.
+//
+// Törlés szándékosan nincs: a foglalások hivatkoznak a szolgáltatásra, és egy
+// törlés az előzményeket tenné értelmezhetetlenné. Helyette az `active`
+// kapcsoló van — a kivezetett szolgáltatás eltűnik a választékból, de a régi
+// foglalásokon továbbra is olvasható marad, mi történt.
+// ---------------------------------------------------------------------------
+
+export async function osszesSzolgaltatas() {
+  const result = await pool.query(
+    `SELECT s.id, s.name, s.description, s.price, s."durationMin", s."blockMin",
+            s.bookable, s.active,
+            (SELECT count(*)::int FROM "Booking" b WHERE b."serviceId" = s.id) AS foglalas_db
+     FROM "Service" s
+     ORDER BY s.active DESC, s."durationMin", s.name`
+  );
+  return result.rows;
+}
+
+export async function szolgaltatasMentese(
+  id: string,
+  adat: {
+    name: string;
+    description: string | null;
+    price: number;
+    durationMin: number;
+    blockMin: number;
+    bookable: boolean;
+    active: boolean;
+  }
+) {
+  const result = await pool.query(
+    `UPDATE "Service"
+       SET name = $2, description = $3, price = $4,
+           "durationMin" = $5, "blockMin" = $6,
+           bookable = $7, active = $8, "updatedAt" = now()
+     WHERE id = $1
+     RETURNING id`,
+    [id, adat.name, adat.description, adat.price, adat.durationMin, adat.blockMin, adat.bookable, adat.active]
+  );
+  return result.rowCount === 1;
+}
+
+export async function ujSzolgaltatas(adat: {
+  name: string;
+  description: string | null;
+  price: number;
+  durationMin: number;
+  blockMin: number;
+}) {
+  const result = await pool.query(
+    `INSERT INTO "Service" (name, description, price, "durationMin", "blockMin")
+     VALUES ($1, $2, $3, $4, $5)
+     RETURNING id`,
+    [adat.name, adat.description, adat.price, adat.durationMin, adat.blockMin]
+  );
+  return result.rows[0].id as string;
+}

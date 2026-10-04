@@ -264,6 +264,7 @@ export default function NapiNaptar({
       email: fogl.email,
       serviceId: fogl.serviceId,
       megjegyzes: fogl.megjegyzes,
+      ar: fogl.ar,
     });
     setUjFoglalasAdat({ staffId: fogl.staffId, kezdet: helyiIdoString(new Date(fogl.kezdet)) });
     setKivalasztott(null);
