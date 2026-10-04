@@ -230,13 +230,19 @@ export default function FelhasznaloLista({
 
                 {f.takesBookings && (
                   <div className="flex items-center justify-between gap-3">
-                    <dt className="text-xs text-gray-500">Árai</dt>
-                    <dd>
+                    <dt className="text-xs text-gray-500">Beállítások</dt>
+                    <dd className="flex gap-3">
+                      <Link
+                        href={`/admin/felhasznalok/${f.id}/munkaido`}
+                        className="text-xs font-medium text-[#004a6d] hover:underline"
+                      >
+                        Munkaidő ›
+                      </Link>
                       <Link
                         href={`/admin/felhasznalok/${f.id}/arak`}
                         className="text-xs font-medium text-[#004a6d] hover:underline"
                       >
-                        Árak beállítása ›
+                        Árak ›
                       </Link>
                     </dd>
                   </div>
@@ -351,12 +357,20 @@ export default function FelhasznaloLista({
                       kiFelirat="Nem fogad"
                     />
                     {f.takesBookings && (
-                      <Link
-                        href={`/admin/felhasznalok/${f.id}/arak`}
-                        className="mt-1 block text-xs text-[#004a6d] hover:underline"
-                      >
-                        Árak ›
-                      </Link>
+                      <div className="mt-1 flex gap-2 text-xs">
+                        <Link
+                          href={`/admin/felhasznalok/${f.id}/munkaido`}
+                          className="text-[#004a6d] hover:underline"
+                        >
+                          Munkaidő ›
+                        </Link>
+                        <Link
+                          href={`/admin/felhasznalok/${f.id}/arak`}
+                          className="text-[#004a6d] hover:underline"
+                        >
+                          Árak ›
+                        </Link>
+                      </div>
                     )}
                   </td>
 

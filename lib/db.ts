@@ -808,3 +808,52 @@ export async function arFelulirasMentese(
     [staffId, serviceId, ar]
   );
 }
+
+// ---------------------------------------------------------------------------
+// Munkaidő munkatársanként
+//
+// A naptár a szabad időpontokat ebből számolja: ahol nincs munkaidő, ott nem
+// ajánl fel rést. Eddig csak telepítőszkripttel lehetett beállítani, ami
+// mindenkinek ugyanazt adta — a valóságban viszont a beosztás munkatársanként
+// eltér, és a rendelőnek magának kell tudnia módosítani.
+// ---------------------------------------------------------------------------
+
+/** Egy munkatárs beosztása. A hiányzó nap szabadnapot jelent. */
+export async function munkatarsMunkaideje(staffId: string) {
+  const result = await pool.query(
+    `SELECT weekday, "startMinute", "endMinute"
+     FROM "WorkingHours" WHERE "staffId" = $1 ORDER BY weekday`,
+    [staffId]
+  );
+  return result.rows as { weekday: number; startMinute: number; endMinute: number }[];
+}
+
+/**
+ * A munkatárs teljes beosztásának cseréje.
+ *
+ * Egy tranzakcióban törli a régit és beírja az újat: félkész állapot nem
+ * maradhat, mert abból a naptár hibás szabad időpontokat számolna.
+ */
+export async function munkaidoCsereje(
+  staffId: string,
+  sorok: { weekday: number; startMinute: number; endMinute: number }[]
+) {
+  const kliens = await pool.connect();
+  try {
+    await kliens.query("BEGIN");
+    await kliens.query(`DELETE FROM "WorkingHours" WHERE "staffId" = $1`, [staffId]);
+    for (const s of sorok) {
+      await kliens.query(
+        `INSERT INTO "WorkingHours" ("staffId", weekday, "startMinute", "endMinute")
+         VALUES ($1, $2, $3, $4)`,
+        [staffId, s.weekday, s.startMinute, s.endMinute]
+      );
+    }
+    await kliens.query("COMMIT");
+  } catch (err) {
+    await kliens.query("ROLLBACK");
+    throw err;
+  } finally {
+    kliens.release();
+  }
+}

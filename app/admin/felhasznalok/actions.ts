@@ -16,6 +16,7 @@ import {
   foglalhatoSzolgaltatasok,
   felhasznaloNaptarbanSzerepel,
   jovobeliFoglalasaiSzama,
+  munkaidoCsereje,
 } from "@/lib/db";
 import { fiokMeghivoLevel } from "@/lib/mail";
 import { ujToken, lejaratIdopont, TOKEN_ELETTARTAM_PERC } from "@/lib/password-reset";
@@ -279,5 +280,55 @@ export async function naptarbanSzerepelValtas(
         ? `${user.name} lekerült a naptárról. Figyelem: ${jovobeli} jövőbeli foglalása van, ` +
           `azok nem törlődtek, de a naptárban nem látszanak, amíg vissza nem kapcsolod.`
         : `${user.name} lekerült a naptárról, és nem vehető fel hozzá foglalás.`,
+  };
+}
+
+/**
+ * Egy munkatárs heti beosztásának mentése.
+ *
+ * A hiányzó nap szabadnap. A naptár ebből számolja a felajánlott szabad
+ * időpontokat: ahol nincs munkaidő, ott nem kínál rést — ezért itt az üres
+ * beosztás is érvényes állapot, nem hiba.
+ */
+export async function munkaidoMentese(
+  userId: string,
+  napok: { weekday: number; startMinute: number; endMinute: number }[]
+): Promise<Eredmeny> {
+  const admin = await adminJog();
+  if (!admin) return { ok: false, hiba: "Ehhez adminisztrátori jog kell." };
+
+  const user = await felhasznaloAzonositoval(userId);
+  if (!user) return { ok: false, hiba: "A felhasználó nem található." };
+
+  const latott = new Set<number>();
+  for (const n of napok) {
+    if (!Number.isInteger(n.weekday) || n.weekday < 0 || n.weekday > 6) {
+      return { ok: false, hiba: "Érvénytelen nap." };
+    }
+    if (latott.has(n.weekday)) {
+      return { ok: false, hiba: "Egy nap csak egyszer szerepelhet." };
+    }
+    latott.add(n.weekday);
+
+    const rendben = [n.startMinute, n.endMinute].every(
+      (p) => Number.isInteger(p) && p >= 0 && p <= 24 * 60
+    );
+    if (!rendben) return { ok: false, hiba: "Érvénytelen időpont." };
+    if (n.endMinute <= n.startMinute) {
+      return { ok: false, hiba: "A munkaidő vége nem lehet korábban, mint a kezdete." };
+    }
+  }
+
+  await munkaidoCsereje(userId, napok);
+
+  revalidatePath("/admin/felhasznalok");
+  revalidatePath("/admin/naptar");
+  revalidatePath("/admin");
+
+  return {
+    ok: true,
+    uzenet: napok.length
+      ? `${user.name} beosztása mentve — ${napok.length} munkanap.`
+      : `${user.name} beosztása törölve: egyetlen napra sem vehető fel hozzá időpont.`,
   };
 }
