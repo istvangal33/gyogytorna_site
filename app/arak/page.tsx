@@ -119,7 +119,7 @@ export default function PriceList() {
               />
             </div>
             <h1
-              className="mt-3 text-[0.95rem] sm:text-base tracking-[0.2em] font-semibold uppercase"
+              className="mt-3 text-center text-[0.95rem] sm:text-base tracking-[0.12em] sm:tracking-[0.2em] font-semibold uppercase"
               style={{ color: BRAND_ACCENT } as React.CSSProperties}
             >
               {/* A betuk kozti tavolsagot a tracking adja, nem szokozok. Igy a
