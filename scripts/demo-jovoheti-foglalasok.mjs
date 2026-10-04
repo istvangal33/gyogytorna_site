@@ -122,7 +122,7 @@ try {
     d.setDate(hetfo.getDate() + nap);
 
     for (const m of munkatarsak) {
-      const cel = kozott(4, 8);
+      const cel = kozott(4, 6);
       let perc = 7 * 60 + kozott(0, 3) * 15; // 07:00 es 07:45 kozott kezd
       let db = 0;
 
@@ -148,7 +148,11 @@ try {
           if (e.code !== "23P01") throw e; // atfedes: ezt az idosavot kihagyjuk
         }
 
-        perc += sz.blockMin + kozott(0, 2) * 15; // 0–30 perc szunet
+        // A szunetek nem lehetnek csupa apro hezagok: abbol a nap
+        // hasznalhatatlan szilankokra esik, es egy 50 perces kezeles sehova
+        // nem fer be. Ezert harmadaban valodi szunetet hagyunk, amibe egy
+        // tovabbi kezeles is befer — igy a naptar tele van, de foglalhato is.
+        perc += sz.blockMin + (rnd() < 0.35 ? kozott(4, 7) * 15 : kozott(0, 1) * 15);
       }
 
       naplo.push(`    ${fmtNap(d).padEnd(12)}${String(m.name).padEnd(20)}${db} foglalas`);
