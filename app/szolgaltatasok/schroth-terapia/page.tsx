@@ -88,7 +88,7 @@ export default function SchrothTherapyPage() {
                 Gerincferdülés kezelés Győrben
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004A6D] mb-6 leading-tight">
-                Gerincferdülés kezelés <br className="hidden sm:block"/><span className="text-[#EC7007]">Schroth terápiával</span>
+                Gerincferdülés kezelés Győrben <br className="hidden sm:block"/><span className="text-[#EC7007]">Schroth terápiával</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
                 A Schroth terápia egy speciális, háromdimenziós mozgásterápia, amely a gerincferdülés (scoliosis) és más tartáshibák célzott kezelésére szolgál gyerekeknek és felnőtteknek egyaránt.

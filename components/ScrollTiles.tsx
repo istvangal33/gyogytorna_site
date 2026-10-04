@@ -183,9 +183,9 @@ export default function ServiceSlider() {
 
               {/* Jobb - Tartalom */}
               <div className="flex-1">
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-[#004A6D] mb-8 leading-tight">
+                <h2 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-[#004A6D] mb-8 leading-tight">
                   {services[current].title}
-                </h1>
+                </h2>
                 
                 {/* LEÍRÁS - FIX 5 SOR + EXPAND */}
                 <div className="relative">
@@ -270,9 +270,9 @@ export default function ServiceSlider() {
                 </span>
               </div>
 
-              <h1 className="text-2xl font-extrabold text-[#004A6D] mb-4 leading-tight">
+              <h2 className="text-2xl font-extrabold text-[#004A6D] mb-4 leading-tight">
                 {services[current].title}
-              </h1>
+              </h2>
 
               {/* MOBILE LEÍRÁS - FIX 4 SOR */}
               <div className="relative w-full">

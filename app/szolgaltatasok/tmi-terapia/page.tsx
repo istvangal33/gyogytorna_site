@@ -60,7 +60,7 @@ export default function TMITherapyPage() {
                 Állkapocs ízületi kezelés
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004A6D] mb-6 leading-tight">
-                TMI / Állkapocs Ízületi <br className="hidden sm:block"/><span className="text-[#EC7007]">Terápia</span>
+                TMI / Állkapocs Ízületi <br className="hidden sm:block"/><span className="text-[#EC7007]">Terápia</span> Győrben
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
                 Szabaduljon meg a rágóízületi fájdalomtól, kattogástól és a fogcsikorgatás okozta feszültségtől célzott manuális technikákkal.

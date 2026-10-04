@@ -60,7 +60,7 @@ export default function SpineTherapyPage() {
                 Gerinc problémák kezelése
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004A6D] mb-6 leading-tight">
-                Gerincpanaszok <span className="text-[#EC7007]">Kezelése</span>
+                Gerincpanaszok <span className="text-[#EC7007]">Kezelése</span> Győrben
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
                 Vessen véget a derékfájásnak és a porckorong panaszainak tartós megoldásokkal és célzott terápiás módszerekkel Győrben.

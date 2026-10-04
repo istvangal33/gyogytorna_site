@@ -119,10 +119,13 @@ export default function PriceList() {
               />
             </div>
             <h1
-              className="mt-3 text-[0.95rem] sm:text-base tracking-[0.2em] font-semibold"
+              className="mt-3 text-[0.95rem] sm:text-base tracking-[0.2em] font-semibold uppercase"
               style={{ color: BRAND_ACCENT } as React.CSSProperties}
             >
-              Á R L I S T A
+              {/* A betuk kozti tavolsagot a tracking adja, nem szokozok. Igy a
+                  kereso es a kepernyoolvaso valodi szavakat lat — korabban
+                  "A R L I S T A" allt itt, amit a felolvaso betunkent mondott ki. */}
+              Gyógytorna árak Győrben
             </h1>
             <p
               className="mt-2 tracking-[0.15em] text-[0.58rem] sm:text-[0.62rem] font-medium uppercase"

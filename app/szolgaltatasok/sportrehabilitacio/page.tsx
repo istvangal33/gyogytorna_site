@@ -81,7 +81,7 @@ export default function RehabTherapyPage() {
                 Sérülés utáni felépülés
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004A6D] mb-6 leading-tight">
-                Visszatérés a mozgáshoz <br className="hidden sm:block"/><span className="text-[#EC7007]">Sportrehabilitációval</span>
+                Visszatérés a mozgáshoz <br className="hidden sm:block"/><span className="text-[#EC7007]">Sportrehabilitációval</span> Győrben
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
                 Biztonságos és teljes körű felépülés sérülésekből és műtétekből hobbi- és élsportolók számára egyaránt a győri ReStart Physio rendelőben.

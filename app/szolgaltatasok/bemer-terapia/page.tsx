@@ -98,7 +98,7 @@ export default function BemerTherapyPage() {
                 Fizikoterápiás kezelés Győrben
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004A6D] mb-6 leading-tight">
-                Pulzáló <span className="text-[#EC7007]">BEMER</span><br className="hidden sm:block"/>Terápia
+                Pulzáló <span className="text-[#EC7007]">BEMER</span><br className="hidden sm:block"/>Terápia Győrben
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
                 Javítsa szervezete mikrokeringését, gyorsítsa fel a sejtregenerációt és csökkentse fájdalmait egy innovatív, fájdalommentes kezeléssel a ReStart Physio rendelőben!
