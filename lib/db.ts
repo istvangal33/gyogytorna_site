@@ -920,3 +920,36 @@ export async function ujSzolgaltatas(adat: {
   );
   return result.rows[0].id as string;
 }
+
+/**
+ * Vendég adatainak javítása.
+ *
+ * Egy elgépelt név nem csak csúnya: a vendég felismerése névegyezésen is
+ * múlik, ezért egy hibás névvel rögzített foglalás külön vendéglapra kerül,
+ * és az illető előzménye kettéhasad. Ezt javítani kell tudni.
+ *
+ * Az e-mail egyedi, ezért ütközhet egy másik vendéggel — a hívó oldalnak
+ * kezelnie kell a 23505-ös hibakódot.
+ */
+export async function vendegFrissitese(
+  id: string,
+  adat: { nev: string; email: string | null; telefon: string | null }
+) {
+  const result = await pool.query(
+    `UPDATE "Client"
+       SET name = $2, email = $3, phone = $4, "updatedAt" = now()
+     WHERE id = $1
+     RETURNING id, name, email, phone`,
+    [id, adat.nev, adat.email, adat.telefon]
+  );
+  return result.rows[0] ?? null;
+}
+
+/** Van-e másik vendég ezzel az e-mail címmel? Az összevonás felajánlásához. */
+export async function masikVendegEzzelAzEmaillel(id: string, email: string) {
+  const result = await pool.query(
+    `SELECT id, name FROM "Client" WHERE email = $1 AND id <> $2 LIMIT 1`,
+    [email, id]
+  );
+  return result.rows[0] ?? null;
+}

@@ -1,6 +1,7 @@
 import { IDOZONA } from "@/lib/idozona";
 import type { Metadata } from "next";
 import Link from "next/link";
+import VendegUrlap from "@/components/admin/VendegUrlap";
 import { notFound, redirect } from "next/navigation";
 import { bejelentkezettFelhasznalo } from "@/lib/munkamenet";
 import { vendegAzonositoval, vendegElozmenyei } from "@/lib/db";
@@ -58,6 +59,15 @@ export default async function VendegPage({ params }: { params: Promise<{ id: str
             </span>
           )}
         </p>
+
+        <div className="mt-3">
+          <VendegUrlap
+            id={vendeg.id}
+            nev={vendeg.name}
+            email={vendeg.email}
+            telefon={vendeg.phone}
+          />
+        </div>
       </header>
 
       <div className="grid grid-cols-3 gap-2 sm:gap-4">
