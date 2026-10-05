@@ -135,7 +135,7 @@ function ServicesFAQSchema() {
         "name": "Sportolóként is fordulhatok Önökhöz?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Igen, kifejezetten! Forrás Fernanda közel 10 évig dolgozott élsportolókkal – a Győri ETO FC labdarúgóival, kézilabdázókkal és atlétákkal. A sportrehabilitáció az egyik fő szakterületünk."
+          "text": "Igen, kifejezetten! Forrás Fernanda hat évig dolgozott élsportolókkal – a Győri ETO FC labdarúgóival, kézilabdázókkal és atlétákkal. A sportrehabilitáció az egyik fő szakterületünk."
         }
       }
     ]
@@ -502,7 +502,7 @@ export default function ServicesSection() {
                   Sportolóként is fordulhatok Önökhöz?
                 </h3>
                 <p className="text-gray-700">
-                  Igen, kifejezetten! Forrás Fernanda közel 10 évig dolgozott élsportolókkal
+                  Igen, kifejezetten! Forrás Fernanda hat évig dolgozott élsportolókkal
                   – a Győri ETO FC labdarúgóival, kézilabdázókkal és atlétákkal. A{" "}
                   <a
                     href="#sportrehabilitacio"

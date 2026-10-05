@@ -25,7 +25,8 @@ function PersonSchema() {
     ],
     "sameAs": [
     "https://www.facebook.com/Restartphysiogyor",
-    "https://www.instagram.com/restartphysiogyor"
+    "https://www.instagram.com/restartphysiogyor",
+    "https://www.linkedin.com/in/fernanda-forr%C3%A1s-927314187/"
   ]
   };
 
@@ -169,7 +170,7 @@ export default function Bemutatkozo() {
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <p className="text-justify indent-8 text-gray-900">
-                    2024-től léptem át a magánszektorba, ahol azóta is számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
+                    2024-ben léptem át a magánszektorba, 2025 óta pedig saját rendelőmben számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
                   </p>
                 </div>
               </div>

@@ -70,7 +70,7 @@ export default function Footer() {
           {/* Social – csak FB, IG, LinkedIn */}
           <div className="flex items-center gap-3">
             {[
-              { Icon: FaFacebookF, href: "https://www.facebook.com/profile.php?id=61581303600810", label: "Facebook" },
+              { Icon: FaFacebookF, href: "https://www.facebook.com/Restartphysiogyor", label: "Facebook" },
               { Icon: FaInstagram, href: "https://www.instagram.com/restartphysiogyor/", label: "Instagram" },
               { Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/fernanda-forr%C3%A1s-927314187/", label: "LinkedIn" },
             ].map(({ Icon, href, label }) => (
