@@ -4,7 +4,7 @@ import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
 export const metadata: Metadata = {
   title: 'TMI / Állkapocs Ízületi Terápia Győr | Fájdalomcsillapítás',
-  description: 'Állkapocs ízületi (TMI) terápia Győrben. Hatékony, specifikus manuálterápiás kezelés fogcsikorgatás, rágóízületi fájdalom, kattogás és korlátozott szájnyitás esetén.',
+  description: 'Állkapocs ízületi (TMI) terápia Győrben. Manuálterápiás kezelés fogcsikorgatás, rágóízületi fájdalom, kattogás és korlátozott szájnyitás esetén.',
   keywords: 'állkapocs ízületi terápia győr, tmi terápia, rágóízületi fájdalom, fogcsikorgatás kezelése, állkapocs kattogás győr',
   alternates: { canonical: 'https://restartphysio.hu/szolgaltatasok/tmi-terapia' },
   openGraph: {

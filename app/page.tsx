@@ -11,7 +11,7 @@ const WhyChooseUs = dynamic(() => import('../components/WhyChooseUs'), {
 export const metadata: Metadata = {
   title: 'Gyógytorna Győr - ReStart Physio | Személyre szabott fizioterápia',
   description:
-    'Fáj a dereka, nyaka, vagy sportsérüléssel küzd? Szakszerű gyógytorna és fizioterápia Győrben, Forrás Fernanda vezetésével. Szabaduljon meg a fájdalomtól, foglaljon időpontot még ma!',
+    'Fáj a dereka, nyaka, vagy sportsérüléssel küzd? Szakszerű gyógytorna és fizioterápia Győrben, Forrás Fernandával. Foglaljon időpontot még ma!',
   keywords:
     'gyógytorna győr, fizioterápia győr, fizioterapeuta győr, gyógytornász győr, sportrehabilitáció győr, gerincpanaszok kezelése, manuálterápia győr, bemer terápia győr, porckorongsérv kezelés, si terápia győr, derékfájás kezelés győr, nyakfájás kezelés győr, mozgásszervi rehabilitáció győr, fizioterapeuta győr magán',
 

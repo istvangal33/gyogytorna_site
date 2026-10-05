@@ -6,7 +6,7 @@ import RelatedServices from '@/components/RelatedServices';
 // --- 1. SEO META ADATOK ---
 export const metadata: Metadata = {
   title: 'Schroth Terápia Győr | Gerincferdülés (Scoliosis) Kezelése',
-  description: 'Schroth terápia Győrben Forrás Fernandával. Hatékony 3D mozgásterápia gerincferdülés (scoliosis) és tartáshibák célzott kezelésére gyerekeknek és felnőtteknek egyaránt.',
+  description: 'Schroth terápia Győrben Forrás Fernandával: 3D mozgásterápia gerincferdülés (scoliosis) és tartáshibák kezelésére gyerekeknek és felnőtteknek.',
   keywords: 'schroth terápia győr, gerincferdülés kezelés győr, scoliosis terápia, 3D mozgásterápia, tartáshiba javítás, gyógytorna gerincferdülésre',
   alternates: {
     canonical: 'https://restartphysio.hu/szolgaltatasok/schroth-terapia',

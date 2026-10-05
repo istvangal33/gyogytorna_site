@@ -6,7 +6,7 @@ import RelatedServices from '@/components/RelatedServices';
 // --- 1. SEO META ADATOK ---
 export const metadata: Metadata = {
   title: 'BEMER Terápia Győr | Gyorsabb regeneráció, fájdalomcsillapítás',
-  description: 'Pulzáló elektromágneses BEMER terápia Győrben Forrás Fernandával. Hatékony megoldás sportsérülések, krónikus fájdalmak és keringési problémák kezelésére. Foglaljon időpontot!',
+  description: 'Pulzáló elektromágneses BEMER terápia Győrben Forrás Fernandával sportsérülések, krónikus fájdalmak és keringési panaszok esetén. Foglaljon időpontot!',
   keywords: 'bemer terápia győr, bemer kezelés győr, pulzáló mágnesterápia, mikrokeringés javítás, bemer gép győr, fizikoterápia győr, fájdalomcsillapítás bemer',
   alternates: {
     canonical: 'https://restartphysio.hu/szolgaltatasok/bemer-terapia',

@@ -44,7 +44,7 @@ function PersonSchema() {
 
 export const metadata: Metadata = {
   title: { absolute: 'Forrás Fernanda | Gyógytornász-fizioterapeuta – ReStart Physio' },
-  description: 'Forrás Fernanda gyógytornász-fizioterapeuta a ReStart Physio alapítója. Szakterületei közé tartozik a sportrehabilitáció, gerincstabilizáció, TMI-terápia, FDM-kezelés, BEMER-terápia, core tréning és Schroth terápia. Célja, hogy páciensei fájdalommentesen, biztonságosan térhessenek vissza a mozgáshoz.',
+  description: 'Forrás Fernanda gyógytornász-fizioterapeuta, a ReStart Physio alapítója. Sportrehabilitáció, gerincpanaszok, TMI-, FDM- és Schroth-terápia Győrben.',
   openGraph: {
     title: 'Forrás Fernanda | Gyógytornász-fizioterapeuta – ReStart Physio',
     description: 'Bemutatkozik Forrás Fernanda, a ReStart Physio szakértő fizioterapeutája, több éves tapasztalattal a sport- és mozgásszervi rehabilitáció területén.',

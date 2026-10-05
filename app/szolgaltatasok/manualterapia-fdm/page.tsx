@@ -4,7 +4,7 @@ import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
 export const metadata: Metadata = {
   title: 'FDM Manuálterápia Győr | Lágyrész és Fascia Kezelés',
-  description: 'FDM (Fascia Disztorziós Modell) manuálterápia Győrben. Gyors és hatékony kezelése akkut és krónikus mozgásszervi panaszoknak, izomfájdalmaknak.',
+  description: 'FDM (Fascia Disztorziós Modell) manuálterápia Győrben. Gyors és hatékony kezelése akut és krónikus mozgásszervi panaszoknak, izomfájdalmaknak.',
   keywords: 'manuálterápia győr, fdm terápia győr, fascia kezelés, hátfájás kezelés, derékfájás manuálterápia, kötőszöveti kezelés',
   alternates: { canonical: 'https://restartphysio.hu/szolgaltatasok/manualterapia-fdm' },
   openGraph: {
