@@ -953,3 +953,29 @@ export async function masikVendegEzzelAzEmaillel(id: string, email: string) {
   );
   return result.rows[0] ?? null;
 }
+
+/**
+ * Vendégkeresés a foglalási űrlap automatikus kitöltéséhez.
+ *
+ * A vendéglistától eltérően LEFT JOIN: az is előjön, akinek még egyetlen
+ * foglalása sincs. Épp a most felvett vendéget kellene felajánlani, amikor a
+ * következő időpontját rögzítik — ha kimaradna, másodpéldány keletkezne.
+ */
+export async function vendegKeresese(minta: string) {
+  const sz = minta.trim();
+  if (sz.length < 2) return [];
+
+  const result = await pool.query(
+    `SELECT c.id, c.name, c.email, c.phone,
+            count(b.id)::int AS foglalas_db,
+            max(b."startsAt") AS utolso
+     FROM "Client" c
+     LEFT JOIN "Booking" b ON b."clientId" = c.id
+     WHERE c.name ILIKE $1 OR c.email ILIKE $1 OR c.phone ILIKE $1
+     GROUP BY c.id
+     ORDER BY count(b.id) DESC, c.name
+     LIMIT 8`,
+    [`%${sz}%`]
+  );
+  return result.rows;
+}

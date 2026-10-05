@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ujFoglalas, foglalasSzerkesztes } from '@/app/admin/naptar/actions';
 
 export type Szolgaltatas = {
@@ -73,6 +73,77 @@ export default function UjFoglalasUrlap({
   const [nev, setNev] = useState(szerkesztendo?.vendeg ?? '');
   const [email, setEmail] = useState(szerkesztendo?.email ?? '');
   const [telefon, setTelefon] = useState('');
+
+  // Meglévő vendégek felajánlása gépelés közben.
+  //
+  // Enélkül egy elgépelt név új vendéget hoz létre — a felismerés ugyanis
+  // névegyezésen is múlik —, és az illető előzménye kettéhasad. Olcsóbb
+  // megelőzni, mint utólag összefésülni.
+  type VendegJelolt = {
+    id: string;
+    nev: string;
+    email: string | null;
+    telefon: string | null;
+    foglalasDb: number;
+  };
+  const [vendegJeloltek, setVendegJeloltek] = useState<VendegJelolt[]>([]);
+  const [listaNyitva, setListaNyitva] = useState(false);
+  const [kijelolt, setKijelolt] = useState(-1);
+  // A választás után ne keressen újra: a mező értékét mi magunk írtuk be.
+  const valasztottunk = useRef(false);
+
+  // Késleltetett keresés: gépelés közben nem minden leütésre kérdezünk.
+  useEffect(() => {
+    if (szerkesztes) return;             // szerkesztéskor a vendég adott
+    if (valasztottunk.current) { valasztottunk.current = false; return; }
+
+    const sz = nev.trim();
+    if (sz.length < 2) { setVendegJeloltek([]); setListaNyitva(false); return; }
+
+    const megszakito = new AbortController();
+    const idozito = setTimeout(async () => {
+      try {
+        const v = await fetch(`/api/admin/vendegek?q=${encodeURIComponent(sz)}`, {
+          signal: megszakito.signal,
+        });
+        if (!v.ok) return;
+        const adat = await v.json();
+        setVendegJeloltek(adat.vendegek ?? []);
+        setKijelolt(-1);
+        setListaNyitva((adat.vendegek ?? []).length > 0);
+      } catch {
+        // megszakított kérés: nincs teendő
+      }
+    }, 250);
+
+    return () => { clearTimeout(idozito); megszakito.abort(); };
+  }, [nev, szerkesztes]);
+
+  /** Egy felajánlott vendég kiválasztása: a három mezőt együtt tölti ki. */
+  function vendegValasztas(v: VendegJelolt) {
+    valasztottunk.current = true;
+    setNev(v.nev);
+    setEmail(v.email ?? '');
+    setTelefon(v.telefon ?? '');
+    setListaNyitva(false);
+    setKijelolt(-1);
+  }
+
+  function nevBillentyu(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!listaNyitva || vendegJeloltek.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setKijelolt((i) => (i + 1) % vendegJeloltek.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setKijelolt((i) => (i <= 0 ? vendegJeloltek.length - 1 : i - 1));
+    } else if (e.key === 'Enter' && kijelolt >= 0) {
+      e.preventDefault();                // ne küldje el az űrlapot
+      vendegValasztas(vendegJeloltek[kijelolt]);
+    } else if (e.key === 'Escape') {
+      setListaNyitva(false);
+    }
+  }
   const [staffId, setStaffId] = useState(eloStaffId);
   // A kiválasztott munkatársra érvényes ár. Ahol nincs saját ár, az árlista
   // ára marad — ugyanaz a szabály, ami a mentésnél is érvényesül. Enélkül a
@@ -258,7 +329,58 @@ export default function UjFoglalasUrlap({
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               <Mezo cimke="Vendég neve" kotelezo>
-                <input value={nev} onChange={(e) => setNev(e.target.value)} required autoFocus className={INPUT} />
+                <div className="relative">
+                  <input
+                    value={nev}
+                    onChange={(e) => setNev(e.target.value)}
+                    onKeyDown={nevBillentyu}
+                    onFocus={() => vendegJeloltek.length > 0 && setListaNyitva(true)}
+                    onBlur={() => setTimeout(() => setListaNyitva(false), 150)}
+                    required
+                    autoFocus
+                    autoComplete="off"
+                    role="combobox"
+                    aria-expanded={listaNyitva}
+                    aria-controls="vendeg-jeloltek"
+                    aria-autocomplete="list"
+                    className={INPUT}
+                  />
+
+                  {listaNyitva && vendegJeloltek.length > 0 && (
+                    <ul
+                      id="vendeg-jeloltek"
+                      role="listbox"
+                      className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-gray-200 bg-white py-1 shadow-lg"
+                    >
+                      {vendegJeloltek.map((v, i) => (
+                        <li key={v.id} role="option" aria-selected={i === kijelolt}>
+                          <button
+                            type="button"
+                            // onMouseDown, nem onClick: az onBlur előbb futna
+                            // le, és bezárná a listát a kattintás előtt.
+                            onMouseDown={(e) => { e.preventDefault(); vendegValasztas(v); }}
+                            onMouseEnter={() => setKijelolt(i)}
+                            className={
+                              'block w-full px-3 py-2 text-left text-sm ' +
+                              (i === kijelolt ? 'bg-[#004a6d]/10' : 'hover:bg-gray-50')
+                            }
+                          >
+                            <span className="font-medium text-gray-900">{v.nev}</span>
+                            <span className="ml-2 text-xs text-gray-500">
+                              {[v.email, v.telefon].filter(Boolean).join(' · ') || 'nincs elérhetőség'}
+                            </span>
+                            <span className="ml-2 text-xs text-gray-400">
+                              {v.foglalasDb > 0 ? `${v.foglalasDb} foglalás` : 'még nem járt'}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                {!listaNyitva && nev.trim().length >= 2 && vendegJeloltek.length === 0 && (
+                  <p className="mt-1 text-xs text-gray-500">Új vendég — most kerül be a rendszerbe.</p>
+                )}
               </Mezo>
               <Mezo cimke="E-mail cím">
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={INPUT} />
