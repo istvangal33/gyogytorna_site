@@ -15,11 +15,7 @@ function ServiceSchema() {
       "serviceType": "Physiotherapy",
       "name": "Egyéni gyógytorna/rehabilitáció",
       "description": "A sportrehabilitáció célja, hogy a sérülést követően a sportoló minél gyorsabban, biztonságosan és teljes értékűen térhessen vissza az edzéshez vagy versenyzéshez.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     },
     {
       "@context": "https://schema.org",
@@ -27,11 +23,7 @@ function ServiceSchema() {
       "serviceType": "MedicalTherapy",
       "name": "TMI (állkapocsízületi) terápia",
       "description": "Az állkapocs-ízületi terápia a rágóízület működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     },
     {
       "@context": "https://schema.org",
@@ -39,11 +31,7 @@ function ServiceSchema() {
       "serviceType": "ManualTherapy",
       "name": "Lágyrész-manuálterápia (FDM-kezelések)",
       "description": "Az FDM (Fascia Disztorziós Modell) terápia egy innovatív manuális kezelési módszer, amellyel a fascia elváltozásainak helyreállítására fókuszálunk.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     },
     {
       "@context": "https://schema.org",
@@ -51,11 +39,7 @@ function ServiceSchema() {
       "serviceType": "SpinalTherapy",
       "name": "Gerincpanaszok kezelése",
       "description": "A gerincpanaszok napjaink egyik leggyakoribb mozgásszervi problémái közé tartoznak. A célunk nem csak a tünetek enyhítése, hanem az okok feltárása és a tartós megoldás megtalálása.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     },
     {
       "@context": "https://schema.org",
@@ -63,11 +47,7 @@ function ServiceSchema() {
       "serviceType": "ElectromagneticTherapy",
       "name": "BEMER terápia",
       "description": "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet mikrokeringését.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     },
     {
       "@context": "https://schema.org",
@@ -75,11 +55,7 @@ function ServiceSchema() {
       "serviceType": "KinesiologyTaping",
       "name": "Dinamikus tape",
       "description": "A Dynamic Tape egy innovatív, biomechanikai szemléletű tapasz, amely nemcsak támogatja az izmokat és ízületeket, hanem aktívan segíti a mozgást is.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     },
     {
       "@context": "https://schema.org",
@@ -87,11 +63,7 @@ function ServiceSchema() {
       "serviceType": "CoreStabilization",
       "name": "Csoportos gerinc core edzés",
       "description": "A core (törzsizomzat) a test stabilitásának alapja. A személyre szabott core-stabilizációs program célja, hogy fokozatosan építsük vissza a törzs tartóerejét.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     },
     {
       "@context": "https://schema.org",
@@ -99,11 +71,7 @@ function ServiceSchema() {
       "serviceType": "ScoliosisTherapy",
       "name": "Gerincferdülés - Schroth terápia",
       "description": "A Schroth terápia egy speciális, háromdimenziós mozgásterápia, amely a gerincferdülés (scoliosis) és más tartáshibák célzott kezelésére szolgál.",
-      "provider": {
-        "@type": "MedicalBusiness",
-        "name": "ReStart Physio",
-        "url": "https://restartphysio.hu"
-      }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     }
   ];
 

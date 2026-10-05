@@ -114,13 +114,13 @@ export default function Elerhetoseg() {
             </div>
 
             {/* Rendelő adatai - MICRODATA ENHANCED */}
-            <div className="lg:pl-2" itemScope itemType="https://schema.org/LocalBusiness">
+            <div className="lg:pl-2">
               <div className="mb-8">
                 <h2
                   className="text-3xl font-bold mb-2"
                   style={{ color: BRAND_PRIMARY } as React.CSSProperties}
                 >
-                  <span itemProp="name">ReStart Physio</span> - Rendelő adatai
+                  ReStart Physio - Rendelő adatai
                 </h2>
                 <div
                   className="h-0.75 w-20 rounded-full"
@@ -145,15 +145,6 @@ export default function Elerhetoseg() {
                     </svg>
                   }
                   tone="none"
-                  microdata={{
-                    scope: "address",
-                    type: "PostalAddress",
-                    props: [
-                      { prop: "postalCode", value: "9028" },
-                      { prop: "addressLocality", value: "Győr" },
-                      { prop: "streetAddress", value: "Máté Mária u. 4b" }
-                    ]
-                  }}
                 />
 
                 <ContactRow
@@ -170,12 +161,6 @@ export default function Elerhetoseg() {
                     </svg>
                   }
                   tone="none"
-                  microdata={{
-                    scope: "telephone",
-                    props: [
-                      { prop: "telephone", value: "+36308198449" }
-                    ]
-                  }}
                 />
 
                 <ContactRow
@@ -192,12 +177,6 @@ export default function Elerhetoseg() {
                     </svg>
                   }
                   tone="none"
-                  microdata={{
-                    scope: "email",
-                    props: [
-                      { prop: "email", value: "restart.gyor@gmail.com" }
-                    ]
-                  }}
                 />
 
                 {/* ✅ ÚJ: NYITVATARTÁS */}
@@ -215,12 +194,6 @@ export default function Elerhetoseg() {
                     </svg>
                   }
                   tone="none"
-                  microdata={{
-                    scope: "openingHours",
-                    props: [
-                      { prop: "openingHours", value: "Mo-Fr 08:00-18:00" }
-                    ]
-                  }}
                 />
               </div>
             </div>

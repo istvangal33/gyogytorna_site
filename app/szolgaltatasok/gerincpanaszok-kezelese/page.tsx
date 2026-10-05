@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 export const metadata: Metadata = {
   title: 'Gerincpanaszok Kezelése Győr | Derékfájás, Porckorongsérv',
   description: 'Komplex fizioterápiás kezelés gerincpanaszok, derékfájdalom, nyakfájás és porckorongsérv esetén Győrben a ReStart Physio rendelőben.',
@@ -31,7 +32,7 @@ function SpineSchema() {
       "serviceType": "SpinalTherapy",
       "name": "Gerincpanaszok Kezelése Győr",
       "description": "Célzott és komplex fizioterápia derékfájás, porckorongsérv és egyéb gerincproblémák kezelésére.",
-      "provider": { "@type": "MedicalBusiness", "name": "ReStart Physio", "url": "https://restartphysio.hu" }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     })}} />
   );
 }
@@ -40,6 +41,11 @@ export default function SpineTherapyPage() {
   return (
     <>
       <SpineSchema />
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Szolgáltatások', url: 'https://restartphysio.hu/szolgaltatasok' },
+        { name: 'Gerincpanaszok', url: 'https://restartphysio.hu/szolgaltatasok/gerincpanaszok-kezelese' }
+      ]} />
 
       <section className="relative bg-white py-20 md:py-28 overflow-hidden border-b border-gray-100">
         <div className="absolute inset-0 bg-linear-to-b from-[#004A6D]/5 to-transparent pointer-events-none"></div>

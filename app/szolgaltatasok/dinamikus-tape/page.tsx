@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 export const metadata: Metadata = {
   title: 'Dinamikus Tape és Kinesio Tape Győr | Ízület és Izom Támogatás',
   description: 'Dinamikus tape és kineziológiai tapaszolás Győrben. Hatékony biomechanikai támogatás sérülések, fájdalomcsillapítás és sportteljesítmény javítása érdekében.',
@@ -31,7 +32,7 @@ function TapeSchema() {
       "serviceType": "KinesiologyTaping",
       "name": "Dinamikus Tape Győr",
       "description": "Biomechanikai szemléletű, innovatív tapaszolás ízületi fájdalmak és stabilitási problémák esetén.",
-      "provider": { "@type": "MedicalBusiness", "name": "ReStart Physio", "url": "https://restartphysio.hu" }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     })}} />
   );
 }
@@ -40,6 +41,11 @@ export default function TapeTherapyPage() {
   return (
     <>
       <TapeSchema />
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Szolgáltatások', url: 'https://restartphysio.hu/szolgaltatasok' },
+        { name: 'Dinamikus Tape', url: 'https://restartphysio.hu/szolgaltatasok/dinamikus-tape' }
+      ]} />
 
       <section className="relative bg-white py-20 md:py-28 overflow-hidden border-b border-gray-100">
         <div className="absolute inset-0 bg-linear-to-b from-[#004A6D]/5 to-transparent pointer-events-none"></div>

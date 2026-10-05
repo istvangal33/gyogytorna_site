@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 export const metadata: Metadata = {
   title: 'FDM Manuálterápia Győr | Lágyrész és Fascia Kezelés',
   description: 'FDM (Fascia Disztorziós Modell) manuálterápia Győrben. Gyors és hatékony kezelése akut és krónikus mozgásszervi panaszoknak, izomfájdalmaknak.',
@@ -31,7 +32,7 @@ function FDMSchema() {
       "serviceType": "ManualTherapy",
       "name": "FDM Manuálterápia Győr",
       "description": "Az FDM terápia a fascia elváltozásainak helyreállítására fókuszáló manuális kezelési módszer.",
-      "provider": { "@type": "MedicalBusiness", "name": "ReStart Physio", "url": "https://restartphysio.hu" }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     })}} />
   );
 }
@@ -40,6 +41,11 @@ export default function FDMTherapyPage() {
   return (
     <>
       <FDMSchema />
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Szolgáltatások', url: 'https://restartphysio.hu/szolgaltatasok' },
+        { name: 'FDM Manuálterápia', url: 'https://restartphysio.hu/szolgaltatasok/manualterapia-fdm' }
+      ]} />
 
       <section className="relative bg-white py-20 md:py-28 overflow-hidden border-b border-gray-100">
         <div className="absolute inset-0 bg-linear-to-b from-[#004A6D]/5 to-transparent pointer-events-none"></div>

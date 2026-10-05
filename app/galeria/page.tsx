@@ -18,11 +18,7 @@ function GallerySchema({ images }: { images: GalleryImage[] }) {
     "@type": "ImageGallery",
     "name": "ReStart Physio Galéria - Rendelő és Kezelések",
     "description": "Modern gyógytorna rendelő és professzionális fizioterápiás kezelések képekben Győrben",
-    "provider": {
-      "@type": "MedicalBusiness",
-      "name": "ReStart Physio",
-      "url": "https://restartphysio.hu"
-    }
+    "provider": { "@id": "https://restartphysio.hu/#organization" }
   };
 
   return (

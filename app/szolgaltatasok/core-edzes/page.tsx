@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 export const metadata: Metadata = {
   title: 'Csoportos Gerinc és Core Edzés Győr | Törzsizomzat Erősítés',
   description: 'Kiscsoportos gerinc és core edzés Győrben. Erősítse meg törzsizomzatát, javítsa testtartását és előzze meg a gerincfájdalmakat a ReStart Physionál.',
@@ -31,7 +32,7 @@ function CoreSchema() {
       "serviceType": "CoreStabilization",
       "name": "Csoportos Gerinc Core Edzés Győr",
       "description": "A core, vagyis a törzsizomzat megerősítése szakmai felügyelet mellett, mely a hát- és gerincfájdalmak gátja.",
-      "provider": { "@type": "MedicalBusiness", "name": "ReStart Physio", "url": "https://restartphysio.hu" }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     })}} />
   );
 }
@@ -40,6 +41,11 @@ export default function CoreTrainingPage() {
   return (
     <>
       <CoreSchema />
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Szolgáltatások', url: 'https://restartphysio.hu/szolgaltatasok' },
+        { name: 'Core Edzés', url: 'https://restartphysio.hu/szolgaltatasok/core-edzes' }
+      ]} />
 
       <section className="relative bg-white py-20 md:py-28 overflow-hidden border-b border-gray-100">
         <div className="absolute inset-0 bg-linear-to-b from-[#004A6D]/5 to-transparent pointer-events-none"></div>

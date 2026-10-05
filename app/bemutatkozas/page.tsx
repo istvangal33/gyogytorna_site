@@ -9,16 +9,13 @@ function PersonSchema() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://restartphysio.hu/#person",
     "name": "Forrás Fernanda",
     "jobTitle": "Gyógytornász-fizioterapeuta",
     "image": "https://restartphysio.hu/main.jpg",
     "url": "https://restartphysio.hu/bemutatkozas",
     "description": "Okleveles gyógytornász-fizioterapeuta, a ReStart Physio alapítója és vezető szakembere. Több éves tapasztalattal a sportrehabilitáció és mozgásszervi terápiák területén.",
-    "worksFor": {
-      "@type": "MedicalBusiness", 
-      "name": "ReStart Physio",
-      "url": "https://restartphysio.hu"
-    },
+    "worksFor": { "@id": "https://restartphysio.hu/#organization" },
     "alumniOf": "Szegedi Tudományegyetem",
     "hasCredential": [
       {
@@ -27,8 +24,8 @@ function PersonSchema() {
       }
     ],
     "sameAs": [
-    "https://www.facebook.com/Restartphysiogyor/",
-    "https://www.instagram.com/restartphysiogyor/"
+    "https://www.facebook.com/Restartphysiogyor",
+    "https://www.instagram.com/restartphysiogyor"
   ]
   };
 

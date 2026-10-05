@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 export const metadata: Metadata = {
   title: 'TMI / Állkapocs Ízületi Terápia Győr | Fájdalomcsillapítás',
   description: 'Állkapocs ízületi (TMI) terápia Győrben. Manuálterápiás kezelés fogcsikorgatás, rágóízületi fájdalom, kattogás és korlátozott szájnyitás esetén.',
@@ -31,7 +32,7 @@ function TMISchema() {
       "serviceType": "MedicalTherapy",
       "name": "TMI (Állkapocs Ízületi) Terápia Győr",
       "description": "Az állkapocs-ízületi (TMI) terápia a rágóízület működésének helyreállítására irányuló speciális manuális kezelés.",
-      "provider": { "@type": "MedicalBusiness", "name": "ReStart Physio", "url": "https://restartphysio.hu" }
+      "provider": { "@id": "https://restartphysio.hu/#organization" }
     })}} />
   );
 }
@@ -40,6 +41,11 @@ export default function TMITherapyPage() {
   return (
     <>
       <TMISchema />
+      <BreadcrumbSchema items={[
+        { name: 'Főoldal', url: 'https://restartphysio.hu' },
+        { name: 'Szolgáltatások', url: 'https://restartphysio.hu/szolgaltatasok' },
+        { name: 'TMI terápia', url: 'https://restartphysio.hu/szolgaltatasok/tmi-terapia' }
+      ]} />
 
       <section className="relative bg-white py-20 md:py-28 overflow-hidden border-b border-gray-100">
         <div className="absolute inset-0 bg-linear-to-b from-[#004A6D]/5 to-transparent pointer-events-none"></div>

@@ -27,18 +27,7 @@ function SchrothSchema() {
     "serviceType": "ScoliosisTherapy",
     "name": "Schroth Terápia Győr",
     "description": "A Schroth terápia egy speciális, háromdimenziós mozgásterápia, amely a gerincferdülés (scoliosis) és más tartáshibák célzott kezelésére szolgál fiatal és felnőtt páciensek körében.",
-    "provider": {
-      "@type": "MedicalBusiness",
-      "name": "ReStart Physio",
-      "url": "https://restartphysio.hu",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Máté Mária u. 4b",
-        "addressLocality": "Győr",
-        "postalCode": "9028",
-        "addressCountry": "HU"
-      }
-    },
+    "provider": { "@id": "https://restartphysio.hu/#organization" },
     "areaServed": {
       "@type": "City",
       "name": "Győr"

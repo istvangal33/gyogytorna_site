@@ -27,18 +27,7 @@ function BemerSchema() {
     "serviceType": "ElectromagneticTherapy",
     "name": "BEMER Terápia Győr",
     "description": "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet mikrokeringését.",
-    "provider": {
-      "@type": "MedicalBusiness",
-      "name": "ReStart Physio",
-      "url": "https://restartphysio.hu",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Máté Mária u. 4b",
-        "addressLocality": "Győr",
-        "postalCode": "9028",
-        "addressCountry": "HU"
-      }
-    },
+    "provider": { "@id": "https://restartphysio.hu/#organization" },
     "areaServed": {
       "@type": "City",
       "name": "Győr"

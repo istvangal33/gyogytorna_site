@@ -92,7 +92,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@graph": [
                 {
-                  "@type": ["MedicalClinic", "HealthAndBeautyBusiness", "LocalBusiness"],
+                  "@type": ["MedicalClinic", "LocalBusiness"],
                   "@id": "https://restartphysio.hu/#organization",
                   "name": "ReStart Physio - Gyógytorna és Fizioterápia",
                   "url": "https://restartphysio.hu",
@@ -165,7 +165,7 @@ export default function RootLayout({
                   "@type": "Person",
                   "@id": "https://restartphysio.hu/#person",
                   "name": "Forrás Fernanda",
-                  "jobTitle": "Fizioterapeuta",
+                  "jobTitle": "Gyógytornász-fizioterapeuta",
                   "worksFor": {
                     "@id": "https://restartphysio.hu/#organization"
                   },

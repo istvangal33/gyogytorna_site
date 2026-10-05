@@ -32,11 +32,7 @@ function RehabSchema() {
     "serviceType": "Physiotherapy",
     "name": "Sportrehabilitáció és Gyógytorna Győr",
     "description": "Személyre szabott sportrehabilitáció és gyógytorna sérülések és műtétek utáni felépüléshez.",
-    "provider": {
-      "@type": "MedicalBusiness",
-      "name": "ReStart Physio",
-      "url": "https://restartphysio.hu"
-    }
+    "provider": { "@id": "https://restartphysio.hu/#organization" }
   };
 
   const breadcrumbs = {
