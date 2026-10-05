@@ -342,8 +342,10 @@ export async function ujFoglalas(adat: {
           new Intl.DateTimeFormat("hu-HU", { month: "long", day: "numeric", timeZone: IDOZONA }).format(d)
         )
         .join(", ");
+      // A magyar dátumformátum már pontra végződik ("december 1."), ezért a
+      // mondatvég nem kap másodikat.
       uzenetek.push(
-        `${kihagyott.length} alkalom kimaradt, mert ütközött egy másik foglalással: ${lista}. ` +
+        `${kihagyott.length} alkalom kimaradt, mert ütközött egy másik foglalással: ${lista} ` +
           `Ezeket külön kell felvenni.`
       );
       figyelmeztetes = uzenetek.join(" ") || undefined;
