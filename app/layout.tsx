@@ -94,7 +94,9 @@ export default function RootLayout({
                 {
                   "@type": ["MedicalClinic", "LocalBusiness"],
                   "@id": "https://restartphysio.hu/#organization",
-                  "name": "ReStart Physio - Gyógytorna és Fizioterápia",
+                  // Betűre egyeznie kell a Google Cégprofilban szereplő névvel — abból köti
+                  // össze a Google az oldalt a profillal.
+                  "name": "ReStart Physio Győr",
                   "url": "https://restartphysio.hu",
                   "logo": {
                     "@type": "ImageObject",
