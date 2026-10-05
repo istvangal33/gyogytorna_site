@@ -130,7 +130,39 @@ export default function ArakUrlap({
         </div>
       )}
 
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+      {/* Telefonon kártyák: a három oszlop 340 px-en annyira összenyomódik,
+          hogy a szolgáltatás neve betűnként tördelődik, az ár pedig kettétörik. */}
+      <ul className="space-y-2 md:hidden">
+        {szolgaltatasok.map((sz) => {
+          const sajat = (ertekek[sz.id] ?? '').trim();
+          const elter = sajat !== '' && Number(sajat) !== sz.arlistaAr;
+          return (
+            <li key={sz.id} className="rounded-lg border border-gray-200 bg-white p-3">
+              <p className="font-medium text-gray-900">{sz.nev}</p>
+              <p className="mt-0.5 text-xs text-gray-500">
+                {sz.perc > 0 && <>{sz.perc} perc · </>}
+                árlista: <span className="tabular-nums">{forint(sz.arlistaAr)}</span>
+              </p>
+              <div className="mt-2 flex items-center gap-2">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={ertekek[sz.id] ?? ''}
+                  onChange={(e) =>
+                    setErtekek((elozo) => ({ ...elozo, [sz.id]: e.target.value }))
+                  }
+                  placeholder="árlista szerint"
+                  aria-label={`${sz.nev} ára`}
+                  className={INPUT + (elter ? ' border-[#004a6d] font-semibold' : '')}
+                />
+                <span className="shrink-0 text-sm text-gray-500">Ft</span>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className="hidden overflow-hidden rounded-lg border border-gray-200 bg-white md:block">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
             <tr>

@@ -232,7 +232,53 @@ export default function SzolgaltatasLista({
         </form>
       )}
 
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+      {/* Telefonon kártyák: a táblázat öt oszlopa 340 px-en egymásra csúszna,
+          és a végén lévő oszlop le is lógna a képernyőről. */}
+      <ul className="space-y-3 md:hidden">
+        {szolgaltatasok.map((sz) => (
+          <li
+            key={sz.id}
+            className={
+              'rounded-lg border border-gray-200 p-4 ' +
+              (sz.active ? 'bg-white' : 'bg-gray-50')
+            }
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className={'font-medium ' + (sz.active ? 'text-gray-900' : 'text-gray-400')}>
+                  {sz.name}
+                </p>
+                <p className="mt-0.5 text-sm tabular-nums text-gray-700">
+                  {forint(sz.price)}
+                  <span className="text-gray-400"> · </span>
+                  {sz.durationMin} perc
+                  {sz.blockMin !== sz.durationMin && (
+                    <span className="text-gray-500"> ({sz.blockMin} a naptárban)</span>
+                  )}
+                </p>
+              </div>
+              <button
+                onClick={() => szerkesztesInditasa(sz)}
+                className="shrink-0 text-sm font-medium text-[#004a6d] hover:underline"
+              >
+                Módosítás
+              </button>
+            </div>
+
+            {sz.description && (
+              <p className="mt-2 text-xs text-gray-500">{sz.description}</p>
+            )}
+
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
+              <span>{sz.foglalas_db} foglalás</span>
+              {!sz.active && <span className="text-gray-400">kivezetve</span>}
+              {sz.active && !sz.bookable && <span className="text-gray-400">nem foglalható</span>}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div className="hidden overflow-hidden rounded-lg border border-gray-200 bg-white md:block">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
             <tr>
