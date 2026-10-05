@@ -168,6 +168,25 @@ export default function UjFoglalasUrlap({
   const [keziIdo, setKeziIdo] = useState(eloKezdet);
 
   const [ertesites, setErtesites] = useState(true);
+  // Heti ismétlődés. 1 = egyszeri foglalás.
+  const [ismetles, setIsmetles] = useState(1);
+
+  /** Mely napokra kerülne be a sorozat? A heti léptetés naptári nappal megy,
+   *  hogy az óraátállítás hetén se csússzon el az időpont. */
+  const ismetlesNapjai = (() => {
+    if (ismetles < 2) return [];
+    const kezdIso = keziMod ? keziIdo : valasztott?.kezdet;
+    if (!kezdIso) return [];
+    const alap = new Date(kezdIso);
+    if (Number.isNaN(alap.getTime())) return [];
+
+    const fmt = new Intl.DateTimeFormat('hu-HU', { month: 'short', day: 'numeric' });
+    return Array.from({ length: ismetles }, (_, i) => {
+      const d = new Date(alap);
+      d.setDate(d.getDate() + i * 7);
+      return fmt.format(d);
+    });
+  })();
   const [mentes, setMentes] = useState(false);
   const [hiba, setHiba] = useState<string | null>(null);
 
@@ -288,6 +307,7 @@ export default function UjFoglalasUrlap({
       kezdet,
       megjegyzes,
       ertesites,
+      ismetlesDb: ismetles,
     });
     setMentes(false);
     if (!r.ok) {
@@ -526,6 +546,32 @@ export default function UjFoglalasUrlap({
               </p>
             )}
           </Mezo>
+
+          {!szerkesztes && (
+            <Mezo cimke="Ismétlődés">
+              <select
+                value={ismetles}
+                onChange={(e) => setIsmetles(Number(e.target.value))}
+                className={INPUT}
+              >
+                <option value={1}>Egyszeri alkalom</option>
+                {[2, 3, 4, 5, 6, 8, 10, 12].map((n) => (
+                  <option key={n} value={n}>
+                    Hetente, {n} alkalom
+                  </option>
+                ))}
+              </select>
+              {ismetles > 1 && ismetlesNapjai.length > 0 && (
+                <p className="mt-1 text-xs text-gray-500">
+                  {ismetlesNapjai.join(' · ')}
+                  <span className="mt-0.5 block">
+                    Minden alkalom önálló foglalás. Ha valamelyik ütközik, az
+                    kimarad, a többi létrejön — és meg fogom mondani, melyik.
+                  </span>
+                </p>
+              )}
+            </Mezo>
+          )}
 
           {szerkesztes && (
             <Mezo cimke="Ár">

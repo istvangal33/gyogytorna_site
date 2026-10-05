@@ -93,6 +93,7 @@ export async function GET(req: Request) {
       serviceId: f.serviceId,
       szolgaltatas: f.szolgaltatas,
       ar: f.price,
+      seriesId: f.seriesId,
       allapot: f.status,
       megjegyzes: f.notes,
     })),

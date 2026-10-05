@@ -175,7 +175,7 @@ export async function munkatarsak() {
 // csak az adott munkatárs foglalásai jönnek vissza.
 export async function foglalasok(kezdet: Date, veg: Date, staffId: string | null) {
   const result = await pool.query(
-    `SELECT b.id, b."startsAt", b."endsAt", b.status, b.notes, b."serviceId",
+    `SELECT b.id, b."startsAt", b."endsAt", b.status, b.notes, b."serviceId", b."seriesId",
             c.name AS vendeg, c.email AS vendeg_email, c.phone AS vendeg_telefon,
             s.name AS szolgaltatas, s."durationMin", b.price,
             u.id AS staff_id, u.name AS staff_nev
@@ -348,11 +348,13 @@ export async function foglalasMentese(adat: {
   createdById: string;
   megjegyzes: string | null;
   ar: number;
+  /** Sorozat címkéje. Az alkalmak attól még önálló foglalások maradnak. */
+  seriesId?: string | null;
 }) {
   const result = await pool.query(
     `INSERT INTO "Booking"
-       ("clientId", "serviceId", "staffId", "startsAt", "endsAt", "createdById", notes, price)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       ("clientId", "serviceId", "staffId", "startsAt", "endsAt", "createdById", notes, price, "seriesId")
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
      RETURNING id`,
     [
       adat.clientId,
@@ -363,6 +365,7 @@ export async function foglalasMentese(adat: {
       adat.createdById,
       adat.megjegyzes,
       adat.ar,
+      adat.seriesId ?? null,
     ]
   );
   return result.rows[0].id as string;
@@ -373,7 +376,7 @@ export async function foglalasMentese(adat: {
 export async function foglalasAzonositoval(id: string) {
   const result = await pool.query(
     `SELECT b.id, b."clientId", b."serviceId", b."staffId",
-            b."startsAt", b."endsAt", b.status, b.notes
+            b."startsAt", b."endsAt", b.status, b.notes, b."seriesId"
      FROM "Booking" b WHERE b.id = $1 LIMIT 1`,
     [id]
   );
@@ -978,4 +981,53 @@ export async function vendegKeresese(minta: string) {
     [`%${sz}%`]
   );
   return result.rows;
+}
+
+// ---------------------------------------------------------------------------
+// Ismétlődő foglalás (sorozat)
+//
+// A sorozat minden alkalma ÖNÁLLÓ foglalás: saját hely a naptárban, saját
+// állapot, saját ár, saját emlékeztető. A seriesId csak annyit jelent, hogy
+// együtt készültek — ebből tudjuk kiírni, hányadik alkalomnál tartanak, és
+// ebből lehet a hátralévőket egy mozdulattal lemondani.
+// ---------------------------------------------------------------------------
+
+/** Egy sorozat alkalmai időrendben. */
+export async function sorozatFoglalasai(seriesId: string) {
+  const result = await pool.query(
+    `SELECT id, "startsAt", "endsAt", status
+     FROM "Booking" WHERE "seriesId" = $1 ORDER BY "startsAt"`,
+    [seriesId]
+  );
+  return result.rows as {
+    id: string;
+    startsAt: Date;
+    endsAt: Date;
+    status: string;
+  }[];
+}
+
+/** Hányadik alkalom ez, és hányból? A foglalás lapján ezt írjuk ki. */
+export async function sorozatHelye(seriesId: string, foglalasId: string) {
+  const alkalmak = await sorozatFoglalasai(seriesId);
+  const index = alkalmak.findIndex((a) => a.id === foglalasId);
+  return { hanyadik: index + 1, osszesen: alkalmak.length };
+}
+
+/**
+ * A sorozat hátralévő alkalmainak lemondása.
+ *
+ * Csak a MÉG LE NEM ZAJLOTT, foglalt állapotú alkalmakat érinti: a megtörtént
+ * kezeléseket nem írja át, mert azok megtörténtek. A kiindulópontot is
+ * beleértve, ha az még a jövőben van.
+ */
+export async function sorozatHatralevoLemondasa(seriesId: string, mettol: Date) {
+  const result = await pool.query(
+    `UPDATE "Booking"
+       SET status = 'CANCELLED', "updatedAt" = now()
+     WHERE "seriesId" = $1 AND "startsAt" >= $2 AND status = 'BOOKED'
+     RETURNING id`,
+    [seriesId, mettol]
+  );
+  return result.rowCount ?? 0;
 }

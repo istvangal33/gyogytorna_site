@@ -1,5 +1,8 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
+import { IDOZONA } from "@/lib/idozona.ts";
+
 import { revalidatePath } from "next/cache";
 import { bejelentkezettFelhasznalo } from "@/lib/munkamenet";
 import {
@@ -7,6 +10,8 @@ import {
   vendegRogzitese,
   vendegKereses,
   ervenyesAr,
+  sorozatHelye,
+  sorozatHatralevoLemondasa,
   vendegKorabbiFoglalasai,
   foglalasMentese,
   foglalasAzonositoval,
@@ -135,7 +140,9 @@ function blokkHossza(
 async function vendegErtesitese(
   foglalasId: string,
   fajta: "uj" | "modositas" | "lemondas",
-  sorszam = 0
+  sorszam = 0,
+  /** Heti ismétlődés: a naptármeghívó egyetlen bejegyzéssel írja le a sorozatot. */
+  ismetles?: { hetente: number; kihagyott?: Date[] }
 ): Promise<string | undefined> {
   try {
     const f = await foglalasReszletei(foglalasId);
@@ -168,6 +175,7 @@ async function vendegErtesitese(
       vendegEmail: f.vendeg_email,
       sorszam,
       lemondas: fajta === "lemondas",
+      ismetles,
     });
 
     const adat = {
@@ -210,6 +218,11 @@ export async function ujFoglalas(adat: {
   kezdet: string;
   megjegyzes: string;
   ertesites?: boolean;
+  /**
+   * Hány alkalomra, hetente ismételve. 1 = egyszeri foglalás.
+   * A sorozat minden alkalma önálló foglalás marad.
+   */
+  ismetlesDb?: number;
 }): Promise<FoglalasEredmeny> {
   const jog = await jogosultsag();
   if (!jog) return { ok: false, hiba: "Nincs jogosultság." };
@@ -228,6 +241,11 @@ export async function ujFoglalas(adat: {
 
   const kezdet = new Date(adat.kezdet);
   if (Number.isNaN(kezdet.getTime())) return { ok: false, hiba: "Hibás időpont." };
+
+  const alkalmak = adat.ismetlesDb ?? 1;
+  if (!Number.isInteger(alkalmak) || alkalmak < 1 || alkalmak > 26) {
+    return { ok: false, hiba: "Az ismétlés 1 és 26 alkalom között adható meg." };
+  }
 
   if (!jog.foglalhatMasnak && adat.staffId !== jog.user.id) {
     return { ok: false, hiba: "Csak magadnak vihetsz fel foglalást." };
@@ -271,27 +289,78 @@ export async function ujFoglalas(adat: {
 
   let figyelmeztetes: string | undefined = uzenetek.join(" ") || undefined;
 
+  const ar = await ervenyesAr(adat.staffId, szolgaltatas.id, szolgaltatas.price);
+  const seriesId = alkalmak > 1 ? randomUUID() : null;
+
   try {
-    const id = await foglalasMentese({
-      clientId: vendeg.id,
-      serviceId: szolgaltatas.id,
-      staffId: adat.staffId,
-      kezdet,
-      veg,
-      createdById: jog.user.id,
-      megjegyzes: adat.megjegyzes.trim() || null,
-      // A munkatársra érvényes akkori ár rögzül a foglaláson: egy későbbi
-      // áremelés nem írja át visszamenőleg az előzményeket.
-      ar: await ervenyesAr(adat.staffId, szolgaltatas.id, szolgaltatas.price),
-    });
+    const letrejott: string[] = [];
+    const kihagyott: Date[] = [];
+
+    for (let i = 0; i < alkalmak; i++) {
+      // Heti léptetés NAPTÁRI nappal, nem ezredmásodperccel: az óraátállítás
+      // hetén a 86 400 000-es szorzás egy órát csúsztatna az egész sorozaton.
+      const iKezdet = new Date(kezdet);
+      iKezdet.setDate(iKezdet.getDate() + i * 7);
+      const iVeg = new Date(iKezdet.getTime() + blokk.perc * 60000);
+
+      try {
+        letrejott.push(
+          await foglalasMentese({
+            clientId: vendeg.id,
+            serviceId: szolgaltatas.id,
+            staffId: adat.staffId,
+            kezdet: iKezdet,
+            veg: iVeg,
+            createdById: jog.user.id,
+            megjegyzes: adat.megjegyzes.trim() || null,
+            // A munkatársra érvényes akkori ár rögzül: egy későbbi áremelés
+            // nem írja át visszamenőleg az előzményeket.
+            ar,
+            seriesId,
+          })
+        );
+      } catch (err) {
+        // Ütközés: ezt az egy alkalmat kihagyjuk, a sorozat többi része
+        // létrejön. Az első alkalomnál viszont nincs mit menteni.
+        if ((err as { code?: string }).code === "23P01") {
+          if (i === 0) {
+            return {
+              ok: false,
+              hiba: "Ebben az idősávban már van foglalása ennek a munkatársnak.",
+            };
+          }
+          kihagyott.push(iKezdet);
+          continue;
+        }
+        throw err;
+      }
+    }
+
+    if (kihagyott.length > 0) {
+      const lista = kihagyott
+        .map((d) =>
+          new Intl.DateTimeFormat("hu-HU", { month: "long", day: "numeric", timeZone: IDOZONA }).format(d)
+        )
+        .join(", ");
+      uzenetek.push(
+        `${kihagyott.length} alkalom kimaradt, mert ütközött egy másik foglalással: ${lista}. ` +
+          `Ezeket külön kell felvenni.`
+      );
+      figyelmeztetes = uzenetek.join(" ") || undefined;
+    }
 
     if (adat.ertesites !== false) {
-      const levelHiba = await vendegErtesitese(id, "uj");
+      // Egyetlen levél az egész sorozatról: a naptármeghívó ismétlődési
+      // szabállyal írja le, a vendég naptára bontja ki alkalmakra.
+      const levelHiba = await vendegErtesitese(letrejott[0], "uj", 0, {
+        hetente: alkalmak,
+        kihagyott,
+      });
       if (levelHiba) figyelmeztetes = [figyelmeztetes, levelHiba].filter(Boolean).join(" ");
     }
 
     revalidatePath("/admin/naptar");
-    return { ok: true, id, figyelmeztetes };
+    return { ok: true, id: letrejott[0], figyelmeztetes };
   } catch (err) {
     if ((err as { code?: string }).code === "23P01") {
       return { ok: false, hiba: "Ebben az idősávban már van foglalása ennek a munkatársnak." };
@@ -425,4 +494,58 @@ export async function foglalasTorles(foglalasId: string): Promise<EgyszeruEredme
 
   revalidatePath("/admin/naptar");
   return { ok: true };
+}
+
+/**
+ * Egy sorozat hátralévő alkalmainak lemondása.
+ *
+ * Csak a még le nem zajlott, foglalt állapotú alkalmakat érinti — a
+ * megtörtént kezeléseket nem írja át, mert azok megtörténtek.
+ *
+ * Levél szándékosan EGY megy ki, a kiindulópontról: a naptármeghívó
+ * visszavonása az ismétlődési szabály miatt az egész sorozatra vonatkozik, és
+ * a vendégnek sem jó nyolc lemondólevelet kapni egyszerre.
+ */
+export async function sorozatLemondas(foglalasId: string): Promise<EgyszeruEredmeny> {
+  const ell = await sajatjaVagyLathatja(foglalasId);
+  if (!ell.ok) return { ok: false, hiba: ell.hiba };
+
+  const foglalas = await foglalasAzonositoval(foglalasId);
+  if (!foglalas) return { ok: false, hiba: "A foglalás nem található." };
+  if (!foglalas.seriesId) {
+    return { ok: false, hiba: "Ez a foglalás nem tartozik sorozathoz." };
+  }
+
+  const honnan = new Date(foglalas.startsAt);
+  const db = await sorozatHatralevoLemondasa(foglalas.seriesId, honnan);
+
+  if (db === 0) {
+    return { ok: false, hiba: "Ebben a sorozatban nincs több lemondható alkalom." };
+  }
+
+  const levelHiba = await vendegErtesitese(foglalasId, "lemondas", 2);
+
+  revalidatePath("/admin/naptar");
+  return {
+    ok: true,
+    figyelmeztetes: [
+      `${db} alkalom lemondva ebből a sorozatból.`,
+      levelHiba,
+    ]
+      .filter(Boolean)
+      .join(" "),
+  };
+}
+
+/** Hányadik alkalom ez a sorozatban? A foglalás lapján írjuk ki. */
+export async function sorozatAllapota(
+  foglalasId: string
+): Promise<{ hanyadik: number; osszesen: number } | null> {
+  const ell = await sajatjaVagyLathatja(foglalasId);
+  if (!ell.ok) return null;
+
+  const foglalas = await foglalasAzonositoval(foglalasId);
+  if (!foglalas?.seriesId) return null;
+
+  return sorozatHelye(foglalas.seriesId, foglalasId);
 }

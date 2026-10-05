@@ -17,6 +17,8 @@ export type Foglalas = {
   serviceId: string;
   szolgaltatas: string;
   ar: number;
+  /** Sorozat címkéje, ha ismétlődő foglalásként készült. */
+  seriesId: string | null;
   allapot: 'BOOKED' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW';
   megjegyzes: string | null;
 };

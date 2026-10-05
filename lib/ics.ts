@@ -17,6 +17,15 @@ export type IcsAdat = {
   // módosításkor növelni kell, különben a naptárak figyelmen kívül hagyják
   sorszam?: number;
   lemondas?: boolean;
+  /**
+   * Heti ismétlődés. A sorozatot egyetlen bejegyzés írja le ismétlődési
+   * szabállyal — a vendég naptára maga bontja ki alkalmakra. Így nem kap
+   * nyolc külön meghívót, és ha lemondjuk, egy visszavonás elég.
+   *
+   * A `kihagyott` azokat a dátumokat sorolja fel, amelyek ütközés miatt nem
+   * jöttek létre: a szabvány EXDATE-je pontosan erre való.
+   */
+  ismetles?: { hetente: number; kihagyott?: Date[] };
 };
 
 // "20260914T083000Z"
@@ -73,6 +82,15 @@ export function icsKeszites(adat: IcsAdat): string {
     `STATUS:${adat.lemondas ? "CANCELLED" : "CONFIRMED"}`,
     `SUMMARY:${szoveg(adat.cim)}`,
   ];
+
+  // Heti ismétlődés: egyetlen bejegyzés írja le az egész sorozatot.
+  if (adat.ismetles && adat.ismetles.hetente > 1) {
+    sorok.push(`RRULE:FREQ=WEEKLY;COUNT=${adat.ismetles.hetente}`);
+    const kihagyott = adat.ismetles.kihagyott ?? [];
+    if (kihagyott.length > 0) {
+      sorok.push(`EXDATE:${kihagyott.map(utcIdo).join(",")}`);
+    }
+  }
 
   if (adat.leiras) sorok.push(`DESCRIPTION:${szoveg(adat.leiras)}`);
   if (adat.helyszin) sorok.push(`LOCATION:${szoveg(adat.helyszin)}`);

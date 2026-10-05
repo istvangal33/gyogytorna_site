@@ -2,7 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import UjFoglalasUrlap, { type Szolgaltatas, type Szerkesztendo } from './UjFoglalasUrlap';
-import { allapotValtas, foglalasTorles } from '@/app/admin/naptar/actions';
+import {
+  allapotValtas,
+  foglalasTorles,
+  sorozatLemondas,
+  sorozatAllapota,
+} from '@/app/admin/naptar/actions';
 import Megerosites, { type MegerositesAdat } from './Megerosites';
 import Valaszto from './Valaszto';
 
@@ -77,6 +82,9 @@ export default function NapiNaptar({
   const [szerkesztendo, setSzerkesztendo] = useState<Szerkesztendo | null>(null);
   const [muvelet, setMuvelet] = useState(false);
   const [megerosites, setMegerosites] = useState<MegerositesAdat | null>(null);
+  // Hányadik alkalom a sorozatban? Külön kérdezzük le, mert a naptár
+  // válaszában csak a sorozat címkéje jön, a sorszám nem.
+  const [sorozatInfo, setSorozatInfo] = useState<{ hanyadik: number; osszesen: number } | null>(null);
   const [nezetSzuro, setNezetSzuro] = useState('');
   const [nezet, setNezet] = useState<Nezet>('nap');
   // Mobilon sűrűbb óraskála, különben a nap háromszor akkora, mint a képernyő.
@@ -248,6 +256,28 @@ export default function NapiNaptar({
     betolt(nap, nezet);
   }
 
+  function sorozatLemondasa(fogl: Foglalas) {
+    setMegerosites({
+      cim: 'A sorozat hátralévő alkalmai',
+      uzenet:
+        fogl.vendeg + ' ettől az alkalomtól kezdve minden hátralévő időpontja lemondásra kerül.\n\n' +
+        'A megtörtént alkalmakat nem érinti. A vendég EGY értesítőt kap, ' +
+        'ami a naptárában az egész sorozatot visszavonja.',
+      gomb: 'Hátralévők lemondása',
+      veszelyes: true,
+      muvelet: async () => {
+        setMuvelet(true);
+        const r = await sorozatLemondas(fogl.id);
+        setMuvelet(false);
+        if (!r.ok) { setHiba(r.hiba); return; }
+        setHiba(null);
+        setUzenet(r.figyelmeztetes ?? 'A sorozat hátralévő alkalmai lemondva.');
+        setKivalasztott(null);
+        betolt(nap, nezet);
+      },
+    });
+  }
+
   function torles(fogl: Foglalas) {
     setMegerosites({
       cim: 'Foglalás végleges törlése',
@@ -289,6 +319,13 @@ export default function NapiNaptar({
 
   const orak = Array.from({ length: ORA_VEG - ORA_KEZD }, (_, i) => ORA_KEZD + i);
   const magassag = (ORA_VEG - ORA_KEZD) * PX_PER_ORA;
+  useEffect(() => {
+    let ervenyes = true;
+    if (!kivalasztott?.seriesId) { setSorozatInfo(null); return; }
+    sorozatAllapota(kivalasztott.id).then((r) => { if (ervenyes) setSorozatInfo(r); });
+    return () => { ervenyes = false; };
+  }, [kivalasztott]);
+
   const maVan = ugyanaznap(nap, most);
   const mostOffset = percOffset(most) * PX_PER_PERC;
 
@@ -664,6 +701,28 @@ export default function NapiNaptar({
                 </dt>
                 <dd className="mt-0.5 whitespace-pre-wrap text-gray-900">
                   {kivalasztott.megjegyzes}
+                </dd>
+              </div>
+            )}
+            {kivalasztott.seriesId && (
+              <div className="sm:col-span-3">
+                <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Ismétlődő sorozat
+                </dt>
+                <dd className="mt-0.5 flex flex-wrap items-center gap-3 text-gray-900">
+                  <span>
+                    {sorozatInfo
+                      ? `${sorozatInfo.hanyadik}. alkalom a ${sorozatInfo.osszesen}-ból`
+                      : 'Heti sorozat része'}
+                  </span>
+                  <button
+                    type="button"
+                    disabled={muvelet}
+                    onClick={() => sorozatLemondasa(kivalasztott)}
+                    className="text-sm font-medium text-red-700 hover:underline disabled:opacity-50"
+                  >
+                    Ettől kezdve a hátralévők lemondása
+                  </button>
                 </dd>
               </div>
             )}
