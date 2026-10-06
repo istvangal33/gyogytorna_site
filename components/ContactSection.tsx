@@ -1,13 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Turnstile } from '@marsidev/react-turnstile';  // ✅ ÚJ IMPORT
+import React, { useEffect, useRef, useState } from 'react';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const BRAND_PRIMARY = 'var(--color-brand-primary, #004A6D)';
 const BRAND_ACCENT = 'var(--color-brand-accent, #EC7007)';
-
-// ❌ TÖRÖLVE: A teljes ModernCaptchaProps interface
-// ❌ TÖRÖLVE: A teljes ModernCaptcha komponens (~60 sor)
 
 const cls = (...parts: Array<string | false | undefined>) => parts.filter(Boolean).join(' ');
 
@@ -69,7 +66,42 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [captchaVerified, setCaptchaVerified] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState('');  // ✅ ÚJ STATE
+  const [captchaToken, setCaptchaToken] = useState('');
+
+  // A Turnstile 87 KB-ot tölt a Cloudflare-ről, és ez az űrlap az oldal
+  // legalján van. Aki csak a címet vagy a nyitvatartást nézi meg, annak ezt
+  // ne kelljen kifizetnie — ezért csak akkor indítjuk el, ha tényleg kell.
+  const [turnstileAktiv, setTurnstileAktiv] = useState(false);
+  const urlapRef = useRef<HTMLFormElement>(null);
+
+  // Az indítás akkor történik, amikor az űrlap a képernyő KÖZELÉBE ér, nem
+  // amikor belekattintanak. Így mire a látogató az első mezőt kitölti, az
+  // ellenőrzés már lefutott a háttérben. Ha a kattintásra várnánk, a
+  // böngésző automatikus kitöltésével érkező látogató a küldés gombot
+  // hamarabb érné el, mint ahogy a token megjön — és egy hibátlanul kitöltött
+  // űrlapra kapná azt, hogy „Igazolja, hogy nem robot”.
+  useEffect(() => {
+    const elem = urlapRef.current;
+    if (!elem || turnstileAktiv) return;
+    // Régi böngészőben inkább töltsön be azonnal, mint hogy soha.
+    if (typeof IntersectionObserver === 'undefined') {
+      setTurnstileAktiv(true);
+      return;
+    }
+    const figyelo = new IntersectionObserver(
+      (bejegyzesek) => {
+        if (bejegyzesek.some((b) => b.isIntersecting)) {
+          setTurnstileAktiv(true);
+          figyelo.disconnect();
+        }
+      },
+      // 400 px előretartás: az indítás még azelőtt megtörténik, hogy az
+      // űrlap felső széle beúszna a képernyőre.
+      { rootMargin: '400px' }
+    );
+    figyelo.observe(elem);
+    return () => figyelo.disconnect();
+  }, [turnstileAktiv]);
 
   const inputBase = 'w-full px-3 py-2 rounded-md border bg-white text-gray-900 text-sm placeholder:text-slate-400 outline-none transition-shadow';
   const inputBorder = 'border-slate-300';
@@ -132,6 +164,9 @@ export default function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Utolsó háló: ha valahogy mégsem indult volna el, itt mindenképp
+    // elindul. A spamvédelem semmilyen úton nem kerülhető meg.
+    setTurnstileAktiv(true);
     if (!validateForm()) return;
     
     setIsSubmitting(true);
@@ -142,7 +177,7 @@ export default function ContactSection() {
       formDataToSend.append('phone', formData.phone);
       formDataToSend.append('message', formData.message);
       formDataToSend.append('website', formData.website);
-      formDataToSend.append('captchaToken', captchaToken);  // ✅ ÚJ: token küldése
+      formDataToSend.append('captchaToken', captchaToken);
       
       files.forEach(file => {
         formDataToSend.append('documents', file);
@@ -209,7 +244,7 @@ export default function ContactSection() {
                 setFormData({ name: '', email: '', phone: '', message: '', website: '' });
                 setFiles([]);
                 setCaptchaVerified(false);
-                setCaptchaToken('');  // ✅ ÚJ: token reset
+                setCaptchaToken('');
                 setErrors({});
               }}
               className="group relative inline-flex items-center gap-3 px-7 py-3 rounded-2xl font-semibold
@@ -252,7 +287,15 @@ export default function ContactSection() {
             className="bg-white w-full max-w-sm sm:max-w-md md:max-w-2xl rounded-2xl p-4 sm:p-6 md:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.06)]"
             style={{ border: `1px solid color-mix(in srgb, ${BRAND_PRIMARY} 18%, transparent)` } as React.CSSProperties}
           >
-            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            <form
+              ref={urlapRef}
+              onSubmit={handleSubmit}
+              // Tartalék a görgetésfigyelő mellé: billentyűzettel ideugró
+              // látogató, vagy visszaállított görgetési pozíció esetén.
+              onFocus={() => setTurnstileAktiv(true)}
+              className="space-y-4"
+              noValidate
+            >
               <input
                 type="text"
                 name="website"
@@ -459,23 +502,32 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* ✅ ÚJ: TURNSTILE CAPTCHA (a régi ModernCaptcha helyett) */}
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-slate-800 mb-2">
                   Biztonsági ellenőrzés <span className="text-red-500">*</span>
                 </label>
-                <Turnstile
-                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                  onSuccess={(token) => {
-                    setCaptchaToken(token);
-                    setCaptchaVerified(true);
-                  }}
-                  onError={() => setCaptchaVerified(false)}
-                  options={{
-                    theme: 'light',
-                    language: 'hu',
-                  }}
-                />
+                {turnstileAktiv ? (
+                  <Turnstile
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                    onSuccess={(token) => {
+                      setCaptchaToken(token);
+                      setCaptchaVerified(true);
+                    }}
+                    onError={() => setCaptchaVerified(false)}
+                    options={{
+                      theme: 'light',
+                      language: 'hu',
+                    }}
+                  />
+                ) : (
+                  // Pontosan akkora, mint a widget (300 × 65 px), hogy a
+                  // megjelenésekor ne ugorjon el alatta az oldal.
+                  <div
+                    className="h-16.25 w-75 max-w-full rounded border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-500"
+                  >
+                    Az ellenőrzés a kitöltés megkezdésekor indul
+                  </div>
+                )}
                 {errors.captcha && <p className="text-[11px] text-red-600 mt-1">{errors.captcha}</p>}
               </div>
 
