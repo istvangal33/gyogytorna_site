@@ -96,8 +96,14 @@ export default function Home() {
               <Image
                 src="/logo.png"
                 alt="ReStart Physio gyógytorna és fizioterápia logó Győr - ahol a mozgás újraindul"
-                width={280}
-                height={196}
+                width={288}
+                height={152}
+                // A magasság a valódi arányból jön (826x436), nem találomra:
+                // így a kép helye pontos, és nem ugrik meg alatta a szöveg.
+                // A sizes nélkül a böngésző 100vw-t feltételez, és a 640 px
+                // széles változatot tölti le egy 192 px-en megjelenő logóhoz —
+                // épp az LCP-kép elől véve el a sávszélességet.
+                sizes="(min-width: 1024px) 288px, (min-width: 768px) 256px, (min-width: 640px) 224px, 192px"
                 className="w-48 sm:w-56 md:w-64 lg:w-72 drop-shadow-[0_8px_24px_rgba(0,0,0,0.15)]"
                 style={{ height: 'auto' }}
                 priority
