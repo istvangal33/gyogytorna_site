@@ -18,10 +18,12 @@ import {
   ORA_KEZD,
   ORA_VEG,
   SZINEK,
+  ferosorok,
   hetNapjai,
   napKezdete,
   ora,
   percOffset,
+  szolgaltatasRovid,
   ugyanaznap,
   type Foglalas,
   type Munkaido,
@@ -46,6 +48,13 @@ const PX_PER_ORA_MOBIL = 48;
 const PX_PER_ORA_ASZTALI = 64;
 // Heti nézetben 13 óra × 64 px már nem fér ki egy képernyőre, ezért sűrűbb.
 const PX_PER_ORA_HET = 48;
+
+// A foglalásdoboz belső méretei. Azért vannak kézzel kimérve, mert a kiférő
+// sorok számát ebből számoljuk — ha az osztályokban átírod a sormagasságot,
+// ezeket is írd át vele.
+const DOBOZ_MARGO = 4; //   py-[2px] fent-lent
+const DOBOZ_ELSO_SOR = 14; // idő + név
+const DOBOZ_ALSO_SOR = 13; // szolgáltatás
 
 type Nezet = 'nap' | 'het';
 
@@ -610,6 +619,12 @@ export default function NapiNaptar({
                 const v = new Date(f.veg);
                 const top = percOffset(k) * PX_PER_PERC;
                 const magas = Math.max(22, (percOffset(v) - percOffset(k)) * PX_PER_PERC);
+                const sorok = ferosorok(magas, {
+                  margo: DOBOZ_MARGO,
+                  elsoSor: DOBOZ_ELSO_SOR,
+                  tovabbiSor: DOBOZ_ALSO_SOR,
+                  max: 3,
+                });
                 const lemondva = f.allapot === 'CANCELLED';
 
                 return (
@@ -619,7 +634,8 @@ export default function NapiNaptar({
                       e.stopPropagation();
                       setKivalasztott(f);
                     }}
-                    className="absolute overflow-hidden rounded-md px-2 py-1 text-left text-white transition-[filter] hover:z-10 hover:brightness-110"
+                    title={`${ora(k)}–${ora(v)} · ${f.vendeg} · ${f.szolgaltatas}`}
+                    className="absolute overflow-hidden rounded-md px-1.5 py-[2px] text-left text-white transition-[filter] hover:z-10 hover:brightness-110"
                     style={{
                       top,
                       height: magas,
@@ -630,18 +646,45 @@ export default function NapiNaptar({
                       opacity: lemondva ? 0.75 : 1,
                     }}
                   >
+                    {/* Az idő és a név EGY sorba kerül. Egy 30 perces foglalás
+                        doboza telefonon 24 px magas: két külön sor nem fér el
+                        benne, így eddig a kezdés ideje néma veszteség volt.
+                        Egy sorban mindkettő kifér. */}
                     <div
                       className={
-                        'truncate text-xs font-semibold ' + (lemondva ? 'line-through' : '')
+                        'flex items-baseline gap-1 leading-[14px] ' +
+                        (lemondva ? 'line-through' : '')
                       }
                     >
-                      {f.allapot === 'COMPLETED' && '✓ '}
-                      {f.allapot === 'NO_SHOW' && '✗ '}
-                      {f.vendeg}
+                      <span className="shrink-0 text-[11px] tabular-nums opacity-90">
+                        {ora(k)}
+                      </span>
+                      <span className="truncate text-xs font-semibold">
+                        {f.allapot === 'COMPLETED' && '✓ '}
+                        {f.allapot === 'NO_SHOW' && '✗ '}
+                        {f.vendeg}
+                        {/* Ha csak egy sor fér ki, a kezelés neve ide jön a
+                            név mögé, nem vész el. A név van elöl, így a szűk
+                            oszlopokban is az marad meg egészben. */}
+                        {sorok === 1 && (
+                          <span className="font-normal opacity-90">
+                            {' · '}
+                            {szolgaltatasRovid(f.szolgaltatas)}
+                          </span>
+                        )}
+                      </span>
                     </div>
-                    <div className="truncate text-[11px] opacity-90">{ora(k)}</div>
-                    {magas > 44 && (
-                      <div className="truncate text-[11px] opacity-90">{f.szolgaltatas}</div>
+                    {sorok > 1 && (
+                      <div
+                        className={
+                          'text-[11px] leading-[13px] opacity-90 ' +
+                          // Ahol két sor is kifér, inkább tördelünk, mint
+                          // levágunk: így a hosszú nevek is teljesen látszanak.
+                          (sorok > 2 ? 'line-clamp-2' : 'truncate')
+                        }
+                      >
+                        {szolgaltatasRovid(f.szolgaltatas)}
+                      </div>
                     )}
                   </button>
                 );

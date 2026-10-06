@@ -92,3 +92,38 @@ export function ora(d: Date) {
 export function percOffset(d: Date) {
   return (d.getHours() - ORA_KEZD) * 60 + d.getMinutes();
 }
+
+/**
+ * A kezelés nevéből elhagyja a „– 50 perc" utótagot.
+ *
+ * A hosszt a doboz magassága és a kezdés ideje már elmondja, a név végén
+ * viszont elvesz a helyet a lényeg elől: a szűk oszlopokban emiatt vágódott
+ * le a „Lágy rész manuál terápia (FDM)" vége.
+ */
+export function szolgaltatasRovid(nev: string) {
+  return nev.replace(/\s*[–—-]\s*\d+\s*perc\s*$/i, '').trim() || nev;
+}
+
+/**
+ * Hány szövegsor fér ki egy foglalásdobozban úgy, hogy egyik se vágódjon
+ * félbe.
+ *
+ * A dobozok magassága a kezelés hosszával arányos, tehát egy 30 perces
+ * foglalás dobozába kevesebb fér, mint egy 50 percesébe. Eddig mindig
+ * ugyanannyi sort rajzoltunk ki, és a felesleget a túlcsordulás nyírta le —
+ * ettől a legalsó sor betűinek a teteje látszott, ami töröttnek néz ki.
+ * Inkább elhagyunk egy egész sort, mint hogy félbevágva lógjon ki.
+ */
+export function ferosorok(
+  magas: number,
+  m: { margo: number; elsoSor: number; tovabbiSor: number; max: number }
+) {
+  const hely = magas - m.margo;
+  let sor = 1;
+  let kell = m.elsoSor;
+  while (sor < m.max && kell + m.tovabbiSor <= hely) {
+    kell += m.tovabbiSor;
+    sor++;
+  }
+  return sor;
+}

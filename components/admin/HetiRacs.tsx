@@ -5,8 +5,10 @@ import {
   NAP_ROVID,
   ORA_KEZD,
   ORA_VEG,
+  ferosorok,
   ora,
   percOffset,
+  szolgaltatasRovid,
   ugyanaznap,
   type Foglalas,
   type Munkaido,
@@ -14,6 +16,12 @@ import {
   type Szin,
   type Tavollet,
 } from './naptar-alap';
+
+// A heti rács dobozai szűkebbek és alacsonyabbak a napi nézeténél, ezért
+// saját méretekkel számolnak. Lásd a ferosorok() magyarázatát.
+const DOBOZ_MARGO = 4; //   py-0.5 fent-lent
+const DOBOZ_ELSO_SOR = 13; // idő + név
+const DOBOZ_ALSO_SOR = 12; // szolgáltatás
 
 type Props = {
   napok: Date[];
@@ -197,7 +205,13 @@ export default function HetiRacs({
                 {elhelyezve.map(({ f, kezdet, veg, sav, savok }) => {
                   const szin = szinhez(f.staffId);
                   const lemondva = f.allapot === 'CANCELLED';
-                  const magas = Math.max(16, (veg - kezdet) * pxPerPerc);
+                  const magas = Math.max(18, (veg - kezdet) * pxPerPerc);
+                  const sorok = ferosorok(magas, {
+                    margo: DOBOZ_MARGO,
+                    elsoSor: DOBOZ_ELSO_SOR,
+                    tovabbiSor: DOBOZ_ALSO_SOR,
+                    max: 3,
+                  });
                   return (
                     <button
                       key={f.id}
@@ -219,17 +233,33 @@ export default function HetiRacs({
                     >
                       <span
                         className={
-                          'block truncate text-[11px] font-semibold leading-tight ' +
+                          'flex items-baseline gap-1 leading-[13px] ' +
                           (lemondva ? 'line-through' : '')
                         }
                       >
-                        {f.allapot === 'COMPLETED' && '✓ '}
-                        {f.allapot === 'NO_SHOW' && '✗ '}
-                        {f.vendeg}
+                        <span className="shrink-0 text-[10px] tabular-nums opacity-90">
+                          {ora(new Date(f.kezdet))}
+                        </span>
+                        <span className="truncate text-[11px] font-semibold">
+                          {f.allapot === 'COMPLETED' && '✓ '}
+                          {f.allapot === 'NO_SHOW' && '✗ '}
+                          {f.vendeg}
+                          {sorok === 1 && (
+                            <span className="font-normal opacity-90">
+                              {' · '}
+                              {szolgaltatasRovid(f.szolgaltatas)}
+                            </span>
+                          )}
+                        </span>
                       </span>
-                      {magas > 34 && (
-                        <span className="block truncate text-[10px] leading-tight opacity-90">
-                          {ora(new Date(f.kezdet))} · {f.szolgaltatas}
+                      {sorok > 1 && (
+                        <span
+                          className={
+                            'block text-[10px] leading-[12px] opacity-90 ' +
+                            (sorok > 2 ? 'line-clamp-2' : 'truncate')
+                          }
+                        >
+                          {szolgaltatasRovid(f.szolgaltatas)}
                         </span>
                       )}
                     </button>
