@@ -87,10 +87,14 @@ export default function Elerhetoseg() {
       {/* Helyszín + adatok kártyákban */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             
-            {/* Google Térkép */}
-            <div className="relative">
+            {/* Google Térkép
+                Telefonon a cím és a telefonszám elé kerül a térkép, ezért ott
+                sorrendet cserélünk: aki az elérhetőség oldalra jön, az a címet
+                és a számot keresi, nem egy nagy térképképet. Nagy képernyőn
+                egymás mellett vannak, ott nincs mit cserélni. */}
+            <div className="relative order-2 lg:order-1">
               <div
                 className="rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.06)] border"
                 style={{
@@ -114,7 +118,7 @@ export default function Elerhetoseg() {
             </div>
 
             {/* Rendelő adatai - MICRODATA ENHANCED */}
-            <div className="lg:pl-2">
+            <div className="order-1 lg:order-2 lg:pl-2">
               <div className="mb-8">
                 <h2
                   className="text-3xl font-bold mb-2"

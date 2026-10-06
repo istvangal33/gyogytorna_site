@@ -165,12 +165,17 @@ export default function PriceList() {
           <div className="mt-8 sm:mt-10 text-[#001219]">
             {/* Telefon sor – picit feljebb hozva, balra igazítva md-től */}
             <div className="flex justify-center md:justify-start">
-              <div
-                className="tracking-[0.2em] text-[0.7rem] font-medium"
+              {/* Telefonszámra koppintva azonnal tárcsáz. Az árakat nézve dől
+                  el, hogy jelentkezik-e valaki — pont itt ne kelljen kimásolnia
+                  a számot. A kinézet nem változik. */}
+              <a
+                href="tel:+36308198449"
+                aria-label="Telefonhívás: +36 30 819 8449"
+                className="tracking-[0.2em] text-[0.7rem] font-medium transition-opacity hover:opacity-70"
                 style={{ color: BRAND_PRIMARY } as React.CSSProperties}
               >
                 +36 30 / 819 8449
-              </div>
+              </a>
             </div>
 
             {/* Sor: vonal (bal), email (közép), logó (jobb) */}

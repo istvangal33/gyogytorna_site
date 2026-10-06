@@ -41,15 +41,26 @@ export default function CookieBanner() {
       expires={365}
       style={{
         background: '#0d1117',
-        padding: '20px',
+        padding: '12px 16px',
         alignItems: 'center',
         zIndex: 9999,
       }}
+      // A könyvtár alapból 15 px margót tesz a szövegre és MINDKÉT gombra.
+      // Ez a három margó adta a sáv magasságának a felét, ezért vesszük ki.
+      contentStyle={{
+        flex: '1 1 240px',
+        margin: '0 0 10px 0',
+      }}
+      // A két gomb margója szándékosan azonos: a könyvtár sorrendje
+      // verziónként változhat, és ha csak az egyiknek adnánk oldalmargót, a
+      // másik sorrendnél összeérnének a gombok. Telefonon két egymáshoz
+      // tapadó gomb félrekoppintáshoz vezet — pont az elutasításnál.
       buttonStyle={{
         background: '#EC7007',
         color: 'white',
         fontSize: '14px',
-        padding: '10px 30px',
+        padding: '10px 22px',
+        margin: '0 4px',
         borderRadius: '5px',
         fontWeight: 'bold',
         border: 'none',
@@ -59,20 +70,27 @@ export default function CookieBanner() {
         background: '#6B7280',
         color: 'white',
         fontSize: '14px',
-        padding: '10px 30px',
+        padding: '10px 22px',
+        margin: '0 4px',
         borderRadius: '5px',
+        fontWeight: 'bold',
         border: 'none',
         cursor: 'pointer',
       }}
     >
-      <span style={{ fontSize: '14px' }}>
-        Ez a weboldal sütiket (cookies) használ a jobb felhasználói élmény érdekében. 
-        Az oldal használatával Ön beleegyezik a sütik használatába.{' '}
-        <a 
-          href="/adatvedelem" 
+      {/* A korábbi szöveg azt állította, hogy "az oldal használatával Ön
+          beleegyezik" — ez a GDPR szerint sem igaz (a böngészés nem
+          hozzájárulás), és a saját működésünknek is ellentmondott: a mérőkód
+          a gombra kattintásig el sem indul. Az új mondat azt írja le, ami
+          ténylegesen történik. */}
+      <span style={{ fontSize: '14px', lineHeight: 1.4 }}>
+        Analitikai sütiket csak az Ön hozzájárulásával használunk, a
+        látogatottság méréséhez.{' '}
+        <a
+          href="/cookie-policy"
           style={{ color: '#EC7007', textDecoration: 'underline' }}
         >
-          További információk
+          Részletek
         </a>
       </span>
     </CookieConsent>
