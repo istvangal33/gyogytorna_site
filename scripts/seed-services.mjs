@@ -5,12 +5,18 @@
 import { pool } from "../lib/db.ts";
 
 // durationMin = a kezelés tényleges hossza
-// blockMin    = mennyi időt foglaljon a naptárban (kezelés + 10 perc átállás)
+// blockMin    = mennyi időt foglaljon a naptárban (kezelés + átállás)
 // bookable    = önállóan foglalható-e időpontként
+//
+// Átállás csak az 50 perces kezelések után van. A 30 percesnél a 10 perc a
+// kezelés egyharmadát toldaná hozzá, és elcsúsztatná a napot a félórás
+// rasztertől; két rövid kezelés között erre nincs szükség.
 const SZUNET = 10;
+const atallas = (durationMin) => (durationMin >= 50 ? SZUNET : 0);
 
 const kezeles = (name, price, durationMin, description) => ({
-  name, price, durationMin, blockMin: durationMin + SZUNET, bookable: true, description,
+  name, price, durationMin, blockMin: durationMin + atallas(durationMin),
+  bookable: true, description,
 });
 
 const kiegeszito = (name, price) => ({
