@@ -325,6 +325,13 @@ export default function Header() {
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
+        // Név nélkül a felolvasó csak annyit mondott: „párbeszédablak”.
+        aria-label="Menü"
+        // Zárva a menü benne marad a lapban, csak átlátszó. A pointer-events-none
+        // az egeret megállítja, a billentyűzetet nem: Tab-bal eddig bele lehetett
+        // lépni a láthatatlan hivatkozásokba. Az inert ezt is kizárja, és a
+        // felolvasó elől is elrejti.
+        inert={!isMenuOpen}
         className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-200 ${isMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
       >
         <button

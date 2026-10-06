@@ -35,6 +35,12 @@ export default function CookieBanner() {
       location="bottom"
       buttonText="Elfogadom"
       declineButtonText="Elutasítom"
+      // A könyvtár alapból angol nevet ad a gomboknak ("Accept cookies"), így a
+      // felolvasó mást mondott, mint ami ki volt írva, a hangvezérlés pedig a
+      // magyar szóra nem reagált. A felolvasott névnek tartalmaznia kell a
+      // látható feliratot, ezért kezdődik ugyanazzal a szóval.
+      ariaAcceptLabel="Elfogadom a sütiket"
+      ariaDeclineLabel="Elutasítom a sütiket"
       enableDeclineButton
       onAccept={handleAcceptCookie}
       onDecline={handleDeclineCookie}
