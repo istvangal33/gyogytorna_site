@@ -1,12 +1,14 @@
 # Netlify konfiguráció.
 #
-# A telepítés NEM Git-tárolóból megy, hanem a fejlesztői gépről, paranccsal:
+# A telepítés a GitHub-tárolóból indul: a main ágra tolt commit magától
+# fordítást és élesítést indít. (Korábban ez a fejlesztői gépről ment,
+# netlify-cli deploy --build --prod paranccsal — az a megjegyzés már nem
+# volt igaz, és félrevezette a sitemap tervezését.)
 #
-#   npx netlify-cli deploy --build --prod
-#
-# Így a foglalórendszer kódja nem kerül fel a nyilvános GitHub-tárolóba.
-# A --build kapcsoló miatt a fordítás helyben fut le, a Next.js futtatóval
-# együtt, és csak a kész kimenet töltődik fel.
+# A fordítás tehát a Netlify gépén fut. A klón „blobless"
+# (--filter=blob:none), vagyis a teljes commit-előzmény elérhető — ezért
+# tudja az app/sitemap.ts a gitből kiolvasni az oldalak valódi módosítási
+# dátumát.
 
 [build]
   command = "npm run build"
