@@ -5,43 +5,19 @@ import React from "react";
 import FaqAccordion from '@/components/FaqAccordion';
 import FaqSchema from '@/components/FaqSchema';
 import BreadcrumbSchema from '@/components/BreadcrumbSchema';
+import { SZOLGALTATASOK, BERLETEK, BERLES, forint, type ArTetel } from '@/lib/arlista';
 
 const BRAND_PRIMARY = "var(--color-brand-primary, #004A6D)";
 const BRAND_ACCENT = "var(--color-brand-accent, #EC7007)";
 
-function formatPrice(value: number) {
-  return new Intl.NumberFormat("hu-HU").format(value) + " Ft";
-}
+// Az árak a lib/arlista.ts-ből jönnek, hogy a szolgáltatásoldalak kártyái és
+// ez az oldal MINDIG ugyanazt mutassa. Korábban itt voltak beírva.
+const formatPrice = forint;
+type PriceItem = ArTetel;
 
-interface PriceItem {
-  name: string;
-  duration?: string;
-  price: number;
-  includes?: string; // <- mit tartalmaz az ár (halvány leírás a név alatt)
-  highlight?: boolean; // <- szükséges, mert PriceGroup használja
-}
-
-const SERVICES: PriceItem[] = [
-  { name: "Egyéni gyógytorna/rehabilitáció", duration: "50 P", price: 16000, includes: "Állapotfelmérés, rehabilitációs ütemterv, célzott gyakorlatorientált terápia, házi feladatok" },
-  { name: "Egyéni gyógytorna/rehabilitáció", duration: "30 P", price: 9000, includes: "Célzott terápia, házi feladatok · első alkalom esetén kizárólag 50 perces foglalható" },
-  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "50 P", price: 18000, includes: "FDM kezelés, triggerpont terápia, eszköztámogatott manuális technikák, Medical Flossing" },
-  { name: "Lágy rész manuál terápia (FDM kezelések)", duration: "30 P", price: 10000 },
-  { name: "Schroth terápia", duration: "50 P", price: 16000, includes: "Gerincferdülés Schroth-módszeren alapuló kezelése, izomerősítő és mobilizációs technikákkal" },
-  { name: "TMI (Állkapocs ízületi) terápia", duration: "50 P", price: 20000, includes: "Komplex állapotfelmérés, kezelési terv, manuális kezelés extra- és intraorálisan, házi feladatok" },
-  { name: "Csoportos gerinc core edzés", duration: "50 P", price: 8000 },
-  { name: "Csoportos gerinc core edzés", duration: "30 P", price: 6000 },
-  { name: "Kineziológiai tape", price: 5000 },
-  { name: "Dinamikus tape", price: 8000 },
-];
-
-const PASSES: PriceItem[] = [
-  { name: "Egyéni gyógytorna bérlet", duration: "5 ALK", price: 75000, includes: "Igénybevétele minimum heti 2 alkalom vállalásával lehetséges" },
-  { name: "Egyéni gyógytorna bérlet", duration: "10 ALK", price: 144000 },
-  { name: "TMI (Állkapocs ízületi) terápia bérlet", duration: "3 ALK", price: 55000 },
-];
-  const RENT: PriceItem[] = [
-  { name: "BEMER készülék bérlése", duration: "1 HÓNAP", price: 100000 },
-];
+const SERVICES = SZOLGALTATASOK;
+const PASSES = BERLETEK;
+const RENT = BERLES;
 
 
 function PriceSchema() {
