@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
+import { esemeny, URLAP_ELKULDVE } from '@/lib/meres';
 
 const BRAND_PRIMARY = 'var(--color-brand-primary, #004A6D)';
 const BRAND_ACCENT = 'var(--color-brand-accent, #EC7007)';
@@ -193,6 +194,9 @@ export default function ContactSection() {
         throw new Error(json?.error || "Küldési hiba");
       }
       setSubmitted(true);
+      // Csak a sikeres küldést számoljuk. A megkezdett, de elakadt űrlap nem
+      // megkeresés — abból téves képet kapnánk arról, hányan jelentkeztek.
+      esemeny(URLAP_ELKULDVE);
     } catch (err: any) {
       setErrors((e) => ({ ...e, form: err?.message || "Ismeretlen hiba." }));
     } finally {

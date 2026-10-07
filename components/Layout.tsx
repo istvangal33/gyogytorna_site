@@ -5,6 +5,7 @@ import Header from './Header';
 import Footer from './Footer';
 import CookieBanner from './CookieBanner';
 import GoogleAnalytics from './GoogleAnalytics';
+import TelefonMeres from './TelefonMeres';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ export default function Layout({ children }: LayoutProps) {
       </main>
       <Footer />
       <CookieBanner />
+      <TelefonMeres />
     </div>
   );
 }
