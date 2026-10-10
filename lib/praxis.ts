@@ -8,12 +8,9 @@ export const PRAXIS = {
   // Ha mi adjuk meg a linket, a levelezőnek nincs mit kitalálnia.
   terkep: "https://maps.app.goo.gl/MAsW9JaN2v5PcCR59",
 
-  // A weboldalon is megjelenő alakok. A Google a helyi rangsorolásnál
-  // figyeli, hogy a név, a cím és a telefonszám MINDENHOL betűre ugyanúgy
-  // szerepeljen-e; ha háromféleképpen van leírva, az bizalmatlanságot kelt.
-  // Ezért van itt a megjelenítendő és a tárcsázható alak is.
-  cim: "9028 Győr, Máté Mária u. 4b",
+  // A telefonszám megjelenítendő és tárcsázható alakja. Azért innen jön,
+  // mert a weboldalon korábban két formában is szerepelt, és a Google a
+  // helyi rangsorolásnál figyeli, hogy mindenhol betűre ugyanúgy álljon-e.
   telefon: "+36 30 819 8449",
   telefonHivas: "tel:+36308198449",
-  nyitvatartas: "Hétfő–Péntek: 8:00–18:00",
 } as const;
