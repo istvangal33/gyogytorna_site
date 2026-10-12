@@ -212,6 +212,12 @@ export default function Bemutatkozo() {
                 </div>
 
                 <div className="border-l-4 border-gray-600 pl-4">
+                  <h4 className="font-semibold text-gray-900">Cranio-Cervico-Brachial Course</h4>
+                  <p className="text-gray-600">Cervico-Cranio-Mandibular Academy</p>
+                  <p className="text-sm text-gray-500">2026</p>
+                </div>
+
+                <div className="border-l-4 border-gray-600 pl-4">
                   <h4 className="font-semibold text-gray-900">Cranio-Mandibular Therapy Course</h4>
                   <p className="text-gray-600">Cervico-Cranio-Mandibular Academy</p>
                   <p className="text-sm text-gray-500">2026</p>
@@ -243,6 +249,7 @@ export default function Bemutatkozo() {
               </div>
               <div className="space-y-4 max-h-100 overflow-y-auto scrollbar-thin scrollbar-thumb-[#004A6D] scrollbar-track-gray-100">
                 {[
+                  { title: "Cranio-Cervico-Brachial Course - Cervico-Cranio-Mandibular Academy" },
                   { title: "Cranio-Mandibular Therapy Course - Cervico-Cranio-Mandibular Academy" },
                   { title: "Aspetar International Rehabilitation Conference and Workshop – the Complete Guide to the Athletic ACL – at the Aspetar Orthopaedic and Sport Medicine Hospital in Doha, Qatar" },
                   { title: "Craniomandibuláris diszfunkciók terápiája - PhysioVit" },
