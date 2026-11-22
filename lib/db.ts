@@ -14,8 +14,11 @@ const kapcsolat = process.env.DATABASE_URL ?? "";
 // védve vagyunk, egy aktív közbeékelődés ellen nem. Ha ez is kell, a Supabase
 // vezérlőpultjáról letölthető a hitelesítésszolgáltató tanúsítványa, és az
 // `ca` mezőben megadható.
-const helyi = /^(postgres(ql)?:\/\/)?[^@]*@?(localhost|127\.0\.0\.1)/.test(kapcsolat);
+const sslKikapcsolva = process.env.DATABASE_SSL === "false";
 
+const helyi =
+  sslKikapcsolva ||
+  /^(postgres(ql)?:\/\/)?[^@]*@?(localhost|127\.0\.0\.1)/.test(kapcsolat);
 export const pool =
   globalForDb.pool ??
   new Pool({
