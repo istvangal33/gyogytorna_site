@@ -3,18 +3,21 @@ import Link from 'next/link';
 import Image from 'next/image';
 import RelatedServices from '@/components/RelatedServices';
 import { PRAXIS } from '@/lib/praxis';
+import { ar, forint } from '@/lib/arlista';
+
+const BERLES = ar('BEMER készülék bérlése', '1 HÓNAP');
 
 // --- 1. SEO META ADATOK ---
 export const metadata: Metadata = {
-  title: 'BEMER Terápia Győr | Gyorsabb regeneráció, fájdalomcsillapítás',
-  description: 'Pulzáló elektromágneses BEMER terápia Győrben Forrás Fernandával sportsérülések, krónikus fájdalmak és keringési panaszok esetén. Foglaljon időpontot!',
-  keywords: 'bemer terápia győr, bemer kezelés győr, pulzáló mágnesterápia, mikrokeringés javítás, bemer gép győr, fizikoterápia győr, fájdalomcsillapítás bemer',
+  title: { absolute: 'BEMER terápia Győrben | Kezelés a rendelőben és otthoni bérlés' },
+  description: 'BEMER-kezelés Győrben Forrás Fernandával, gyógytorna és rehabilitáció kiegészítéseként: a rendelőben, vagy otthoni bérléssel.',
+  keywords: 'bemer terápia győr, bemer kezelés győr, bemer bérlés győr, pulzáló mágnesterápia, bemer gép győr, fizikoterápia győr',
   alternates: {
     canonical: 'https://restartphysio.hu/szolgaltatasok/bemer-terapia',
   },
   openGraph: {
     title: 'BEMER Terápia Győrben | ReStart Physio',
-    description: 'Gyorsítsa fel a gyógyulást és csökkentse fájdalmait BEMER terápiával!',
+    description: 'BEMER-kezelés Győrben, gyógytorna és rehabilitáció kiegészítéseként: a rendelőben, vagy otthoni bérléssel.',
     url: 'https://restartphysio.hu/szolgaltatasok/bemer-terapia',
     images: [{ url: 'https://restartphysio.hu/group_core1.jpg', width: 1200, height: 630, alt: 'BEMER terápia Győrben' }],
   }
@@ -27,7 +30,7 @@ function BemerSchema() {
     "@type": "Service",
     "serviceType": "ElectromagneticTherapy",
     "name": "BEMER Terápia Győr",
-    "description": "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amely célzott, pulzáló elektromágneses mező segítségével javítja a szervezet mikrokeringését.",
+    "description": "Pulzáló elektromágneses teret használó, orvostechnikai eszközként forgalmazott készülékkel végzett kiegészítő kezelés, gyógytorna és rehabilitáció mellett. A készülék otthonra is bérelhető.",
     "provider": { "@id": "https://restartphysio.hu/#organization" },
     "areaServed": {
       "@type": "City",
@@ -85,13 +88,13 @@ export default function BemerTherapyPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center px-4 py-2 bg-[#004A6D]/10 rounded-full text-sm font-bold text-[#004A6D] mb-6 border border-[#004A6D]/20">
-                Fizikoterápiás kezelés Győrben
+                Kiegészítő kezelés Győrben
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#004A6D] mb-6 leading-tight">
                 Pulzáló <span className="text-[#EC7007]">BEMER</span> <br className="hidden sm:block"/>Terápia Győrben
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
-                Javítsa szervezete mikrokeringését, gyorsítsa fel a sejtregenerációt és csökkentse fájdalmait egy innovatív, fájdalommentes kezeléssel a ReStart Physio rendelőben!
+                Pulzáló elektromágneses térrel működő, orvostechnikai eszközként forgalmazott készülék. A ReStart Physio rendelőben gyógytorna és rehabilitáció kiegészítéseként alkalmazzuk, és otthonra is bérelhető.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -133,42 +136,51 @@ export default function BemerTherapyPage() {
             <div className="lg:col-span-2 space-y-8 text-gray-700 text-lg leading-relaxed">
               <h2 className="text-3xl font-bold text-[#004A6D]">Mi az a BEMER terápia és hogyan működik?</h2>
               <p>
-                A <strong>BEMER (Bio-Electro-Magnetic-Energy-Regulation) terápia</strong> egy klinikailag igazolt, orvostechnikai eszközön alapuló fizikoterápiás módszer. Működésének alapja a test mikrokeringésének – vagyis a legkisebb vérerekben (hajszálerekben) zajló véráramlásnak – a serkentése egy speciális, pulzáló elektromágneses mező segítségével.
+                A <strong>BEMER (Bio-Electro-Magnetic-Energy-Regulation) terápia</strong> egy pulzáló, alacsony intenzitású elektromágneses teret használó, orvostechnikai eszközként forgalmazott készülékkel végzett kezelés. A gyártó a test mikrokeringésének – vagyis a legkisebb vérerekben (hajszálerekben) zajló véráramlásnak – a támogatására fejlesztette ki.
               </p>
               <p>
-                Az egészségünk alapja a sejtek megfelelő vérellátása. Ha a mikrokeringés lassul (pl. stressz, öregedés, betegségek vagy sérülések hatására), a sejtek nem kapnak elég oxigént és tápanyagot, a salakanyagok pedig nem tudnak kiürülni. A BEMER kezelés ezt a folyamatot állítja helyre, ezáltal <strong>aktiválja a szervezet öngyógyító mechanizmusait</strong>.
+                A BEMER hatásáról szóló kutatások eredményei vegyesek, ezért önálló kezelésként nem ígérünk tőle gyógyulást. Rendelőnkben <strong>kiegészítő kezelésként</strong> alkalmazzuk: gyógytorna, manuálterápia vagy rehabilitáció mellett, ha a páciens állapota indokolja. A gyártó szerint is kiegészítő alkalmazás, és nem helyettesíti az orvosilag előírt terápiát.
               </p>
 
               <h2 className="text-3xl font-bold text-[#004A6D] pt-8">Hogyan zajlik a kezelés Győrben?</h2>
               <p>
-                A kezelés <strong>teljesen fájdalommentes</strong>, rendkívül pihentető, és semmilyen kellemetlen mellékhatással nem jár. Győri rendelőnkben a páciens ruhában, kényelmesen fekszik a BEMER matracon, miközben az eszköz alacsony intenzitású impulzusokat bocsát ki. Egy alkalom mindössze 8–20 percet vesz igénybe.
+                A kezelés alatt a legtöbben semmit nem éreznek. Győri rendelőnkben a páciens ruhában, kényelmesen fekszik a BEMER matracon, miközben az eszköz alacsony intenzitású impulzusokat bocsát ki. Egy alkalom 8–20 percig tart.
               </p>
               <p>
-                A legjobb eredmény elérése érdekében a BEMER terápiát gyakran kombináljuk egyéni gyógytornával, <Link href="/szolgaltatasok#manualterapia-fdm" className="text-[#004A6D] font-semibold underline hover:text-[#EC7007]">manuálterápiával</Link> vagy sportrehabilitációval.
+                A BEMER-kezelést a legtöbbször <Link href="/szolgaltatasok/egyeni-gyogytorna" className="text-[#004A6D] font-semibold underline hover:text-[#EC7007]">egyéni gyógytornával</Link>, <Link href="/szolgaltatasok/manualterapia-fdm" className="text-[#004A6D] font-semibold underline hover:text-[#EC7007]">manuálterápiával</Link> vagy sportrehabilitációval kombináljuk.
               </p>
+
+              {/* A gyártó használati útmutatója alapján (BEMER Evo, magyar IFU, 2.1.4–2.1.5 és 2.4.1 pont, V05 11/2024). */}
+              <div className="bg-[#EC7007]/5 border border-[#EC7007]/30 p-6 rounded-xl my-10">
+                <h3 className="text-xl font-bold text-[#004A6D] mb-2">Kinek nem alkalmazható?</h3>
+                <p className="text-base text-gray-700">
+                  A gyártó szerint a kezelés ellenjavallt orvosilag aktív implantátumok (pl. gyógyszerpumpák, szívritmus-szabályozók) viselőinek, valamint a szervátültetésben, allogén sejtátültetésben, csontvelő- vagy őssejt-átültetésben részesülőknek immunszuppresszív terápiával kombinálva.
+                </p>
+                <p className="text-base text-gray-700 mt-3">
+                  A kezelőorvos hozzájárulása szükséges ismeretlen eredetű láz, fertőző betegség, súlyos szívritmuszavar, súlyos pszichózis, kontrollálatlan görccsel járó betegség (pl. epilepszia), béta-blokkolók, nagy dózisú kortikoidok vagy kumarin-származék véralvadásgátlók hosszú távú szedése, vényköteles gyógyszerek folyamatos szedése, várandósság és daganatos megbetegedés esetén.
+                </p>
+                <p className="text-base text-gray-700 mt-3">
+                  Nagyon ritkán a pulzus vagy a vérnyomás átmeneti változása előfordulhat. Ha vérhígítót vagy vérnyomáscsökkentőt szed, az első kezeléssorozat után kérje kezelőorvosa ellenőrzését.
+                </p>
+              </div>
 
               {/* Információs doboz */}
               <div className="bg-[#004A6D]/5 border-l-4 border-[#EC7007] p-6 rounded-r-xl my-10">
                 <h4 className="text-xl font-bold text-[#004A6D] mb-2">Otthoni BEMER bérlés</h4>
                 <p className="text-base text-gray-700">
-                  Krónikus panaszok vagy intenzív rehabilitáció esetén a készülék napi, rendszeres használata javasolt. Nálunk lehetősége van a BEMER készülék <strong>otthoni bérlésére is</strong>. Részletekért és árakért érdeklődjön telefonon!
+                  A BEMER készülék <strong>otthonra is bérelhető</strong>, {forint(BERLES.price)} / hónap áron. A bérlés részleteiről (átvétel, betanítás, visszavitel) telefonon tájékoztatjuk.
                 </p>
               </div>
             </div>
 
             {/* Jobb oldali sáv: Kinek ajánlott (Feature lista) */}
             <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 p-8 h-fit lg:sticky lg:top-24">
-              <h3 className="text-2xl font-bold text-[#004A6D] mb-6 border-b pb-4">Miben segít a BEMER?</h3>
+              <h3 className="text-2xl font-bold text-[#004A6D] mb-6 border-b pb-4">Mikor alkalmazzuk?</h3>
               <ul className="space-y-4">
                 {[
-                  "Sportsérülések gyorsabb gyógyulása",
-                  "Műtétek utáni regeneráció felgyorsítása",
-                  "Izomfeszülések és görcsök oldása",
-                  "Hát-, nyak- és derékfájdalmak csillapítása",
-                  "Alvászavarok és stressz csökkentése",
-                  "Keringési problémák (pl. hideg végtagok)",
-                  "Sportteljesítmény növelése",
-                  "Immunrendszer erősítése"
+                  "Akut vagy krónikus mozgásszervi fájdalom esetén, gyógytorna mellett",
+                  "A mozgásszervrendszer degeneratív (kopásos) betegségeinél, gyógytorna mellett",
+                  "Sebgyógyulási zavar esetén, orvosi kezelés mellett"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <div className="shrink-0 w-6 h-6 rounded-full bg-[#EC7007]/20 flex items-center justify-center mt-1">
@@ -205,10 +217,10 @@ export default function BemerTherapyPage() {
       <section className="py-20 bg-[#0f1f29] text-center px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Indítsa újra a mozgást fájdalommentesen!
+            Kérdése van a BEMER-kezelésről vagy a bérlésről?
           </h2>
           <p className="text-xl text-white/80 mb-10 font-light leading-relaxed">
-            Tapasztalja meg a BEMER terápia jótékony hatását Győrben. Személyre szabott kezelési tervvel várjuk rendelőnkben.
+            Hívjon, vagy írjon nekünk: megbeszéljük, az Ön állapotában van-e értelme a kezelésnek.
           </p>
           <Link
             href="/elerhetoseg#contact"

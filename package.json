@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/fajlnev-ellenorzes.mjs",
+    "prebuild": "node scripts/fajlnev-ellenorzes.mjs && node scripts/kitoltetlen-jelolesek.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

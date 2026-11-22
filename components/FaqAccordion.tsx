@@ -29,7 +29,7 @@ const faqs: FAQ[] = [
   },
   {
     question: "TB-támogatott a kezelés?",
-    answer: "Rendelőnk tisztán magánpraxisként működik, a kezelésekre OEP/NEAK alapú TB-támogatás nem vehető igénybe. Cserébe hónapokig tartó várólista-mentes, azonnali, rugalmas időpontfoglalást, dupla annyi kezelési időt és teljes odafigyelést biztosítunk."
+    answer: "Rendelőnk tisztán magánpraxisként működik, a kezelésekre OEP/NEAK alapú TB-támogatás nem vehető igénybe."
   }
 ];
 

@@ -119,7 +119,7 @@ export default function SchrothTherapyPage() {
             <div className="lg:col-span-2 space-y-8 text-gray-700 text-lg leading-relaxed">
               <h2 className="text-3xl font-bold text-[#004A6D]">Hogyan segít a Schroth terápia?</h2>
               <p>
-                A Schroth terápia az egyik leghatékonyabb konzervatív kezelési formának számít a gerincdeformitások korrigálásában. A terápia során a páciens megtanulja a saját testtartási mintáinak tudatos korrekcióját, speciális légzőgyakorlatokkal és izomaktiválással kombinálva.
+                A Schroth terápia gerincferdülésre kidolgozott gyakorlatterápia, amelyet a nemzetközi (SOSORT) ajánlások is említenek. A terápia során a páciens megtanulja a saját testtartási mintáinak tudatos korrekcióját, speciális légzőgyakorlatokkal és izomaktiválással kombinálva.
               </p>
 
               <h2 className="text-3xl font-bold text-[#004A6D] pt-8">A kezelés céljai</h2>
@@ -127,7 +127,7 @@ export default function SchrothTherapyPage() {
                 <li>A gerinc helyzetének javítása</li>
                 <li>Az aszimmetria és a látható deformitások csökkentése</li>
                 <li>Gyakran jelentkező hát- és derékfájdalom enyhítése</li>
-                <li>A ferdülés (scoliosis) romlásának megelőzése, megállítása</li>
+                <li>A ferdülés (scoliosis) romlásának lassítása, ortopéd szakorvosi kontroll mellett</li>
                 <li>Tudatos, helyes testtartás kialakítása a mindennapokban</li>
               </ul>
             </div>
@@ -138,7 +138,7 @@ export default function SchrothTherapyPage() {
                 {[
                   "Diagnosztizált gerincferdülés esetén",
                   "Hanyag tartás, tartáshiba",
-                  "Gyermek- és serdülőkori prevenció",
+                  "Gyermek- és serdülőkori gerincferdülés, orvosi kontroll mellett",
                   "Felnőttkori aszimmetria okozta fájdalom"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
@@ -173,7 +173,7 @@ export default function SchrothTherapyPage() {
       <section className="py-20 bg-[#0f1f29] text-center px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Indítsa újra a mozgást fájdalommentesen!
+            Indítsa újra a mozgást!
           </h2>
           <p className="text-xl text-white/80 mb-10 font-light leading-relaxed">
             Vegye fel velünk a kapcsolatot, hogy egy személyre szabott terápiás tervvel segíthessünk elérni egészségügyi céljait Győrben.

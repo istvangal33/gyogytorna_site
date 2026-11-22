@@ -70,7 +70,7 @@ export default function TMITherapyPage() {
                 TMI / Állkapocs Ízületi <br className="hidden sm:block"/><span className="text-[#EC7007]">Terápia</span> Győrben
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
-                Szabaduljon meg a rágóízületi fájdalomtól, kattogástól és a fogcsikorgatás okozta feszültségtől célzott manuális technikákkal.
+                Célzott manuális kezelés rágóízületi fájdalom, kattogás és a fogcsikorgatás okozta feszülés esetén.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -122,7 +122,7 @@ export default function TMITherapyPage() {
                   "Állkapocs kattogás, ropogás",
                   "Fájdalom rágáskor, ásításkor",
                   "Éjszakai fogcsikorgatás (bruxizmus)",
-                  "Gyakori fejfájás, fülzúgás"
+                  "Gyakori fejfájás, fülzúgás (orvosi kivizsgálás után)"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <div className="shrink-0 w-6 h-6 rounded-full bg-[#EC7007]/20 flex items-center justify-center mt-1">
@@ -156,7 +156,7 @@ export default function TMITherapyPage() {
 <section className="py-20 bg-[#0f1f29] text-center px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Indítsa újra a mozgást fájdalommentesen!
+            Indítsa újra a mozgást!
           </h2>
           <p className="text-xl text-white/80 mb-10 font-light leading-relaxed">
             Vegye fel velünk a kapcsolatot, hogy egy személyre szabott terápiás tervvel segíthessünk elérni egészségügyi céljait Győrben.

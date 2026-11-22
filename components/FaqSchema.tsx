@@ -32,7 +32,7 @@ export default function FaqSchema() {
         "name": "TB-támogatott a kezelés?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Rendelőnk tisztán magánpraxisként működik, a kezelésekre OEP/NEAK alapú TB-támogatás nem vehető igénybe. Cserébe hónapokig tartó várólista-mentes, azonnali, rugalmas időpontfoglalást, dupla annyi kezelési időt és teljes odafigyelést biztosítunk."
+          "text": "Rendelőnk tisztán magánpraxisként működik, a kezelésekre OEP/NEAK alapú TB-támogatás nem vehető igénybe."
         }
       }
     ]

@@ -1,47 +1,9 @@
 import type { MetadataRoute } from 'next';
-import { execFileSync } from 'node:child_process';
 import fs from 'fs';
 import path from 'path';
+import { utolsoModositas } from '@/lib/utolso-modositas';
 
 const baseUrl = 'https://restartphysio.hu';
-
-/**
- * Egy oldal utolsó módosítása: az oldalt felépítő fájlok legutóbbi
- * commitjának dátuma.
- *
- * MIÉRT GITBŐL: korábban egyetlen, kézzel beírt dátum szerepelt mind a 14
- * oldalnál, és öt és fél hónapig nem frissült senki. A Google ebből dönti
- * el, melyik oldalt érdemes hamarabb újra megnéznie; ha minden dátum
- * egyforma és láthatóan régi, megtanulja, hogy ennek a sitemapnek a
- * dátumaiban nem lehet bízni, és figyelmen kívül hagyja őket.
- *
- * A fordítás a Netlifyn fut, GitHubról. A Netlify „blobless" klónt készít
- * (--filter=blob:none): minden commit és könyvtárfa benne van, csak a
- * fájltartalmak töltődnek le igény szerint. A git log útvonalszűrése épp a
- * fákat hasonlítja, nem a tartalmat, ezért ott is helyes dátumot ad.
- *
- * Ha a git mégsem érhető el, a dátum KIMARAD. A hiányzó lastmod jobb, mint
- * a téves: a téves dátumok miatt a Google az egész sitemap dátumait
- * elvetheti.
- */
-function utolsoModositas(...fajlok: string[]): Date | undefined {
-  try {
-    const datum = execFileSync('git', ['log', '-1', '--format=%cI', '--', ...fajlok], {
-      encoding: 'utf8',
-    }).trim();
-
-    // Üres válasz = a git fut, de egyik útvonalra sem talált commitot.
-    // Ez jellemzően elgépelt útvonal, és némán tüntetné el a dátumot —
-    // ezért a fordítás naplójában jelezzük.
-    if (!datum) {
-      console.warn(`Sitemap: nincs commit ezekre az útvonalakra: ${fajlok.join(', ')}`);
-      return undefined;
-    }
-    return new Date(datum);
-  } catch {
-    return undefined;
-  }
-}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Szolgáltatások beolvasása dinamikusan
@@ -71,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: utolsoModositas('app/page.tsx', 'components/WhyChooseUs.tsx'),
+      lastModified: utolsoModositas('app/page.tsx', 'components/WhyChooseUs.tsx', 'components/szolgaltatas'),
       changeFrequency: 'weekly',
       priority: 1,
     },

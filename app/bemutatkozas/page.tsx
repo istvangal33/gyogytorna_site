@@ -145,7 +145,7 @@ export default function Bemutatkozo() {
                   <p className="text-justify indent-8 text-gray-900">
                     Az elmúlt évek döntő részében{" "}
                     <Link 
-                      href="/szolgaltatasok#detail-Egyéni gyógytorna/rehabilitáció"
+                      href="/szolgaltatasok/sportrehabilitacio"
                       className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
                     >
                       élsportolók körében tevékenykedtem
@@ -170,7 +170,7 @@ export default function Bemutatkozo() {
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <p className="text-justify indent-8 text-gray-900">
-                    2024-ben léptem át a magánszektorba, 2025 óta pedig saját rendelőmben számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza a mindennapi fájdalommentes élethez. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
+                    2024-ben léptem át a magánszektorba, 2025 óta pedig saját rendelőmben számos mozgásszervi betegséggel hozzám forduló pácienst segítek vissza az aktív mindennapokhoz. Terápiás eljárásaim alatt kombináltan manuális technikákkal és korrektív gyakorlatokkal is segítem pácienseimet. Munkában főként a precizitásra törekszem, a feladatok megfelelő elsajátításának segítésében, bemutatásában, korrekciójában. Fontosnak tartom a pácienseim motiváltságának fenntartását, hiszen ez alapvető részét képezi a rehabilitáció folyamatának. Hitvallásom, hogy megfelelő együttműködés és kölcsönös bizalom által sikereket tudunk közösen elérni, és számomra ez a legfontosabb feladat: támaszt nyújtani a célok elérésében.
                   </p>
                 </div>
               </div>
@@ -201,7 +201,7 @@ export default function Bemutatkozo() {
             {/* Végzettségek */}
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
               <div className="flex items-center mb-8">
-                <h3 className="ml-4 text-2xl font-bold text-gray-900">Végzettségek</h3>
+                <h3 className="ml-4 text-2xl font-bold text-gray-900">Végzettség és képzések</h3>
               </div>
 
               <div className="space-y-6">
@@ -275,14 +275,14 @@ export default function Bemutatkozo() {
             {/* Specializációk */}
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
               <div className="flex items-center mb-8">
-                <h3 className="ml-4 text-2xl font-bold text-gray-900">Specializációk</h3>
+                <h3 className="ml-4 text-2xl font-bold text-gray-900">Fő területeim</h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {[
                   { title: "ACL -elülső keresztszalag szakadást követő műtét utáni rehabilitáció" /*, video: "/videos/mckenzie.mp4" */ },
                   { title: "Porckorongsérv konzervatív kezelése" /*, video: "/videos/porckorong.mp4" */ },
-                  { title: "SI ízületi panaszok kezelése" /*, video: "/videos/si.mp4" */ },
+                  { title: "SI ízületi panaszok kezelése", href: "/szolgaltatasok/gerincpanaszok-kezelese#si-izulet" /*, video: "/videos/si.mp4" */ },
                   { title: "Állkapocs ízületi terápia"},
                   { title: "Izomsérülések és ízületi fájdalmak kezelése"},
                   { title: "Gerincferdülés(Scoliosis) konzervatív kezelése"},
@@ -291,7 +291,13 @@ export default function Bemutatkozo() {
                     key={i}
                     className="relative group flex items-center h-16 border-l-4 border-gray-600 pl-4"
                   >
-                    <h4 className="font-semibold text-gray-900">{item.title}</h4>
+                    <h4 className="font-semibold text-gray-900">
+                      {"href" in item && item.href ? (
+                        <Link href={item.href} className="underline hover:text-[#EC7007] transition-colors">{item.title}</Link>
+                      ) : (
+                        item.title
+                      )}
+                    </h4>
 
                     {/* Hover videó tooltip - KIKOMMENTEZVE */}
                     {/* 
@@ -314,7 +320,7 @@ export default function Bemutatkozo() {
             {/* Tudományos előadások */}
             <div className="relative bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl p-10 border border-white/40 hover:-translate-y-2 hover:shadow-2xl transition duration-500">
               <div className="flex items-center mb-8">
-                <h3 className="ml-4 text-2xl font-bold text-gray-900">Tudományos előadások</h3>
+                <h3 className="ml-4 text-2xl font-bold text-gray-900">Előadások és publikációk</h3>
               </div>
               
               <div className="space-y-6">

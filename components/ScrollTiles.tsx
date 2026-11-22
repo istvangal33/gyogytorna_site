@@ -9,73 +9,79 @@ import HandHeart from "lucide-react/dist/esm/icons/hand-heart";
 import Users from "lucide-react/dist/esm/icons/users";
 import Zap from "lucide-react/dist/esm/icons/zap";
 
+// Rövid ízelítő, nem az aloldal szövege: a kártyák alatta már összefoglalnak, és
+// a gyűjtőoldal nem ismételheti az aloldalakat (lásd app/szolgaltatasok/page.tsx).
 const services = [
-  { 
-    title: "Sport rehabilitáció és műtétek utáni rehabilitáció", 
-    desc: "A sportrehabilitáció célja, hogy a sérülést követően a sportoló - legyen hobbi vagy élsportoló - minél gyorsabban, biztonságosan és teljes értékűen térhessen vissza az edzéshez vagy versenyzéshez. A kezelés nem csupán a fájdalomcsillapításról szól, hanem a teljes funkció helyreállításáról és a sérülés újbóli kialakulásának minimalizálásáról. A sportrehabilitáció során személyre szabott kezelési tervet készítünk, melyben ötvözzük a manuálterápiát, funkcionális gyakorlatokat. Megtanítjuk a helyes mozgásmintákat, javítjuk a mobilitást, koordinációt, stabilitást, dinamikát és az erőnlétet -legyen szó húzódásról, szalagsérülésekről, műtét utáni állapotról vagy túlterheléses problémákról.", 
-    icon: <HeartPulse className="h-6 w-6" />, 
+  {
+    title: "Egyéni gyógytorna",
+    desc: "Derék-, nyak-, váll- és térdpanaszokra, műtét után: állapotfelméréssel kezdünk, és olyan gyakorlatokat tanul meg, amelyeket otthon is végezhet.",
+    icon: <User className="h-6 w-6" />,
+    color: "#004A6D",
+    image: "/sportrehab3.jpg"
+  },
+  {
+    title: "Sportrehabilitáció",
+    desc: "Sportsérülés vagy keresztszalag-műtét után fokozatosan építjük vissza az erőt és a terhelhetőséget, a biztonságos visszatérésig az edzéshez és a versenyzéshez.",
+    icon: <HeartPulse className="h-6 w-6" />,
     color: "#EC7007",
     image: "/sportrehab4.jpg"
   },
-  { 
-    title: "Állkapocs ízületi terápia", 
-    desc: "Az állkapocs-ízületi terápia a rágóízület (TMJ – temporomandibuláris ízület) működésének helyreállítására, fájdalmainak és mozgáskorlátozottságának csökkentésére irányuló speciális manuális kezelés. A mindennapi stressz, fogszorítás, fogcsikorgatás, helytelen testtartás vagy harapási rendellenességek gyakran okozhatnak állkapocs körüli fájdalmat, kattogást, fejfájást, fülzúgást vagy szájnyitási nehézségeket. Az állkapocs-ízületi terápia során célzott technikákkal kezeljük az érintett izmokat, kötőszöveteket és ízületeket – kívülről és szükség esetén a szájüregen belül is. A kezelés által segítjük az ízületi funkciók normalizálását, oldjuk az ízületben kialakult feszüléseket és javítjuk a szájnyitás szabadságát, miközben enyhítjük a fájdalmat és a kapcsolódó tüneteket.", 
-    icon: <Activity className="h-6 w-6" />, 
+  {
+    title: "Állkapocs ízületi terápia",
+    desc: "Kattogó, fájó állkapocsra és fogszorításra: manuális kezelés kívülről és szükség esetén a szájüregen belül, otthoni gyakorlatokkal kiegészítve.",
+    icon: <Activity className="h-6 w-6" />,
     color: "#004A6D",
     image: "/allkapocs3.jpg"
   },
-  { 
-    title: "Manuál fascia kezelések", 
-    desc: "Az FDM (Fascia Disztorziós Modell) terápia egy innovatív manuális kezelési módszer, amellyel a fascia (kötőszöveti hálózat) elváltozásainak helyreállítására fókuszálunk. A fascia az egész testet behálózó szövet, amely kulcsszerepet játszik a mozgásban, erőátvitelben és a testtartásban. Az FDM terápia során speciális fogásokat alkalmazunk, melynek során a fasciában kialakult letapadásokat és elmozdulásokat oldjuk, célzott pontok nyomásával és a szövetek felszakításával. A kezelések által hatékonyan enyhíthetjük a mozgásszervi panaszokat, például hát-, nyak-, váll- vagy derékfájdalmat. Az FDM terápia által gyors és látványos eredményeket érhetünk el már néhány alkalom után.",
-    icon: <HandHeart className="h-6 w-6" />, 
+  {
+    title: "Manuálterápia (FDM)",
+    desc: "Kézzel végzett lágyrész-kezelés a Fascia Disztorziós Modell szerint hát-, nyak-, váll- és derékfájdalomra. A fogások erősek lehetnek; az első alkalommal átbeszéljük, mire számíthat.",
+    icon: <HandHeart className="h-6 w-6" />,
     color: "#125341",
     image: "/manual5.jpg"
   },
-  { 
-    title: "Gerincpanaszok kezelése", 
-    desc: "A kezelések célja a fájdalom csökkentése, a mozgékonyság helyreállítása és a testtartás javítása. Személyre szabott terápiás módszerekkel — például gyógytornával, manuális technikákkal és stabilizáló gyakorlatokkal — segítjük a gerinc és az ízületek egészséges működésének visszaállítását, valamint a panaszok kiújulásának megelőzését.",
-    icon: <User className="h-6 w-6" />, 
+  {
+    title: "Gerincpanaszok kezelése",
+    desc: "Derékfájás, nyakfájás, porckorongsérv, isiász: felmérjük, milyen mozgások váltják ki a panaszt, és célzott gyakorlatokkal, manuális technikákkal kezeljük.",
+    icon: <User className="h-6 w-6" />,
     color: "#7e2c40",
     image: "/gerinc_core1.jpg"
   },
-  { 
-    title: "BEMER terápia", 
-    desc: "A BEMER terápia egy orvostechnikai eszközön alapuló fizikoterápiás módszer, amelycélzott, pulzáló elektromágneses mező segítségével javítja a szervezetmikrokeringését – vagyis a hajszálerekben zajló véráramlást. Ez kulcsfontosságú asejtek oxigén- és tápanyagellátása, valamint a salakanyagok elszállításaszempontjából. A terápia segít a szervezet öngyógyító folyamatait aktiválni, fokozza aregenerációt, csökkenti a gyulladást és elősegíti a fizikai és mentális teljesítőképességhelyreállítását.", 
-    icon: <Zap className="h-6 w-6" />, 
+  {
+    title: "BEMER terápia",
+    desc: "Pulzáló elektromágneses térrel működő készülék, amelyet gyógytorna mellett, kiegészítő kezelésként alkalmazunk. Otthoni bérlésre is van lehetőség.",
+    icon: <Zap className="h-6 w-6" />,
     color: "#362a5b",
     image: "/bemer3.jpg"
   },
-  { 
-    title: "Dinamikus tape", 
-    desc: "A Dynamic Tape egy innovatív, biomechanikai szemléletű tapasz, amely nemcsak támogatja az izmokat és ízületeket, hanem aktívan segíti a mozgást is. Ellentétben a klasszikus kineziológiai tapaszokkal, a Dynamic Tape erőteljesen rugalmas, több irányban nyúlik, és képes elnyelni, majd visszaadni a mozgás során keletkező energiát.​A Dynamic Tape kontrollálja a terhelést, a mozgásmintákat és funkciókat azáltal, hogy energiát juttat a rendszerbe. Ez az első és egyetlen biomechanikai tapasz, amely közvetlenül hatással van az izmok munkájára és az ízületek mozgására.​A tapaszt hatékonyan használhatjuk ficamok és sérülések után, izmok és ízületek terhelésének csökkentésére, mozgástartomány növelésére, fájdalom csökkentésére. A Dynamic Tape-et sérülések utáni rehabilitációban, sportteljesítmény javításában, krónikus fájdalmak enyhítésében (derékfájdalom, teniszkönyök, térdfájdalom) vagy mozgásminták korrekciójában használjuk.", 
-    icon: <Zap className="h-6 w-6" />, 
+  {
+    title: "Kineziológiai és dinamikus tape",
+    desc: "Rugalmas tapaszok a kezelések közötti időszakra: a kineziológiai és a dinamikus tape-et a panaszhoz és a mozgáshoz igazítva rakjuk fel.",
+    icon: <Zap className="h-6 w-6" />,
     color: "#362a5b",
     image: "/tape.jpg"
   },
-  { 
-    title: "Egyéni és csoportos foglalkozások", 
-    desc: "A core (törzsizomzat) a test stabilitásának alapja. Ha ezek az izmok gyengék vagy nem működnek megfelelően, a gerinc túlterhelődik – ez gyakori oka a fájdalmaknak és a sérüléseknek. A személyre szabott core-stabilizációs program célja, hogy fokozatosan, az egyéni állapothoz igazítva építsük vissza a törzs tartóerejét. A stabil, jól koordinált izommunka megtanítása által a páciens tehermentesítheti a gerincet, javíthatja a testtartást és megelőzheti a panaszok kiújulását. ",
-    icon: <Users className="h-6 w-6" />, 
+  {
+    title: "Csoportos gerinc core edzés",
+    desc: "Kiscsoportos edzés gyógytornász vezetésével, a törzs mély izmainak erősítésére és a mindennapi mozgásokhoz igazított gyakorlatokkal.",
+    icon: <Users className="h-6 w-6" />,
     color: "#633b1c",
     image: "/group_core3.jpg"
   },
-  { 
-  title: "Gerincferdülés - Schroth terápia", 
-  desc: "A Schroth terápia egy speciális, háromdimenziós fizioterápiás módszer, amelyet elsősorban gerincferdülés (scoliosis), hanyagtartás és egyéb testtartási eltérések kezelésére alkalmazunk. A terápia célja a gerinc görbületeinek korrekciója, a törzs szimmetriájának javítása, a légzésfunkció támogatása és a fájdalom csökkentése. A kezelések során személyre szabott gyakorlatokkal, tudatos testhelyzet-korrekcióval és speciális légzéstechnikával segítjük a helyes tartás kialakítását. A Schroth terápia gyermekeknél, serdülőknél és felnőtteknél egyaránt hatékony lehet, és fontos szerepet játszhat a gerincferdülés romlásának megelőzésében, valamint az életminőség javításában.", 
-  icon: <Activity className="h-6 w-6" />, 
-  color: "#004A6D",
-  image: "/schroth.jpg"
+  {
+    title: "Gerincferdülés - Schroth terápia",
+    desc: "Gerincferdülésre (scoliosisra) kidolgozott, háromdimenziós gyakorló módszer gyerekeknek és felnőtteknek, légzéssel és tudatos tartáskorrekcióval.",
+    icon: <Activity className="h-6 w-6" />,
+    color: "#004A6D",
+    image: "/schroth.jpg"
   }
 ];
 
+// A csempe címe → a gyűjtőoldal kártyájának neve (data-service-name), ha eltér.
 const SERVICE_MAPPING: { [key: string]: string } = {
-  "Sport rehabilitáció és műtétek utáni rehabilitáció": "Egyéni gyógytorna/rehabilitáció",
-  "Állkapocs ízületi terápia": "TMI (Állkapocs ízületi) terápia",
-  "Manuál fascia kezelések": "Lágy rész manuál terápia (FDM kezelések)",
-  "Gerinc- és ízületi panaszok kezelése": "Schroth terápia",
-  "BEMER terápia – Mikrokeringés javítása sejtszinten": "Komplex rehabilitáció",
-  "Egyéni és csoportos foglalkozások": "Csoportos gerinc core edzés",
-  "Gerincferdülés - Schroth terápia": "Gerincferdülés - Schroth terápia"
+  "Egyéni gyógytorna": "Egyéni gyógytorna/rehabilitáció",
+  "Állkapocs ízületi terápia": "TMI (állkapocsízületi) terápia",
+  "Manuálterápia (FDM)": "Lágyrész-manuálterápia (FDM-kezelések)",
 };
 
 
@@ -196,7 +202,7 @@ export default function ServiceSlider() {
                   </p>
                   
                   {/* TOVÁBB GOMB */}
-                  {services[current].desc.length > 200 && (
+                  {(
                     <button
                       onClick={() => {
                         //映射到 grid service name
@@ -270,9 +276,11 @@ export default function ServiceSlider() {
                 </span>
               </div>
 
-              <h2 className="text-2xl font-extrabold text-[#004A6D] mb-4 leading-tight">
+              {/* Az asztali változat H2-je is a DOM-ban van: két egyforma H2 helyett ez csak
+                  a felolvasónak címsor, a keresőnek nem. */}
+              <p role="heading" aria-level={2} className="text-2xl font-extrabold text-[#004A6D] mb-4 leading-tight">
                 {services[current].title}
-              </h2>
+              </p>
 
               {/* MOBILE LEÍRÁS - FIX 4 SOR */}
               <div className="relative w-full">
@@ -283,7 +291,7 @@ export default function ServiceSlider() {
                 </p>
                 
                 {/* MOBILE TOVÁBBIAK GOMB - MÓDOSÍTOTT */}
-                {services[current].desc.length > 150 && (
+                {(
                   <button
                     onClick={() => {
                       const gridServiceName = SERVICE_MAPPING[services[current].title] || services[current].title;

@@ -83,6 +83,26 @@ export function forint(ertek: number) {
   return new Intl.NumberFormat('hu-HU').format(ertek) + ' Ft';
 }
 
+/** Az /arak oldal rövidítései („50 P”, „5 ALK”) folyó szövegbe illő alakban. */
+export function idotartamSzovegesen(idotartam: string) {
+  return idotartam
+    .replace(/^(\d+) P$/, '$1 perc')
+    .replace(/^(\d+) ALK$/, '$1 alkalom')
+    .replace(/^(\d+) HÓNAP$/, '$1 hónap');
+}
+
+/** Bérletnél az alkalmak száma, minden másnál undefined. */
+export function alkalmakSzama(t: ArTetel) {
+  const talalat = t.duration?.match(/^(\d+) ALK$/);
+  return talalat ? Number(talalat[1]) : undefined;
+}
+
+/** Bérletnél egy alkalom ára egész forintra kerekítve, minden másnál undefined. */
+export function alkalmankentiAr(t: ArTetel) {
+  const alkalom = alkalmakSzama(t);
+  return alkalom ? Math.round(t.price / alkalom) : undefined;
+}
+
 /**
  * Egy tétel kikeresése név és időtartam szerint.
  *

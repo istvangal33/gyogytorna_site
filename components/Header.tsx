@@ -81,6 +81,7 @@ const navItems = [
 ];
 
 const serviceItems = [
+  { label: "Egyéni gyógytorna", href: "/szolgaltatasok/egyeni-gyogytorna" },
   { label: "Sportrehabilitáció", href: "/szolgaltatasok/sportrehabilitacio" },
   { label: "Gerincpanaszok kezelése", href: "/szolgaltatasok/gerincpanaszok-kezelese" },
   { label: "BEMER terápia", href: "/szolgaltatasok/bemer-terapia" },

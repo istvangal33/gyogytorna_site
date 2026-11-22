@@ -6,12 +6,12 @@ import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 import { PRAXIS } from '@/lib/praxis';
 export const metadata: Metadata = {
   title: 'Dinamikus Tape és Kinesio Tape Győr | Ízület és Izom Támogatás',
-  description: 'Dinamikus tape és kineziológiai tapaszolás Győrben. Hatékony biomechanikai támogatás sérülések, fájdalomcsillapítás és sportteljesítmény javítása érdekében.',
+  description: 'Dinamikus tape és kineziológiai tapaszolás Győrben. Biomechanikai szemléletű tapaszolás sérülések után és sportterhelés mellett.',
   keywords: 'dinamikus tape győr, kinesio tape győr, kineziológiai tapasz, sportsérülés tapaszolás, biomechanikai tape',
   alternates: { canonical: 'https://restartphysio.hu/szolgaltatasok/dinamikus-tape' },
   openGraph: {
     title: 'Dinamikus Tape és Kinesio Tape Győr | Ízület és Izom Támogatás',
-    description: 'Dinamikus tape és kineziológiai tapaszolás Győrben. Hatékony biomechanikai támogatás.',
+    description: 'Dinamikus tape és kineziológiai tapaszolás Győrben, sérülések után és sportterhelés mellett.',
     url: 'https://restartphysio.hu/szolgaltatasok/dinamikus-tape',
     locale: 'hu_HU',
     type: 'website',
@@ -70,7 +70,7 @@ export default function TapeTherapyPage() {
                 Dinamikus <span className="text-[#EC7007]">Tape</span> Győrben
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed font-medium">
-                Aktívan támogatja az izmokat és ízületeket, mialatt megőrzi vagy akár növeli a maximális mozgástartományt.
+                Rugalmas tapasz, amely mozgás közben is támogatja az izmokat és ízületeket.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -122,7 +122,7 @@ export default function TapeTherapyPage() {
                   "Ficamok és sérülések után",
                   "Izmok terhelésének csökkentése",
                   "Teniszkönyök, térdpanaszok",
-                  "Sportteljesítmény fokozása"
+                  "Sportterhelés támogatása"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <div className="shrink-0 w-6 h-6 rounded-full bg-[#EC7007]/20 flex items-center justify-center mt-1">
@@ -156,7 +156,7 @@ export default function TapeTherapyPage() {
 <section className="py-20 bg-[#0f1f29] text-center px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Indítsa újra a mozgást fájdalommentesen!
+            Indítsa újra a mozgást!
           </h2>
           <p className="text-xl text-white/80 mb-10 font-light leading-relaxed">
             Vegye fel velünk a kapcsolatot, hogy egy személyre szabott terápiás tervvel segíthessünk elérni egészségügyi céljait Győrben.

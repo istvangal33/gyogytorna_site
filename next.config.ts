@@ -26,7 +26,11 @@ const nextConfig = {
   // változó, ilyenkor a viselkedés változatlan.
   deploymentId: process.env.DEPLOY_ID,
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    // A szerveroldali kódból is törölne: a warn és az error nélkül a Netlify
+    // fordítási és futási naplójából némán tűnnének el a hibajelzések (pl. a
+    // sitemap „nincs commit ezekre az útvonalakra” figyelmeztetése).
+    removeConsole:
+      process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
   },
   
   async headers() {

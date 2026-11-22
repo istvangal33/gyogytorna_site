@@ -11,19 +11,36 @@ const services = [
   { slug: 'tmi-terapia', title: 'TMI (Állkapocs) terápia' }
 ];
 
+// Az egyéni gyógytorna a rendelő alapszolgáltatása, ezért minden más
+// szolgáltatásoldal alján ott van, a régi három ajánlás MELLETT. A fenti
+// listába nem kerülhet: a slug-hossz szerinti eltolás miatt akkor mind a nyolc
+// oldalon kicserélődnének az ajánlások, a TMI-oldalon is, ahonnan semmi nem
+// tűnhet el.
+const EGYENI = { slug: 'egyeni-gyogytorna', title: 'Egyéni gyógytorna' };
+const EGYENI_OLDALAN = ['gerincpanaszok-kezelese', 'sportrehabilitacio', 'manualterapia-fdm'];
+
 export default function RelatedServices({ currentSlug }: { currentSlug: string }) {
+  if (currentSlug === EGYENI.slug) {
+    return <Kapcsolodo related={services.filter((s) => EGYENI_OLDALAN.includes(s.slug))} />;
+  }
+
   const filtered = services.filter(s => s.slug !== currentSlug);
-  
+
   // Kis trükk: A slug hosszából toljuk el, hogy ne mindig ugyanaz a 3 szolgáltatás jöjjön be
   // Ezzel elkerüljük az SSR hydration errokat amiket a random okozna.
   const shiftIndex = currentSlug.length % filtered.length;
-  
+
   const related = [
     filtered[shiftIndex],
     filtered[(shiftIndex + 1) % filtered.length],
-    filtered[(shiftIndex + 2) % filtered.length]
+    filtered[(shiftIndex + 2) % filtered.length],
+    EGYENI,
   ];
 
+  return <Kapcsolodo related={related} />;
+}
+
+function Kapcsolodo({ related }: { related: { slug: string; title: string }[] }) {
   return (
     <section className="py-12 bg-white">
       <div className="max-w-4xl mx-auto px-4 text-center">

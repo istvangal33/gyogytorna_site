@@ -6,7 +6,7 @@ import BreadcrumbSchema from '@/components/BreadcrumbSchema';
 import { PRAXIS } from '@/lib/praxis';
 export const metadata: Metadata = {
   title: 'Csoportos Gerinc és Core Edzés Győr | Törzsizomzat Erősítés',
-  description: 'Kiscsoportos gerinc és core edzés Győrben. Erősítse meg törzsizomzatát, javítsa testtartását és előzze meg a gerincfájdalmakat a ReStart Physionál.',
+  description: 'Kiscsoportos gerinc és core edzés Győrben. Erősítse meg törzsizomzatát, javítsa testtartását és terhelhetőségét a ReStart Physionál.',
   keywords: 'core edzés győr, csoportos gerinc torna győr, törzsizom erősítés, tartásjavító torna, hasizom edzés gerincbarát',
   alternates: { canonical: 'https://restartphysio.hu/szolgaltatasok/core-edzes' },
   openGraph: {
@@ -32,7 +32,7 @@ function CoreSchema() {
       "@type": "Service",
       "serviceType": "CoreStabilization",
       "name": "Csoportos Gerinc Core Edzés Győr",
-      "description": "A core, vagyis a törzsizomzat megerősítése szakmai felügyelet mellett, mely a hát- és gerincfájdalmak gátja.",
+      "description": "A core, vagyis a törzsizomzat megerősítése szakmai felügyelet mellett.",
       "provider": { "@id": "https://restartphysio.hu/#organization" }
     })}} />
   );
@@ -108,7 +108,7 @@ export default function CoreTrainingPage() {
             <div className="lg:col-span-2 space-y-8 text-gray-700 text-lg leading-relaxed">
               <h2 className="text-3xl font-bold text-[#004A6D]">Miért fontos a Core edzés?</h2>
               <p>
-                A <strong>core (törzsizomzat)</strong> a testünk stabilitásának központja, egy afféle "erőközpont", vagy fűző. Ha a has és hátizmok, különösen a mély izmok nem elég erősek, a gerinc túlterhelődik, ami mozgásszervi fájdalmakhoz és sérülésekhez vezet.
+                A <strong>core (törzsizomzat)</strong> a testünk stabilitásának központja, egy afféle „erőközpont”, vagy fűző. Ha a has és hátizmok, különösen a mély izmok nem elég erősek, a gerinc jobban kitett lehet a túlterhelésnek.
               </p>
               <p>
                 Győri rendelőnkben <strong>kiscsoportos core edzéseket</strong> tartunk gyógytornász felügyeletével. A stabil és jól koordinált izommunka megtanításával tehermentesíthető a gerinc, javul a testtartás, és könnyebbé válnak a mindennapi teendők.
@@ -156,7 +156,7 @@ export default function CoreTrainingPage() {
         <section className="py-20 bg-[#0f1f29] text-center px-4">
             <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                Indítsa újra a mozgást fájdalommentesen!
+                Indítsa újra a mozgást!
             </h2>
             <p className="text-xl text-white/80 mb-10 font-light leading-relaxed">
                 Vegye fel velünk a kapcsolatot, hogy egy személyre szabott terápiás tervvel segíthessünk elérni egészségügyi céljait Győrben.

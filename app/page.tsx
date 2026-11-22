@@ -2,6 +2,10 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import ArBlokk from '@/components/szolgaltatas/ArBlokk';
+import ElsoAlkalom from '@/components/szolgaltatas/ElsoAlkalom';
+import GyikBlokk from '@/components/szolgaltatas/GyikBlokk';
+import { PRAXIS } from '@/lib/praxis';
 const WhyChooseUs = dynamic(() => import('../components/WhyChooseUs'), {
   ssr: true,
 });
@@ -127,7 +131,7 @@ export default function Home() {
             </h1>
             
             <p className="text-lg md:text-xl text-[#004a6d] font-medium max-w-xl mx-auto mb-8">
-              Sportsérülések, állkapocs fájdalom, derék és nyaki panaszok esetén egyénre szabott kezelési tervvel segítek visszatérni a fájdalommentes, aktív mindennapokhoz.
+              Sportsérülések, állkapocs fájdalom, derék és nyaki panaszok esetén egyénre szabott kezelési tervvel segítek visszatérni az aktív mindennapokhoz.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -204,7 +208,7 @@ export default function Home() {
               <div className="prose prose-lg text-gray-900 space-y-6 max-w-none">
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <p className="text-justify text-gray-900">
-                    Diplomámat 2017-ben szereztem a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon. Pályafutásom meghatározó részét az élsportban töltöttem: kezdetben kézilabdázók rehabilitációjával foglalkoztam, majd négy éven át a Győri ETO FC gyógytornászaként labdarúgókkal dolgoztam. Emellett evezős sportolókkal, kosárlabdázókkal és atlétákkal is együttműködtem, így több éves tapasztalatom van abban, hogyan tér vissza egy sérült sportoló a pályára – sportágtól függetlenül. 2024-től a magánszektorban dolgozom, ahol mozgásszervi problémákkal hozzám forduló pácienseket segítek visszatérni a fájdalommentes, aktív mindennapokhoz. Minden kezelési terv egyénre szabott, mert két sérülés sosem egyforma.
+                    Diplomámat 2017-ben szereztem a Szegedi Tudományegyetem Egészségtudományi és Szociális Képzési Karán gyógytornász-fizioterapeuta szakon. Pályafutásom meghatározó részét az élsportban töltöttem: kezdetben kézilabdázók rehabilitációjával foglalkoztam, majd négy éven át a Győri ETO FC gyógytornászaként labdarúgókkal dolgoztam. Emellett evezős sportolókkal, kosárlabdázókkal és atlétákkal is együttműködtem, így több éves tapasztalatom van abban, hogyan tér vissza egy sérült sportoló a pályára – sportágtól függetlenül. 2024-től a magánszektorban dolgozom, ahol mozgásszervi problémákkal hozzám forduló pácienseket segítek visszatérni az aktív mindennapokhoz. Minden kezelési terv egyénre szabott, mert két sérülés sosem egyforma.
                   </p>
                 </div>
 
@@ -242,7 +246,14 @@ export default function Home() {
 
                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <p className="text-gray-900 text-justify leading-relaxed">
-                    Győri rendelőmben manuális kezelési technikákkal, BEMER terápiával és egyénre szabott gyógytorna programmal támogatom a hozzám fordulókat – a fájdalom csökkentésétől a biztonságos visszatérésig.
+                    Győri rendelőmben{" "}
+                    <Link
+                      href="/szolgaltatasok/egyeni-gyogytorna"
+                      className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
+                    >
+                      egyéni gyógytornával
+                    </Link>
+                    , manuális kezelési technikákkal és BEMER-terápiával támogatom a hozzám fordulókat – a fájdalom csökkentésétől a biztonságos visszatérésig.
                   </p>
                 </div>
 
@@ -259,7 +270,7 @@ export default function Home() {
                       href="/szolgaltatasok"
                       className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors duration-200"
                     >
-                      győri gyógytorna és fizioterápia szolgáltatásaimat
+                      összes szolgáltatásomat
                     </Link>.
                   </p>
                 </div>
@@ -285,21 +296,24 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {/* 9 csempe: mobilon az első (az alapszolgáltatás) teljes szélességű, így
+              nem marad árva csempe; asztalon 3×3. */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {[
+              { name: 'Egyéni gyógytorna', href: '/szolgaltatasok/egyeni-gyogytorna' },
               { name: 'Sportrehabilitáció', href: '/szolgaltatasok/sportrehabilitacio' },
               { name: 'Gerincpanaszok kezelése', href: '/szolgaltatasok/gerincpanaszok-kezelese' },
-              { name: 'BEMER terápia', href: '/szolgaltatasok/bemer-terapia' },
               { name: 'Manuálterápia (FDM)', href: '/szolgaltatasok/manualterapia-fdm' },
-              { name: 'TMI terápia', href: '/szolgaltatasok/tmi-terapia' },
-              { name: 'Schroth terápia', href: '/szolgaltatasok/schroth-terapia' },
-              { name: 'Core edzés', href: '/szolgaltatasok/core-edzes' },
-              { name: 'Dinamikus tape', href: '/szolgaltatasok/dinamikus-tape' },
-            ].map((service) => (
+              { name: 'Schroth-terápia gerincferdülésre', href: '/szolgaltatasok/schroth-terapia' },
+              { name: 'TMI – állkapocsízületi terápia', href: '/szolgaltatasok/tmi-terapia' },
+              { name: 'BEMER-terápia', href: '/szolgaltatasok/bemer-terapia' },
+              { name: 'Csoportos core edzés', href: '/szolgaltatasok/core-edzes' },
+              { name: 'Kineziológiai és dinamikus tape', href: '/szolgaltatasok/dinamikus-tape' },
+            ].map((service, i) => (
               <Link
                 key={service.name}
                 href={service.href}
-                className="group bg-gray-50 hover:bg-[#004A6D] rounded-xl p-5 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                className={`group bg-gray-50 hover:bg-[#004A6D] rounded-xl p-5 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${i === 0 ? 'col-span-2 md:col-span-1' : ''}`}
               >
                 <span className="text-sm md:text-base font-semibold text-gray-900 group-hover:text-white transition-colors">
                   {service.name}
@@ -313,14 +327,151 @@ export default function Home() {
               href="/szolgaltatasok#services-grid"
               className="text-[#004A6D] font-semibold hover:text-[#EC7007] transition-colors"
             >
-              Összes gyógytorna és fizioterápia szolgáltatás megtekintése →
+              Az összes szolgáltatás →
             </Link>
           </div>
         </div>
       </section>
 
       {/* ================================================================ */}
-      {/* 4. WHY CHOOSE US                                                 */}
+      {/* 4. TUDNIVALÓK: mikor, hogyan, mennyiért, hol                     */}
+      {/* ================================================================ */}
+      <section className="pb-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 text-gray-700 text-lg leading-relaxed">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-[#004A6D]">Mikor érdemes gyógytornászhoz fordulni?</h2>
+            <p>
+              Ha egy mozgásszervi panasz napok alatt sem múlik, újra és újra visszatér, vagy akadályozza
+              a munkáját, a sportot, az alvást. Leggyakrabban ezekkel keresnek fel:
+            </p>
+            <ul className="list-disc pl-6 space-y-3">
+              {[
+                { panasz: 'Derékfájás, nyakfájás, porckorongsérv, isiász', href: '/szolgaltatasok/gerincpanaszok-kezelese#derekfajas', link: 'gerincpanaszok kezelése' },
+                { panasz: 'Váll-, térd- vagy csípőfájdalom, műtét utáni állapot', href: '/szolgaltatasok/egyeni-gyogytorna', link: 'egyéni gyógytorna és műtét utáni rehabilitáció' },
+                { panasz: 'Sportsérülés, keresztszalag-műtét', href: '/szolgaltatasok/sportrehabilitacio', link: 'sportrehabilitáció' },
+                { panasz: 'Feszülő, húzódó izom- és fasciapanaszok', href: '/szolgaltatasok/manualterapia-fdm', link: 'manuálterápia (FDM)' },
+                { panasz: 'Gerincferdülés gyerekeknél és felnőtteknél', href: '/szolgaltatasok/schroth-terapia', link: 'Schroth-terápia gerincferdülésre' },
+                { panasz: 'Állkapocsfájdalom, kattogás, fogszorítás', href: '/szolgaltatasok/tmi-terapia', link: 'állkapocsízületi (TMI) terápia' },
+              ].map((sor) => (
+                <li key={sor.href}>
+                  <strong>{sor.panasz}</strong>:{' '}
+                  <Link href={sor.href} className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors">
+                    {sor.link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p>
+              Beutaló nem szükséges: a ReStart Physio magánrendelés, időpontot közvetlenül foglalhat.
+              Ha a panasz mellett hirtelen gyengeséget, zsibbadást vagy lázat tapasztal, előbb orvoshoz
+              forduljon.
+            </p>
+          </div>
+
+          <ElsoAlkalom
+            bevezeto="Minden kezelés egy 50 perces első alkalommal kezdődik, mert a terv az állapotfelmérésre épül."
+            lepesek={[
+              {
+                cim: 'Beszélgetés',
+                szoveg: 'Mióta tart a panasz, mikor erősebb, mi segít rajta, milyen betegségei, műtétei voltak. Ha van lelete vagy zárójelentése, hozza magával.',
+              },
+              {
+                cim: 'Mozgásvizsgálat',
+                szoveg: 'Testtartás, ízületi mozgásterjedelem, izomerő és a hétköznapi mozdulatok: ebből látom, milyen mozgásbeli tényezők játszhatnak szerepet a panaszában.',
+              },
+              {
+                cim: 'Az első kezelés',
+                szoveg: 'Még ugyanezen az alkalmon elkezdjük a kezelést, a panaszhoz illő módszerrel: gyakorlatokkal, manuális technikákkal.',
+              },
+              {
+                cim: 'Terv és otthoni gyakorlatok',
+                szoveg: 'Megbeszéljük, milyen gyakran és nagyjából hány alkalomra érdemes jönnie, és megkapja az első otthoni gyakorlatait.',
+              },
+            ]}
+          />
+
+          <ArBlokk
+            cim="Mennyibe kerül a gyógytorna?"
+            tetelek={[
+              { nev: 'Egyéni gyógytorna/rehabilitáció', idotartam: '50 P' },
+              { nev: 'Egyéni gyógytorna/rehabilitáció', idotartam: '30 P' },
+              { nev: 'Egyéni gyógytorna bérlet', idotartam: '5 ALK' },
+            ]}
+            megjegyzes={
+              <>
+                Az első alkalom 50 perces, a felmérés benne van az árában.{' '}
+                <Link href="/szolgaltatasok/egyeni-gyogytorna#arak" className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors">
+                  Az egyéni gyógytorna árai és bérletei
+                </Link>
+              </>
+            }
+          />
+
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-[#004A6D]">Gyógytorna vagy fizioterápia: mi a különbség?</h2>
+            <p>
+              A két szót gyakran egymás szinonimájaként használják. A <strong>fizioterápia</strong> a
+              tágabb fogalom: minden olyan kezelés ide tartozik, amely mozgással, kézzel végzett
+              technikákkal vagy fizikai eszközökkel segíti a mozgásszervek működését. A{' '}
+              <strong>gyógytorna</strong> ennek a legfontosabb része: célzott, a pácienshez igazított
+              gyakorlatok, amelyeket a gyógytornász megtanít és ellenőriz. Mindkettőt ugyanaz a szakember
+              végzi, a gyógytornász-fizioterapeuta.
+            </p>
+            <p>
+              A <strong>fizikoterápia</strong> pedig a gépi kezeléseket jelenti (például elektroterápia,
+              ultrahang, mágnes). Ezek közül nálunk a{' '}
+              <Link href="/szolgaltatasok/bemer-terapia" className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors">
+                BEMER-kezelés
+              </Link>{' '}
+              érhető el, kiegészítő kezelésként. Nálam a kezelés gerince mindig a gyakorlás.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-[#004A6D]">Hogyan talál ide?</h2>
+            <p>
+              A rendelő címe: <strong>{PRAXIS.helyszin}</strong>, a 3. emeleten (24-es ajtó). Időpontot
+              telefonon is foglalhat:{' '}
+              <a href={PRAXIS.telefonHivas} className="text-[#004A6D] font-semibold underline hover:text-[#EC7007] transition-colors">
+                {PRAXIS.telefon}
+              </a>
+              .
+            </p>
+            <a
+              href={PRAXIS.terkep}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block font-semibold text-[#004A6D] hover:text-[#EC7007] transition-colors"
+            >
+              Útvonaltervezés a térképen →
+            </a>
+          </div>
+
+          <GyikBlokk
+            kerdesek={[
+              {
+                kerdes: 'Kell beutaló gyógytornára?',
+                valasz: 'Magánrendelésre nem kell beutaló, időpontot közvetlenül foglalhat. Beutaló csak a társadalombiztosítás által finanszírozott ellátáshoz szükséges.',
+              },
+              {
+                kerdes: 'Fizeti a TB a kezelést?',
+                valasz: 'Nem. A ReStart Physio magánrendelés, a kezelésekre társadalombiztosítási (NEAK) támogatás nem vehető igénybe. Az aktuális árakat az árlistán találja.',
+              },
+              {
+                kerdes: 'Mit hozzak az első alkalomra?',
+                valasz: 'A panaszához kapcsolódó leleteket, zárójelentéseket és a szedett gyógyszerei listáját, valamint kényelmes ruhát, amelyben a kezelt testrész könnyen hozzáférhető.',
+              },
+              {
+                kerdes: 'Hány alkalomra lesz szükségem?',
+                valasz: 'Ez a panasztól függ. Friss panasznál a kezelés gyakran 3–5 alkalomból áll, régóta fennálló problémánál inkább 8–15 alkalommal érdemes számolni. Ez nem ígéret: a várható számot az első alkalom után mondom meg.',
+              },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* ================================================================ */}
+      {/* 5. WHY CHOOSE US                                                 */}
       {/* ================================================================ */}
       <WhyChooseUs />
     </>

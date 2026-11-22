@@ -35,14 +35,14 @@ const features = [
   {
     title: "Modern eszközpark",
     description:
-      "Korszerű rehabilitációs eszközökkel és bizonyított módszerekkel dolgozunk a hatékonyabb felépülésért.",
+      "Korszerű eszközökkel és szakmailag elfogadott módszerekkel dolgozunk a felépülés támogatásáért.",
     icon: <Zap className="h-5 w-5" />,
     color: "#00072D",
   },
   {
-    title: "Gyógytorna Győrben – könnyen megtalálható helyszín",
+    title: "Nyugodt környezet, csodás kilátás",
     description:
-      "9028 Győr, Máté Mária u. 4b. Nyugodt környezet és csodás kilátás – ideális a rehabilitációhoz és a mozgás újraindításához.",
+      "Világos, csendes rendelő Győrben, ahol jó a rehabilitációra és a mozgás újraindítására figyelni.",
     icon: <MapPin className="h-5 w-5" />,
     color: "#00072D",
   },
@@ -108,7 +108,7 @@ export default function ModernGlassSection() {
               Amit <span className="font-medium text-[#00072D]">kínálunk</span> Önnek
             </h3>
             <p className="text-xl text-slate-900 leading-relaxed font-light">
-              A kezeléseket a panaszok okának feltárására és a tartós javulásra építjük, modern eszközökkel és követhető,
+              A kezeléseket alapos állapotfelmérésre építjük, modern eszközökkel és követhető,
               otthon is végezhető gyakorlatokkal.
             </p>
 
@@ -186,11 +186,11 @@ export default function ModernGlassSection() {
 
             <div className="relative z-10 max-w-3xl mx-auto">
               <h3 className="text-3xl lg:text-4xl font-light mb-6 tracking-tight text-[#004a6d]">
-                Kezdje el még ma a <span className="font-medium text-[#00072D]">gyógyulás útját!</span>
+                Foglaljon időpontot az <span className="font-medium text-[#00072D]">első felmérésre</span>
               </h3>
 
               <p className="text-[#004a6d] mb-10 text-lg font-light leading-relaxed">
-                Foglaljon időpontot, és tapasztalja meg a különbséget professzionális gyógytorna és fizioterápia
+                Foglaljon időpontot, és ismerje meg kezeléseinket professzionális gyógytorna és fizioterápia
                 kezeléseinkkel Győrben.
               </p>
 
