@@ -7,6 +7,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
   },
+  output: process.env.BUILD_STANDALONE === 'true' ? 'standalone' : undefined,
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
